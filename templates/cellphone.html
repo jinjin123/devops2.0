@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>微信扫码登录</title>
+</head>
+<body style="background-color:rgb(51, 51, 51); padding: 50px; margin: 0; font-family:'Microsoft YaHei','Hiragino Sans GB',Helvetica,Arial,'Lucida Grande',sans-serif;">
+<div style="text-align: center; padding-top: 80px; margin-bottom: 160px;">
+    <form method="post">
+        {% module xsrf_form_html() %}
+    <div>
+        <button style="display: inline-block;padding: 6px 12px;margin-bottom: 0;font-size: 1em;font-weight: normal;
+    line-height: 1.42857143;  text-align: center;white-space: nowrap;vertical-align: middle;background-color: #5bc0de;
+    border-color: #46b8da;-ms-touch-action: manipulation;touch-action: manipulation;cursor: pointer;-webkit-user-select: none;
+    -moz-user-select: none;-ms-user-select: none;user-select: none;background-image: none;border: 1px solid transparent;
+    border-radius:15px;color: #fff;height:30%; width:60%;">点击按钮登陆PC端</button>
+    </div>
+    </form>
+</div>
+<script src="../static/js/jquery.min.js" type="application/javascript"></script>
+</body>
+</html>

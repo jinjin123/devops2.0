@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <style>
+        *{padding: 0; margin: 0}
+        /*遮罩层*/
+        .box{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.2);
+            display: none;
+        }
+        /*弹出层*/
+        .box1{
+            width: 500px;
+            height: 500px;
+            position: fixed;left: 50%; top: 25%;
+            background: red;
+            margin-left: -250px;
+            border: 1px solid #000000;
+        }
+        .box2{
+            width: 500px;
+            height: 500px;
+            position: fixed;left: 50%; top: 25%;
+            background: green;
+            margin-left: -250px;
+            border: 1px solid #000000;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+    <div class="box" id="b1">
+        <div class="box1">
+            <a href="javascript:;" onclick="jQuery('#b1').hide()" class="close">关闭</a>
+        </div>
+    </div>
+    <div class="box" id="b2">
+        <div class="box2">
+            <a href="javascript:;" onclick="jQuery('#b2').hide()" class="close">关闭</a>
+        </div>
+    </div>
+    <a href="javascript:;" onclick="jQuery('#b1').show()" class="show">显示</a>
+    <a href="javascript:;" onclick="jQuery('#b2').show()" class="show">显示</a>
+</body>
+</html>
