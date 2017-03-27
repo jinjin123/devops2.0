@@ -15,8 +15,6 @@ jQuery(document).ready(function($){
 		var target = $(this),
 			//detect which section user has chosen
 			sectionTarget = target.data('menu');
-        	console.log(sectionTarget);
-			console.log(isAnimating);
 		if( !target.hasClass('selected') && !isAnimating ) {
 			//if user has selected a section different from the one alredy visible - load the new content
 			triggerAnimation(sectionTarget, true);
@@ -55,8 +53,7 @@ jQuery(document).ready(function($){
 	function triggerAnimation(newSection, bool) {
 		isAnimating =  true;
 		newSection = ( newSection == '' ) ? 'index' : newSection;
-		console.log(newSection);
-		
+
 		//update dashboard
 		dashboard.find('*[data-menu="'+newSection+'"]').addClass('selected').parent('li').siblings('li').children('.selected').removeClass('selected');
 		//trigger loading bar animation
@@ -108,7 +105,6 @@ jQuery(document).ready(function($){
 
 					// var url = newSection+'.html';
 					 var url = newSection;
-                    console.log(url);
 
 					if(url!=window.location && bool){
 				        //add the new page to the window.history

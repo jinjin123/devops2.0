@@ -92,6 +92,230 @@ $(function () {
         document.getElementById("bz").value = "";
     })
 })
+//upload server excel filter & progressbar
+$(function() {
+    $('#drag-and-drop-zone').dmUploader({
+        url: '/ops/host_input',
+        dataType: 'json',
+        allowedTypes: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        onInit:function () {
+        $.danidemo.addLog('#demo-debug', 'default', 'Plugin initialized correctly');
+    }
+    ,
+    onBeforeUpload: function (id) {
+        $.danidemo.addLog('#demo-debug', 'default', 'Starting the upload of #' + id);
+
+        $.danidemo.updateFileStatus(id, 'default', 'Uploading...');
+    }
+    ,
+    onNewFile: function (id, file) {
+        $.danidemo.addFile('#demo-files', id, file);
+    }
+    ,
+    onComplete: function () {
+        $.danidemo.addLog('#demo-debug', 'default', 'All pending tranfers completed');
+    }
+    ,
+    onUploadProgress: function (id, percent) {
+        var percentStr = percent + '%';
+
+        $.danidemo.updateFileProgress(id, percentStr);
+    }
+    ,
+    onUploadSuccess: function (id, data) {
+        $.danidemo.addLog('#demo-debug', 'success', 'Upload of file #' + id + ' completed');
+
+        $.danidemo.addLog('#demo-debug', 'info', 'Server Response for file #' + id + ': ' + JSON.stringify(data));
+
+        $.danidemo.updateFileStatus(id, 'success', 'Upload Complete');
+
+        $.danidemo.updateFileProgress(id, '100%');
+    }
+    ,
+    onUploadError: function (id, message) {
+        $.danidemo.updateFileStatus(id, 'error', message);
+
+        $.danidemo.addLog('#demo-debug', 'error', 'Failed to Upload file #' + id + ': ' + message);
+    }
+    ,
+    onFileTypeError: function (file) {
+        $.danidemo.addLog('#demo-debug', 'error', 'File \'' + file.name + '\' cannot be added: must be an xls/xlsx');
+    }
+    ,
+    onFileSizeError: function (file) {
+        $.danidemo.addLog('#demo-debug', 'error', 'File \'' + file.name + '\' cannot be added: size excess limit');
+    }
+    ,
+    /*onFileExtError: function(file){
+     $.danidemo.addLog('#demo-debug', 'error', 'File \'' + file.name + '\' has a Not Allowed Extension');
+     },*/
+    onFallbackMode: function (message) {
+        $.danidemo.addLog('#demo-debug', 'info', 'Browser not supported(do something else here!): ' + message);
+    }
+   })
+});
+//server info  table
+$(function () {
+    var table = document.querySelector('table');
+    table.GM({
+        supportRemind: true
+        , gridManagerName: 'test'
+        //   , disableCache: true
+        , isCombSorting: true
+        , height: '300px'
+        , supportAjaxPage: true
+        , supportSorting: true
+        , ajax_url: '/ops/host_input'
+//			,ajax_headers: {'header-test': 'baukh'}
+        , ajax_type: 'POST'
+        , query: {pluginId: 1}
+        , pageSize: 20
+        , columnData: [{
+            key: 'Ip',
+            remind: 'the name',
+            width: '50px',
+            text: 'IP',
+            sorting: ''
+        }, {
+            key: 'Port',
+            remind: 'the info',
+            text: '端口',
+            sorting: ''
+        }, {
+            key: 'Group',
+            remind: 'the url',
+            text: '组',
+            sorting: ''
+        }, {
+            key: 'User',
+            remind: '用户名',
+            text: '用户名'
+        }, {
+            key: 'lg_type',
+            remind: '登录方式',
+            text: '登录方式'
+        }, {
+            key: 'Key',
+            remind: '秘钥文件',
+            text: '秘钥文件'
+        }, {
+            key: 'Pwd',
+            remind: '密码',
+            text: '密码'
+        }, {
+            key: 'US_SUDO',
+            remind: '使用Sudo',
+            text: '使用Sudo'
+        }, {
+            key: 'US_SU',
+            remind: '使用Su',
+            text: '使用SU'
+        }, {
+            key: 'SUDO',
+            remind: 'SuDO密码',
+            text: 'SUDO'
+        }, {
+            key: 'SU',
+            remind: 'Su密码',
+            text: 'SU'
+        }, {
+            key: 'Status',
+            remind: '状态',
+            text: '状态'
+        }, {
+            key: 'bz',
+            remind: '备注',
+            text: '备注'
+        }, {
+            key: 'action',
+            remind: 'the action',
+            width: '50px',
+            text: '操作',
+            template: function (action, rowObject) {
+                return '<button onclick="EditServer(this)"   class="edit-server btn btn-success btn-xs glyphicon glyphicon-edit " style="margin-left:3px  " learnLink-id="' + rowObject.id + '"></button>'
+                    + '<button onclick="DelServer(this)" class="del-server btn btn-danger btn-xs glyphicon glyphicon-trash" style="margin-left: 3px;" learnLink-id="' + rowObject.id + '"></button>';
+            }
+        }
+        ]
+        // 分页前事件
+        , pagingBefore: function (query) {
+            console.log('pagingBefore', query);
+        }
+        // 分页后事件
+        , pagingAfter: function (data) {
+            console.log('pagingAfter', data);
+        }
+        // 排序前事件
+        , sortingBefore: function (data) {
+            console.log('sortBefore', data);
+        }
+        // 排序后事件
+        , sortingAfter: function (data) {
+            console.log('sortAfter', data);
+        }
+        // 宽度调整前事件
+        , adjustBefore: function (event) {
+            console.log('adjustBefore', event);
+        }
+        // 宽度调整后事件
+        , adjustAfter: function (event) {
+            console.log('adjustAfter', event);
+        }
+        // 拖拽前事件
+        , dragBefore: function (event) {
+            console.log('dragBefore', event);
+        }
+        // 拖拽后事件
+        , dragAfter: function (event) {
+            console.log('dragAfter', event);
+        }
+    });
+
+    // 日期格式化,不是插件的代码,只用于处理时间格式化
+    Date.prototype.format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "D+": this.getDate(), //日
+            "d+": this.getDate(), //日
+            "H+": this.getHours(), //小时
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/([Y,y]+)/.test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        }
+        for (var k in o) {
+            if (new RegExp("(" + k + ")").test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            }
+        }
+        return fmt;
+    };
+
+    // 绑定搜索事件
+    document.querySelector('.search-action').addEventListener('click', function () {
+        var _query = {
+            name: document.querySelector('[name="name"]').value,
+            info: document.querySelector('[name="info"]').value,
+            url: document.querySelector('[name="url"]').value
+        };
+        table.GM('setQuery', _query).GM('refreshGrid', function () {
+            console.log('搜索成功...');
+        });
+    });
+
+    // 绑定重置
+    document.querySelector('.reset-action').addEventListener('click', function () {
+        document.querySelector('[name="name"]').value = '';
+        document.querySelector('[name="info"]').value = '';
+        document.querySelector('[name="url"]').value = '';
+    });
+})
+
+
 //Edit get the this line  value   to  editpage.
 function EditServer() {
     $('.cd-content').one('click', '.edit-server', function () {
@@ -146,3 +370,5 @@ function DelServer() {
         //  $(td).parent().parents().remove();
     })
 }
+
+

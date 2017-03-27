@@ -118,8 +118,8 @@
 #cd-loading-bar {
   position: fixed;
   z-index:2;
-  left: 10.5%;
-  width: 8px;
+  left: 9%;
+  width: 12px;
   visibility: hidden;
    /*Force Hardware Acceleration*/
   -webkit-backface-visibility: hidden;

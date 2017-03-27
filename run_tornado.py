@@ -99,7 +99,7 @@ class CellPhoneLoginHandler(BaseHandler):
 class LoginHandler(BaseHandler):
     # @tornado.web.authenticated
     def get(self):
-        self.render("login.html",**{"csrf_token":"/ops/index"})
+        self.render("login.html",**{"csrf_token":"/ops/login"})
 
     def post(self):
         self.redirect('/ops/hello')
