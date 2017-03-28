@@ -1,7 +1,7 @@
 #-*- coding=utf8 -*-
 #/usr/bin/python env
 import os,sys
-from django.http import HttpResponseRedirect,HttpResponse
+from django.http import HttpResponseRedirect,HttpResponse,request
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.contrib.auth.decorators import  login_required
@@ -28,7 +28,8 @@ def Login(request):
         password = request.POST.get('password')
         # print ip,username,password
         if  models.UserInfo.objects.filter(user=username) and  models.UserInfo.objects.filter(pwd=password) and models.UserLock.objects.filter(ip=ip,status=1) :
-            models.UserInfo.objects.filter(user=username).update(uptime=datetime.datetime.now(),alive=1)
+            models.UserInfo.objects.filter(user=username).update(uptime=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),alive=1)
+            request.session['username'] = username
             return  HttpResponseRedirect(reverse('ops_index'))
 
         else:
@@ -37,25 +38,42 @@ def Login(request):
             models.UserLock.objects.create(user=username, ip=ip, uptime=datetime.datetime.now())
             if r.lrange("lock",0,1000).count(ip) >5:
                 models.UserLock.objects.update(user=username, ip=ip, uptime=datetime.datetime.now(), status=0)
-                return HttpResponseRedirect("/")
-            return HttpResponseRedirect("/")
+                response = HttpResponseRedirect('/')
+                response.delete_cookie('sessionid')
+                return response
+            response = HttpResponseRedirect('/')
+            response.delete_cookie('sessionid')
+            return response
     return HttpResponseRedirect("/")
 
 
 def index(request):
     img = '../static/img/cd-avatar.png'
-    usall, hsall, usave, mcont, pub = models.UserInfo.objects.count(), models.HostInfo.objects.count(), models.UserInfo.objects.filter(alive=1).count(), 0, models.PushCodeEvent.objects.count()
+    username = list(models.UserInfo.objects.order_by('-uptime'))[0]
+    usall, hsall, usave, mcont, pub = models.UserInfo.objects.count(), models.HostInfo.objects.count(), models.UserInfo.objects.filter(
+        alive=1).count(), 0, models.PushCodeEvent.objects.count()
     Topten = []
     Eventen = []
     for Top in models.TopContServer.objects.order_by('-acount')[:10]:
-          Topall = Top.ip,Top.uptime,Top.acount, list(Top.user_id.all())[0]
-          Topten.append(Topall)
+        Topall = Top.ip, Top.uptime, Top.acount, list(Top.user_id.all())[0]
+        Topten.append(Topall)
 
     for Event in models.PushCodeEvent.objects.order_by('-ctime')[:10]:
-            Eventall = Event.event,Event.ctime,Event.user_id
-            Eventen.append(Eventall)
-    return render(request, "index.html", {"user": username, "head": img, "usall": usall, "hsall": hsall,
-                                            "usave":usave,"mcont":mcont,"pub":pub,"Top":Topten,"Event":Eventen})
+        Eventall = Event.event, Event.ctime, Event.user_id
+        Eventen.append(Eventall)
+
+    if request.session.get('username') == None:
+        return HttpResponseRedirect('/')
+    else:
+         return render(request, "index.html", {"user": username, "head": img, "usall": usall, "hsall": hsall,
+                                              "usave": usave, "mcont": mcont, "pub": pub, "Top": Topten, "Event": Eventen})
+
+
+
+def Logout(request):
+    response = HttpResponseRedirect('/')
+    response.delete_cookie('sessionid')
+    return response
 
 def getmem(request):
     memdata = mem.MemData()
@@ -67,8 +85,6 @@ def getcpu(request):
     result = json.dumps(cpudata.compute_data())
     return HttpResponse(result)
 
-def logout(request):
-    logout(request)
 
 def hello(request):
     return render(request,'service.html')

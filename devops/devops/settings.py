@@ -130,7 +130,6 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 LOGGING = {
     'version': 1,
@@ -155,3 +154,11 @@ LOGGING = {
         },
     }
 }
+
+#enable session cookies
+SESSION_SAVE_EVERY_REQUEST = True
+#expire 30 mins
+SESSION_COOKIE_AGE=60*30
+#close browser  = del cookies
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+

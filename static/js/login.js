@@ -7,7 +7,6 @@ $(function() {
 		} else {
 			var username = $("#edit-name").val();
 			var password = $("#edit-pwd").val();
-			console.log({"username":username,"password":password});
 		$.ajax({
 			type: "POST",
 			url: "/ops/login",
