@@ -136,11 +136,11 @@ a.cg-bt{
     position: fixed;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.5);
     display: none;
 }
 /*弹出层*/
-.box1{
+.head_box{
     width: 500px;
     height: 500px;
     position: fixed;left: 50%; top: 25%;
@@ -152,7 +152,7 @@ a.cg-bt{
     border-left:3px solid #e5e5e5;
 
 }
-.box2 {
+.pwd_box {
     width: 400px;
     height: 30px;
     position: fixed;
@@ -166,6 +166,18 @@ a.cg-bt{
     border-left: 3px solid #e5e5e5;
     display: none;
 }
+.server_to_select{
+    width: 500px;
+    height: 300px;
+    position: fixed;left: 50%; top: 15%;
+    background: white;
+    margin-left: -250px;
+    border-top:6px solid #e5e5e5;
+    border-radius: 10px;
+    border-right: 3px solid #e5e5e5;
+    border-left:3px solid #e5e5e5;
+
+}
 .im_host_main{
     position: relative;
     padding:20px;
@@ -173,7 +185,7 @@ a.cg-bt{
 .im_host_box{
     width: 500px;
     height: 500px;
-    position: fixed;left: 50%; top: 2%;
+    position: fixed;left: 50%; top: 22%;
     background: white;
     margin-left: -250px;
     border-top:6px double #e5e5e5;
@@ -202,6 +214,7 @@ a.cg-bt{
     font-size: 10px;
     top: -13px;
 }
+
 input[disabled]{
 border:1px solid #DDD;
 background-color:#EEEEEE;
@@ -217,6 +230,14 @@ color:#ACA899;
     border-radius: 10px;
     border-right: 3px solid #e5e5e5;
     border-left:3px solid #e5e5e5;
+}
+.filebtn {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    top: -20px;
+    left: -7%;
+    border-radius: 4px;
 }
 /*.cg-pwd{*/
 

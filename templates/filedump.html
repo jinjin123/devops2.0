@@ -3,29 +3,30 @@
     <link rel="stylesheet" href="../static/css/reset.css"> <!-- CSS reset -->
 	<link rel="stylesheet" type="text/css" href="../static/css/default.css">
 	<link rel="stylesheet" href="../static/css/style.css"> <!-- Resource style -->
-    <link href="../static/fonts/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/sidebar-menu.css">
+      <link href="../static/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/css/headimg.css">
-    <link rel="stylesheet" href="../static/css/GridManager.css">
-    <link rel="stylesheet" href="../static/css/demo.css">
-    <link rel="stylesheet" href="../static/css/uploader.css">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script language="javascript" type="text/javascript" src="../static/js/GridManager.js"></script>
+    <link href="../static/plugin/memory/c3-b03125fa.css" media="screen" rel="stylesheet" type="text/css">
     <script src="../static/js/jquery-1.11.2.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../static/plugin/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="../static/plugin/jquery.flot.js"></script>
     <style type="text/css">
     *{margin:0;padding:0;list-style-type:none;}
     a,img{border:0;}
     body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd;}
+
+/* leftsead */
     #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
     *html #leftsead{margin-top:258px;position:absolute;}
     #leftsead li{width:131px;height:53px;}
     #leftsead li img{float:right;border-bottom-left-radius:5px;border-top-left-radius:5px;}
     #leftsead li a{height:49px;float:right;display:block;min-width:47px;max-width:131px;}
     #leftsead li a .shows{display:block;}
+{#    #leftsead li a .hides{margin-right:-166px;cursor:pointer;cursor:hand;}#}
     #leftsead li a .hides{margin-right:-166px;}
-    #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;}
+    #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
     .glyphicon {color: #585C64; font-size: large;}
     .main-sidebar{
 	position: absolute;
@@ -33,6 +34,7 @@
 	left: 0;
 	height: 100%;
 	min-height: 100%;
+{#	width: 230px;#}
 	z-index: 5;
 	background-color: #222d32;
     }
@@ -40,52 +42,6 @@
     #mail{position: absolute;  right: 190px;  top: 40%;}
     #set{position: absolute;  right: 160px;  top: 40%;}
     #out{position: absolute;  right: 130px;  top: 40%;}
-    .plugin-action{
-            display: inline-block;
-            color: steelblue;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-        .plugin-action:hover{
-            text-decoration:underline;
-        }
-		.search-area{
-			padding: 10px 20px;
-			border: 1px solid #ccc;
-			background: #efefef;
-		}
-		.search-area .sa-ele{
-			display: inline-block;
-			margin-right: 20px;
-			font-size: 12px;
-		}
-		.search-area .sa-ele .se-title{
-			display: inline-block;
-			margin-right: 10px;
-		}
-		.search-area .sa-ele .se-con{
-			display: inline-block;
-			width:180px;
-			height: 24px;
-			border: 1px solid #ccc;
-			padding: 0px 4px;
-			line-height: 24px;
-		}
-		.search-area .sa-ele .search-action, .search-area .sa-ele .reset-action{
-			display: inline-block;
-			width:80px;
-			height: 26px;
-			border: 1px solid #ccc;
-			background: #e8e8e8;
-			padding: 0px 4px;
-			line-height: 26px;
-			text-align: center;
-			cursor: pointer;
-			margin-right: 10px;
-		}
-		.search-area .sa-ele .search-action:hover, .search-area .sa-ele .reset-action:hover{
-			opacity: 0.7;
-		}
     </style>
 
 {% endblock %}
@@ -109,57 +65,19 @@
 {#				<li class="glyphicon glyphicon-envelope"><a href="#0"></a></li>#}
                 <a  class="glyphicon glyphicon-bullhorn" href="#0" id="notice"></a>
                 <a class=" glyphicon glyphicon-envelope" href="#1" id="mail"></a>
-                <a href="javascript:;" onclick="jQuery('#head').show()"  class="glyphicon glyphicon-cog show" id="set"></a>
-{#       load 下面的box         #}
-                <a href="/login" class="glyphicon glyphicon-share" id="out"></a>
+                <a href="javascript:;" onclick="jQuery('#b1').show()"  class="glyphicon glyphicon-cog show" id="set"></a>
+                <a href="/ops/logout" class="glyphicon glyphicon-share" id="out"></a>
 				<li class="has-children account">
 					<a href="#0">
 {#						<img src={{ head }} alt="avatar">#}
                         <img src={{ head }} >
-                        {{ user }}  {#  不定义名字样式会乱掉 #}
+                        {{  user }}
+                          {#  不定义名字样式会乱掉 #}
 					</a>
 				</li>
 			</ul>
 		</nav>
-        <div class="  glyphicon glyphicon-ok  alert alert-success" id="showSuccessNotic"
-         style="position:fixed;left: 40%;right: 40%;z-index: 1004;top: 10%;font-size:small;display: none;"> 操作成功!
-        </div>
-        <div id="loadPic"
-             style="text-align: center;padding: 10px;color: white;font-weight:bold   ;border-radius:8px;background: rgba(0,0,0,0.5);z-index: 1004;width: 200px;height:40px;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
-            <i class="fa fa-refresh fa-spin"></i>
-            <span style="letter-spacing: 4px;">请稍后...</span>
-        </div>
-        <div id="showErrorInfoDIV"
-     style="z-index: 1005;display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ;">
-
-
-        <div style="width:auto;height: 200px;position: fixed;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
-             id="">
-            <div class="modal "
-                 style="overflow:hidden;overflow-y:hidden;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
-                <div class="modal-dialog">
-                    <div class="modal-content  ">
-                        <div class="modal-header" style="cursor: move;">
-
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-
-                            <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
-                        </div>
-
-                        <div class="modal-body  ">
-                            <p id="showWarnContent" style="text-align:center;;color:red; font-weight:bold;">请确认您的内容?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal" id="closeButton">好的
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        </div>
-{#   上传头像裁剪 headimg.js& 修改密码    #}
+      {#   上传头像裁剪 headimg.js& 修改密码    #}
         <div class="box" id="head">
             <div class="head_box">
                 <a href="javascript:;" onclick="jQuery('#head').hide()" class="close">关闭</a>
@@ -175,8 +93,7 @@
                 </div>
             </div>
         </div>
-{#    修改密码    #}
-        <div class="" id="change_pwd">
+           <div class="" id="change_pwd">
             <div class="pwd_box">
                 <input placeholder="修改密码" name="password" value size="30" maxlength="30" type="password" class=""
                        id="" style="border-radius: 10px;">
@@ -188,22 +105,7 @@
                 </a>
             </div>
         </div>
-{#   todo     #}
-        <div class="" id="action_true">
-            <div class="pwd_box">
-                <a href="javascript:;" onclick="jQuery('#change_pwd').hide()" class="btn btn-danger pwd">
-                    <div class="head-pwd-close">关闭</div>
-                </a>
-            </div>
-        </div>
-        <div class="" id="action_false">
-            <div class="pwd_box">
-                <a href="javascript:;" onclick="jQuery('#change_pwd').hide()" class="btn btn-danger pwd">
-                    <div class="head-pwd-close">关闭</div>
-                </a>
-            </div>
-        </div>
-{#   fileup  to select server    #}
+    {#   fileup  to select server    #}
         <div class="box" id="file_to_up">
             <div class="server_to_select">
                 <a href="javascript:;" onclick="jQuery('#file_to_up').hide()" class="close">关闭</a>
@@ -213,78 +115,6 @@
                 </div>
             </div>
         </div>
-{#   添加主机     #}
-        <div class="box" id="im_host">
-            <div class="im_host_box">
-                <a href="javascript:;" onclick="jQuery('#im_host').hide()" class="close" id="close_edit">关闭</a>
-                <div>
-                    <div class="glyphicon glyphicon-edit " style="top:20px;left: 10px;">编辑服务器配置</div><br><br>
-                     <div style="position:relative;border-top:2px dashed #e5e5e5;top:30px;">
-                         <div  class="im_host_main">
-                             <div class="im_host_input_before">IP</div><input  id="ip" type="text" class="im_host_input">
-                             <div class="im_host_input_before">端口</div><input  id='port' type="text" value="22" class="im_host_input">
-                             <div class="im_host_input_before">主机组</div><input id="group" type="text" class="im_host_input">
-                             <div class="im_host_input_before">用户名</div><input id="user" type="text" class="im_host_input">
-                             <div class="im_host_input_before">登录方式</div><select class="im_host_input" style="height: 23px;" id="lg_choice" ><option value="password">password</option><option value="key">key</option></select>
-                             <div class="im_host_input_before" id="choice_lg" style="display: none;">秘钥文件</div><a href="javascript:;" id="" class="key" >选择秘钥
-                             <input id="choice_lg3" onclick="" type="file" class="" style="display: none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></a>
-                             <div class="im_host_input_before" id="password">密码</div><input id="passwd" type="password" class="im_host_input">
-                             <div class="im_host_input_before" id="sudo" onmouseover="this.style.cursor='hand'"><i  id="sudo" class="glyphicon glyphicon-unchecked" style="font-size:inherit;"></i>sudo</div><input id="sudoPassword"  type="password" disabled="ture" class="im_host_input">
-                             <div class="im_host_input_before" id="su" onmouseover="this.style.cursor='hand'"> <i id="su" class="glyphicon glyphicon-unchecked" style="font-size:inherit;"></i>su</div><input id="suPassword"  type="password" disabled="true" class="im_host_input">
-                             <div class="im_host_input_before" id="bz">备注</div><input id="BZ" type="text" class="im_host_input">
-                         </div>
-                    <button class="btn btn-info" id="add_server_list" style="position:relative;left: 88%;">保存</button>
-                </div>
-            </div>
-        </div>
-        </div>
-{#  导入excel      #}
-        <div class="box" id="im_table">
-            <div class="im_table_box">
-                <a href="javascript:;" onclick="jQuery('#im_table').hide()" class="close">关闭</a>
-                <a href="ex_template/aa.xlsx" download="aa.xlsx" class="btn btn-info" >下载模版</a>
-                <div>
-                    <div class="row demo-columns">
-                        <div class="col-md-6" style="width:100%;">
-                            <div id="drag-and-drop-zone" class="uploader">
-                                <div>请按照模版文件格式上传</div>
-                                <div class="browser">
-                                    <label>
-                                        <span>选择上传表格</span>
-                                        <input id="in_excel" onclick="server_excel()" type="file" name="files[]" multiple="multiple"
-                                               title='选择上传表格' accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Debug</h3>
-                                </div>
-                                <div class="panel-body demo-panel-debug">
-                                    <ul id="demo-debug">
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- /Debug box -->
-                        </div>
-                        <div class="col-md-6" style="width:100%">
-                            <div class="panel panel-default" style="height: 1px;">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">上传</h3>
-                                </div>
-                                <div class="panel-body demo-panel-files" id='demo-files'>
-{#                                    <span class="demo-note">No Files have been selected/droped yet...</span>#}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- / Right column -->
-                    </div>
-{#                    <button class="btn btn-info head">提交</button>#}
-                </div>
-            </div>
-        </div>
-{#    <a href="javascript:;" onclick="jQuery('#set').show()" class="show">显示</a>#}
-{#    <a href="javascript:;" onclick="jQuery('#b2').show()" class="show">显示</a>#}
 	</header> <!-- .cd-main-header -->
 
     <aside class="main-sidebar">
@@ -292,22 +122,24 @@
             <ul class="sidebar-menu">
                 <li class="treeview">
                     <a href="/ops/index" >
-                        <i class="fa fa-dashboard"></i> <span>仪表盘</span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-dashboard"></i> <span>仪表盘</span> <i
+                            class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
 {#                        <li><a href="#base1" id="base" onclick="document.getElementById('base1').style.display='block'"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>#}
 {#                        <li><a href="#base3" id="base2"  onclick="document.getElementById('base3').style.display='block'"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>#}
-                        <li><a href="#0" id="base" class="" data-menu="index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                        <li><a href="#0"  class=""  data-menu="service"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                        <li><a href="#0" id="base" class="selected" data-menu="index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                        <li><a href="#0"    data-menu="service"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-files-o"></i>
                         <span>服务器信息管理</span>
+{#                        <span class="label label-primary pull-right">4</span>#}
                     </a>
                     <ul class="treeview-menu" style="display: none;">
-                        <li><a href="#" onclick="" class="selected" data-menu="host_input"><i class="fa fa-circle-o"></i>服务器配置 </a></li>
+                        <li><a href="#" id="base3" data-menu="host_input"><i class="fa fa-circle-o"></i> 服务器配置</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Boxed</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Fixed</a></li>
                         <li class=""><a href="#"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a>
@@ -383,19 +215,12 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-folder"></i> <span>Examples</span>
+                        <i class="fa fa-folder"></i> <span>文件传输</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Invoice</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Profile</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Login</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Register</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> 404 Error</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Blank Page</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Pace Page</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i>上传 </a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i>下载</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -472,42 +297,115 @@
     	</ul>
     </div><!--leftsead end-->
     <main class="cd-main">
-        <section class="cd-section host_input visible">
+        <section class="cd-section index visible">
             <div id="index-content" class="cd-content ">
-                <div class="search-area">
-                    <div class="sa-ele">
-                        <label class="se-title">IP:</label>
-                        <input class="se-con" name="name"/>
+{#                 <div class='radius'>#}
+{#                 <p> 仪表盘 / </p>#}
+{#                </div>#}
+                {#        <div  id="base1" name="base1" style="position:absolute;background-color: blue;width:100%;height: 100%;display: block"></div>#}
+                {#        <div  id="base3"  name="base3" style="position:absolute;background-color: yellow;width:100%;z-index: 2;height: 100%;display: block"></div>#}
+{#                <p>#}
+{#                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae illo veritatis ea deserunt aliquam#}
+{#                    blanditiis, voluptas optio, voluptate ut accusamus veniam numquam, porro! Cum minima a molestiae,#}
+{#                    similique#}
+{#                    voluptate, perferendis vel iusto quam suscipit delectus dolore ducimus possimus illo molestias#}
+{#                    voluptas#}
+{#                    labore optio consequuntur sapiente pariatur libero nam temporibus. Laudantium!#}
+{#                </p>#}
+                <div style="border-top:6px double #e5e5e5;background-color: white;position: absolute;width: 210px;height: 120px;top:10px;left:3%;">
+                    <div style="position:relative;border-top:1px dashed #e5e5e5;top:30px;"></div>
+                    <div style="text-indent:10px;position: relative;font-weight: bold;color: #AEAEAE;">用户总数</div>
+                    <div style="position: relative;left: 75%;width: 40px;height: 20px;top: -18px;background-color: #858AE5;">
+                        <div style="text-align: center;color:#FFF9F0;font-weight: bold;">Users</div>
                     </div>
-                    <div class="sa-ele">
-                        <label class="se-title">端口:</label>
-                        <input class="se-con" name="info"/>
+                    <div style="position: relative;text-align: center;top:20px;font-weight: bold;color:#BCBCBC;font-size:50px">{{ usall }}</div>
+                </div>
+                <div style="border-top:6px double #e5e5e5;background-color: white;position: absolute;width: 210px;height: 120px;top:10px;left:23%;">
+                    <div style="position:relative;border-top:1px dashed #e5e5e5;top:30px;"></div>
+                    <div style="text-indent:10px;position: relative;font-weight: bold;color: #AEAEAE;">主机总数</div>
+                    <div style="position: relative;left: 75%;width: 40px;height: 20px;top: -18px;background-color: #E56EA1;">
+                        <div style="text-align: center;color:#FFF9F0;font-weight: bold;">Hosts</div>
                     </div>
-                    <div class="sa-ele">
-                        <label class="se-title">状态:</label>
-                        <input class="se-con" name="url"/>
+                    <div style="position: relative;text-align: center;top:20px;font-weight: bold;color:#BCBCBC;font-size:50px">{{ hsall }}</div>
+                </div>
+                <div style="border-top:6px double #e5e5e5;background-color: white;position: absolute;width: 210px;height: 120px;top:10px;left:43%;">
+                    <div style="position:relative;border-top:1px dashed #e5e5e5;top:30px;"></div>
+                    <div style="text-indent:10px;position: relative;font-weight: bold;color: #AEAEAE;">在线用户</div>
+                    <div style="position: relative;left: 75%;width: 40px;height: 20px;top: -18px;background-color: #5CBBAD;">
+                        <div style="text-align: center;color:#FFF9F0;font-weight: bold;">Alive</div>
                     </div>
-                    <div class="sa-ele">
-                        <button class="search-action">搜索</button>
-                        <button class="reset-action">重置</button>
+                    <div style="position: relative;text-align: center;top:20px;font-weight: bold;color:#BCBCBC;font-size:50px">{{ usave }}</div>
+                </div>
+                <div style="border-top:6px double #e5e5e5;background-color: white;position: absolute;width: 210px;height: 120px;top:10px;left:63%;">
+                    <div style="position:relative;border-top:1px dashed #e5e5e5;top:30px;"></div>
+                    <div style="text-indent:10px;position: relative;font-weight: bold;color: #AEAEAE;">已连接服务器</div>
+                    <div style="position: relative;left: 75%;width: 40px;height: 20px;top: -18px;background-color: #71E5D4;">
+                        <div style="text-align: center;color:#FFF9F0;font-weight: bold;">ConT</div>
                     </div>
-                    <div class="sa-ele">
-                        <button id="h_import" onclick="jQuery('#im_table').show()" class="search-action">excel导入</button>
-                        <button  id="h_add" onclick="jQuery('#im_host').show()" class="btn btn-info" style="background-color: #EFEFEF">＋</button>
+                    <div style="position: relative;text-align: center;top:20px;font-weight: bold;color:#BCBCBC;font-size:50px">{{ mcont }}</div>
+                </div>
+                <div style="border-top:6px double #e5e5e5;background-color: white;position: absolute;width: 210px;height: 120px;top:10px;left:82%;">
+                    <div style="position:relative;border-top:1px dashed #e5e5e5;top:30px;"></div>
+                    <div style="text-indent:10px;position: relative;font-weight: bold;color: #AEAEAE;">发布任务次数</div>
+                    <div style="position: relative;left: 75%;width: 40px;height: 20px;top: -18px;background-color: #E4A0E5;">
+                        <div style="text-align: center;color:#FFF9F0;font-weight: bold;">PuB</div>
+                    </div>
+                    <div style="position: relative;text-align: center;top:20px;font-weight: bold;color:#BCBCBC;font-size:50px">{{ pub }}</div>
+                </div>
+{#      footer          #}
+                <div style="border-top:6px double #e5e5e5;background-color: white;position: absolute;width: 320px;height: 220px;top:60%;left:3%;">
+                    <div style="position:relative;border-top:1px dashed #e5e5e5;top:30px;">
+                        <div style="text-indent:10px;position: relative;font-weight: bold;color: #AEAEAE;top:-25px;">一周Top10资产</div>
+                        <div style="position: relative;left: 85%;width: 40px;height: 20px;top: -45px;background-color: #E4A0E5;">
+                            <div style="text-align: center;color:#FFF9F0;font-weight: bold;">Top10</div>
+                        </div>
+                        <div style="position: relative;top:20px;font-weight: bold;color:#BCBCBC;font-size:10px">
+                            <ul style="position:absolute;left: 20px;top:-50px;">
+                                {% for cip,ctime,cacount,cuser in Top %}
+                                <li style="list-style-type: circle">
+                                    {{ cip }} {{ ctime }} {{ cacount }} {{ cuser }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <table>
-                </table>
+                <div style="border-top:6px double #e5e5e5;background-color: white;position: absolute;width: 420px;height: 220px;top:60%;left:30%;">
+                    <div style="position:relative;border-top:1px dashed #e5e5e5;top:30px;">
+                        <div style="text-indent:10px;position: relative;font-weight: bold;color: #AEAEAE;top:-25px;">近期发布任务</div>
+                        <div style="position: relative;left: 85%;width: 40px;height: 20px;top: -45px;background-color: #E4A0E5;">
+                            <div style="text-align: center;color:#FFF9F0;font-weight: bold;">Top10</div>
+                        </div>
+                        <div style="position: relative;top:20px;font-weight: bold;color:#BCBCBC;font-size:10px">
+                            <ul style="position:absolute;left: 20px;top:-50px;">
+                                {% for ctime,cevent,cuser in Event %}
+                                <li style="list-style-type: circle">
+                                    {{ cevent }}  {{ cuser }} {{ ctime }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+{#     footer           #}
+                <div class="col-lg-8" style="height:250px;padding:0;top:120px;z-index:100">
+                     <div id="placeholder" style="width:100%;height:100%;line-height:1.2em;left:-40px"></div>
+               </div>
+                <div class="col-lg-3 pull-right" style="height:250px;top:120px;padding:0;left:-30px;">
+                    <h5>Memory:</h5>
+                <div id='chart'></div>
+                    <div style="    background-color: white;width: 1235px;height: 280px;position: absolute;top: -10px;z-index: -1;left: -307%;right: 1%;"></div>
                </div>
             </div>
         </section>
     </main>
     <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
 
+    <script src="../static/js/dydata.js"></script>
     <script src="../static/js/headimg.js"></script>
-    <script src="../static/js/server.js"></script>
-    <script src="../static/js/demo.min.js"></script>
-    <script src="../static/js/dmuploader.min.js"></script>
+    <script src="../static/plugin/memory/d3-3.5.0.min-3b564392.js" type="text/javascript"></script>
+    <script src="../static/plugin/memory/c3.min-12912fb6.js" type="text/javascript"></script>
+    <script src="../static/plugin/memory/chart_gauge-f691ebb1.js" type="text/javascript"></script>
     <script src="../static/js/jquery.menu-aim.js"></script>
     <script src="../static/js/dycontent.js"></script> <!-- Resource jQuery -->
     <script src="../static/js/rightpg.js"></script> <!-- Resource jQuery -->
@@ -517,30 +415,26 @@
     $.sidebarMenu($('.sidebar-menu'))
     </script>
     <script>
-        $(function () {
-            $('#base').click(function () {
-                window.location.href = '/ops/index';
-            })
+    $(function (){
+        $('#base').click(function () {
+            window.location.href = '/ops/index';
         })
-    </script>
-    <script type="application/javascript">
-        function  test () {
-                setInterval(function(){window.location.href = '/ops/host_input'},100);
-                console.log('1');
-        }
-
+    })
     </script>
 
-{#    <script type="application/javascript">#}
-{#    function test() {#}
-{#        a = $(this).parent().parent().find("td")#}
-{#        console.log(a);#}
-{#        $('td #edit-server').click(function () {#}
-{#            alert("aa");#}
-{#            a = $('td #edit-server').parent().parent().children().prev()#}
-{#            console.log(a);#}
+{#    <script>#}
+{#        $(function(){#}
+{#             $('#base').css("boder-right-color","yellow");#}
+{#            $('#base').mouseleave(function () {#}
+{#                $("#base1").hide();#}
+{#            })#}
+{#             $('#base2').mouseenter(function () {#}
+{#                 $("#base3").show();#}
+{#             })#}
+{#            $('#base2').mouseleave(function () {#}
+{#                $("#base3").hide();#}
+{#            })#}
 {#        })#}
-{#    }#}
 {#    </script>#}
 
 {% endblock %}

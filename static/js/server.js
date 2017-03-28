@@ -69,6 +69,41 @@ $(function () {
         }
 
     }
+
+    $('#add_server_list').on('click',function () {
+        var ip=document.getElementById('ip').value;
+        var port=document.getElementById('port').value;
+        var group=document.getElementById('group').value;
+        var user=document.getElementById('user').value;
+        var LoginSelect = document.getElementById("lg_choice");
+        var lg_type=LoginSelect.options[0].textContent;
+        var password=document.getElementById('passwd').value;
+        var sudoPassword=document.getElementById('sudoPassword').value;
+        var suPassword=document.getElementById('suPassword').value;
+        var BZ=document.getElementById('BZ').value;
+        data={"ip":ip,"port":port,"group":group,"user":user,"lg_type":lg_type,"password":password,"sudoPassword":sudoPassword,"suPassword":suPassword,"BZ":BZ}
+        $.ajax ({
+            "url":'/ops/add_server_list',
+            "type": "post",
+            "contentType": "application/x-www-form-urlencoded;charset=UTF-8",
+            'data':JSON.stringify({"test":data}),
+            "error":errorAjax,
+            "beforeSend": start_load_pic,
+            "complete": stop_load_pic,
+            "success":function (response,status) {
+                if (!status==200) {
+                    return false;
+                    // showErrorInfo(data.content);
+                }
+                else {
+                    showSuccessNotic();
+                    CLose_edit_server();
+                    // window.location.href = '/ops/host_input';
+                    // ajax.load('/ops/host_input');
+                }
+            }
+        })
+    })
 })
 
 // clear edit
@@ -91,9 +126,7 @@ $(function () {
         document.getElementById("suPassword").value = ""
         document.getElementById("bz").value = "";
     })
-})
 //upload server excel filter & progressbar
-$(function() {
     $('#drag-and-drop-zone').dmUploader({
         url: '/ops/host_input',
         dataType: 'json',
@@ -184,7 +217,7 @@ $(function () {
         }, {
             key: 'Group',
             remind: 'the url',
-            text: '组',
+            text: ' 主机组',
             sorting: ''
         }, {
             key: 'User',
@@ -358,9 +391,14 @@ function EditServer() {
         document.getElementById("password").value = PASSWORD;
 
         $('#im_host').show();
-        // ClearServerEdit();
     })
 }
+
+//when the edited server  to close  windnow
+function CLose_edit_server(){
+        $('#im_host').hide();
+}
+
 
 function DelServer() {
     $('.cd-content').one('click', '.del-server', function () {

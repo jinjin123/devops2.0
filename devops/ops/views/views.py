@@ -1,6 +1,8 @@
 #-*- coding=utf8 -*-
 #/usr/bin/python env
 import os,sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 from django.http import HttpResponseRedirect,HttpResponse,request
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
@@ -15,7 +17,8 @@ import redis
 import cpu,mem
 
 r = redis.StrictRedis(host='192.168.1.101', port='6379', db=0)
-
+img = '../static/img/cd-avatar.png'
+global  img
 
 # Create your views here.
 def Login(request):
@@ -45,7 +48,6 @@ def Login(request):
             response.delete_cookie('sessionid')
             return response
     return HttpResponseRedirect("/")
-
 
 def index(request):
     img = '../static/img/cd-avatar.png'
@@ -89,7 +91,6 @@ def getcpu(request):
 def hello(request):
     return render(request,'service.html')
 
-@login_required(login_url='/')
 def host_input(request):
     Format = []
     if request.method == 'POST':
@@ -101,9 +102,27 @@ def host_input(request):
             Format.append(dict)
             # DRreturn = json.dumps({"data":Format},{"totals":models.HostInfo.objects.count()})
             DRreturn = json.dumps({"totals":models.HostInfo.objects.count(),"data":Format})
-            print DRreturn
+            # print DRreturn
         return HttpResponse(DRreturn)
 
     #return render(request,'host_input.html',{"key":11})
-    return render(request,'host_input.html')
+    return render(request,'host_input.html',{"user":request.session.get('username'),"head":img})
+
+def add_server_list(request):
+    if request.method=='POST':
+        try:
+            a = json.loads(request.body)
+            r.lpush('server_list_config',a)
+            r.lrange('server_list_config',0,-1)
+            return  HttpResponse(satus=200)
+        except:
+            return  HttpResponse('error')
+
+
+def load_server_list(request):
+    server_list = r.lrange()
+    print 'a'
+
+def fileup(request):
+    return  render(request,'fileup.html',{"user":request.session.get('username'),"head":img})
 

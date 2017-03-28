@@ -58,7 +58,7 @@ class UserLock(models.Model):
 class HostInfo(models.Model):
     ip = models.CharField(max_length=15,null=False,blank=False,primary_key=True,unique=True)
     port = models.IntegerField(null=False,blank=False,default=22)
-    group = models.CharField(choices=HOST_G,null=False,blank=False,max_length=8) #测试／生产
+    group = models.CharField(null=False,blank=False,max_length=15)
     user = models.CharField(max_length=10,null=False,blank=False)
     pwd = models.CharField(max_length=10,null=False,blank=False)
     login_type = models.CharField(choices=LG_TP,null=False,blank=False,max_length=10)
