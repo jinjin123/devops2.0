@@ -2,6 +2,8 @@
  * Created by wupeijin on 17/3/28.
  */
 var addserverURL = "/ops/add_server_list";
+var delserverURL = "/ops/del_server_list";
+var loadServerListURL = "/ops/load_server_list";
 
 
 
@@ -58,14 +60,36 @@ function stop_load_pic() {
 
 }
 
+function initGetServersList() {
+    jQuery.ajax({
+        "url": loadServerListURL,
+        // "dataType": "json",
+        "success": function (data) {
+            if (!responseCheck(data)) {
+                showErrorInfo(data.content);
+                // showErrorInfo(data.content);
+            }
+            else {
+                window.allServersList = responseCheck(data);//全局服务器
+                console.log(window.allServersList);
+                console.log(responseCheck(data));
+                console.log('接收所有服务器');
+            }
+        },
+        "error": console.log('a'),
+    });
+}
+
 //ajax callback to check data to do something
 function responseCheck(data) {
     try {
         data = JSON.parse(data);
+        // console.log(data.content);
+        return data.content;
 
     }
     catch (e) {
-        //
+        console.log('err');
     }
 
     // document.getElementById("loadPic").style.display = "none";
@@ -83,14 +107,13 @@ function responseCheck(data) {
     }
 }
 
-//TODO
-// function showErrorInfo(info) {
-//     setTimeout(function () {
-//             document.getElementById("loadPic").style.display = "none";
-//             $("#showErrorInfoDIV").show("slow");
-//     }, 2000)//三秒钟过后，自动消失
-//     // var showWarnContent = document.getElementById("showWarnContent");
-//     // showWarnContent.innerHTML = info;
-//     // document.getElementById("shadow").style.display = "block";
-// }
+
+
+function showErrorInfo(info) {
+    document.getElementById("loadPic").style.display = "none";
+    $("#showErrorInfoDIV").show("fast");
+    var showWarnContent = document.getElementById("showWarnContent");
+    showWarnContent.innerHTML = '<h5>请确认内容是否完整</h5>';
+    document.getElementById("shadow").style.display = "block";
+}
 

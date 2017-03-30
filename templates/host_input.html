@@ -157,6 +157,8 @@
                 </div>
             </div>
         </div>
+            <div id="shadow"
+     style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1003;background: rgba(0,0,0,0.4); "></div>
 
         </div>
 {#   上传头像裁剪 headimg.js& 修改密码    #}
@@ -227,13 +229,14 @@
                              <div class="im_host_input_before">用户名</div><input id="user" type="text" class="im_host_input">
                              <div class="im_host_input_before">登录方式</div><select class="im_host_input" style="height: 23px;" id="lg_choice" ><option value="password">password</option><option value="key">key</option></select>
                              <div class="im_host_input_before" id="choice_lg" style="display: none;">秘钥文件</div><a href="javascript:;" id="" class="key" >选择秘钥
-                             <input id="choice_lg3" onclick="" type="file" class="" style="display: none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></a>
+                             <input id="choice_lg3" onclick="" type="file" class="" style="display: none;" accept=""></a>
                              <div class="im_host_input_before" id="password">密码</div><input id="passwd" type="password" class="im_host_input">
-                             <div class="im_host_input_before" id="sudo" onmouseover="this.style.cursor='hand'"><i  id="sudo" class="glyphicon glyphicon-unchecked" style="font-size:inherit;"></i>sudo</div><input id="sudoPassword"  type="password" disabled="ture" class="im_host_input">
-                             <div class="im_host_input_before" id="su" onmouseover="this.style.cursor='hand'"> <i id="su" class="glyphicon glyphicon-unchecked" style="font-size:inherit;"></i>su</div><input id="suPassword"  type="password" disabled="true" class="im_host_input">
+                             <div class="im_host_input_before" id="sudo" onmouseover="this.style.cursor='hand'"><i id="us_sudo" class="glyphicon glyphicon-unchecked" style="font-size:inherit;"></i>sudo</div><input id="sudoPassword"  type="password" disabled="ture" class="im_host_input">
+                             <div class="im_host_input_before" id="su" onmouseover="this.style.cursor='hand'"> <i id="us_su" class="glyphicon glyphicon-unchecked" style="font-size:inherit;"></i>su</div><input id="suPassword"  type="password" disabled="true" class="im_host_input">
                              <div class="im_host_input_before" id="bz">备注</div><input id="BZ" type="text" class="im_host_input">
+                             <input type="hidden" name="Id" id="id" >
                          </div>
-                    <button class="btn btn-info" id="add_server_list" style="position:relative;left: 88%;">保存</button>
+                    <button class="btn btn-info" id="add_server_list" style="position:relative;left:65%;margin: 0 22%">保存</button>
                 </div>
             </div>
         </div>
@@ -494,6 +497,7 @@
                     <div class="sa-ele">
                         <button id="h_import" onclick="jQuery('#im_table').show()" class="search-action">excel导入</button>
                         <button  id="h_add" onclick="jQuery('#im_host').show()" class="btn btn-info" style="background-color: #EFEFEF">＋</button>
+                        <button  id="h_del" onclick="" class="btn btn-info" style="background-color: #EFEFEF">---</button>
                     </div>
                 </div>
                 <table>

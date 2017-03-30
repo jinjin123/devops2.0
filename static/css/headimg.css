@@ -167,8 +167,8 @@ a.cg-bt{
     display: none;
 }
 .server_to_select{
-    width: 500px;
-    height: 300px;
+    width: auto;
+    height: auto;
     position: fixed;left: 50%; top: 15%;
     background: white;
     margin-left: -250px;
@@ -176,15 +176,16 @@ a.cg-bt{
     border-radius: 10px;
     border-right: 3px solid #e5e5e5;
     border-left:3px solid #e5e5e5;
+    font-size:small;
 
 }
 .im_host_main{
     position: relative;
-    padding:20px;
+    padding:22px;
 }
 .im_host_box{
     width: 500px;
-    height: 500px;
+    height: 520px;
     position: fixed;left: 50%; top: 22%;
     background: white;
     margin-left: -250px;

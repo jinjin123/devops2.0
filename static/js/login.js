@@ -10,6 +10,7 @@ $(function() {
 		$.ajax({
 			type: "POST",
 			url: "/ops/login",
+            async:false,
 			dataType:"json",
 			// data:JSON.stringify({"username":username,"password":password}),
 			 data:{"username":username,"password":password},

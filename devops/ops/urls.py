@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^service',views.hello,name="hello"),
     url(r'^host_input',views.host_input,name="host_input"),
     url(r'^add_server_list',views.add_server_list,name="add_server_list"),
+    url(r'^del_server_list',views.del_server_list,name="del_server_list"),
     url(r'^load_server_list',views.load_server_list,name="load_server_list"),
     url(r'^fileup',views.fileup,name="fileup"),
     url(r'^cpu/$', views.getcpu ),

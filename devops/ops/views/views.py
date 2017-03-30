@@ -105,23 +105,103 @@ def host_input(request):
             # print DRreturn
         return HttpResponse(DRreturn)
 
-    #return render(request,'host_input.html',{"key":11})
     return render(request,'host_input.html',{"user":request.session.get('username'),"head":img})
 
+
+#TODO: return server status   to upgrade  server status,  单个添加完成的时候 也需要传ID
 def add_server_list(request):
     if request.method=='POST':
         try:
-            a = json.loads(request.body)
-            r.lpush('server_list_config',a)
-            r.lrange('server_list_config',0,-1)
+            StringBody = request.body
+            dict = eval(StringBody)
+
+            # print dict['ip']
+            # print type(StringBody)
+            ip = dict['ip']
+            port = dict['port']
+            group = dict['group']
+            user = dict['user']
+            pwd = dict['password']
+            login_type = dict['lg_type']
+            key = dict['key']
+            us_sudo = dict['us_sudo']
+            us_su = dict['us_su']
+            sudo = dict['sudoPassword']
+            su = dict['suPassword']
+            alive = dict['status']
+            bz = dict['BZ']
+            id = dict['id']
+            data = {
+                "ip": ip,
+                "port": port,
+                "group": group,
+                "user": user,
+                "lg_type": login_type,
+                "key": key,
+                "pwd": pwd,
+                "us_sudo": us_sudo,
+                "us_su": us_su,
+                "sudo": sudo,
+                "su": su,
+                "status": 0,
+                "bz": bz,
+                "id": id,
+            }
+            print data
+            r.lpush("server",StringBody)
+            r.hset(id,'server',data)
+
+            models.HostInfo.objects.create(ip=dict['ip'],port=dict['port'],group=dict['group'],
+                                           user=dict['user'],pwd=dict['password'],login_type=dict['lg_type'],
+                                           key=dict['key'],us_sudo=dict['us_sudo'],us_su=dict['us_su'],sudo=dict['sudoPassword'],
+                                           su=dict['suPassword'],alive=dict['status'],bz=dict['BZ'])
+        except Exception,e:
+            print e
+        return  HttpResponse(status=200)
+
+
+# matching id  to delete server
+def del_server_list(request):
+    if request.method=='POST':
+        try:
+            content = json.loads(request.body)
+            print content
+            print content['ip']
+            id =  content['id']
+            # print content['id']
+            try:
+                r.hdel(id)
+                models.HostInfo.objects.filter(ip=content['ip']).delete()
+            except Exception,e:
+                print e
+
             return  HttpResponse(satus=200)
         except:
             return  HttpResponse('error')
 
 
 def load_server_list(request):
-    server_list = r.lrange()
-    print 'a'
+    content = {"content":[]}
+    try:
+        # for ServerInfo in models.HostInfo.objects.all():
+        server_list = r.lrange("server",0,-1)
+        if server_list is None:
+            content['content']=[]
+        else:
+            # print server_list  # dict
+            for _line in server_list:
+                # print _line
+                lines = json.loads(_line)
+                content['content'].append(lines)
+                # print server  # obj
+    except Exception,e:
+        print e
+    Content = json.dumps(content)
+    print Content
+    # print type(Content)
+    return  HttpResponse(Content)
+
+
 
 def fileup(request):
     return  render(request,'fileup.html',{"user":request.session.get('username'),"head":img})

@@ -1528,7 +1528,7 @@
 							template = v2.template;
 							templateHTML = typeof template === 'function' ? template(v[key], v) : v[key];
 							alignAttr = v2.align ? 'align="' + v2.align + '"' : '';
-							tbodyTmpHTML += '<td gm-create="false" ' + alignAttr + '>' + templateHTML + '</td>';
+							tbodyTmpHTML += '<td gm-create="false" ' +  alignAttr + '>' + templateHTML + '</td>';
 						});
 						tbodyTmpHTML += '</tr>';
 					});

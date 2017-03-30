@@ -1,7 +1,13 @@
 /**
  * Created by wupeijin on 17/3/26.
  */
+$(function(){
+    InitServer();
+})
+
+
 $(function () {
+
     $('#lg_choice').change(function () {
         var opt = $('#lg_choice').val();
         if (opt == 'key') {
@@ -67,48 +73,9 @@ $(function () {
             $(sudoCheck).removeClass("glyphicon-check").addClass("glyphicon-unchecked");
             sudoPassword.setAttribute("disabled", true)
         }
-
     }
-
-    $('#add_server_list').on('click',function () {
-        var ip=document.getElementById('ip').value;
-        var port=document.getElementById('port').value;
-        var group=document.getElementById('group').value;
-        var user=document.getElementById('user').value;
-        var LoginSelect = document.getElementById("lg_choice");
-        var lg_type=LoginSelect.options[0].textContent;
-        var password=document.getElementById('passwd').value;
-        var sudoPassword=document.getElementById('sudoPassword').value;
-        var suPassword=document.getElementById('suPassword').value;
-        var BZ=document.getElementById('BZ').value;
-        data={"ip":ip,"port":port,"group":group,"user":user,"lg_type":lg_type,"password":password,"sudoPassword":sudoPassword,"suPassword":suPassword,"BZ":BZ}
-        $.ajax ({
-            "url":'/ops/add_server_list',
-            "type": "post",
-            "contentType": "application/x-www-form-urlencoded;charset=UTF-8",
-            'data':JSON.stringify({"test":data}),
-            "error":errorAjax,
-            "beforeSend": start_load_pic,
-            "complete": stop_load_pic,
-            "success":function (response,status) {
-                if (!status==200) {
-                    return false;
-                    // showErrorInfo(data.content);
-                }
-                else {
-                    showSuccessNotic();
-                    CLose_edit_server();
-                    // window.location.href = '/ops/host_input';
-                    // ajax.load('/ops/host_input');
-                }
-            }
-        })
-    })
-})
-
 // clear edit
-$(function () {
-    $('#close_edit').one('click',function () {
+       $('#close_edit').one('click',function () {
         document.getElementById("ip").value = "";
         document.getElementById("port").value = "";
         document.getElementById("group").value = "";
@@ -126,6 +93,69 @@ $(function () {
         document.getElementById("suPassword").value = ""
         document.getElementById("bz").value = "";
     })
+//edit server  to upgrade
+    $('#add_server_list').on('click',function () {
+        var LG_type = $(this).parent().parent().find('option')[0].textContent;
+        var US_SUDO = $(this).parent().parent().find('i')[0].textContent;
+        var US_SU = $(this).parent().parent().find('i')[1].textContent;
+        var input = $(this).parent().parent().find('input');
+        var IP = input[0].value;
+        var PORT = input[1].value;
+        var GROUP = input[2].value;
+        var USER = input[3].value;
+        var KEY = input[4].textContent;
+        var PASSWORD = input[5].value;
+        var SUDO = input[6].value;
+        var SU = input[7].value;
+        var BZ = input[8].value;
+        var ID = input[9].value;
+        // console.log(input);
+        if (IP == '' || PORT == '' || USER == ''){
+            showErrorInfo();
+        }else {
+            data = {
+                "ip": IP,
+                "port": PORT,
+                "group": GROUP,
+                "user": USER,
+                "lg_type": LG_type,
+                "key": KEY,
+                "password": PASSWORD,
+                "us_sudo": US_SUDO,
+                "us_su": US_SU,
+                "sudoPassword": SUDO,
+                "suPassword": SU,
+                "status": 0,
+                "BZ": BZ,
+                "id": ID,
+            },
+                $.ajax({
+                    url: addserverURL,
+                    type: "post",
+                    // contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+                    data: JSON.stringify(data),
+                    // data: data,
+                    error: errorAjax,
+                    beforeSend: start_load_pic,
+                    complete: stop_load_pic,
+                    success: function (response, status) {
+                        if (!status == 200) {
+                            return false;
+                            // showErrorInfo(data.content);
+                        }
+                        else {
+                            showSuccessNotic();
+                            CLose_edit_server();
+                            // window.location.href = '/ops/host_input';
+                            // ajax.load('/ops/host_input');
+                        }
+                    }
+                })
+        }
+    })
+})
+
+$(function () {
 //upload server excel filter & progressbar
     $('#drag-and-drop-zone').dmUploader({
         url: '/ops/host_input',
@@ -208,7 +238,7 @@ $(function () {
             remind: 'the name',
             width: '50px',
             text: 'IP',
-            sorting: ''
+            sorting: 'IP'
         }, {
             key: 'Port',
             remind: 'the info',
@@ -353,6 +383,7 @@ $(function () {
 function EditServer() {
     $('.cd-content').one('click', '.edit-server', function () {
         var td = $(this).parent().prevAll();
+        var ID =  td[13].textContent;
         var IP = td[12].textContent;
         var PORT = td[11].textContent;
         var GROUP = td[10].textContent;
@@ -366,8 +397,9 @@ function EditServer() {
         var SU = td[2].textContent;
         var STATUS = td[1].textContent;
         var BZ = td[0].textContent;
-        console.log(td);
+        console.log(ID);
 
+        document.getElementById("id").value = ID;//ip
         document.getElementById("ip").value = IP;//ip
         document.getElementById("port").value = PORT;
         document.getElementById("group").value = GROUP;
@@ -375,20 +407,40 @@ function EditServer() {
         var LoginSelect = document.getElementById("lg_choice");
 
         if(LG_type == "秘钥方式"){
-            //hide  key input
+            document.getElementById("choice_lg3").textContent = KEY;
             $('#choice_lg').css("display", "block");
             $('.key').css("display", "block");
             $('#choice_lg3').css("display", "block");
             LoginSelect.options[0].textContent = 'key';
             LoginSelect.options[1].textContent = 'password';
-            $('#choice_lg3').value = KEY;
         } else {
+            //hide  key input
             $('#choice_lg').css("display", "none");
             $('.key').css("display", "none");
             $('#choice_lg3').css("display", "none");
 
         }
-        document.getElementById("password").value = PASSWORD;
+        document.getElementById("passwd").value = PASSWORD;
+        document.getElementById("BZ").value = BZ;
+        if(US_SUDO == 'Y'){
+            $('#us_sudo').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+            document.getElementById("sudoPassword").removeAttribute("disabled", true);
+            document.getElementById("us_sudo").textContent = US_SUDO;
+            document.getElementById("sudoPassword").value = SUDO;
+        }else{
+            $('#us_sudo').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+            document.getElementById('sudoPassword').setAttribute("disabled", true)
+        }
+        if(US_SU == 'Y'){
+            $('#us_su').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
+            document.getElementById("suPassword").removeAttribute("disabled", true);
+            document.getElementById("us_su").textContent = US_SU;
+            document.getElementById("suPassword").value = SU;
+        }else{
+            $('#us_su').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+            document.getElementById('suPassword').setAttribute("disabled", true)
+        }
+
 
         $('#im_host').show();
     })
@@ -396,17 +448,46 @@ function EditServer() {
 
 //when the edited server  to close  windnow
 function CLose_edit_server(){
-        $('#im_host').hide();
+        $('#im_host').slideDown('slow').hide();
 }
 
 
 function DelServer() {
     $('.cd-content').one('click', '.del-server', function () {
          var td = $(this).parent().prevAll();
-         var IP = td[12].textContent;
-        // document.querySelector('table').GM('refreshGrid',true); //TODO: 目前只能删除当条数据刷新页面重新get 数据
-        //  $(td).parent().parents().remove();
+         var id = td[13].textContent;
+         var ip = td[12].textContent;
+        console.log(id,ip);
+        $.ajax({
+            type:"POST",
+            url: delserverURL,
+            data:JSON.stringify({"id":id,"ip":ip}),
+            error: errorAjax,
+            beforeSend: start_load_pic,
+            complete: stop_load_pic,
+            success: function (response, status) {
+                if (!status == 200) {
+                    return false;
+                    // showErrorInfo(data.content);
+                }
+                else {
+                    showSuccessNotic();
+                    CLose_edit_server();
+                    // window.location.href = '/ops/host_input';
+                    // ajax.load('/ops/host_input');
+                }
+            }
+
+        })
+        // // document.querySelector('table').GM('refreshGrid',true); //TODO: 目前只能删除当条数据刷新页面重新get 数据
     })
 }
 
+function InitServer(){
+     initGetServersList();
+    document.getElementById("closeButton").onclick = function () {
+        $("#showErrorInfoDIV").hide("fast");
+        document.getElementById("shadow").style.display = "none";
+    }
+}
 
