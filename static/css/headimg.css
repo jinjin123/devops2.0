@@ -167,9 +167,9 @@ a.cg-bt{
     display: none;
 }
 .server_to_select{
-    width: auto;
+    width: 500px;
     height: auto;
-    position: fixed;left: 50%; top: 15%;
+    position: fixed;left: 50%; top: 8%;
     background: white;
     margin-left: -250px;
     border-top:6px solid #e5e5e5;
@@ -239,6 +239,7 @@ color:#ACA899;
     top: -20px;
     left: -7%;
     border-radius: 4px;
+    display: initial;
 }
 /*.cg-pwd{*/
 

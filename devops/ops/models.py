@@ -70,6 +70,10 @@ class HostInfo(models.Model):
     alive = models.IntegerField(choices=USER_ALIVE_STATUS,null=False,default=0)
     bz = models.CharField(max_length=128,null=True,blank=True)
 
+    class Meta:
+        unique_together = (("ip","group"))
+
+
     def __unicode__(self):
         return self.ip
 

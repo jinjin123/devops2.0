@@ -397,7 +397,7 @@ function EditServer() {
         var SU = td[2].textContent;
         var STATUS = td[1].textContent;
         var BZ = td[0].textContent;
-        console.log(ID);
+        console.log(US_SUDO);
 
         document.getElementById("id").value = ID;//ip
         document.getElementById("ip").value = IP;//ip
@@ -425,7 +425,7 @@ function EditServer() {
         if(US_SUDO == 'Y'){
             $('#us_sudo').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
             document.getElementById("sudoPassword").removeAttribute("disabled", true);
-            document.getElementById("us_sudo").textContent = US_SUDO;
+            // document.getElementById("us_sudo").textContent = US_SUDO;
             document.getElementById("sudoPassword").value = SUDO;
         }else{
             $('#us_sudo').removeClass("glyphicon-check").addClass("glyphicon-unchecked");
@@ -434,7 +434,7 @@ function EditServer() {
         if(US_SU == 'Y'){
             $('#us_su').removeClass("glyphicon-unchecked").addClass("glyphicon-check");
             document.getElementById("suPassword").removeAttribute("disabled", true);
-            document.getElementById("us_su").textContent = US_SU;
+            // document.getElementById("us_su").textContent = US_SU;
             document.getElementById("suPassword").value = SU;
         }else{
             $('#us_su').removeClass("glyphicon-check").addClass("glyphicon-unchecked");

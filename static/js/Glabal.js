@@ -4,8 +4,9 @@
 var addserverURL = "/ops/add_server_list";
 var delserverURL = "/ops/del_server_list";
 var loadServerListURL = "/ops/load_server_list";
-
-
+var getFileTransProgressURL = '/ops/get_filetrans_progress';
+var uploadFileURL = '/ops/upload/test'
+var fileTransURL = "/ops/filetrans/upload/";
 
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
@@ -110,10 +111,18 @@ function responseCheck(data) {
 
 
 function showErrorInfo(info) {
-    document.getElementById("loadPic").style.display = "none";
+    document.getElementById("loadPic").style.display = 'none';
     $("#showErrorInfoDIV").show("fast");
     var showWarnContent = document.getElementById("showWarnContent");
-    showWarnContent.innerHTML = '<h5>请确认内容是否完整</h5>';
+    showWarnContent.innerHTML = info;
     document.getElementById("shadow").style.display = "block";
 }
 
+
+function startShadow() {
+    document.getElementById("shadow").style.display = "block";
+}
+function stopShadow() {
+    document.getElementById("shadow").style.display = "none"
+
+}

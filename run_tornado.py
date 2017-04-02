@@ -77,6 +77,9 @@ class HelloHandler(BaseHandler):
          self.write("ok")
         #self.render("test.html")
 
+    def post(self):
+        self.write("ok")
+
 class CellPhoneLoginHandler(BaseHandler):
 
     def get(self, token):
