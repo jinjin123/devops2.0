@@ -19,21 +19,18 @@ class SSH_SSH(object):
             self.port = kws["port"]
             self.lg_type = kws["lg_type"]
             self.ip = kws["ip"]
-            self.keyfile = os.path.join(ssh_settings.keyfile_dir,  kws["keyfile"])
+            self.keyfile = os.path.join(ssh_settings.keyfile_dir,  kws["key"])
             self.sudo = kws["us_sudo"]
-            self.sudo_password = kws["sudo_password"]
+            self.sudo_password = kws["sudoPassword"]
             self.su = kws["us_su"]
-            self.su_password = kws["su_password"]
+            self.su_password = kws["suPassword"]
             self.port = int(self.port)
             ssh = paramiko.SSHClient()
-            if self.lg_type == 'password':
-                ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            if self.lg_type == '密码方式':
+                ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) ##allow  host not in  know_host
                 ssh.connect(self.ip, self.port, self.username, self.password)
             else:
-                if self.keyfile :
-                    key = paramiko.RSAKey.from_private_key_file(self.keyfile)
-                else:
-                    key = paramiko.RSAKey.from_private_key_file(self.keyfile)
+                key = paramiko.RSAKey.from_private_key_file(self.keyfile)
                 ssh.load_system_host_keys()
                 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
                 ssh.connect(self.ip, self.port, self.username, pkey=key)
@@ -96,21 +93,21 @@ class SSH_SSH(object):
             ssh_info["status"] = False
         return ssh_info
 
-    def recv(self, sid="", tid="", ignore=False):
+    def recv(self, ip="", tid="", ignore=False):
         buff = ''
         while not re.search(self.prompt, buff.split('\n')[-1]):
             _buff = self.shell.recv(10240)
             buff += _buff
-            if not ignore: self.log(sid=sid, tid=tid, content_segment=_buff)
+            if not ignore: self.log(ip=ip, tid=tid, content_segment=_buff)
             time.sleep(0.1)
         return buff
 
     def disk_log(self, sid, content=""):
         pass
 
-    def log(self, sid='', tid='', content_segment=""):
+    def log(self, ip='', tid='', content_segment=""):
 
-        log_name = "log.%s.%s" % (tid, sid)
+        log_name = "log.%s.%s" % (tid, ip)
         log_content = {
             "content": content_segment,
             "stage": "running",
@@ -135,7 +132,8 @@ class SSH_SSH(object):
             ssh_info["content"] = str(e)
         return ssh_info
 
-    def execute(self, cmd='', sid="", tid="", ignore=False):
+    def execute(self, cmd='', ip="", tid="", ignore=False):
+        print cmd,ip ,tid,'136'
         ssh_info = {"status": False, "content": ""}
         log_content = {
             "content": "",
@@ -146,13 +144,12 @@ class SSH_SSH(object):
             if not self.active: raise SSHError("未能与主机建立连接")
             data = self.clean_buffer()
             if not data["status"]: raise SSHError(data["content"])
-
             self.set_prompt()
-            log_name = "log.%s.%s" % (tid, sid)
+            log_name = "log.%s.%s" % (tid, ip)
             self.shell.send("%s\n" % cmd)
-            ssh_info['content'] = self.recv(sid=sid, tid=tid)
+            ssh_info['content'] = self.recv(ip=ip, tid=tid)
             self.shell.send("echo $?\n")
-            _status = self.recv(sid=sid, tid=tid, ignore=True)
+            _status = self.recv(ip=ip, tid=tid, ignore=True)
             status = re.search('echo \$\?\\r\\n(.*)\\r\\n%s' % self.prompt, _status).group(1)
             status = int(status)
             if status == 0:
@@ -164,6 +161,7 @@ class SSH_SSH(object):
         except Exception, e:
             ssh_info["status"] = False
             ssh_info["content"] = str(e)
+            print e,'170 error'
 
         _log_content = json.dumps(log_content, encoding="utf-8", ensure_ascii=False)
         r.lpush(log_name, _log_content)
@@ -171,17 +169,16 @@ class SSH_SSH(object):
         if not ignore:
             log_content["content"] = ssh_info["content"]
             self.write_command_log(tid, log_content)
+        print ssh_info,'176'
         return ssh_info
 
     def write_command_log(self, tid, log_content):
-
         try:
             history = r.lrange("command.history", -5, -1)
             for _line in history:
                 line = json.loads(_line)
-                if str(line["tid"]) == tid:
-                    content = """%s</br>%s<hr style="border-bottom:1px solid #b0b0b0"/>""" % (
-                    line["content"], log_content["content"])
+                if str(_line["tid"]) == tid :
+                    content = """%s</br>%s<hr style="border-bottom:1px solid #b0b0b0"/>""" % (line["content"], log_content["content"])
                     log_content["content"] = content
                     line = dict(line, **log_content)
                     r.lrem("command.history", _line, 0)
@@ -189,7 +186,7 @@ class SSH_SSH(object):
                     r.lpush("command.history", _line)
                     break
         except Exception, e:
-            print "写入日志报错", str(e)
+            print "写入日志报错", str(e),'19777777'
             pass
 
     def sudo_login(self):

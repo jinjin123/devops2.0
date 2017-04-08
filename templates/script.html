@@ -7,11 +7,11 @@
       <link href="../static/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/index.css">
     <link rel="stylesheet" href="../static/css/headimg.css">
-    <script src="../static/js/jquery-1.11.2.min.js"></script>
+{#    <script src="../static/js/jquery-1.11.2.min.js"></script>#}
     <script src="../static/js/bootstrap.min.js"></script>
     <style type="text/css">
     *{margin:0;padding:0;list-style-type:none;}
-     a,img{border:0;cursor: hand}a,img{border:0;}
+    a,img{border:0;cursor: hand}
     body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd;}
 
 /* leftsead */
@@ -24,7 +24,7 @@
 {#    #leftsead li a .hides{margin-right:-166px;cursor:pointer;cursor:hand;}#}
     #leftsead li a .hides{margin-right:-166px;}
     #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
-    .glyphicon {color: #585C64; font-size: large;}
+    .glyphicon {top:-1px;}
     .main-sidebar{
 	position: absolute;
 	padding-top: 4%;
@@ -39,6 +39,13 @@
     #mail{position: absolute;  right: 190px;  top: 40%;}
     #set{position: absolute;  right: 160px;  top: 40%;}
     #out{position: absolute;  right: 130px;  top: 40%;}
+    #showCRTWindow pre::-webkit-scrollbar {
+        width: 10px;
+    }
+    #showCRTWindow pre::-webkit-scrollbar-thumb {
+        background: #09C;
+        border-radius: 4px;
+    }
     </style>
 
 {% endblock %}
@@ -55,11 +62,14 @@
 		</div> <!-- cd-search -->
 
 		<a href="#0" class="cd-nav-trigger">Menu<span></span></a>
+
 		<nav class="cd-nav">
 			<ul class="cd-top-nav">
+{#				<li  class="glyphicon glyphicon-bullhorn"><a  class="" href="#0"></a></li>#}
+{#				<li class="glyphicon glyphicon-envelope"><a href="#0"></a></li>#}
                 <a  class="glyphicon glyphicon-bullhorn" href="#0" id="notice"></a>
                 <a class=" glyphicon glyphicon-envelope" href="#1" id="mail"></a>
-                <a href="javascript:;" onclick="$('#head').show()"  class="glyphicon glyphicon-cog show" id="set"></a>
+                <a href="javascript:;" onclick="jQuery('#head').show()"  class="glyphicon glyphicon-cog show" id="set"></a>
                 <a href="/ops/logout" class="glyphicon glyphicon-share" id="out"></a>
 				<li class="has-children account">
 					<a href="#0">
@@ -77,7 +87,7 @@
         </div>
 {#    loadding end     #}
 {#    show error    #}
-        <div id="showErrorInfoDIV"
+        <div id="confirmCommandDiv"
              style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
             <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
                  id="">
@@ -94,17 +104,57 @@
                                     请确认您的内容?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" id="closeButton">好的
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                        id="forceExecuteCommand">强制
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"
+                                        id="closeConfirmCommandButton">
+                                    放弃
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="shadow"
-                 style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1006;background: rgba(0,0,0,0.4); "></div>
         </div>
 {#    show error  end  #}
+{#    create  script   input  #}
+        <div class="box" style="z-index: 1004;width:auto;height:100%;position: fixed;left: 0px;right: 0px;top: 0px;;bottom: 0%;margin: auto;display:none;" id="showScriptName">
+            <div class="modal" style="height: 100%;;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content  ">
+                        <div class="modal-header" style="cursor: move;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class=" glyphicon glyphicon-edit " style="color: green;">脚本名</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">脚本名</label>
+                                    <div class="col-md-10">
+                                        <input id="scriptName" class="form-control" placeholder="请输入新建脚本名称" style="border:1px dashed #b0b0b0;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button style="float: left;" type="button" class="btn btn-default" data-dismiss="modal"
+                                    id="closeScriptNameButton">取消
+                            </button>
+                            <button style="float:right;" type="button" class="btn btn-success" data-dismiss="modal"
+                                    id="inputScriptName">下一步
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#   create script  input     #}
+{#   upload plugins     #}
+        <div id="uploadScriptProgressDiv" class="progress progress-striped" style="font-weight: bold;font-size: 500%;z-index: 1004;width:40%;height:5%;margin:auto;position:fixed;top:0%;bottom:0%;right:0px;left:120%;display: block;">
+            <div id="showScriptProgressText" class="progress-bar  progress-bar-success active">
+            </div>
+        </div>
       {#   上传头像裁剪 headimg.js& 修改密码    #}
         <div class="box" id="head">
             <div class="head_box">
@@ -133,127 +183,42 @@
                 </a>
             </div>
         </div>
-    {#   fileup  to select server    #}
-        <div class="box" id="file_to_up">
-            <div class="server_to_select">
-                <a href="javascript:;" onclick="" class="close" id="CloseSelectLink">X</a>
-                <div>
-                    <div class="glyphicon  glyphicon-filter " style="top:20px;left: 10px;">选择服务器</div>
-                    <br><br>
-                    <div style="position:relative;border-top:1px solid #e5e5e5;top:15px;">
-                        <div class="modal-body">
-                            <div style="height: 40px;">
-                        <span id="fileUploadSelectAllServers" class="glyphicon glyphicon-check"
-                              style="cursor: pointer;font-size: small">&nbsp;全选</span>
-                            </div>
-                            <table class="table table-bordered table-hover table-striped  table-condensed">
-                                <thead>
-                                <tr>
-                                    <th>主机组</th>
-                                    <th>主机</th>
-                                </tr>
-                                </thead>
-                                <tbody id="uploadFileSelectServerTbody">
-                                <!--
-                                <tr>
-                                -->
-                                </tbody>
-                            </table>
-                            <!---->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" id="fileUploadSelectNext"
-                                    style="float:right;position: relative;margin-bottom: 10px;">确定
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-{#   select server next step select remote path     #}
-        <div id="remotePathDIV"
-             style="z-index: 1004;position: absolute;left: 0px;right: 0px;top:0px;margin: auto;display:none;">
-            <div class="modal  "
-                 style="overflow: visible;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
-                <div class="modal-dialog" style="left: 0px; margin-top: 0px;padding:0px;padding-top: 0px;">
-                    <div class="modal-content " id="">
-                        <div class="modal-header" style="cursor: move;">
-
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-
-                            <h4 class=" glyphicon  glyphicon-pencil " style="color: green;cursor:pointer;">请输入远程路径</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">远程路径</label>
-                                    <div class="col-sm-8">
-                                        <input id="remotePath" type="text" class="form-control"
-                                               style="border: dashed 1px lightsteelblue">
-                                    </div>
-
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button style="float: left;" type="button" class="btn btn-primary" id="remotePathAdvance">高级
-                            </button>
-                            <button style="float:right; " type="button" class="btn btn-success" id="remotePathFastNext">
-                                快速
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-   {#   select server next step select remote path  end   #}
 	</header> <!-- .cd-main-header -->
-{#  upload plugin  #}
-    <div id="dropz"
-         style="display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1003;background:white;">
-        <span class="glyphicon glyphicon-remove-sign" id="dumpUploadFile"
-              style="float:right;font-size: 300%;cursor:pointer"></span>
-        <div style="position: absolute;margin: auto;top: 30px; bottom: 30px ;left: 30px; right: 30px;border:2px dashed #b0b0b0;border-radius: 20px;">
-        </div>
-    </div>
-    <div id="uploadFileProgress"
-         style="color: none;font-weight: bold;font-size: 500%;z-index: 1004;width:5%;height:5%;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
-        0%
-    </div>
-{#  upload plugin end #}
-    <!--单个拖动上传-->
-    <div id="independentDropz"
-         style="display:block;position: fixed;  top: 0px; bottom: 0px ;left: 100%; right: 0px; z-index: 1003;background:white;">
-        <span class="glyphicon glyphicon-remove-sign" id="dumpIndependentDropz"
-              style="display: none;float:right;font-size: 300%;cursor:pointer"></span>
-        <div style="position: absolute;margin: auto;top: 30px; bottom: 30px ;left: 30px; right: 30px;border:2px dashed #b0b0b0;border-radius: 20px;">
-
-        </div>
-    </div>
-    <div id="showIndependentProgress"
-         style="color: none;font-weight: bold;font-size: 500%;z-index: 1004;width:5%;height:5%;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
-        0%
-    </div>
-    <!--单个拖动上传-->
 
     <aside class="main-sidebar">
         <section class="sidebar">
             <ul class="sidebar-menu">
-                <li class="content">
-                    <a data-menu="index">
+                <li class="treeview">
+                    <a href="/ops/index" >
                         <i class="fa fa-dashboard"></i> <span>仪表盘</span> <i
                             class="fa fa-angle-left pull-right"></i>
                     </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#0" id="base" class="" data-menu="index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                        <li><a href="#0"    data-menu="service"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>服务器信息管理</span>
+                    </a>
+                    <ul class="treeview-menu" style="display: none;">
+                        <li><a href="#" id="base3" data-menu="host_input"><i class="fa fa-circle-o"></i> 服务器配置</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Fixed</a></li>
+                        <li class=""><a href="#"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="content">
-                    <a href="#" data-menu="host_input">
-                        <i class="fa fa-cogs"></i>
-                        <span>服务器信息管理</span>
+                    <a onclick="" id='cmd'  data-menu="cmd">
+                        <i class="fa fa-terminal"></i> <span>命令执行</span>
                     </a>
                 </li>
                 <li class="content">
-                    <a  onclick="" id='cmd' data-menu="cmd">
-                        <i class="fa fa-code"></i> <span>命令执行</span>
+                    <a onclick="" id='script' class="selected"  data-menu="script">
+                        <i class="fa fa-superscript"></i> <span>脚本管理</span>
                     </a>
                 </li>
                 <li class="treeview">
@@ -323,8 +288,8 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="content"><a id="fileup" class="selected" data-menu="fileup"><i class="fa fa-circle-o"></i>上传 </a></li>
-                        <li class="content"><a id="filedown" data-menu="filedown"><i class="fa fa-circle-o"></i>下载</a></li>
+                        <li><a href="/ops/fileup"  data-menu="fileup"><i class="fa fa-circle-o"></i>上传 </a></li>
+                        <li><a href="/ops/filetrans/download/"  data-menu="filedown"><i class="fa fa-circle-o"></i>下载</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -378,7 +343,6 @@
 				<img src="../static/img/foot03/l03.png" width="47" height="49" class="shows" />
 			</a>
 		</li>
-
             {# 增加微信聊天求助websocket#}
 {#            <li>#}
 {#                <a href="">#}
@@ -401,33 +365,138 @@
     	</ul>
     </div><!--leftsead end-->
     <main class="cd-main">
-        <section class="cd-section fileup visible">
-            <div id="index-content" class="cd-content ">
-                    <div class="filebtn">
-                            <button class="btn btn-info " id="FileSelectServerButton" >服务器</button>
-                            <button class="btn btn-success " id="startFileUploadButton" disabled>
-                                <span class="glyphicon glyphicon-play-circle"></span>
-                            </button>
+        <section class="cd-section script visible">
+            <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px">
+                <div class="panel panel-default" style="background: white;height:100%;display: block;position: relative;"
+                     id="uploadScriptDropz">
+                    <p class="navbar-form" style="width:100%;margin-bottom:10px;">
+                    <div class="input-group" style="padding:10px;z-index: 0;">
+                        <input type="text" class="form-control searchValue" placeholder="搜索任意关键字"
+                               style="width:100%;">
+                        <span class="input-group-btn">
+                        <button class="btn btn-success" style="height: 34px;">
+                                <span class="glyphicon glyphicon-search">搜索</span>
+                        </button>
+                         </span>
                     </div>
-                    <div style="margin-top: 10px;">
-                        <div class="col-sm-12" id="showLocalServerAndRemoteServerDIV">
-                            <!--每一本地对应的远程
+                    </p>
+                <div class="panel-heading" style="background: white;position:relative;margin-top: -30px;">
+                    <button class="btn btn-success btn-xs glyphicon glyphicon-plus" id="createScriptName"></button>
+                    <button class="btn btn-default btn-xs glyphicon glyphicon-refresh" id="refreshScriptList"></button>
+                </div>
+
+                <table class="table  table-hover table-striped   table-responsive  table-bordered">
+                    <thead>
+                    <tr>
+                        <th>脚本</th>
+                        <th class="hidden-xs">时间</th>
+                        <th style="min-width: 95px;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="showScriptTbody"></tbody>
+                    <tr>
+                    </tr>
+                </table>
+                    <div id="scriptArea"
+                         style="width:100%;margin:auto;position:absolute;top:100%;bottom:0%;right:0%;left:0%;display:none;z-index:10">
+                        <div style="color: white;z-index:5;font-size: 200%;position: absolute;top:0%;right: 1%;cursor:pointer;">
+                            <button id="closeScriptContent" class="btn btn-danger btn-sm">关闭</button>
+                            <button id="writeScriptContent" class="btn btn-success btn-sm ">更新</button>
+                        </div>
+                        <div style="height: 100%">
+                            <textarea class="" id="scriptContent"
+                                      style="letter-spacing: 2px;font-family:华文仿宋;font-size:100%;background: black;width:1265px;height:100%;margin:auto;color:white;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="scriptDIV" style="background:white;width:100%;margin:auto;position:absolute;top:0%;bottom:0%;right:0%;left:0%;display:none">
+                <span class="glyphicon glyphicon-remove-sign" id="closeScriptDiv" style="float: right;z-index: 1;font-size:300%;cursor: pointer;"></span>
+                    <ul class="nav nav-tabs" role="tablist" id="myTab">
+                        <li role="presentation" class="active"><a href="#scriptServers" role="tab" data-toggle="tab">服务器</a></li>
+                        <li role="presentation"><a href="#scriptParameter" role="tab" data-toggle="tab">参数</a></li>
+                        <li role="presentation"><a href="#scriptInit" role="tab" data-toggle="tab">初始化</a></li>
+                        <li role="presentation"><a href="#scriptResult" role="tab" data-toggle="tab">结果</a></li>
+                    </ul>
+
+                    <div class="tab-content" style="margin-top:30px;">
+                        <div role="tabpanel" class="tab-pane active" id="scriptServers">
+                            <button id="goParameter" class="btn-sm btn-success btn" style="float: right;">下一步</button>
+                            <div style="float: left">
+                        <span id="scriptSelectAllServers" class="glyphicon glyphicon-check"
+                              style="cursor: pointer;">&nbsp;全选</span>
+                            </div>
+                            <!--server list-->
+                            <table class="table table-bordered table-hover table-striped  table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>主机组</th>
+                                    <th>主机</th>
+                                </tr>
+                                </thead>
+                                <tbody id="scriptSelectServerTbody">
+                                <!--
+                                <tr>
+                                -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane clearfix" id="scriptParameter">
+                            <div style="float: right;">
+                                <button id="goInit" class="btn-sm btn-success btn" style="">下一步</button>
+                            </div>
+                            <!--script args input-->
+                            <div class="form-horizontal">
+                                <div class="form-group" style="margin-top: 10%;">
+                                    <label class="col-md-1 col-xs-2 control-label">脚本参数</label>
+                                    <div class="col-md-8 col-xs-10">
+                                        <input id="inputScriptParameter" class="form-control" placeholder="请输入脚本执行的参数"
+                                               style="letter-spacing: 3px;border:1px dashed #b0b0b0;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="scriptInit">
                             <div>
+                                <button class="btn btn-success" style="float: right;" disabled>
+                                    <span class="" id="goRun">执行</span>
+                                </button>
+                            </div>
+                            <!--init script  example-->
+                            <!--
+                            <div class="col-md-12 row" >
+                                <label class="control-label  col-md-2">服务器A</label>
+                                <div class="col-md-10 progress progress-striped">
+                                    <div class="progress-bar progress-bar-success" style="width: 80%">100</div>
+                                </div>
                             </div>
                             -->
                         </div>
+                        <div role="tabpanel" class="tab-pane" id="scriptResult">
+                            <button id="scriptResultLoad" class="btn btn-success btn-xs"
+                                    style="margin-bottom: 20px;margin-left: 20px;">
+                                <span class="fa fa-spin fa-refresh"></span>
+                            </button>
+                            <!--script result-->
+                            <div id="showScriptResult">
+                            </div>
+                            <div class="progress progress-striped  ">
+                                <div id="runScriptProgress" class="progress-bar progress-bar-success  "></div>
+                            </div>
+                        </div>
                     </div>
+                </div>
             </div>
         </section>
     </main>
     <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
 
-    <script src="../static/js/headimg.js"></script>
+    <script src="../static/js/auto-line-number.js"></script>
     <script src="../static/js/dropzone.js"></script>
+    <script src="../static/js/jquery-ui.min.js"></script>
+    <script src="../static/js/script.js"></script>
+    <script src="../static/js/headimg.js"></script>
     <script src="../static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
-    <script src="../static/js/fileup.js"></script>
     <script src="../static/js/jquery.menu-aim.js"></script>
-{#    <script src="../static/js/dycontent.js"></script> <!-- Resource jQuery -->#}
     <script src="../static/js/rightpg.js"></script> <!-- Resource jQuery -->
     <script src="../static/js/sidebar-menu.js"></script> <!-- Resource jQuery -->
     <script src="../static/js/velocity.min.js"></script>

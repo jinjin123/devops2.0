@@ -11,7 +11,7 @@
     <script src="../static/js/bootstrap.min.js"></script>
     <style type="text/css">
     *{margin:0;padding:0;list-style-type:none;}
-     a,img{border:0;cursor: hand}a,img{border:0;}
+    a,img{border:0;cursor: hand}
     body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd;}
 
 /* leftsead */
@@ -55,6 +55,7 @@
 		</div> <!-- cd-search -->
 
 		<a href="#0" class="cd-nav-trigger">Menu<span></span></a>
+
 		<nav class="cd-nav">
 			<ul class="cd-top-nav">
                 <a  class="glyphicon glyphicon-bullhorn" href="#0" id="notice"></a>
@@ -104,6 +105,37 @@
             <div id="shadow"
                  style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1006;background: rgba(0,0,0,0.4); "></div>
         </div>
+{#    download error notice    #}
+        <div id="showDownloadNotice"
+             style="z-index: 1004;position: absolute;left: 0px;right: 0px;top:0px;margin: auto;display:none;">
+            <div class="modal  "
+                 style="overflow: visible;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog" style="left: 0px; margin-top: 0px;padding:0px;padding-top: 0px;">
+                    <div class="modal-content " id="">
+                        <div class="modal-header" style="cursor: move;">
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+
+                            <h4 class=" glyphicon  glyphicon-pencil " style="color: green;cursor:pointer;">请输入远程路径</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <span id="showDownloadContent" style="color:red;font-weight:bold;">部分服务器下载失败了不能下载，您可以打包下载成功的部分.</span>
+                        </div>
+                        <div class="modal-footer">
+                            <button style="float: left;" type="button" class="btn btn-default"
+                                    id="closeDownloadFileButton">明白
+                            </button>
+{#                            <button style="float:right; " type="button" class="btn btn-success"#}
+{#                                    id="continueDownloadFileButton">下载#}
+{#                            </button>#}
+{#        TODO: click  download button  时 将绑定 tid 的文件 进行下载 ，这里有bug 后面在修 先隐藏                   #}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#    download error notice  end  #}
 {#    show error  end  #}
       {#   上传头像裁剪 headimg.js& 修改密码    #}
         <div class="box" id="head">
@@ -128,13 +160,13 @@
                 <button class="btn btn-info pwd">
                     <div class="head-pwd">提交</div>
                 </button>
-                <a href="javascript:;" onclick="jQuery('#change_pwd').hide()" class="btn btn-danger pwd">
+                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">
                     <div class="head-pwd-close">关闭</div>
                 </a>
             </div>
         </div>
     {#   fileup  to select server    #}
-        <div class="box" id="file_to_up">
+        <div class="box" id="file_to_down">
             <div class="server_to_select">
                 <a href="javascript:;" onclick="" class="close" id="CloseSelectLink">X</a>
                 <div>
@@ -143,7 +175,7 @@
                     <div style="position:relative;border-top:1px solid #e5e5e5;top:15px;">
                         <div class="modal-body">
                             <div style="height: 40px;">
-                        <span id="fileUploadSelectAllServers" class="glyphicon glyphicon-check"
+                        <span id="fileDownloadSelectAllServers" class="glyphicon glyphicon-check"
                               style="cursor: pointer;font-size: small">&nbsp;全选</span>
                             </div>
                             <table class="table table-bordered table-hover table-striped  table-condensed">
@@ -153,7 +185,7 @@
                                     <th>主机</th>
                                 </tr>
                                 </thead>
-                                <tbody id="uploadFileSelectServerTbody">
+                                <tbody id="downloadFileSelectServerTbody">
                                 <!--
                                 <tr>
                                 -->
@@ -162,7 +194,7 @@
                             <!---->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" id="fileUploadSelectNext"
+                            <button type="button" class="btn btn-success" id="fileDownloadSelectNext"
                                     style="float:right;position: relative;margin-bottom: 10px;">确定
                             </button>
                         </div>
@@ -171,7 +203,7 @@
             </div>
         </div>
 {#   select server next step select remote path     #}
-        <div id="remotePathDIV"
+        <div id="remoteDownloadPathDIV"
              style="z-index: 1004;position: absolute;left: 0px;right: 0px;top:0px;margin: auto;display:none;">
             <div class="modal  "
                  style="overflow: visible;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
@@ -188,7 +220,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">远程路径</label>
                                     <div class="col-sm-8">
-                                        <input id="remotePath" type="text" class="form-control"
+                                        <input id="remoteDownloadPath" type="text" class="form-control"
                                                style="border: dashed 1px lightsteelblue">
                                     </div>
 
@@ -196,9 +228,9 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button style="float: left;" type="button" class="btn btn-primary" id="remotePathAdvance">高级
+                            <button style="float: left;" type="button" class="btn btn-primary" id="remoteDownloadPathAdvance">高级
                             </button>
-                            <button style="float:right; " type="button" class="btn btn-success" id="remotePathFastNext">
+                            <button style="float:right; " type="button" class="btn btn-success" id="remoteDownloadPathFastNext">
                                 快速
                             </button>
                         </div>
@@ -208,50 +240,22 @@
         </div>
    {#   select server next step select remote path  end   #}
 	</header> <!-- .cd-main-header -->
-{#  upload plugin  #}
-    <div id="dropz"
-         style="display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1003;background:white;">
-        <span class="glyphicon glyphicon-remove-sign" id="dumpUploadFile"
-              style="float:right;font-size: 300%;cursor:pointer"></span>
-        <div style="position: absolute;margin: auto;top: 30px; bottom: 30px ;left: 30px; right: 30px;border:2px dashed #b0b0b0;border-radius: 20px;">
-        </div>
-    </div>
-    <div id="uploadFileProgress"
-         style="color: none;font-weight: bold;font-size: 500%;z-index: 1004;width:5%;height:5%;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
-        0%
-    </div>
-{#  upload plugin end #}
-    <!--单个拖动上传-->
-    <div id="independentDropz"
-         style="display:block;position: fixed;  top: 0px; bottom: 0px ;left: 100%; right: 0px; z-index: 1003;background:white;">
-        <span class="glyphicon glyphicon-remove-sign" id="dumpIndependentDropz"
-              style="display: none;float:right;font-size: 300%;cursor:pointer"></span>
-        <div style="position: absolute;margin: auto;top: 30px; bottom: 30px ;left: 30px; right: 30px;border:2px dashed #b0b0b0;border-radius: 20px;">
-
-        </div>
-    </div>
-    <div id="showIndependentProgress"
-         style="color: none;font-weight: bold;font-size: 500%;z-index: 1004;width:5%;height:5%;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
-        0%
-    </div>
-    <!--单个拖动上传-->
 
     <aside class="main-sidebar">
         <section class="sidebar">
             <ul class="sidebar-menu">
                 <li class="content">
-                    <a data-menu="index">
-                        <i class="fa fa-dashboard"></i> <span>仪表盘</span> <i
-                            class="fa fa-angle-left pull-right"></i>
+                    <a   data-menu="index">
+                        <i class="fa fa-dashboard"></i> <span>仪表盘</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                 </li>
                 <li class="content">
-                    <a href="#" data-menu="host_input">
+                    <a  data-menu="host_input">
                         <i class="fa fa-cogs"></i>
                         <span>服务器信息管理</span>
                     </a>
                 </li>
-                <li class="content">
+              <li class="content">
                     <a  onclick="" id='cmd' data-menu="cmd">
                         <i class="fa fa-code"></i> <span>命令执行</span>
                     </a>
@@ -323,8 +327,8 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="content"><a id="fileup" class="selected" data-menu="fileup"><i class="fa fa-circle-o"></i>上传 </a></li>
-                        <li class="content"><a id="filedown" data-menu="filedown"><i class="fa fa-circle-o"></i>下载</a></li>
+                        <li class="content"><a  data-menu="fileup"><i class="fa fa-circle-o"></i>上传 </a></li>
+                        <li class="content"><a  class="selected" data-menu="filedown"><i class="fa fa-circle-o"></i>下载</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -401,20 +405,16 @@
     	</ul>
     </div><!--leftsead end-->
     <main class="cd-main">
-        <section class="cd-section fileup visible">
+        <section class="cd-section filedown visible">
             <div id="index-content" class="cd-content ">
                     <div class="filebtn">
-                            <button class="btn btn-info " id="FileSelectServerButton" >服务器</button>
-                            <button class="btn btn-success " id="startFileUploadButton" disabled>
+                            <button class="btn btn-info " id="fileDownloadSelectServerButton" >服务器</button>
+                            <button class="btn btn-success " id="startFileDownloadButton" disabled>
                                 <span class="glyphicon glyphicon-play-circle"></span>
                             </button>
                     </div>
                     <div style="margin-top: 10px;">
-                        <div class="col-sm-12" id="showLocalServerAndRemoteServerDIV">
-                            <!--每一本地对应的远程
-                            <div>
-                            </div>
-                            -->
+                        <div class="col-sm-12" id="showRemoteDownloadServerDIV">
                         </div>
                     </div>
             </div>
@@ -423,9 +423,9 @@
     <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
 
     <script src="../static/js/headimg.js"></script>
-    <script src="../static/js/dropzone.js"></script>
     <script src="../static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
-    <script src="../static/js/fileup.js"></script>
+    <script src="../static/js/filedown.js"></script>
+{#    <script src="../static/js/server.js"></script>#}
     <script src="../static/js/jquery.menu-aim.js"></script>
 {#    <script src="../static/js/dycontent.js"></script> <!-- Resource jQuery -->#}
     <script src="../static/js/rightpg.js"></script> <!-- Resource jQuery -->

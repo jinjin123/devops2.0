@@ -51,12 +51,13 @@ class SSHControler(object):
             else:
                 raise SSHError(data["content"])
         except Exception, e:
-            print "程序错误", e
+            print "程序错误", e,'54'
             log_content["content"] = str(e)
             log_content = json.dumps(log_content, encoding="utf8", ensure_ascii=False)
-            self.REDIS.rpush(log_name, log_content)
+            self.r.rpush(log_name, log_content)
             ssh_info["content"] = str(e)
             ssh_info["status"] = False
+            print ssh_info,'60'
 
         self.r.incr(current)
         return ssh_info
@@ -71,7 +72,7 @@ class SSHControler(object):
             else:
                 for _line in servers_list:
                     line = json.loads(_line)
-                    if str(ip) == line["ip"]:
+                    if str(ip) ==  line["ip"]  :
                         ssh_info["content"] = line
                         ssh_info["status"] = True
                         break

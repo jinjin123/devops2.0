@@ -81,16 +81,16 @@ DATABASES = {
     }
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://192.168.1.101:6379/1',
-        "OPTIONS": {
-            'DB':0,
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-    },
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://192.168.1.101:6379/1',
+#         "OPTIONS": {
+#             'DB':0,
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         },
+#     },
+# }
 
 
 # Password validation

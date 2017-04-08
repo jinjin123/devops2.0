@@ -1,11 +1,6 @@
 /**
  * Created by wupeijin on 17/3/26.
  */
-$(function(){
-    InitServer();
-})
-
-
 $(function () {
 
     $('#lg_choice').change(function () {
@@ -109,7 +104,12 @@ $(function () {
         var SU = input[7].value;
         var BZ = input[8].value;
         var ID = input[9].value;
-        // console.log(input);
+        if (LG_type == "password"){
+            var lg_type =  "密码方式";
+        } else  {
+            var lg_type = "秘钥方式";
+        }
+        console.log(LG_type);
         if (IP == '' || PORT == '' || USER == ''){
             showErrorInfo();
         }else {
@@ -118,7 +118,7 @@ $(function () {
                 "port": PORT,
                 "group": GROUP,
                 "user": USER,
-                "lg_type": LG_type,
+                "lg_type": lg_type,
                 "key": KEY,
                 "password": PASSWORD,
                 "us_sudo": US_SUDO,
@@ -146,8 +146,7 @@ $(function () {
                         else {
                             showSuccessNotic();
                             CLose_edit_server();
-                            // window.location.href = '/ops/host_input';
-                            // ajax.load('/ops/host_input');
+                            window.location.reload();
                         }
                     }
                 })
@@ -228,7 +227,7 @@ $(function () {
         , height: '300px'
         , supportAjaxPage: true
         , supportSorting: true
-        , ajax_url: '/ops/host_input'
+        , ajax_url: hostInputURL
 //			,ajax_headers: {'header-test': 'baukh'}
         , ajax_type: 'POST'
         , query: {pluginId: 1}
@@ -397,7 +396,8 @@ function EditServer() {
         var SU = td[2].textContent;
         var STATUS = td[1].textContent;
         var BZ = td[0].textContent;
-        console.log(US_SUDO);
+        console.log(td);
+        console.log(LG_type)
 
         document.getElementById("id").value = ID;//ip
         document.getElementById("ip").value = IP;//ip
@@ -418,6 +418,8 @@ function EditServer() {
             $('#choice_lg').css("display", "none");
             $('.key').css("display", "none");
             $('#choice_lg3').css("display", "none");
+            LoginSelect.options[0].textContent = 'password';
+            LoginSelect.options[1].textContent = 'key';
 
         }
         document.getElementById("passwd").value = PASSWORD;
@@ -473,21 +475,13 @@ function DelServer() {
                 else {
                     showSuccessNotic();
                     CLose_edit_server();
-                    // window.location.href = '/ops/host_input';
-                    // ajax.load('/ops/host_input');
+                    window.location.reload(); // del success  will reload  server page;
                 }
             }
 
         })
-        // // document.querySelector('table').GM('refreshGrid',true); //TODO: 目前只能删除当条数据刷新页面重新get 数据
     })
 }
 
-function InitServer(){
-     initGetServersList();
-    document.getElementById("closeButton").onclick = function () {
-        $("#showErrorInfoDIV").hide("fast");
-        document.getElementById("shadow").style.display = "none";
-    }
-}
+
 

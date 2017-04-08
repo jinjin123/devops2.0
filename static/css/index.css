@@ -13,7 +13,7 @@
   right:auto;
   height: 100%;
   width: 90%;
-  overflow-y: auto;
+  /*overflow-y: auto;*/
   padding-left: 70px;
   /* Force Hardware Acceleration */
   -webkit-backface-visibility: hidden;
@@ -104,6 +104,7 @@
 @media only screen and (min-width: 768px) {
   .cd-content {
     padding: 4em 0;
+
   }
   .cd-content p {
     font-size: 1.6rem;
@@ -119,7 +120,7 @@
   position: fixed;
   z-index:2;
   left: 9%;
-  width: 12px;
+  width: 8px;
   visibility: hidden;
    /*Force Hardware Acceleration*/
   -webkit-backface-visibility: hidden;

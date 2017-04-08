@@ -16,7 +16,7 @@
     <script src="../static/js/bootstrap.min.js"></script>
     <style type="text/css">
     *{margin:0;padding:0;list-style-type:none;}
-    a,img{border:0;}
+     a,img{border:0;cursor: hand}
     body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd;}
     #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
     *html #leftsead{margin-top:258px;position:absolute;}
@@ -114,53 +114,17 @@
                 <a href="/login" class="glyphicon glyphicon-share" id="out"></a>
 				<li class="has-children account">
 					<a href="#0">
-{#						<img src={{ head }} alt="avatar">#}
                         <img src={{ head }} >
-                        {{ user }}  {#  不定义名字样式会乱掉 #}
+                        {{ user }}
 					</a>
 				</li>
 			</ul>
 		</nav>
-        <div class="  glyphicon glyphicon-ok  alert alert-success" id="showSuccessNotic"
-         style="position:fixed;left: 40%;right: 40%;z-index: 1004;top: 10%;font-size:small;display: none;"> 操作成功!
-        </div>
-        <div id="loadPic"
-             style="text-align: center;padding: 10px;color: white;font-weight:bold   ;border-radius:8px;background: rgba(0,0,0,0.5);z-index: 1004;width: 200px;height:40px;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
-            <i class="fa fa-refresh fa-spin"></i>
-            <span style="letter-spacing: 4px;">请稍后...</span>
-        </div>
-        <div id="showErrorInfoDIV"
-     style="z-index: 1005;display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ;">
-
-
-        <div style="width:auto;height: 200px;position: fixed;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
-             id="">
-            <div class="modal "
-                 style="overflow:hidden;overflow-y:hidden;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
-                <div class="modal-dialog">
-                    <div class="modal-content  ">
-                        <div class="modal-header" style="cursor: move;">
-
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-
-                            <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
-                        </div>
-
-                        <div class="modal-body  ">
-                            <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">请确认您的内容?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal" id="closeButton">好的
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+{#      show error  #}
             <div id="shadow"
      style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1003;background: rgba(0,0,0,0.4); "></div>
-
         </div>
+{#   show error  end     #}
 {#   上传头像裁剪 headimg.js& 修改密码    #}
         <div class="box" id="head">
             <div class="head_box">
@@ -185,7 +149,7 @@
                 <button class="btn btn-info pwd">
                     <div class="head-pwd">提交</div>
                 </button>
-                <a href="javascript:;" onclick="jQuery('#change_pwd').hide()" class="btn btn-danger pwd">
+                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">
                     <div class="head-pwd-close">关闭</div>
                 </a>
             </div>
@@ -193,14 +157,14 @@
 {#   todo     #}
         <div class="" id="action_true">
             <div class="pwd_box">
-                <a href="javascript:;" onclick="jQuery('#change_pwd').hide()" class="btn btn-danger pwd">
+                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">
                     <div class="head-pwd-close">关闭</div>
                 </a>
             </div>
         </div>
         <div class="" id="action_false">
             <div class="pwd_box">
-                <a href="javascript:;" onclick="jQuery('#change_pwd').hide()" class="btn btn-danger pwd">
+                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">
                     <div class="head-pwd-close">关闭</div>
                 </a>
             </div>
@@ -208,7 +172,7 @@
 {#   fileup  to select server    #}
         <div class="box" id="file_to_up">
             <div class="server_to_select">
-                <a href="javascript:;" onclick="jQuery('#file_to_up').hide()" class="close">关闭</a>
+                <a href="javascript:;" onclick="$('#file_to_up').hide()" class="close">关闭</a>
                 <div>
                     <div class="container"></div>
                     <button class="btn btn-info head" onclick="head_img(this)">提交</button>
@@ -218,7 +182,7 @@
 {#   添加主机     #}
         <div class="box" id="im_host">
             <div class="im_host_box">
-                <a href="javascript:;" onclick="jQuery('#im_host').hide()" class="close" id="close_edit">关闭</a>
+                <a href="javascript:;" onclick="$('#im_host').hide()" class="close" id="close_edit">关闭</a>
                 <div>
                     <div class="glyphicon glyphicon-edit " style="top:20px;left: 10px;">编辑服务器配置</div><br><br>
                      <div style="position:relative;border-top:2px dashed #e5e5e5;top:30px;">
@@ -286,8 +250,6 @@
                 </div>
             </div>
         </div>
-{#    <a href="javascript:;" onclick="jQuery('#set').show()" class="show">显示</a>#}
-{#    <a href="javascript:;" onclick="jQuery('#b2').show()" class="show">显示</a>#}
 	</header> <!-- .cd-main-header -->
 
     <aside class="main-sidebar">
@@ -298,8 +260,6 @@
                         <i class="fa fa-dashboard"></i> <span>仪表盘</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-{#                        <li><a href="#base1" id="base" onclick="document.getElementById('base1').style.display='block'"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>#}
-{#                        <li><a href="#base3" id="base2"  onclick="document.getElementById('base3').style.display='block'"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>#}
                         <li><a href="#0" id="base" class="" data-menu="index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
                         <li><a href="#0"  class=""  data-menu="service"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
                     </ul>
@@ -535,16 +495,5 @@
 
     </script>
 
-{#    <script type="application/javascript">#}
-{#    function test() {#}
-{#        a = $(this).parent().parent().find("td")#}
-{#        console.log(a);#}
-{#        $('td #edit-server').click(function () {#}
-{#            alert("aa");#}
-{#            a = $('td #edit-server').parent().parent().children().prev()#}
-{#            console.log(a);#}
-{#        })#}
-{#    }#}
-{#    </script>#}
 
 {% endblock %}

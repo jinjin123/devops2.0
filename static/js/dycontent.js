@@ -5,7 +5,8 @@ jQuery(document).ready(function($){
 		newScaleValue = 1;
 
 	//cache DOM elements
-	var dashboard = $('.treeview-menu'),
+	var dashboard = $('.content'),
+	    // dashboard = $('.treeview-menu'),
 		mainContent = $('.cd-main'),
 		loadingBar = $('#cd-loading-bar');
 

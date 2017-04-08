@@ -1,9 +1,6 @@
 /**
  * Created by wupeijin on 17/3/28.
  */
-$(function(){
-    InitServer();
-})
 
 function FileUpSelectServer (){
     document.getElementById("shadow").style.display="block";
@@ -23,7 +20,6 @@ function FileUpSelectServer (){
     var  selectServerTbody = document.getElementById("uploadFileSelectServerTbody");
     for (var i = 0; i < hostGroups.length; i++) {
         group = hostGroups[i];
-        // console.log(group);
         //ioop  group  , if group <-> host  , view
         var tr = document.createElement("tr"); // everyline  group |  host A, B
         var td = document.createElement("td"); //group | host A，B
@@ -31,7 +27,7 @@ function FileUpSelectServer (){
         groupSpan.className = "glyphicon glyphicon-check"//default hook，hostgroup
         groupSpan.style.cursor = "pointer";
         groupSpan.style.fontSize = "small";
-        groupSpan.innerHTML = "&nbsp" + hostGroups[i];//value
+        groupSpan.innerHTML =  hostGroups[i];//value
         groupSpan.setAttribute("value", hostGroups[i]);//value -> class
         groupSpan.onclick = function () {
             if ($(this).hasClass("glyphicon-check")) {
@@ -385,29 +381,7 @@ function remotePathNextButton(model){
     document.getElementById("shadow").style.display="none";
 }
 
-function InitServer(){
-     initGetServersList();
-    document.getElementById("closeButton").onclick = function () {
-        $("#showErrorInfoDIV").hide("fast");
-        document.getElementById("shadow").style.display = "none";
-    }
-}
 
-function initGetServersList() {
-    jQuery.ajax({
-        "url": loadServerListURL,
-        // "dataType": "json",
-        "success": function (data) {
-            if (!responseCheck(data)) {
-                showErrorInfo(data.content);
-            }
-            else {
-                window.allServersList = responseCheck(data);
-                console.log('GET server success');
-            }
-        },
-    });
-}
 
 //transfer args for setTimeout ,because default setTime doesn't  take args
 function _getFileTransProgress(tid,progressBar,progressSpan){

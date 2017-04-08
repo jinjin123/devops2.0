@@ -21,13 +21,10 @@ class SSHFileTransfer(object):
         ssh_info = {"status": False, "content": ""}
         try:
             ssh = paramiko.Transport((self.ip, int(self.port)))
-            if lg_type == "password":
-                ssh.connect(username=self.user, password=self.password)
+            if lg_type == '密码方式':
+                ssh.connect(username=self.username, password=self.password)
             else:
-                if self.keyfile :
-                    key = paramiko.RSAKey.from_private_key_file(self.keyfile)
-                else:
-                    key = paramiko.RSAKey.from_private_key_file(self.keyfile)
+                key = paramiko.RSAKey.from_private_key_file(self.keyfile)
                 ssh.connect(username=self.username, pkey=key)
             sftp = paramiko.SFTPClient.from_transport(ssh)
             self.ssh = ssh
@@ -49,10 +46,9 @@ class SSHFileTransfer(object):
             else:
                 ssh_info["content"] = "认证类型应该是秘钥"
         except Exception, e:
-            print (e)
-            print "报错信息", str(e)
+            ssh_info["content"] = str(e)
             ssh_info["status"] = False
-            print ssh_info
+            print ssh_info,'55'
         return ssh_info
 
     def upload(self, local_file='', remote_file='', tid=""):
@@ -97,10 +93,10 @@ class SSHFileTransfer(object):
                 ssh_info["content"] = str(e)
             ssh_info["status"] = False
             ssh_info["tid"] = tid
-            # r.set("progress.%s" % tid, json.dumps(ssh_info, encoding="utf8", ensure_ascii=False))
         return ssh_info
 
     def download(self, remote_file='', local_file='', tid=""):
+        print remote_file,local_file,tid,'103'
         transfer_type = "download"
         self.transfer_type = "download"
         ssh_info = {"status": False, "content": ""}
@@ -235,13 +231,9 @@ class SSHFileTransfer(object):
     def write_filecontent(self, filename, content):
         ssh_info = {"content": "", "status": False}
         try:
-            print 111111, filename, content
-            a = self.sftp.open(filename, "w")
-            print 22222222222
-            a.write(content)
-            print 3333333333
-            a.close()
-            print 4444444444
+            content = self.sftp.open(filename, "w")
+            content.write(content)
+            content.close()
             ssh_info["status"] = True
         except Exception, e:
             ssh_info["status"] = False

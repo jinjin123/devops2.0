@@ -26,6 +26,7 @@ html,body{
 	width:100%;
 	height:100%;
 	background:#5BA4FF;
+	overflow: hidden;
     background-image: url("../img/lgbk.jpg");
 }
 
