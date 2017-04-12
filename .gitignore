@@ -5,6 +5,6 @@ upload/
 script/
 keys/
 download/
-devops/db.sqlite3
+db.*
 
 

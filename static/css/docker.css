@@ -1,0 +1,27 @@
+#showCreateDiv{
+    margin: 40px;
+}
+.docker_des{
+    float: none;
+    /* display: inline; */
+    vertical-align: top;
+    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 100px 0 0;
+}
+.docker_add{
+    left: 17%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 20%;
+    text-indent: 10px;
+    font-size: 10px;
+    position: relative;
+    display: block;
+    top: -30px;
+}
+.laber_choise{
+    position: relative;
+    top:-30px;
+}

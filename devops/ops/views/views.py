@@ -20,6 +20,7 @@ from ssh_file import File
 from ssh_script import SSHScript
 from crontab_controler import  SSHCrontabControler
 from remote_file import  RemoteFile
+# from docker import  docker
 import ssh_modol_controler,threading,cpu,mem,hashlib,datetime,redis,random,commands,time
 import simplejson as json
 import demjson
@@ -226,7 +227,7 @@ def filetrans_upload(request):
             parameters = json.loads(parameters)
             print type(parameters["ip"])
         except Exception, e:
-            raise SSHError(e)
+            raise Exception(e)
 
         r.set("progress.%s" % tid, json.dumps(data, encoding="utf8", ensure_ascii=False))
         if not parameters.has_key("sfile") or not parameters.has_key("dfile"): raise  ('aaaa not keys')
@@ -268,16 +269,16 @@ def remote_download(request):
         try:
             parameters = json.loads(parameters)
         except Exception, e:
-            raise SSHError("CHB0000000008")
-        if not type(parameters) == type({}): raise SSHError("not parameter args")
+            raise Exception(e)
+        if not type(parameters) == type({}): raise Exception("not parameter args")
 
         data = {"tid": tid, "progress": 0, "content": "", "status": True}
         r.set("progress.%s" % tid, json.dumps(data, encoding="utf8", ensure_ascii=False))
 
-        if not parameters.has_key("sfile"): raise SSHError("no such sfile")
+        if not parameters.has_key("sfile"): raise Exception("no such sfile")
         sfile = parameters["sfile"]
         host = ssh_modol_controler.SSHControler().convert_id_to_ip(parameters["ip"])
-        if not host["status"]: raise SSHError(host['content'])
+        if not host["status"]: raise Exception(host['content'])
         host = host['content']
         ip = host["ip"]
         dfile_name = "{ip}.{tid}.{filename}".format(ip=ip, tid=tid,
@@ -285,7 +286,7 @@ def remote_download(request):
         dfile_full_path = os.path.join(ssh_settings.download_dir, dfile_name)
         sftp = SSHFileTransfer()
         login = sftp.login(**host)
-        if not login["status"]: raise SSHError(login["content"])
+        if not login["status"]: raise Exception(login["content"])
         t = threading.Thread(target=sftp.download, args=(sfile, dfile_full_path, tid))
         t.start()
 
@@ -308,15 +309,15 @@ def create_tgz_pack(request):
         try:
             files = json.loads(files)
         except Exception, e:
-            raise SSHError("CHB0000000020")
-        if not type(files) == type([]): raise SSHError("not file")
+            raise Exception(e)
+        if not type(files) == type([]): raise Exception("not file")
 
         os.chdir(ssh_settings.download_dir)
         filename = "%s.tgz" % tid
         cmd = "tar zcvf {filename} {files}".format(filename=filename, files=" ".join(files))
         data = commands.getstatusoutput(cmd)
         if data[0]:
-            raise SSHError("打包失败", data[1])
+            raise Exception("打包失败", data[1])
         else:
             server_head = request.META['HTTP_HOST']
             url = os.path.join(ssh_settings.download_file_url, filename)
@@ -335,16 +336,16 @@ def execute_command(request):
             id = str(random.randint(90000000000000000000, 99999999999999999999))
             parameter = request.POST.get("parameters") or request.GET.get("parameters")
             if not parameter:
-                raise SSHError("not parameter")
+                raise Exception("not parameter")
             try:
                 parameter = json.loads(parameter)
             except:
-                raise SSHError("json parameter error")
+                raise Exception("json parameter error")
             try:
                 servers = parameter["servers"]
                 cmd = parameter["cmd"]
             except:
-                raise SSHError("not servers and cmd args")
+                raise Exception("not servers and cmd args")
 
             parameter["tid"] = id
             SSHThread = SSHThreadAdmin()
@@ -389,7 +390,7 @@ def get_command_result(request):
                 else:
                     progress = "%0.2f" % (float(current) / float(total) * 100)
             except Exception, e:
-                raise SSHError("progress get bad")
+                raise Exception("progress get bad")
 
             ssh_info["progress"] = progress
             log_name = "log.%s.%s" % (tid, ip)
@@ -426,7 +427,7 @@ def upload_script(request):
     ssh_info = {"status": False, "content": ""}
     if request.method == "POST":
         try:
-            if len(r.hgetall("scripts")) >= 9: raise SSHError("scripts")
+            if len(r.hgetall("scripts")) >= 9: raise Exception("scripts")
             filename = str(request.FILES.get("file"))
             _data = r.hget("scripts", filename)
             if _data is None:
@@ -434,7 +435,7 @@ def upload_script(request):
             else:
                 data = json.loads(_data)
                 if filename == data["script"]:
-                    raise SSHError("您的操作不被允许!存在同名脚本!")
+                    raise Exception("您的操作不被允许!存在同名脚本!")
             file_content = request.FILES.get('file').read()
             script = os.path.join(ssh_settings.script_dir, filename)
             with open(script.encode('utf8'), "wb") as f:
@@ -479,7 +480,7 @@ def write_script_content(request):
 	filename=os.path.basename(_filename)
 	filecontent=request.POST.get("content")
 	try:
-		if len(r.hgetall("scripts"))>=9:raise SSHError("scripts")
+		if len(r.hgetall("scripts"))>=9:raise Exception("scripts")
 		full_path=os.path.join(ssh_settings.script_dir,filename)
 		if not filecontent.endswith("\n"):
 			filecontent="%s\n" %filecontent
@@ -492,7 +493,7 @@ def write_script_content(request):
 		else:
 			data=json.loads(_data)
 			if filename==data["script"]:
-				raise SSHError("您的操作不被允许!存在同名脚本!")
+				raise Exception("您的操作不被允许!存在同名脚本!")
 		ssh_info["content"]={
 			"script":_filename,
 			"time":time.strftime('%Y-%m-%d %H:%M:%S',time.localtime()),
@@ -620,8 +621,8 @@ def delete_keyfile(request):
         try:
             parameters = json.loads(parameters)
         except Exception, e:
-            raise SSHError("json parameters error")
-        if not type({}) == type(parameters): raise SSHError("not parameters")
+            raise Exception("json parameters error")
+        if not type({}) == type(parameters): raise Exception("not parameters")
         filename = parameters["filename"]
         full_path = os.path.join(ssh_settings.keyfile_dir, filename)
         if not os.path.isfile(full_path):
@@ -659,6 +660,75 @@ def upload_keyfile(request):
         line = json.dumps(line, encoding="utf8", ensure_ascii=False)
         r.rpush("keyfile.list", line)
     return ssh_info
+
+@ajax_http
+def docker_repo(request):
+    info = {"status": True, "content": ""}
+    if request.method == "POST":
+        print request.body
+        try:
+            parameters = request.POST.get("parameters")
+        except Exception,e:
+            print e,
+        try:
+            parameters = json.loads(parameters)
+            parameters.update({"time":time.strftime('%Y-%m-%d %H:%M:%S')})
+            # parameters = json.dumps(parameters)
+            # r.lpush("docker_repo",parameters)
+            r.hset("docker_repo",parameters["address"],json.dumps(parameters))
+            info["status"]  = True
+            info["content"] = ''
+        except Exception,e:
+             info["status"]  = ''
+             info["content"] = str(e)
+             print info
+
+        return info
+
+@ajax_http
+def docker_repo_list(request):
+    info = {"status": True, "content": ""}
+    try:
+        repo_list = r.hvals("docker_repo") ###array
+        if repo_list == []:
+            print repo_list
+            raise Exception("仓库为空")
+        else:
+            for h in repo_list:
+                Repo_list = h
+
+        info["status"]  = True
+        info["content"] = json.loads(Repo_list)
+
+    except Exception,e:
+        info["status"] = False
+        info["content"] = str(e)
+
+    return info
+
+@ajax_http
+def docker_repo_del(request):
+    info = {"status": True, "content": ""}
+    reponame = request.GET.get("addname")
+    try:
+        data = r.hget("docker_repo",reponame) ###array
+        if data is None:
+            pass
+        else:
+            data=json.loads(data)
+            if reponame==data["address"]:
+                r.hdel("docker_repo",reponame)
+
+        info["status"]  = True
+    except Exception,e:
+        info["status"] = False
+        info["content"] = str(e)
+
+    return info
+
+
+def docker(request):
+    return render(request,"docker_repo.html",{"user":request.session.get('username'),"head":img})
 
 def PushCode(request):
     return  render(request,'pushcode.html',{"user":request.session.get('username'),"head":img})
