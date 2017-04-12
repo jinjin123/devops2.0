@@ -30,6 +30,9 @@ var writeRemoteFileContentURL = "/ops/write_remote_file_opt/";
 var keyAdminURL =  "/ops/show_keyfile_list/";
 var deleteKeyFileURL = "/ops/delete_keyfile/";
 var uploadKeyFileURL = "/ops/upload_keyfile/";
+var SubmitRepoURL = "/ops/docker_repo_list";
+var LoadRepoListContentURL = "/ops/docker_repo_content";
+var deleteRepotURL = "/ops/docker_repo_del"
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;
@@ -39,7 +42,7 @@ function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
         content = "内部系统错误";
     }
     else if (content.match("Access.*denied")) {
-        content = "内部系统错";
+        content = "内部系统错误";
     }
     else if (/Error 111 connecting to.*Connection refused/.test(content)) {
         content = "内部系统错误";
@@ -186,7 +189,10 @@ $(function(){
     $('#filedown').click(function () {
         window.location.href = '/ops/filedown';
     });
-    $('#remote_doc').click(function () {
-        window.location.href = '/ops/remote_doc';
+    $('#remotefile').click(function () {
+        window.location.href = '/ops/remotefile';
+    });
+    $('#docker_repo').click(function () {
+        window.location.href = '/ops/docker_repo';
     });
 })

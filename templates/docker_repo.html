@@ -1,18 +1,10 @@
-{% extends "index_base.html" %}
+{% extends "index.html" %}
 {% block meta %}
-    <link rel="stylesheet" href="../static/css/reset.css"> <!-- CSS reset -->
-	<link rel="stylesheet" type="text/css" href="../static/css/default.css">
-	<link rel="stylesheet" href="../static/css/style.css"> <!-- Resource style -->
-    <link rel="stylesheet" href="../static/css/sidebar-menu.css">
-      <link href="../static/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <link rel="stylesheet" href="../static/css/headimg.css">
-    <script src="../static/js/bootstrap.min.js"></script>
+    <link href="../static/css/docker.css" rel="stylesheet">
     <style type="text/css">
     *{margin:0;padding:0;list-style-type:none;}
     a,img{border:0;cursor: hand}
     body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd;}
-
 /* leftsead */
     #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
     *html #leftsead{margin-top:258px;position:absolute;}
@@ -46,38 +38,12 @@
         border-radius: 4px;
     }
     </style>
-
 {% endblock %}
 
 
-{% block content %}
 	<header class="cd-main-header">
-		<a href="#0" class="cd-logo"><img src="../static/img/logo.jpeg" alt="Logo"></a>
+        {% block ext %}
 
-		<div class="cd-search is-hidden">
-			<form action="#0">
-				<input type="search" placeholder="Search...">
-			</form>
-		</div> <!-- cd-search -->
-
-		<a href="#0" class="cd-nav-trigger">Menu<span></span></a>
-
-		<nav class="cd-nav">
-			<ul class="cd-top-nav">
-{#				<li  class="glyphicon glyphicon-bullhorn"><a  class="" href="#0"></a></li>#}
-{#				<li class="glyphicon glyphicon-envelope"><a href="#0"></a></li>#}
-                <a  class="glyphicon glyphicon-bullhorn" href="#0" id="notice"></a>
-                <a class=" glyphicon glyphicon-envelope" href="#1" id="mail"></a>
-                <a href="javascript:;" onclick="jQuery('#head').show()"  class="glyphicon glyphicon-cog show" id="set"></a>
-                <a href="/ops/logout" class="glyphicon glyphicon-share" id="out"></a>
-				<li class="has-children account">
-					<a href="#0">
-                        <img src={{ head }} >
-                        {{  user }}
-					</a>
-				</li>
-			</ul>
-		</nav>
 {#   loadding  pic     #}
         <div id="loadPic"
              style="text-align: center;padding: 10px;color: white;font-weight:bold   ;border-radius:8px;background: rgba(0,0,0,0.5);z-index: 1004;width: 200px;height:40px;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
@@ -154,168 +120,8 @@
             <div id="showScriptProgressText" class="progress-bar  progress-bar-success active">
             </div>
         </div>
-      {#   上传头像裁剪 headimg.js& 修改密码    #}
-        <div class="box" id="head">
-            <div class="head_box">
-                <a href="javascript:;" onclick="jQuery('#head').hide()" class="close">关闭</a>
-                <div>
-                    <a href="javascript:;" class="file">上传头像
-                        <input id="hd_img_in" type="file" class="" accept="images/*">
-                    </a>
-                    <div class="container"></div>
-                    <button class="btn btn-info head" onclick="head_img(this)">提交</button>
-                    <a href="javascript:;" onclick="jQuery('.pwd_box').css('display','block')" class="btn btn-info cg-bt ">
-                        <div class="cg-pwd">更改密码</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-           <div class="" id="change_pwd">
-            <div class="pwd_box">
-                <input placeholder="修改密码" name="password" value size="30" maxlength="30" type="password" class=""
-                       id="" style="border-radius: 10px;">
-                <button class="btn btn-info pwd">
-                    <div class="head-pwd">提交</div>
-                </button>
-                <a href="javascript:;" onclick="jQuery('#change_pwd').hide()" class="btn btn-danger pwd">
-                    <div class="head-pwd-close">关闭</div>
-                </a>
-            </div>
-        </div>
+            {% endblock %}
 	</header> <!-- .cd-main-header -->
-
-    <aside class="main-sidebar">
-        <section class="sidebar">
-            <ul class="sidebar-menu">
-                <li class="content">
-                        <a   data-menu="index" >
-                            <i class="fa fa-dashboard"></i> <span>仪表盘</span> <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                    </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-files-o"></i>
-                        <span>服务器信息管理</span>
-                    </a>
-                    <ul class="treeview-menu" style="display: none;">
-                        <li><a href="#" id="base3" data-menu="host_input"><i class="fa fa-circle-o"></i> 服务器配置</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                        <li class=""><a href="#"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="content">
-                    <a onclick="" id='cmd'  data-menu="cmd">
-                        <i class="fa fa-terminal"></i> <span>命令执行</span>
-                    </a>
-                </li>
-                <li class="content">
-                    <a onclick="" id='script'   data-menu="script">
-                        <i class="fa fa-superscript"></i> <span>脚本管理</span>
-                    </a>
-                </li>
-               <li class="content">
-                    <a id="crond" data-menu="crond" >
-                        <i class="fa fa-history"></i><span>计划任务</span>
-                    </a>
-                </li>
-                <li class="content">
-                    <a id="key" data-menu="UploadKey" class="selected" >
-                        <i class="fa fa-key"></i><span>秘钥管理</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-laptop"></i>
-                        <span>UI Elements</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> General</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Icons</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Buttons</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Sliders</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Timeline</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Modals</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-edit"></i> <span>Forms</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> General Elements</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Editors</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-table"></i> <span>Tables</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Data tables</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-calendar"></i> <span>Calendar</span>
-                        <small class="label pull-right label-danger">3</small>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-envelope"></i> <span>Mailbox</span>
-                        <small class="label pull-right label-warning">12</small>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-folder"></i> <span>文件传输</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="/ops/fileup"  data-menu="fileup"><i class="fa fa-circle-o"></i>上传 </a></li>
-                        <li><a href="/ops/filetrans/download/"  data-menu="filedown"><i class="fa fa-circle-o"></i>下载</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-share"></i> <span>Multilevel</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                        <li>
-                            <a href="#"><i class="fa fa-circle-o"></i> Level One <i
-                                    class="fa fa-angle-left pull-right"></i></a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o"></i> Level Two <i
-                                            class="fa fa-angle-left pull-right"></i></a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                    </ul>
-                </li>
-                <li><a href="#"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-{#                <li class="header">LABELS</li>#}
-{#                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>#}
-{#                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>#}
-{#                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>#}
-            </ul>
-        </section>
-    </aside>
 
 
     <div id="leftsead">
@@ -355,10 +161,12 @@
 	    	</li>
     	</ul>
     </div><!--leftsead end-->
+{% block content %}
     <main class="cd-main">
-        <section class="cd-section UploadKey visible">
+        <section class="cd-section docker_repo visible">
             <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px">
-                <div style="background: white;;height:100%;display: block" id="uploadKeyFileDropz">
+                <div style="background: white;height:100%;display: block" id="CreateDockerRepo">
+                    <div id="MoveCreateDiv">
                     <p class="navbar-form" style="width:100%;margin-bottom:10px;">
                     <div class="input-group" style="padding:10px;z-index: 0;">
                         <input type="text" class="form-control searchValue" placeholder="搜索任意关键字"
@@ -371,34 +179,60 @@
                     </div>
                     </p>
                     <div class="panel-heading" style="z-index: 1;background: white;">
+                        <button class="btn btn-success btn-xs glyphicon glyphicon-plus "
+                                id="CreateRepoDiv">创建镜像仓库</button>
                         <button class="btn btn-default btn-xs glyphicon glyphicon-refresh"
-                                id="refreshKeyFileList"></button>
+                                id="refreshRepoList"></button>
                     </div>
-                    <table class="table table-bordered table-hover table-striped  table-condensed ">
-                        <thead>
-                        <tr>
-                            <th>SSH-KEY</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody id="showKeyFileTbody"></tbody>
-                        <tr>
-                        </tr>
-                    </table>
-                </div>
-                <div id="uploadKeyFileProgress"
-                     style="color: none;font-weight: bold;font-size: 500%;z-index: 1004;width:5%;height:5%;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
-                    0%
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#repo_list" data-toggle="tab">
+                                    仓库列表
+                                </a>
+                            </li>
+                            <li><a href="#img_list" data-toggle="tab">镜像列表</a></li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="repo_list">
+                            <table class="table table-bordered table-hover table-striped  table-condensed ">
+                                <thead>
+                                <tr>
+                                    <th>仓库地址</th>
+                                    <th>创建时间</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="showDockerRepoTbody"></tbody>
+                                <tr>
+                                </tr>
+                            </table>
+                            </div>
+                            <div class="tab-pane fade" id="img_list">
+                                afadfasf
+                            </div>
+                        </div>
+                    </div>
+                    <div id="showCreateDiv" style="display:none;">
+                        <div><button id="GotBack" class="btn btn-default active btn-lg fa fa-reply" style="width:70px;"></button></div>
+                        <div class="docker_des fa fa-heart-o">仓库地址</div> <input id="address" class="docker_add" placeholder="http://1.1.1.1:5000">
+                        <div class="docker_des"  >仓库用户</div> <input id="repo_user" class="docker_add">
+                        <div class="docker_des" >仓库密码</div> <input id="repot_pass" class="docker_add">
+                        <div class="docker_des" >持续集成  支持持续构建</div> <div style="display: flex;">
+                        <input  type="radio" id="supportbuild" class="docker_add" checked="checked"><label class="laber_choise" for="supportbuild">支持</label><input  type="radio" class="docker_add" id="no_support_build"><label class="laber_choise" for="no_support_build">不支持</label></div>
+                        <div>
+                            <button id="CreateRepo" class="btn btn-default  active" disabled="disabled">立即创建</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
     <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
+{% endblock %}
 
-    <script src="../static/js/auto-line-number.js"></script>
-    <script src="../static/js/dropzone.js"></script>
+{% block footer %}
+    <script src="../static/js/docker_repo.js"></script>
     <script src="../static/js/jquery-ui.min.js"></script>
-    <script src="../static/js/uploadKeyFile.js"></script>
     <script src="../static/js/headimg.js"></script>
     <script src="../static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
     <script src="../static/js/jquery.menu-aim.js"></script>
@@ -407,13 +241,6 @@
     <script src="../static/js/velocity.min.js"></script>
     <script>
     $.sidebarMenu($('.sidebar-menu'))
-    </script>
-    <script>
-    $(function (){
-        $('#base').click(function () {
-            window.location.href = '/ops/index';
-        })
-    })
     </script>
 
 {% endblock %}

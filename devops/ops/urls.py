@@ -1,7 +1,5 @@
 from django.conf.urls import url
 from views import views
-from docker import docker
-
 
 urlpatterns = [
     url(r'^login',views.Login,name="login"),
@@ -42,8 +40,13 @@ urlpatterns = [
     url(r'^upload_keyfile',views.upload_keyfile,name="upload_keyfile"),
     url(r'^delete_keyfile',views.delete_keyfile,name="delete_keyfile"),
     url(r'^show_keyfile_list',views.show_keyfile_list,name="show_keyfile_list"),
+
+    url(r'^docker_repo_list',views.docker_repo,name="docker_repo"),
+    url(r'^docker_repo_content',views.docker_repo_list,name="docker_repo_list"),
+    url(r'^docker_repo_del',views.docker_repo_del,name="docker_repo_del"),
+    url(r'^docker_repo',views.docker,name="docker"),
+
     url(r'^script',views.script,name="script"),
-    url(r'^docker_repo',docker.docker_repo,name="docker_repo"),
     url(r'^PushCode',views.PushCode,name="PushCode"),
     url(r'^UploadKey',views.UploadKey,name="UploadKey"),
     url(r'^remotefile',views.remotefile,name="remotefile"),

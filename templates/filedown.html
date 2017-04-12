@@ -1,19 +1,9 @@
-{% extends "index_base.html" %}
+{% extends "index.html" %}
 {% block meta %}
-    <link rel="stylesheet" href="../static/css/reset.css"> <!-- CSS reset -->
-	<link rel="stylesheet" type="text/css" href="../static/css/default.css">
-	<link rel="stylesheet" href="../static/css/style.css"> <!-- Resource style -->
-    <link rel="stylesheet" href="../static/css/sidebar-menu.css">
-      <link href="../static/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <link rel="stylesheet" href="../static/css/headimg.css">
-    <script src="../static/js/jquery-1.11.2.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
     <style type="text/css">
     *{margin:0;padding:0;list-style-type:none;}
     a,img{border:0;cursor: hand}
     body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd;}
-
 /* leftsead */
     #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
     *html #leftsead{margin-top:258px;position:absolute;}
@@ -44,32 +34,8 @@
 {% endblock %}
 
 
-{% block content %}
 	<header class="cd-main-header">
-		<a href="#0" class="cd-logo"><img src="../static/img/logo.jpeg" alt="Logo"></a>
-
-		<div class="cd-search is-hidden">
-			<form action="#0">
-				<input type="search" placeholder="Search...">
-			</form>
-		</div> <!-- cd-search -->
-
-		<a href="#0" class="cd-nav-trigger">Menu<span></span></a>
-
-		<nav class="cd-nav">
-			<ul class="cd-top-nav">
-                <a  class="glyphicon glyphicon-bullhorn" href="#0" id="notice"></a>
-                <a class=" glyphicon glyphicon-envelope" href="#1" id="mail"></a>
-                <a href="javascript:;" onclick="$('#head').show()"  class="glyphicon glyphicon-cog show" id="set"></a>
-                <a href="/ops/logout" class="glyphicon glyphicon-share" id="out"></a>
-				<li class="has-children account">
-					<a href="#0">
-                        <img src={{ head }} >
-                        {{  user }}
-					</a>
-				</li>
-			</ul>
-		</nav>
+        {% block ext %}
 {#   loadding  pic     #}
         <div id="loadPic"
              style="text-align: center;padding: 10px;color: white;font-weight:bold   ;border-radius:8px;background: rgba(0,0,0,0.5);z-index: 1004;width: 200px;height:40px;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
@@ -137,34 +103,6 @@
         </div>
 {#    download error notice  end  #}
 {#    show error  end  #}
-      {#   上传头像裁剪 headimg.js& 修改密码    #}
-        <div class="box" id="head">
-            <div class="head_box">
-                <a href="javascript:;" onclick="jQuery('#head').hide()" class="close">关闭</a>
-                <div>
-                    <a href="javascript:;" class="file">上传头像
-                        <input id="hd_img_in" type="file" class="" accept="images/*">
-                    </a>
-                    <div class="container"></div>
-                    <button class="btn btn-info head" onclick="head_img(this)">提交</button>
-                    <a href="javascript:;" onclick="jQuery('.pwd_box').css('display','block')" class="btn btn-info cg-bt ">
-                        <div class="cg-pwd">更改密码</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-           <div class="" id="change_pwd">
-            <div class="pwd_box">
-                <input placeholder="修改密码" name="password" value size="30" maxlength="30" type="password" class=""
-                       id="" style="border-radius: 10px;">
-                <button class="btn btn-info pwd">
-                    <div class="head-pwd">提交</div>
-                </button>
-                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">
-                    <div class="head-pwd-close">关闭</div>
-                </a>
-            </div>
-        </div>
     {#   fileup  to select server    #}
         <div class="box" id="file_to_down">
             <div class="server_to_select">
@@ -239,131 +177,8 @@
             </div>
         </div>
    {#   select server next step select remote path  end   #}
+            {% endblock %}
 	</header> <!-- .cd-main-header -->
-
-    <aside class="main-sidebar">
-        <section class="sidebar">
-            <ul class="sidebar-menu">
-                <li class="content">
-                    <a   data-menu="index">
-                        <i class="fa fa-dashboard"></i> <span>仪表盘</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                </li>
-                <li class="content">
-                    <a  data-menu="host_input">
-                        <i class="fa fa-cogs"></i>
-                        <span>服务器信息管理</span>
-                    </a>
-                </li>
-              <li class="content">
-                    <a  onclick="" id='cmd' data-menu="cmd">
-                        <i class="fa fa-code"></i> <span>命令执行</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-pie-chart"></i>
-                        <span>Charts</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Morris</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Flot</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Inline charts</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-laptop"></i>
-                        <span>UI Elements</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> General</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Icons</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Buttons</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Sliders</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Timeline</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Modals</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-edit"></i> <span>Forms</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> General Elements</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Editors</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-table"></i> <span>Tables</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Data tables</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-calendar"></i> <span>Calendar</span>
-                        <small class="label pull-right label-danger">3</small>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-envelope"></i> <span>Mailbox</span>
-                        <small class="label pull-right label-warning">12</small>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-folder"></i> <span>文件传输</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="content"><a  data-menu="fileup"><i class="fa fa-circle-o"></i>上传 </a></li>
-                        <li class="content"><a  class="selected" data-menu="filedown"><i class="fa fa-circle-o"></i>下载</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-share"></i> <span>Multilevel</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                        <li>
-                            <a href="#"><i class="fa fa-circle-o"></i> Level One <i
-                                    class="fa fa-angle-left pull-right"></i></a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o"></i> Level Two <i
-                                            class="fa fa-angle-left pull-right"></i></a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                    </ul>
-                </li>
-                <li><a href="#"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-{#                <li class="header">LABELS</li>#}
-{#                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>#}
-{#                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>#}
-{#                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>#}
-            </ul>
-        </section>
-    </aside>
 
 
     <div id="leftsead">
@@ -404,6 +219,7 @@
 	    	</li>
     	</ul>
     </div><!--leftsead end-->
+{% block content %}
     <main class="cd-main">
         <section class="cd-section filedown visible">
             <div id="index-content" class="cd-content ">
@@ -421,7 +237,9 @@
         </section>
     </main>
     <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
+    {% endblock %}
 
+{% block footer %}
     <script src="../static/js/headimg.js"></script>
     <script src="../static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
     <script src="../static/js/filedown.js"></script>
@@ -433,13 +251,6 @@
     <script src="../static/js/velocity.min.js"></script>
     <script>
     $.sidebarMenu($('.sidebar-menu'))
-    </script>
-    <script>
-    $(function (){
-        $('#base').click(function () {
-            window.location.href = '/ops/index';
-        })
-    })
     </script>
 
 {% endblock %}

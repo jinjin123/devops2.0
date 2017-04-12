@@ -101,7 +101,7 @@ function deleteKeyFile(team){
     var tr=$(td).parent();
     var data={"filename":filename};
     data=JSON.stringify(data);
-    jQuery.ajax({
+    $.ajax({
         "url":deleteKeyFileURL,
         "dataType":"jsonp",
         "data":{"parameters":data},
