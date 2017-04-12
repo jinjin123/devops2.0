@@ -186,7 +186,7 @@ $(function(){
     $('#filedown').click(function () {
         window.location.href = '/ops/filedown';
     });
-    $('#remote_doc').click(function () {
-        window.location.href = '/ops/remote_doc';
+    $('#remotefile').click(function () {
+        window.location.href = '/ops/remotefile';
     });
 })
