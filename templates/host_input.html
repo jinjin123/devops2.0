@@ -1,19 +1,9 @@
-{% extends "index_base.html" %}
+{% extends "index.html" %}
 {% block meta %}
-    <link rel="stylesheet" href="../static/css/reset.css"> <!-- CSS reset -->
-	<link rel="stylesheet" type="text/css" href="../static/css/default.css">
-	<link rel="stylesheet" href="../static/css/style.css"> <!-- Resource style -->
-    <link href="../static/fonts/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/sidebar-menu.css">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <link rel="stylesheet" href="../static/css/headimg.css">
     <link rel="stylesheet" href="../static/css/GridManager.css">
     <link rel="stylesheet" href="../static/css/demo.css">
     <link rel="stylesheet" href="../static/css/uploader.css">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script language="javascript" type="text/javascript" src="../static/js/GridManager.js"></script>
-    <script src="../static/js/jquery-1.11.2.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
     <style type="text/css">
     *{margin:0;padding:0;list-style-type:none;}
      a,img{border:0;cursor: hand}
@@ -88,97 +78,30 @@
 		}
     </style>
 
-{% endblock %}
+{% endblock meta %}
 
-
-{% block content %}
 	<header class="cd-main-header">
-		<a href="#0" class="cd-logo"><img src="../static/img/logo.jpeg" alt="Logo"></a>
-
-		<div class="cd-search is-hidden">
-			<form action="#0">
-				<input type="search" placeholder="Search...">
-			</form>
-		</div> <!-- cd-search -->
-
-		<a href="#0" class="cd-nav-trigger">Menu<span></span></a>
-
-		<nav class="cd-nav">
-			<ul class="cd-top-nav">
-{#				<li  class="glyphicon glyphicon-bullhorn"><a  class="" href="#0"></a></li>#}
-{#				<li class="glyphicon glyphicon-envelope"><a href="#0"></a></li>#}
-                <a  class="glyphicon glyphicon-bullhorn" href="#0" id="notice"></a>
-                <a class=" glyphicon glyphicon-envelope" href="#1" id="mail"></a>
-                <a href="javascript:;" onclick="jQuery('#head').show()"  class="glyphicon glyphicon-cog show" id="set"></a>
-{#       load 下面的box         #}
-                <a href="/login" class="glyphicon glyphicon-share" id="out"></a>
-				<li class="has-children account">
-					<a href="#0">
-                        <img src={{ head }} >
-                        {{ user }}
-					</a>
-				</li>
-			</ul>
-		</nav>
+        {% block ext %}
 {#      show error  #}
             <div id="shadow"
      style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1003;background: rgba(0,0,0,0.4); "></div>
         </div>
 {#   show error  end     #}
-{#   上传头像裁剪 headimg.js& 修改密码    #}
-        <div class="box" id="head">
-            <div class="head_box">
-                <a href="javascript:;" onclick="jQuery('#head').hide()" class="close">关闭</a>
-                <div>
-                    <a href="javascript:;" class="file">上传头像
-                        <input id="hd_img_in" type="file" class="" accept="images/*">
-                    </a>
-                    <div class="container"></div>
-                    <button class="btn btn-info head" onclick="head_img(this)">提交</button>
-                    <a href="javascript:;" onclick="jQuery('.pwd_box').css('display','block')" class="btn btn-info cg-bt ">
-                        <div class="cg-pwd">更改密码</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-{#    修改密码    #}
-        <div class="" id="change_pwd">
-            <div class="pwd_box">
-                <input placeholder="修改密码" name="password" value size="30" maxlength="30" type="password" class=""
-                       id="" style="border-radius: 10px;">
-                <button class="btn btn-info pwd">
-                    <div class="head-pwd">提交</div>
-                </button>
-                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">
-                    <div class="head-pwd-close">关闭</div>
-                </a>
-            </div>
-        </div>
 {#   todo     #}
-        <div class="" id="action_true">
-            <div class="pwd_box">
-                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">
-                    <div class="head-pwd-close">关闭</div>
-                </a>
-            </div>
-        </div>
-        <div class="" id="action_false">
-            <div class="pwd_box">
-                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">
-                    <div class="head-pwd-close">关闭</div>
-                </a>
-            </div>
-        </div>
-{#   fileup  to select server    #}
-        <div class="box" id="file_to_up">
-            <div class="server_to_select">
-                <a href="javascript:;" onclick="$('#file_to_up').hide()" class="close">关闭</a>
-                <div>
-                    <div class="container"></div>
-                    <button class="btn btn-info head" onclick="head_img(this)">提交</button>
-                </div>
-            </div>
-        </div>
+{#        <div class="" id="action_true">#}
+{#            <div class="pwd_box">#}
+{#                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">#}
+{#                    <div class="head-pwd-close">关闭</div>#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="" id="action_false">#}
+{#            <div class="pwd_box">#}
+{#                <a href="javascript:;" onclick="$('#change_pwd').hide()" class="btn btn-danger pwd">#}
+{#                    <div class="head-pwd-close">关闭</div>#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
 {#   添加主机     #}
         <div class="box" id="im_host">
             <div class="im_host_box">
@@ -208,7 +131,7 @@
 {#  导入excel      #}
         <div class="box" id="im_table">
             <div class="im_table_box">
-                <a href="javascript:;" onclick="jQuery('#im_table').hide()" class="close">关闭</a>
+                <a href="javascript:;" onclick="$('#im_table').hide()" class="close">关闭</a>
                 <a href="ex_template/aa.xlsx" download="aa.xlsx" class="btn btn-info" >下载模版</a>
                 <div>
                     <div class="row demo-columns">
@@ -250,151 +173,8 @@
                 </div>
             </div>
         </div>
+        {% endblock %}
 	</header> <!-- .cd-main-header -->
-
-    <aside class="main-sidebar">
-        <section class="sidebar">
-            <ul class="sidebar-menu">
-                <li class="treeview">
-                    <a href="/ops/index" >
-                        <i class="fa fa-dashboard"></i> <span>仪表盘</span> <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#0" id="base" class="" data-menu="index"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                        <li><a href="#0"  class=""  data-menu="service"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-files-o"></i>
-                        <span>服务器信息管理</span>
-                    </a>
-                    <ul class="treeview-menu" style="display: none;">
-                        <li><a href="#" onclick="" class="selected" data-menu="host_input"><i class="fa fa-circle-o"></i>服务器配置 </a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                        <li class=""><a href="#"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-th"></i> <span>Widgets</span>
-                        <small class="label pull-right label-info">new</small>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-pie-chart"></i>
-                        <span>Charts</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Morris</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Flot</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Inline charts</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-laptop"></i>
-                        <span>UI Elements</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> General</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Icons</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Buttons</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Sliders</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Timeline</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Modals</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-edit"></i> <span>Forms</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> General Elements</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Editors</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-table"></i> <span>Tables</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Data tables</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-calendar"></i> <span>Calendar</span>
-                        <small class="label pull-right label-danger">3</small>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-envelope"></i> <span>Mailbox</span>
-                        <small class="label pull-right label-warning">12</small>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-folder"></i> <span>Examples</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Invoice</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Profile</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Login</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Register</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> 404 Error</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Blank Page</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Pace Page</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-share"></i> <span>Multilevel</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                        <li>
-                            <a href="#"><i class="fa fa-circle-o"></i> Level One <i
-                                    class="fa fa-angle-left pull-right"></i></a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                                <li>
-                                    <a href="#"><i class="fa fa-circle-o"></i> Level Two <i
-                                            class="fa fa-angle-left pull-right"></i></a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                    </ul>
-                </li>
-                <li><a href="#"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-{#                <li class="header">LABELS</li>#}
-{#                <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>#}
-{#                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>#}
-{#                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>#}
-            </ul>
-        </section>
-    </aside>
-
 
     <div id="leftsead">
     	<ul>
@@ -434,6 +214,7 @@
 	    	</li>
     	</ul>
     </div><!--leftsead end-->
+    {% block  content %}
     <main class="cd-main">
         <section class="cd-section host_input visible">
             <div id="index-content" class="cd-content ">
@@ -455,8 +236,8 @@
                         <button class="reset-action">重置</button>
                     </div>
                     <div class="sa-ele">
-                        <button id="h_import" onclick="jQuery('#im_table').show()" class="search-action">excel导入</button>
-                        <button  id="h_add" onclick="jQuery('#im_host').show()" class="btn btn-info" style="background-color: #EFEFEF">＋</button>
+                        <button id="h_import" onclick="$('#im_table').show()" class="search-action">excel导入</button>
+                        <button  id="h_add" onclick="$('#im_host').show()" class="btn btn-info" style="background-color: #EFEFEF">＋</button>
                         <button  id="h_del" onclick="" class="btn btn-info" style="background-color: #EFEFEF">---</button>
                     </div>
                 </div>
@@ -467,33 +248,20 @@
         </section>
     </main>
     <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
-
+    {% endblock %}
+    {% block footer %}
     <script src="../static/js/headimg.js"></script>
     <script src="../static/js/server.js"></script>
     <script src="../static/js/demo.min.js"></script>
     <script src="../static/js/dmuploader.min.js"></script>
     <script src="../static/js/jquery.menu-aim.js"></script>
-    <script src="../static/js/dycontent.js"></script> <!-- Resource jQuery -->
-    <script src="../static/js/rightpg.js"></script> <!-- Resource jQuery -->
-    <script src="../static/js/sidebar-menu.js"></script> <!-- Resource jQuery -->
+{#    <script src="../static/js/dycontent.js"></script> <!-- Resource $ -->#}
+    <script src="../static/js/rightpg.js"></script> <!-- Resource $ -->
+    <script src="../static/js/sidebar-menu.js"></script> <!-- Resource $ -->
     <script src="../static/js/velocity.min.js"></script>
     <script>
     $.sidebarMenu($('.sidebar-menu'))
     </script>
-    <script>
-        $(function () {
-            $('#base').click(function () {
-                window.location.href = '/ops/index';
-            })
-        })
-    </script>
-    <script type="application/javascript">
-        function  test () {
-                setInterval(function(){window.location.href = '/ops/host_input'},100);
-                console.log('1');
-        }
-
-    </script>
+    {% endblock %}
 
 
-{% endblock %}

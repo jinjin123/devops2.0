@@ -18,8 +18,6 @@ var scriptListURL =  "/ops/scripts_list/";
 var getScriptContentURL =  "/ops/get_script_content/";
 var writeScriptContentURL = "/ops/write_script_content/";
 var deleteScriptURL = "/ops/delete_script/";
-var executeCommandURL = "/ops/execute_command/";
-var getCommandResultURL = "/ops/get_command_result/";
 var scriptInitURL = "/ops/script_init/";
 var saveCrondToServerURL = "/ops/save_crontab_to_server/";
 var getCrondListURL = "/ops/get_crontab_list/";
@@ -29,6 +27,9 @@ var addRemoteFileURL =  "/ops/add_remote_file/";
 var getRemoteFileContentURL = "/ops/get_remote_file_opt/";
 var deleteRemoteFileListURL = "/ops/delete_remote_file_list/";
 var writeRemoteFileContentURL = "/ops/write_remote_file_opt/";
+var keyAdminURL =  "/ops/show_keyfile_list/";
+var deleteKeyFileURL = "/ops/delete_keyfile/";
+var uploadKeyFileURL = "/ops/upload_keyfile/";
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;
@@ -67,19 +68,17 @@ function showSuccessNotic() {
 
 }
 
-//loading ....
+// //loading ....
 function start_load_pic() {
     document.getElementById("loadPic").style.display = "block";
     //document.getElementById("shadow").style.display = "block";
 
 }
-
-//loading ....
+//
+// //loading ....
 function stop_load_pic() {
     document.getElementById("loadPic").style.display = "none";
     //document.getElementById("shadow").style.display = "none";
-
-
 }
 $(function(){
     initGetServersList();
@@ -133,6 +132,9 @@ function responseCheck(data) {
     }
 }
 
+function loadKeyFileAdminHTML(){
+    window.location.reload();
+}
 
 
 function showErrorInfo(info) {
@@ -151,3 +153,40 @@ function stopShadow() {
     document.getElementById("shadow").style.display = "none"
 
 }
+
+//guidance station
+$(function(){
+    $('#index').click(function () {
+        window.location.href = '/ops/index';
+    });
+    $('#host_input').click(function () {
+        window.location.href = '/ops/host_input';
+    });
+    $('#cmd').click(function () {
+        window.location.href = '/ops/cmd';
+    });
+    $('#script').click(function () {
+        window.location.href = '/ops/script';
+    });
+    $('#crond').click(function () {
+        window.location.href = '/ops/crond';
+    });
+    $('#key').click(function () {
+        window.location.href = '/ops/UploadKey';
+    });
+    $('#Pushcode').click(function () {
+        window.location.href = '/ops/PushCode';
+    });
+    $('#docker_repo').click(function () {
+        window.location.href = '/ops/docker_repo';
+    });
+    $('#fileup').click(function () {
+        window.location.href = '/ops/fileup';
+    });
+    $('#filedown').click(function () {
+        window.location.href = '/ops/filedown';
+    });
+    $('#remote_doc').click(function () {
+        window.location.href = '/ops/remote_doc';
+    });
+})

@@ -2,7 +2,7 @@
  * Created by wupeijin on 17/4/3.
  */
 $(window).load(function(){
-    setTimeout('selectServer()',100);
+    setTimeout('selectServer()',50);
 })
 
 $(function () {
@@ -181,7 +181,7 @@ function loadMyCommandHistory() {
         "complete": stop_load_pic,
         "error": errorAjax,
         "success": function (data) {
-            responseCheck(data);
+            // responseCheck(data);
             if (data.status) {
                 var content = data.content;
                 for (var i = 0; i < content.length; i++) {

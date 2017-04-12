@@ -16,6 +16,7 @@ $(function () {
         }
     })
     document.getElementById("sudo").onclick = function () {
+        // $('#sudo').onclick = function (){
         //this是div，
         sudoProgress(this)
     }

@@ -406,6 +406,7 @@ def get_command_result(request):
             ssh_info["status"] = False
             ssh_info["content"] = str(e)
 
+        print ssh_info,'409999999999999999999'
         return  ssh_info
 
 @ajax_http
@@ -530,78 +531,6 @@ def delete_script(request):
 
 
 @ajax_http
-def execute_command(request):
-    ssh_info = {"status": False, 'content': ""}
-    try:
-        id = str(random.randint(90000000000000000000, 99999999999999999999))
-        parameter = request.POST.get("parameters") or request.GET.get("parameters")
-        if not parameter:
-            raise SSHError("not parameter")
-        try:
-            parameter = json.loads(parameter)
-        except:
-            raise SSHError("json parameter error")
-        try:
-            servers = parameter["servers"]
-            cmd = parameter["cmd"]
-        except:
-            raise SSHError("not server and cmd args")
-        parameter["tid"] = id
-        SSHThread = SSHThreadAdmin()
-        SSHThread.run(parameter)
-        client_info = resolv_client(request)
-        client_info["cmd"] = cmd
-        client_info = dict(client_info, **parameter)
-        init_status = {"content": "", "status": False, "stage": "running"}  # stage为running或者done,
-        client_info = dict(client_info, **init_status)
-        servers = client_info["servers"]
-        _ip = []
-        for ip in servers:
-            try:
-                host_list = ssh_modol_controler.SSHControler().convert_id_to_ip(ip)
-                _ip.append(host_list)
-            except Exception, e:
-                pass
-        client_info["ip"] = _ip
-        client_info = json.dumps(client_info, encoding="utf8", ensure_ascii=False)
-        r.rpush('command.history', client_info)
-        ssh_info["content"] = id
-        ssh_info["status"] = True
-    except Exception, e:
-        ssh_info["status"] = False
-        ssh_info["content"] = str(e)
-    return ssh_info
-
-@ajax_http
-def get_command_result(request):
-	ssh_info={"content":{"content":"","stage":"running","status":None}, "status":True,"progress":0}
-	tid=request.GET.get("tid")
-	ip=request.GET.get("ip")
-	content=""
-	try:
-		total=r.get("total.%s" % tid)
-		current=r.get("current.%s" % tid)
-		try:
-			if total is None or current is None: progress=0
-			else:progress= "%0.2f"  % (float(current) / float(total) * 100)
-		except Exception,e:
-			raise SSHError("progress get bad")
-		ssh_info["progress"]=progress
-		log_name="log.%s.%s" % (tid,ip)
-		LLEN=r.llen(log_name)
-		if not LLEN==0:
-			for i in range(LLEN):
-				_content=r.lpop(log_name)
-				_content=json.loads(_content)
-				content+=_content["content"]
-				ssh_info["content"]={"content":content,"stage":_content["stage"],"status":_content["status"]}
-		ssh_info["status"]=True
-	except Exception,e:
-		ssh_info["status"]=False
-		ssh_info["content"]=str(e)
-	return ssh_info
-
-@ajax_http
 def script_init(request):
     ip=request.GET.get("ip")
     sfile=request.GET.get("sfile")
@@ -667,6 +596,75 @@ def write_remote_file_opt(request):
 def delete_remote_file_list(request):
 	id=request.GET.get("id")
 	return RemoteFile().delete_remote_file_list(id)
+
+
+@ajax_http
+def show_keyfile_list(request):
+    ssh_info = {"status": False, "content": []}
+    try:
+        data = r.lrange("keyfile.list", 0, -1)
+        for _line in data:
+            line = json.loads(_line)
+            ssh_info["content"].append(line)
+        ssh_info["status"] = True
+    except Exception, e:
+        ssh_info["status"] = False
+        ssh_info["content"] = str(e)
+    return ssh_info
+
+@ajax_http
+def delete_keyfile(request):
+    ssh_info = {"status": False, "content": ""}
+    try:
+        parameters = request.GET.get("parameters")
+        try:
+            parameters = json.loads(parameters)
+        except Exception, e:
+            raise SSHError("json parameters error")
+        if not type({}) == type(parameters): raise SSHError("not parameters")
+        filename = parameters["filename"]
+        full_path = os.path.join(ssh_settings.keyfile_dir, filename)
+        if not os.path.isfile(full_path):
+            pass
+        else:
+            os.remove(full_path)
+        line = {"keyfile": filename}
+        line = json.dumps(line, encoding="utf8", ensure_ascii=False)
+        print line
+        r.lrem("keyfile.list", 0, line)
+        ssh_info["status"] = True
+    except Exception, e:
+        ssh_info["status"] = False
+        ssh_info["content"] = str(e)
+    return ssh_info
+
+
+@ajax_http
+def upload_keyfile(request):
+    ssh_info = {"status": True, "content": ""}
+    fid = str(random.randint(90000000000000000000, 99999999999999999999))
+    info = {"status": False, "content": "", "path": ""}
+    if request.method == "POST":
+        filename = str(request.FILES.get("file"))
+        file_content = request.FILES.get('file').read()
+        os.chdir(ssh_settings.keyfile_dir)
+
+        full_dir = os.path.join(ssh_settings.keyfile_dir)
+        if not os.path.isdir(full_dir):
+            os.mkdir(full_dir)
+        os.chdir(full_dir)
+        with open(filename.encode('utf8'), "wb") as f:
+            f.write(file_content)
+        line = {"keyfile": filename}
+        line = json.dumps(line, encoding="utf8", ensure_ascii=False)
+        r.rpush("keyfile.list", line)
+    return ssh_info
+
+def PushCode(request):
+    return  render(request,'pushcode.html',{"user":request.session.get('username'),"head":img})
+
+def UploadKey(request):
+    return  render(request,'uploadkey.html',{"user":request.session.get('username'),"head":img})
 
 def remotefile(request):
     return  render(request,'remotefile.html',{"user":request.session.get('username'),"head":img})

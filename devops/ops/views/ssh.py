@@ -169,7 +169,8 @@ class SSH_SSH(object):
         if not ignore:
             log_content["content"] = ssh_info["content"]
             self.write_command_log(tid, log_content)
-        print ssh_info,'176'
+
+        print ssh_info,'17666666666666666'
         return ssh_info
 
     def write_command_log(self, tid, log_content):
@@ -181,12 +182,12 @@ class SSH_SSH(object):
                     content = """%s</br>%s<hr style="border-bottom:1px solid #b0b0b0"/>""" % (line["content"], log_content["content"])
                     log_content["content"] = content
                     line = dict(line, **log_content)
-                    r.lrem("command.history", _line, 0)
+                    r.lrem("command.history", _line,0)
                     _line = json.dumps(line, encoding="utf8", ensure_ascii=False)
                     r.lpush("command.history", _line)
-                    break
+                break
         except Exception, e:
-            print "写入日志报错", str(e),'19777777'
+            # print "写入日志报错", str(e),'19777777'
             pass
 
     def sudo_login(self):

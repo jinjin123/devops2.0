@@ -188,8 +188,92 @@ function scriptSelectServer() {
             }
         }
         tr.appendChild(td);
-        selectServerTbody.appendChild(tr);
+        scriptSelectServerTbody.appendChild(tr);
     }
+}
+// function insertparagraph(data) {
+//         var str = "<h5>";
+//             str += data;
+//             return str;
+// }
+function createScriptResult(data){
+    var  content = data.replace(/\[?1h=/g,'');
+    var bb = content.replace(/\[m/g,'');
+    var aa = bb.replace(/\[K\[?1l>/g,'');
+    // var aa = cc.replace(/K/g,'');
+    // var aa = bb.replace(/commit/g,'id');
+    // for (i=0;i<data.length;i++){
+    // content = data.replace(pattern,'')
+    // content = data.replace(/(^\w+)| (^\d+)(\w+)/,'')
+    // }
+    var showScriptResult = document.getElementById("showScriptResult");
+    // var content = data.replace(/"([\<\>\[?1h=m]*)"/g,"");
+    // para = "";
+    // inner = "";
+    // for(a = 0; a < aa.length;){
+    //     if(aa[a] != '[' && aa[a] != '?' && aa[a] != '=' ){
+    //         para += aa[a];
+    //     }else {
+    //             inner +=  insertparagraph(para);
+    //             para = "";
+    //     }
+    //     a++;
+    // }
+    // console.log(inner);
+    for (i = 0; i < 10; i++) {
+        var item = document.createElement("div");
+        item.className = "timeline__item timeline__item--" + i
+        var opt = document.createElement("div")
+        opt.className = "timeline__item__content"
+        opt.innerHTML = aa
+        item.appendChild(opt)
+        // console.log(item);
+        // showScriptResult.appendChild(item)
+    }
+    showScriptResult.appendChild(item)
+    // console.log($(opt).find('h5').length);
+    // var h = $(opt).find('h5');
+    // test = []
+    // for(abc=0;abc<h.length;abc++ ){
+    //     if(abc % 5 == 0 ){
+    //         break
+    //     }else{
+    //         test.push(h[abc]);
+    //         console.log(test);
+    //     }
+    //     // test.push(abc);
+    //
+    // }
+    // console.log(h);
+    // for(b=0;b<h.length;b++){
+    //     if(b % 5 == 0){
+    //         for(c=0;c<=b;c++) {
+    //             var item = document.createElement("div");
+    //             item.className = "timeline__item timeline__item--1"
+    //             var opt = document.createElement("div")
+    //             opt.className = "timeline__item__content"
+    //             opt.innerHTML = test
+    //             item.appendChild(opt)
+    //             showScriptResult.append(test[c]);
+    //             console.log(test[c]);
+    //             // break;
+    //         }
+    //     }else{
+    //         test.push(h[b]);
+    //         console.log(test);
+    //         // for(d=0;d<h.length;d++){
+    //         //     console.log(test);
+    //         //     console.log(test[d]);
+    //         // }
+    //     }
+    //
+    // }
+    // showScriptResult.appendChild(item);
+    // var rows =  $('.Result').children().find("h5").prevAll();
+    // console.log(rows);
+    // showScriptResult.appendChild(item)
+    // showScriptResult.appendChild(item)
+    // console.log(inner);
 }
 
 function createScriptTableLine(data) {
@@ -503,12 +587,20 @@ function getScriptResult(tid, ip) {
             progressBar.textContent = progress + "%";
             var pre = document.createElement("pre");
 
-            pre.innerText = data["content"]["content"];//data format had 3 obj
+            // console.log(data["content"]["content"]["commit"]);
+           // pre.innerText = data["content"]["content"];//data format had 3 obj
+           //  console.log(pre);
             if( /^ *$/.test(data["content"]["content"])){
                 //null
             }
             else{
+                //filter string
+                var filter = data['content']['content'].replace(/\[m/g, '');
+                var content1 = filter.replace("[?1h=",'');
+                var content = content1.replace(/\[K\[?1l>/, '');
+                pre.innerHTML = content
                 //add content to page
+                // createScriptResult(data["content"]["content"]);
                 showScriptResult.appendChild(pre);
             }
             if (data.progress == 100) {
