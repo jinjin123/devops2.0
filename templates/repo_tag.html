@@ -192,60 +192,39 @@
                             </li>
                             <li><a href="#img_list" data-toggle="tab" id="docker_img">镜像列表</a></li>
                         </ul>
-                        <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane fade in active" id="repo_list">
-                            <table class="table table-bordered table-hover table-striped  table-condensed ">
-                                <thead>
-                                <tr>
-                                    <th>仓库地址</th>
-                                    <th>创建时间</th>
-                                    <th>操作</th>
-                                </tr>
-                                </thead>
-                                <tbody id="showDockerRepoTbody"></tbody>
-                                <tr>
-                                </tr>
-                            </table>
-                            </div>
-                            <div class="tab-pane fade" id="img_list">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-9" style="margin-bottom: 13px">
-                                            <button type="button" class="btn btn-primary" id="btn_collapse_all"
-                                                    onclick="collapseAll()">折叠
-                                            </button>
-                                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-9" style="margin-bottom: 13px">
+                                    <button type="button" class="btn btn-default" id="btn_select_all"
+                                            onclick="select_all()" disabled>全选
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="btn_del_images"
+                                            onclick="del_images(0)" disabled>删除
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="btn_tag_manifest"
+                                            onclick="get_tag_manifest()" disabled>详情
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="btn_tag_history"
+                                            onclick="get_tag_history()" disabled>历史
+                                    </button>
+                                </div>
 
-                                        <div class="col-md-3" style="margin-bottom: 13px">
-                                            <div class="input-icon-group">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="ipt_search_images"
-                                                           placeholder="搜索镜像 ..." autofocus/>
-                                                    <span class="input-group-addon">
-                                                        <i class="glyphicon glyphicon-search"> </i>
-                                                    </span>
-                                                </div>
-                                            </div>
+                                <div class="col-md-3" style="margin-bottom: 13px">
+                                    <div class="input-icon-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="ipt_search_tags"
+                                                   placeholder="搜索标签 ..." autofocus disabled/>
+                                            <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-search"> </i>
+                                </span>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div id="image_list" class="col-md-12"></div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div id="tag_list" class="col-md-12"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div id="showCreateDiv" style="display:none;">
-                        <div><button id="GotBack" class="btn btn-default active btn-lg fa fa-reply" style="width:70px;"></button></div>
-                        <div class="docker_des fa fa-heart-o">仓库地址</div> <input id="address" class="docker_add" placeholder="http://1.1.1.1:5000">
-                        <div class="docker_des"  >仓库用户</div> <input id="repo_user" class="docker_add">
-                        <div class="docker_des" >仓库密码</div> <input id="repot_pass" class="docker_add">
-                        <div class="docker_des" >持续集成  支持持续构建</div> <div style="display: flex;">
-                        <input  type="radio" id="supportbuild" class="docker_add" checked="checked"><label class="laber_choise" for="supportbuild">支持</label><input  type="radio" class="docker_add" id="no_support_build"><label class="laber_choise" for="no_support_build">不支持</label></div>
-                        <div>
-                            <button id="CreateRepo" class="btn btn-default  active" disabled="disabled">立即创建</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>

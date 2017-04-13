@@ -20,8 +20,9 @@ from ssh_file import File
 from ssh_script import SSHScript
 from crontab_controler import  SSHCrontabControler
 from remote_file import  RemoteFile
+from requests.auth import HTTPBasicAuth
 # from docker import  docker
-import ssh_modol_controler,threading,cpu,mem,hashlib,datetime,redis,random,commands,time
+import ssh_modol_controler,threading,cpu,mem,hashlib,datetime,redis,random,commands,time,requests
 import simplejson as json
 import demjson
 
@@ -692,7 +693,7 @@ def docker_repo_list(request):
         repo_list = r.hvals("docker_repo") ###array
         if repo_list == []:
             print repo_list
-            raise Exception("仓库为空")
+            raise Exception("仓库是空的...")
         else:
             for h in repo_list:
                 Repo_list = h
@@ -713,7 +714,7 @@ def docker_repo_del(request):
     try:
         data = r.hget("docker_repo",reponame) ###array
         if data is None:
-            pass
+            raise Exception("请设置仓库!")
         else:
             data=json.loads(data)
             if reponame==data["address"]:
@@ -725,6 +726,111 @@ def docker_repo_del(request):
         info["content"] = str(e)
 
     return info
+
+@ajax_http
+def docker_img(request):
+    images = []
+    try:
+        repoconf_list = r.hvals("docker_repo")
+        if repoconf_list is None:
+            raise Exception("请先设置仓库!")
+        else:
+            for h in repoconf_list:
+                _repoconf = h
+
+            repoconf = json.loads(_repoconf)
+            url = repoconf["address"]
+            user = repoconf["repo_user"]
+            pwd = repoconf["repo_pass"]
+            if url and user and pwd:
+                images_list = []
+                rr = requests.get(url=url + "/v2/_catalog", auth=HTTPBasicAuth(user,pwd) ,timeout=10)
+                image_result = json.loads(rr.text).get('repositories', [])
+                print image_result
+                for  i in image_result:
+                    img_data = {}
+                    img = i.split('/')
+                    if len(img) == 1:
+                        img_data["title"] = img[0]
+                    elif len(img) == 2:
+                        img_data["title"] = img[1]
+                        img_data["parent"] = img[0]
+
+                    images_list.append(img_data)
+
+                temp_tree_view = {}
+                for i in images_list:
+                    if i.has_key("parent"):
+                        if not temp_tree_view.has_key(i['parent']):
+                            temp_tree_view[i['parent']] = []
+                        temp_tree_view[i['parent']].append(i['title'])
+                    else:
+                        images.append({
+                            "name": i['title'],
+                        })
+
+                for t, n in temp_tree_view.items():
+                    tt = {}
+                    tt['name'] = t
+                    tt['sub'] = []
+                    for nn in n:
+                        tt['sub'].append({
+                            "name": nn,
+                        })
+                    images.append(tt)
+                        # print images
+
+    except Exception, e:
+        print e
+
+    return json.dumps(images)
+
+# @ajax_http
+# def docker_imgtags(request):
+#     image = request.args.get('image','')
+#     tags = {
+#         "image_name":image,
+#         "tag_list":[]
+#     }
+#     try:
+#         repoconf_list = r.hvals("docker_repo")
+#         if repoconf_list is None:
+#             raise Exception("请先设置仓库!")
+#         else:
+#             for h in repoconf_list:
+#                 _repoconf = h
+#
+#             repoconf = json.loads(_repoconf)
+#             url = repoconf["address"]
+#             user = repoconf["repo_user"]
+#             pwd = repoconf["repo_pass"]
+#             if url and user and pwd:
+#                 rr = requests.get(url=url + "/v2/" + image + "/tags/list", auth=HTTPBasicAuth(user,pwd) ,timeout=5)
+#             if rr.status_code == 200:
+#                 t_list = json.loads(rr.text).get('tags',[])
+#                 for t in t_list:
+#                     img = {}
+#                     tr = requests.get(url=url + "/v2/" + image + "/manifests/" + t,
+#                         auth=HTTPBasicAuth(user,pwd),
+#                         timeout=5,
+#                         headers={'Accept':'application/vnd.docker.distribution.manifest.v2+json'}
+#                     )
+#                     print tr.headers
+#                     t_info = json.loads(tr.text)
+#                     if not t_info.has_key('errors'):
+#                         last_modified = time.strftime("%Y-%m-%d %H:%M:%S",time.strptime(tr.headers.get('Last-Modified',''), '%a, %d %b %Y %H:%M:%S GMT'))
+#                         img["layer_count"] = len(t_info.get('layers'))
+#                         img["layer_detail"] = t_info.get('layers')
+#                         img["url"] = url + "/" + image + ":" + t
+#                         img["tag"] = t
+#                         img["digest"] = tr.headers.get('Docker-Content-Digest','')
+#                         img["last_modified"] = last_modified
+#                         tags['tag_list'].append(img)
+#         # print json.dumps(tags)
+#     except Exception,e:
+#         print e
+#
+#     return  render(request,"docker_repo_tag.html")
 
 
 def docker(request):

@@ -33,6 +33,7 @@ var uploadKeyFileURL = "/ops/upload_keyfile/";
 var SubmitRepoURL = "/ops/docker_repo_list";
 var LoadRepoListContentURL = "/ops/docker_repo_content";
 var deleteRepotURL = "/ops/docker_repo_del"
+var DockerIMG = "/ops/docker_img"
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;

@@ -45,6 +45,8 @@ urlpatterns = [
     url(r'^docker_repo_content',views.docker_repo_list,name="docker_repo_list"),
     url(r'^docker_repo_del',views.docker_repo_del,name="docker_repo_del"),
     url(r'^docker_repo',views.docker,name="docker"),
+    url(r'^docker_img',views.docker_img,name="docker_img"),
+    url(r'^docker_imgtags',views.docker_imgtags,name="docker_imgtags"),
 
     url(r'^script',views.script,name="script"),
     url(r'^PushCode',views.PushCode,name="PushCode"),
