@@ -2,6 +2,93 @@
  * Created by wupeijin on 17/4/6.
  */
 
+
+//load docker img list
+function load_docker_img(){
+      fetch(DockerIMG, {
+            method: 'get',
+            //headers: {"Content-type": "application/javascript charset=UTF-8"}
+            headers: {"Content-type": "application/json  charset=UTF-8"}
+        })
+        .then(
+            function(response) {
+                response.json().then(function(data) {
+                if (response.status == 200) {
+                    console.log(JSON.parse(data));
+                    data = JSON.parse(data  )
+                    var tree_view = []
+                    $.each(data, function (index, fvalue, array) {
+                        var img = {}
+                        if (fvalue['sub']) {
+                            img['text'] = fvalue.name
+                            img['tags'] = [fvalue.sub.length]
+                            img['nodes'] = []
+
+                            $.each(fvalue.sub, function (index, svalue, array) {
+                                img['nodes'].push({
+                                    "text": svalue.name,
+                                    //show this image tag detail content
+                                    // "href": "docker_imagestags?" + JSON.stringify(res),
+                                    "href": "docker_imagestags?image=" + fvalue.name + "/" + svalue.name,
+                                    // "href": "docker_img?image=" + fvalue.name + "/" + svalue.name,
+                                    "selectable": false
+                                })
+                            })
+                            img["selectable"] = false
+                            tree_view.push(img)
+                        }
+                    })
+                    $.each(data, function (index, fvalue, array) {
+                        var img = {}
+                        if (!fvalue['sub']) {
+                            img['text'] = fvalue.name
+                            //show this images  content
+                            img["href"] = "docker_img?image=" + fvalue.name
+                            img["selectable"] = false
+                            tree_view.push(img)
+                        }
+                    })
+                    if (tree_view.length) {
+                        $('#image_list').treeview({
+                            data: tree_view,
+                            levels: 1,
+                            showTags: true,
+                            enableLinks: true
+                        });
+                    } else {
+                        $('#image_list').treeview({data: [{"text": "仓库是空的 ..."}]})
+                        $('#image_list').treeview('disableAll', {silent: true});
+                        $('#btn_collapse_all').attr('disabled', true)
+                        $('#btn_delete_images').attr('disabled', true)
+                        $('#ipt_search_images').attr('disabled', true)
+                    }
+                }
+            });
+        })
+          .catch(function (err) {
+              alert("标签列表获取异常！" + err);
+          });
+
+        var search = function(e) {
+            var options = {
+                ignorecase: true,
+                exactmatch: false,
+                revealresults: true
+            }
+            var pattern = $('#ipt_search_images').val();
+            var results = $('#image_list').treeview('search', [ pattern, options ]);
+            if (!$('#ipt_search_images').val()) {
+                collapseAll()
+            }
+        }
+        $('#ipt_search_images').on('keyup', search);
+}
+
+function collapseAll() {
+    $('#image_list').treeview('collapseAll', {silent: true});
+}
+
+// submit  repo conf
 function SubmitRepoName (){
     var address = document.getElementById("address").value;
     var username = document.getElementById("repo_user").value;
@@ -39,8 +126,18 @@ function load_repo_list(){
         "error": errorAjax,
         "complete": stop_load_pic,
         "success": function (data) {
-            // console.log(data);
-            responseCheck(data);
+          //  console.log(data.content);
+           for (let i in data.content){
+              data.content[i] = JSON.parse(data.content[i]);
+              // console.log(data.content[i]);
+           }
+              // console.log(data.content);
+            // let data1 = (data.content.data);
+            // data2 = JSON.parse(data1);
+            // console.log(data2);
+            // let result = Array.from(data.content)
+            // responseCheck(data);
+            // var data = JSON.parse(data);
             if (!data.status) {
                 showErrorInfo(data.content);
                 return false;
@@ -77,33 +174,37 @@ function deleteRepo(deleteButton) {
         }
     });
 }
+//create table
 function createRepoTableLine(data) {
-    console.log(data);
-    //create table
-    var showDockerRepoTbody = document.getElementById("showDockerRepoTbody");
-    var tr = document.createElement("tr");
-    //script name
-    var Repo = document.createElement("td");
-    Repo.textContent = data["address"];
-    tr.appendChild(Repo);
-    //create  time
-    var time = document.createElement("td");
-    time.className = "hidden-xs";
-    time.textContent = data["time"];
-    tr.appendChild(time);
-    //opeation button
-    //edit button
-    var opTd = document.createElement("td");
-    var deleteButton = document.createElement("button");
-    deleteButton.className = "btn btn-xs btn-danger glyphicon glyphicon-trash";
-    deleteButton.setAttribute("address", data["address"]);
-    deleteButton.style.marginLeft = "3px";
-    deleteButton.onclick = function () {
-        deleteRepo(this);
+    // console.log(data);
+    //防止多次加载
+    $("#showDockerRepoTbody").children().remove();
+    for(let arr in data){
+        var showDockerRepoTbody = document.getElementById("showDockerRepoTbody");
+        var tr = document.createElement("tr");
+        //script name
+        var Repo = document.createElement("td");
+        Repo.textContent = data[arr]["address"];
+        tr.appendChild(Repo);
+        //create  time
+        var time = document.createElement("td");
+        time.className = "hidden-xs";
+        time.textContent = data[arr]["time"];
+        tr.appendChild(time);
+        //opeation button
+        var opTd = document.createElement("td");
+        var deleteButton = document.createElement("button");
+        deleteButton.className = "btn btn-xs btn-danger glyphicon glyphicon-trash";
+        deleteButton.setAttribute("address", data[arr]["address"]);
+        deleteButton.style.marginLeft = "3px";
+        deleteButton.onclick = function () {
+            deleteRepo(this);
+        }
+        opTd.appendChild(deleteButton);
+        tr.appendChild(opTd);
+        showDockerRepoTbody.appendChild(tr);
+
     }
-    opTd.appendChild(deleteButton);
-    tr.appendChild(opTd);
-    showDockerRepoTbody.appendChild(tr);
 }
 
 
@@ -170,15 +271,14 @@ $(function () {
             SubmitRepoName();
             GotBackPage();
     });
+    $("#docker_img").on('click',function () {
+            load_docker_img();
+    });
+    $("#Docker_repo").on('click',function () {
+        load_repo_list();
+    });
     $(document).on('keyup', '.searchValue', function () {
         searchValue(this);
     });
 
 })
-
-
-
-
-
-
-

@@ -186,11 +186,11 @@
                     </div>
                         <ul id="myTab" class="nav nav-tabs">
                             <li class="active">
-                                <a href="#repo_list" data-toggle="tab">
+                                <a href="#repo_list" data-toggle="tab" id="Docker_repo">
                                     仓库列表
                                 </a>
                             </li>
-                            <li><a href="#img_list" data-toggle="tab">镜像列表</a></li>
+                            <li><a href="#img_list" data-toggle="tab" id="docker_img">镜像列表</a><span id="image_title"></span></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div class="tab-pane fade in active" id="repo_list">
@@ -208,7 +208,66 @@
                             </table>
                             </div>
                             <div class="tab-pane fade" id="img_list">
-                                afadfasf
+                                    <div class="row panel panel-default" style="margin: auto;display: none">
+                                        <div class="panel-heading"><a href="/image_list">镜像列表</a> <span id="image_title"></span></div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-9" style="margin-bottom: 13px">
+                                                    <button type="button" class="btn btn-default" id="btn_select_all"
+                                                            onclick="select_all()" disabled>全选
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger" id="btn_del_images"
+                                                            onclick="del_images(0)" disabled>删除
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary" id="btn_tag_manifest"
+                                                            onclick="get_tag_manifest()" disabled>详情
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary" id="btn_tag_history"
+                                                            onclick="get_tag_history()" disabled>历史
+                                                    </button>
+                                                </div>
+
+                                                <div class="col-md-3" style="margin-bottom: 13px">
+                                                    <div class="input-icon-group">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="ipt_search_tags"
+                                                                   placeholder="搜索标签 ..." autofocus disabled/>
+                                                            <span class="input-group-addon">
+                                                                <i class="glyphicon glyphicon-search"> </i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div id="tag_list" class="col-md-12"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-9" style="margin-bottom: 13px">
+                                            <button type="button" class="btn btn-primary" id="btn_collapse_all"
+                                                    onclick="collapseAll()">折叠
+                                            </button>
+                                        </div>
+
+                                        <div class="col-md-3" style="margin-bottom: 13px">
+                                            <div class="input-icon-group">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="ipt_search_images"
+                                                           placeholder="搜索镜像 ..." autofocus/>
+                                                    <span class="input-group-addon">
+                                                        <i class="glyphicon glyphicon-search"> </i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="image_list" class="col-md-12"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -231,6 +290,9 @@
 {% endblock %}
 
 {% block footer %}
+    <script src="../static/js/jquery-3.2.0.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/bootstrap-treeview.min.js"></script>
     <script src="../static/js/docker_repo.js"></script>
     <script src="../static/js/jquery-ui.min.js"></script>
     <script src="../static/js/headimg.js"></script>

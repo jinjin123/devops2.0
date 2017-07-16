@@ -159,6 +159,8 @@ settings = {
         }
 
 def main():
+    # PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
+    # sys.path.insert(0, os.path.join(PROJECT_ROOT, os.pardir))
     os.environ['DJANGO_SETTINGS_MODULE'] = 'devops.settings' # TODO: edit this
     sys.path.append('./devops') # path to your project if needed
 

@@ -33,6 +33,10 @@ var uploadKeyFileURL = "/ops/upload_keyfile/";
 var SubmitRepoURL = "/ops/docker_repo_list";
 var LoadRepoListContentURL = "/ops/docker_repo_content";
 var deleteRepotURL = "/ops/docker_repo_del"
+var DockerIMG = "/ops/docker_img"
+var DockerIMGTAGS = "/ops/docker_imagestags?image="
+var DockerIMGTAGS_HISTORY = "/ops/docker_tagshistory?image="
+var DockerIMGDEL = "/ops/docker_delimg"
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;
@@ -191,8 +195,5 @@ $(function(){
     });
     $('#remotefile').click(function () {
         window.location.href = '/ops/remotefile';
-    });
-    $('#docker_repo').click(function () {
-        window.location.href = '/ops/docker_repo';
     });
 })
