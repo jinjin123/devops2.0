@@ -162,6 +162,50 @@
     	</ul>
     </div><!--leftsead end-->
 {% block content %}
+<div class="modal fade" id="mdl_info" tabindex="-1" role="dialog" aria-labelledby="infoModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span id="sp_info_title"></span></h4>
+            </div>
+            <div class="modal-body" id="sp_info_body"></div>
+            <div class="modal-footer" id="sp_info_foot">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mdl_show_history" tabindex="-1" role="dialog" aria-labelledby="infoModal">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">标签历史</h4>
+            <small><span id="sp_tag_title"></span></small>
+            </div>
+            <div class="modal-body" style="margin-bottom: 15px">
+                <div class="panel-group" id="div_tag_history_body" role="tablist" aria-multiselectable="true">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mdl_show_detail" tabindex="-1" role="dialog" aria-labelledby="infoModal">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">标签清单</h4>
+            <strong><span id="sp_tag_size"></span></strong><br />
+            <small><span id="sp_tag_url"></span></small><br />
+            <small><span id="sp_tag_digest"></span></small><br />
+            </div>
+            <div class="modal-body" style="margin-bottom: 15px">
+                <ul class="list-group" id="ul_tag_detail_body">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
     <main class="cd-main">
         <section class="cd-section docker_repo visible">
             <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px">
@@ -179,19 +223,20 @@
                     </div>
                     </p>
                     <div class="panel-heading" style="z-index: 1;background: white;">
-                        <button class="btn btn-success btn-xs glyphicon glyphicon-plus "
-                                id="CreateRepoDiv">创建镜像仓库</button>
+                        <!-- <button class="btn btn-success btn-xs glyphicon glyphicon-plus "
+                                id="CreateRepoDiv">创建镜像仓库</button> -->
                         <button class="btn btn-default btn-xs glyphicon glyphicon-refresh"
                                 id="refreshRepoList"></button>
                     </div>
-                        <ul id="myTab" class="nav nav-tabs">
-                            <li class="active">
+                        <!-- <ul id="myTab" class="nav nav-tabs"> -->
+                            <!-- <li class="active">
                                 <a href="#repo_list" data-toggle="tab" id="Docker_repo">
                                     仓库列表
                                 </a>
-                            </li>
-                            <li><a href="#img_list" data-toggle="tab" id="docker_img">镜像列表</a></li>
-                        </ul>
+                            </li> -->
+                        <div class="panel-heading"><a href="#img_list" id="docker_img">镜像列表</a> <span id="image_title"></span></div>
+                            <!-- <li><a href="#img_list" data-toggle="tab" id="docker_img">镜像列表</a> <span id="image_title"></span</li> -->
+                        <!-- </ul> -->
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-9" style="margin-bottom: 13px">
@@ -215,8 +260,8 @@
                                             <input type="text" class="form-control" id="ipt_search_tags"
                                                    placeholder="搜索标签 ..." autofocus disabled/>
                                             <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-search"> </i>
-                                </span>
+                                                  <i class="glyphicon glyphicon-search"> </i>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -225,7 +270,33 @@
                                 <div id="tag_list" class="col-md-12"></div>
                             </div>
                         </div>
+
+                        <!-- <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-9" style="margin-bottom: 13px">
+                                    <button type="button" class="btn btn-primary" id="btn_collapse_all"
+                                            onclick="collapseAll()">折叠
+                                    </button>
+                                </div>
+
+                                <div class="col-md-3" style="margin-bottom: 13px">
+                                    <div class="input-icon-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="ipt_search_images"
+                                                   placeholder="搜索镜像 ..." autofocus/>
+                                            <span class="input-group-addon">
+                                                <i class="glyphicon glyphicon-search"> </i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="image_list" class="col-md-12"></div>
+                            </div>
+                        </div> -->
                 </div>
+            </div>
             </div>
         </section>
     </main>
@@ -234,17 +305,27 @@
 
 {% block footer %}
     <script src="../static/js/jquery-3.2.0.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/docker_imgtags.js"></script>
+    <!--these variable its for imagetagsjs -->
+    <script>
+        var image = '{{ image }}'
+        var source_data = {}
+        var tags = "{{ tags }}"
+        var data_format = tags.replace(/&quot;/g,'"')
+        var data = JSON.parse(data_format)
+    </script>
     <script src="../static/js/bootstrap-treeview.min.js"></script>
-    <script src="../static/js/docker_repo.js"></script>
+    <!-- <script src="../static/js/docker_repo.js"></script> -->
     <script src="../static/js/jquery-ui.min.js"></script>
     <script src="../static/js/headimg.js"></script>
-    <script src="../static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
+    <script src="../static/js/jquery-migrate-1.0.0.js"></script>  <!-- this is 1.8 feature support toggle  ,1.9 is already  deprecated#  -->
     <script src="../static/js/jquery.menu-aim.js"></script>
     <script src="../static/js/rightpg.js"></script> <!-- Resource jQuery -->
     <script src="../static/js/sidebar-menu.js"></script> <!-- Resource jQuery -->
     <script src="../static/js/velocity.min.js"></script>
+    <!-- <script src="../static/js/docker_imgtags.js"></script> -->
     <script>
     $.sidebarMenu($('.sidebar-menu'))
     </script>
-
 {% endblock %}

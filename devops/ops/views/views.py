@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect,HttpResponse,request
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.contrib.auth.decorators import  login_required
-from django.contrib.auth import logout
+from django.contrib.auth import authenticate,logout,login
 from django.core.cache import cache
 from .. import ssh_settings
 from .. import  models
@@ -21,10 +21,12 @@ from ssh_script import SSHScript
 from crontab_controler import  SSHCrontabControler
 from remote_file import  RemoteFile
 from requests.auth import HTTPBasicAuth
+from docker_img_show import Docker_registry
 # from docker import  docker
 import ssh_modol_controler,threading,cpu,mem,hashlib,datetime,redis,random,commands,time,requests
 import simplejson as json
 import demjson
+import re
 
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 img = '../static/img/cd-avatar.png'
@@ -38,18 +40,19 @@ def Login(request):
         ip = request.META['REMOTE_ADDR']
         username  = request.POST.get('username')
         password = request.POST.get('password')
-        # print ip,username,password
-        if  models.UserInfo.objects.filter(user=username) and  models.UserInfo.objects.filter(pwd=password) and models.UserLock.objects.filter(ip=ip,status=1) :
-            models.UserInfo.objects.filter(user=username).update(uptime=time.strftime('%Y-%m-%d %H:%M:%S'),alive=1)
-            request.session['username'] = username
-            return  HttpResponseRedirect(reverse('ops_index'))
+        user = authenticate(username=username, password=password)
+        # print user,'48'
+        if user is not None and user.is_active and models.UserLock.objects.filter(ip=ip,status=0):
+             login(request,user)
+             request.session['user'] = username
+             return  HttpResponseRedirect(reverse('ops_index'))
 
         else:
             #block the error ip
             r.lpush("lock",ip)
-            models.UserLock.objects.create(user=username, ip=ip, uptime=datetime.datetime.now())
+            models.UserLock.objects.create(user=username, ip=ip, uptime=time.strftime('%Y-%m-%d %H:%M:%S'), status=0)
             if r.lrange("lock",0,-1).count(ip) >5:
-                models.UserLock.objects.update(user=username, ip=ip, uptime=time.strftime('%Y-%m-%d %H:%M:%S'), status=0)
+                models.UserLock.objects.update(user=username, ip=ip, uptime=time.strftime('%Y-%m-%d %H:%M:%S'), status=1)
                 response = HttpResponseRedirect('/')
                 response.delete_cookie('sessionid')
                 return response
@@ -58,9 +61,17 @@ def Login(request):
             return response
     return HttpResponseRedirect("/")
 
+# @login_required(login_url='/')
+# def index(request):
+#     print request.user
+#     return HttpResponse("hello")
+    # return HttpResponseRedirect("/")
+
+@login_required(login_url='/')
 def index(request):
     img = '../static/img/cd-avatar.png'
-    username = list(models.UserInfo.objects.order_by('-uptime'))[0]
+    # username = list(models.UserInfo.objects.order_by('-uptime'))[0]
+    username = request.user
     usall, hsall, usave, mcont, pub = models.UserInfo.objects.count(), models.HostInfo.objects.count(), models.UserInfo.objects.filter(
         alive=1).count(), 0, models.PushCodeEvent.objects.count()
     Topten = []
@@ -73,15 +84,13 @@ def index(request):
         Eventall = Event.event, Event.ctime, Event.user_id
         Eventen.append(Eventall)
 
-    if request.session.get('username') == None:
-        return HttpResponseRedirect('/')
-    else:
-         return render(request, "index.html", {"user": username, "head": img, "usall": usall, "hsall": hsall,
+    return render(request, "index.html", {"user": username, "head": img, "usall": usall, "hsall": hsall,
                                               "usave": usave, "mcont": mcont, "pub": pub, "Top": Topten, "Event": Eventen})
 
 
 
 def Logout(request):
+    logout(request)
     response = HttpResponseRedirect('/')
     response.delete_cookie('sessionid')
     return response
@@ -100,6 +109,8 @@ def getcpu(request):
 def hello(request):
     return render(request,'service.html')
 
+@login_required(login_url='/')
+@ajax_http
 def host_input(request):
     Format = []
     if request.method == 'POST':
@@ -114,10 +125,12 @@ def host_input(request):
             # print DRreturn
         return HttpResponse(DRreturn)
 
-    return render(request,'host_input.html',{"user":request.session.get('username'),"head":img})
+    return render(request,'host_input.html',{"user":request.user,"head":img})
 
 
 #TODO: return server status   to upgrade  server status,  单个添加完成的时候 也需要传ID
+@login_required(login_url='/')
+@ajax_http
 def add_server_list(request):
     if request.method=='POST':
         try:
@@ -167,6 +180,8 @@ def add_server_list(request):
 
 
 # matching id  to delete server
+@login_required(login_url='/')
+@ajax_http
 def del_server_list(request):
     if request.method=='POST':
         try:
@@ -185,6 +200,7 @@ def del_server_list(request):
         return  HttpResponse(status=200)
 
 ###load all server config
+@login_required(login_url='/')
 def load_server_list(request):
     content = {"content":[]}
     try:
@@ -201,6 +217,7 @@ def load_server_list(request):
     return  HttpResponse(Content)
 
 ##receive  upload file to save upload dir
+@login_required(login_url='/')
 @ajax_http
 def upload_file_test(request):
     ssh_info = {"status": True, "content": ""}
@@ -217,6 +234,7 @@ def upload_file_test(request):
     return  ssh_info
 
 #transfer file to remote server and return progress_id
+@login_required(login_url='/')
 @ajax_http
 def filetrans_upload(request):
     tid = str(random.randint(90000000000000000000, 99999999999999999999))
@@ -238,6 +256,7 @@ def filetrans_upload(request):
         host = ssh_modol_controler.SSHControler().convert_id_to_ip(parameters["ip"])
         if  host["status"] == 'False': raise Exception( host["content"])
         host = host['content']
+        print host
         sftp = SSHFileTransfer()
         login = sftp.login(**host)
         if not login["status"] : raise Exception(login["content"])
@@ -253,13 +272,15 @@ def filetrans_upload(request):
     return ssh_info
 
 ###return  progress_Id
-@ajax_http ##allow origin access
+@login_required(login_url='/')
+@ajax_http
 def get_filetrans_progress(request):
     tid = request.GET.get("tid")
     ssh_info = SSHFileTransfer().get_progress(tid)
     return ssh_info
 
 ###remote download file
+@login_required(login_url='/')
 @ajax_http
 def remote_download(request):
     tid = str(random.randint(90000000000000000000, 99999999999999999999))
@@ -301,6 +322,7 @@ def remote_download(request):
     return ssh_info
 
 ##zip download file to pc
+@login_required(login_url='/')
 @ajax_http
 def create_tgz_pack(request):
     tid = str(random.randint(90000000000000000000, 99999999999999999999))
@@ -330,6 +352,7 @@ def create_tgz_pack(request):
         ssh_info["content"] = str(e)
     return ssh_info
 
+@login_required(login_url='/')
 @ajax_http
 def execute_command(request):
         ssh_info = {"status": False, 'content': ""}
@@ -376,6 +399,7 @@ def execute_command(request):
         return ssh_info
 
 
+@login_required(login_url='/')
 @ajax_http
 def get_command_result(request):
         ssh_info = {"content": {"content": "", "stage": "running", "status": None}, "status": True, "progress": 0}
@@ -411,6 +435,7 @@ def get_command_result(request):
         print ssh_info,'409999999999999999999'
         return  ssh_info
 
+@login_required(login_url='/')
 @ajax_http
 def my_command_history(request):
     ssh_info={"content":[],"status":True}
@@ -423,6 +448,7 @@ def my_command_history(request):
     return ssh_info
 
 
+@login_required(login_url='/')
 @ajax_http
 def upload_script(request):
     ssh_info = {"status": False, "content": ""}
@@ -453,6 +479,7 @@ def upload_script(request):
             ssh_info["status"] = False
     return ssh_info
 
+@login_required(login_url='/')
 @ajax_http
 def get_script_content(request):
 	filename=request.GET.get("filename")
@@ -460,6 +487,7 @@ def get_script_content(request):
 	return File().get_content(full_path)
 
 
+@login_required(login_url='/')
 @ajax_http
 def scripts_list(request):
     ssh_info = {"status": False, "content": ""}
@@ -474,6 +502,7 @@ def scripts_list(request):
 
     return demjson.encode(ssh_info)
 
+@login_required(login_url='/')
 @ajax_http
 def write_script_content(request):
 	ssh_info={"status":False,"content":""}
@@ -506,6 +535,8 @@ def write_script_content(request):
 		ssh_info["content"]=str(e)
 
 	return ssh_info
+
+@login_required(login_url='/')
 @ajax_http
 def delete_script(request):
 	username=request.user.username
@@ -532,12 +563,14 @@ def delete_script(request):
 	return ssh_info
 
 
+@login_required(login_url='/')
 @ajax_http
 def script_init(request):
     ip=request.GET.get("ip")
     sfile=request.GET.get("sfile")
     return SSHScript().script_init(ip,sfile)
 
+@login_required(login_url='/')
 @ajax_http
 def save_crontab_to_server(request):
     action=request.POST.get("action")
@@ -545,21 +578,25 @@ def save_crontab_to_server(request):
     data=json.loads(data)
     return SSHCrontabControler().save_crontab_to_server(action,data)
 
+@login_required(login_url='/')
 @ajax_http
 def get_crontab_list(request):
 	return SSHCrontabControler().get_crontab_list_to_web()
 
+@login_required(login_url='/')
 @ajax_http
 def delete_crontab_list(request):
 	sid=request.GET.get("sid")
 	tid=request.GET.get("tid")
 	return SSHCrontabControler().delete_crontab(sid,tid)
 
+@login_required(login_url='/')
 @ajax_http
 def get_remote_file_list(request):
 	return RemoteFile().get_remote_file_list()
 
 
+@login_required(login_url='/')
 @ajax_http
 def add_remote_file(request):
     ssh_info = {"status": False, "content": ""}
@@ -577,6 +614,8 @@ def add_remote_file(request):
         ssh_info["content"] = str(e)
     return ssh_info
 
+
+@login_required(login_url='/')
 @ajax_http
 def get_remote_file_opt(request):
     id=request.GET.get("tid")
@@ -585,6 +624,7 @@ def get_remote_file_opt(request):
     return RemoteFile().remote_file_content(id,action)
 
 
+@login_required(login_url='/')
 @ajax_http
 def write_remote_file_opt(request):
     action = "WRITE"
@@ -594,12 +634,14 @@ def write_remote_file_opt(request):
         file_content = "%s\n" % file_content
     return RemoteFile().remote_file_content(id, action, file_content)
 
+@login_required(login_url='/')
 @ajax_http
 def delete_remote_file_list(request):
 	id=request.GET.get("id")
 	return RemoteFile().delete_remote_file_list(id)
 
 
+@login_required(login_url='/')
 @ajax_http
 def show_keyfile_list(request):
     ssh_info = {"status": False, "content": []}
@@ -614,6 +656,7 @@ def show_keyfile_list(request):
         ssh_info["content"] = str(e)
     return ssh_info
 
+@login_required(login_url='/')
 @ajax_http
 def delete_keyfile(request):
     ssh_info = {"status": False, "content": ""}
@@ -641,6 +684,7 @@ def delete_keyfile(request):
     return ssh_info
 
 
+@login_required(login_url='/')
 @ajax_http
 def upload_keyfile(request):
     ssh_info = {"status": True, "content": ""}
@@ -662,6 +706,7 @@ def upload_keyfile(request):
         r.rpush("keyfile.list", line)
     return ssh_info
 
+@login_required(login_url='/')
 @ajax_http
 def docker_repo(request):
     info = {"status": True, "content": ""}
@@ -686,27 +731,30 @@ def docker_repo(request):
 
         return info
 
+@login_required(login_url='/')
 @ajax_http
 def docker_repo_list(request):
     info = {"status": True, "content": ""}
+    Repo_list = []
     try:
         repo_list = r.hvals("docker_repo") ###array
         if repo_list == []:
-            print repo_list
+            # print repo_list
             raise Exception("仓库是空的...")
         else:
             for h in repo_list:
-                Repo_list = h
-
+                print h
+                Repo_list.append(h)
+        # print Repo_list
+        info["content"] = Repo_list
         info["status"]  = True
-        info["content"] = json.loads(Repo_list)
 
     except Exception,e:
         info["status"] = False
         info["content"] = str(e)
-
     return info
 
+@login_required(login_url='/')
 @ajax_http
 def docker_repo_del(request):
     info = {"status": True, "content": ""}
@@ -727,9 +775,35 @@ def docker_repo_del(request):
 
     return info
 
+# @login_required(login_url='/')
 @ajax_http
 def docker_img(request):
-    images = []
+    try:
+        repoconf_list = r.hvals("docker_repo")
+        if repoconf_list is None:
+            raise Exception("请先设置仓库!")
+        else:
+            for h in repoconf_list:
+                _repoconf = h
+            repoconf = json.loads(_repoconf)
+            registry = Docker_registry(**repoconf)
+            info = registry.docker_img_content()
+
+    except Exception, e:
+        print e
+    return json.dumps(info)
+
+
+# @ajax_http
+@login_required(login_url='/')
+def docker_imagestags(request):
+    url = request.get_full_path()
+    image = re.split('[\?=]',url)[2]
+    # print url,'810'
+    tags = {
+        "image_name":image,
+        "tag_list":[]
+    }
     try:
         repoconf_list = r.hvals("docker_repo")
         if repoconf_list is None:
@@ -743,119 +817,133 @@ def docker_img(request):
             user = repoconf["repo_user"]
             pwd = repoconf["repo_pass"]
             if url and user and pwd:
-                images_list = []
-                rr = requests.get(url=url + "/v2/_catalog", auth=HTTPBasicAuth(user,pwd) ,timeout=10)
-                image_result = json.loads(rr.text).get('repositories', [])
-                print image_result
-                for  i in image_result:
-                    img_data = {}
-                    img = i.split('/')
-                    if len(img) == 1:
-                        img_data["title"] = img[0]
-                    elif len(img) == 2:
-                        img_data["title"] = img[1]
-                        img_data["parent"] = img[0]
-
-                    images_list.append(img_data)
-
-                temp_tree_view = {}
-                for i in images_list:
-                    if i.has_key("parent"):
-                        if not temp_tree_view.has_key(i['parent']):
-                            temp_tree_view[i['parent']] = []
-                        temp_tree_view[i['parent']].append(i['title'])
-                    else:
-                        images.append({
-                            "name": i['title'],
-                        })
-
-                for t, n in temp_tree_view.items():
-                    tt = {}
-                    tt['name'] = t
-                    tt['sub'] = []
-                    for nn in n:
-                        tt['sub'].append({
-                            "name": nn,
-                        })
-                    images.append(tt)
-                        # print images
-
-    except Exception, e:
+                rr = requests.get(url=url + "/v2/" + image + "/tags/list", auth=HTTPBasicAuth(user,pwd) ,timeout=5)
+            if rr.status_code == 200:
+                ###images tag list
+                t_list = json.loads(rr.text).get('tags',[])
+                for t in t_list:
+                    images = {}
+                    tr = requests.get(url=url + "/v2/" + image + "/manifests/" + t,
+                        auth=HTTPBasicAuth(user,pwd),
+                        timeout=5,
+                        headers={'Accept':'application/vnd.docker.distribution.manifest.v2+json'}
+                    )
+                    t_info = json.loads(tr.text)
+                    ####append those  images layer into html
+                    if not t_info.has_key('errors'):
+                        ####last_modified must the same with header inside of Date column
+                        last_modified = time.strftime("%Y-%m-%d %H:%M:%S",time.strptime(tr.headers.get('Date',''), "%a, %d %b %Y %H:%M:%S GMT"))
+                        images["layer_count"] = len(t_info.get('layers'))
+                        images["layer_detail"] = t_info.get('layers')
+                        images["url"] = url + "/" + image + ":" + t
+                        images["tag"] = t
+                        images["digest"] = tr.headers.get('Docker-Content-Digest','')
+                        images["last_modified"] = last_modified
+                        tags["tag_list"].append(images)
+                        # print json.dumps(tags )
+        # print json.dumps(tags)
+    except Exception,e:
         print e
 
-    return json.dumps(images)
+    return  render(request,"repo_tag.html",{"tags":json.dumps(tags),"image":tags["image_name"],"head":img})
 
-# @ajax_http
-# def docker_imgtags(request):
-#     image = request.args.get('image','')
-#     tags = {
-#         "image_name":image,
-#         "tag_list":[]
-#     }
-#     try:
-#         repoconf_list = r.hvals("docker_repo")
-#         if repoconf_list is None:
-#             raise Exception("请先设置仓库!")
-#         else:
-#             for h in repoconf_list:
-#                 _repoconf = h
-#
-#             repoconf = json.loads(_repoconf)
-#             url = repoconf["address"]
-#             user = repoconf["repo_user"]
-#             pwd = repoconf["repo_pass"]
-#             if url and user and pwd:
-#                 rr = requests.get(url=url + "/v2/" + image + "/tags/list", auth=HTTPBasicAuth(user,pwd) ,timeout=5)
-#             if rr.status_code == 200:
-#                 t_list = json.loads(rr.text).get('tags',[])
-#                 for t in t_list:
-#                     img = {}
-#                     tr = requests.get(url=url + "/v2/" + image + "/manifests/" + t,
-#                         auth=HTTPBasicAuth(user,pwd),
-#                         timeout=5,
-#                         headers={'Accept':'application/vnd.docker.distribution.manifest.v2+json'}
-#                     )
-#                     print tr.headers
-#                     t_info = json.loads(tr.text)
-#                     if not t_info.has_key('errors'):
-#                         last_modified = time.strftime("%Y-%m-%d %H:%M:%S",time.strptime(tr.headers.get('Last-Modified',''), '%a, %d %b %Y %H:%M:%S GMT'))
-#                         img["layer_count"] = len(t_info.get('layers'))
-#                         img["layer_detail"] = t_info.get('layers')
-#                         img["url"] = url + "/" + image + ":" + t
-#                         img["tag"] = t
-#                         img["digest"] = tr.headers.get('Docker-Content-Digest','')
-#                         img["last_modified"] = last_modified
-#                         tags['tag_list'].append(img)
-#         # print json.dumps(tags)
-#     except Exception,e:
-#         print e
-#
-#     return  render(request,"docker_repo_tag.html")
+# @login_required(login_url='/')
+@ajax_http
+def docker_tagshistory(request):
+    url = request.get_full_path()
+    image = re.split('[\?&=]',url)[2]
+    tag = re.split('[&=]',url)[3]
+    print image,tag
+    history = {
+        "image":image,
+        "tag":tag,
+        "history":[]
+    }
+    try:
+        repoconf_list = r.hvals("docker_repo")
+        if repoconf_list is None:
+            raise Exception("请先设置仓库!")
+        else:
+            for h in repoconf_list:
+                _repoconf = h
 
+            repoconf = json.loads(_repoconf)
+            url = repoconf["address"]
+            user = repoconf["repo_user"]
+            pwd = repoconf["repo_pass"]
+            if url and user and pwd and image and tag:
+                rr = requests.get(url=url + "/v2/" + image + "/manifests/" + tag,
+                    auth=HTTPBasicAuth(user,pwd),
+                    timeout=5
+                )
+                if rr.status_code == 200:
+                    t_info = json.loads(rr.text)
+                    for h in t_info.get('history'):
+                        v = h.get('v1Compatibility',{})
+                        if v:
+                            history['history'].append(json.loads(v))
+
+    except Exception,e:
+        print "get history error: " + str(e)
+    # print history
+    return json.dumps(history)
+
+@ajax_http
+def docker_delimg(request):
+    if request.method == "DELETE":
+            result = {}
+            try:
+                repoconf_list = r.hvals("docker_repo")
+                if repoconf_list is None:
+                    raise Exception("请先设置仓库!")
+                else:
+                    for h in repoconf_list:
+                        _repoconf = h
+
+                    repoconf = json.loads(_repoconf)
+                    registry = Docker_registry(**repoconf)
+                    url = request.get_full_path()
+                    content =  json.loads(request.body)
+                    image = content['image']
+                    tag = content['tag']
+                    # image = re.split('[\?&=]',url)[2]
+                    # tag = re.split('[&=]',url)[3]
+                    print image,tag
+                    if image and tag:
+                        status = registry.del_manifests(image,tag)
+                        # print status,'928'
+                    result["result"] = status
+            except Exception,e:
+                print "del image error: " + str(e)
+                # result["result"] = str(e)
+            return json.dumps(result)
+
+# def docker_imagestags(request):
+#     return render(request,"repo_tag.html",{"user":request.user,"head":img})
 
 def docker(request):
-    return render(request,"docker_repo.html",{"user":request.session.get('username'),"head":img})
+    return render(request,"docker_repo.html",{"user":request.user,"head":img})
 
 def PushCode(request):
-    return  render(request,'pushcode.html',{"user":request.session.get('username'),"head":img})
+    return  render(request,'pushcode.html',{"user":request.user,"head":img})
 
 def UploadKey(request):
-    return  render(request,'uploadkey.html',{"user":request.session.get('username'),"head":img})
+    return  render(request,'uploadkey.html',{"user":request.user,"head":img})
 
 def remotefile(request):
-    return  render(request,'remotefile.html',{"user":request.session.get('username'),"head":img})
+    return  render(request,'remotefile.html',{"user":request.user,"head":img})
 
 def crond(request):
-    return  render(request,'crond.html',{"user":request.session.get('username'),"head":img})
+    return  render(request,'crond.html',{"user":request.user,"head":img})
 
 def script(request):
-    return  render(request,'script.html',{"user":request.session.get('username'),"head":img})
+    return  render(request,'script.html',{"user":request.user,"head":img})
 
 def command(request):
-    return  render(request,'command.html',{"user":request.session.get('username'),"head":img})
+    return  render(request,'command.html',{"user":request.user,"head":img})
 
 def fileup(request):
-    return  render(request,'fileup.html',{"user":request.session.get('username'),"head":img})
+    return  render(request,'fileup.html',{"user":request.user,"head":img})
 
 def filedown(request):
-    return  render(request,'filedown.html',{"user":request.session.get('username'),"head":img})
+    return  render(request,'filedown.html',{"user":request.user,"head":img})

@@ -15,9 +15,14 @@ Including another URLconf
 """
 import os,sys
 from django.conf.urls import url,include
-from django.contrib import admin
+#from django.contrib import admin
+from xadmin.plugins import xversion
+xversion.register_models()
+import xadmin
+xadmin.autodiscover()
 
 urlpatterns = [
     url(r'^ops/',include('ops.urls')),
-    url(r'^admin/', admin.site.urls),
+    #url(r'^admin/', include(admin.site.urls)),
+    url(r'xadmin/', include(xadmin.site.urls)),
 ]
