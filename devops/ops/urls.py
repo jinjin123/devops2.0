@@ -49,6 +49,15 @@ urlpatterns = [
     url(r'^docker_imagestags',views.docker_imagestags,name="docker_imgtags"),
     url(r'^docker_tagshistory',views.docker_tagshistory),
     url(r'^docker_delimg',views.docker_delimg),
+    url(r'^docker_container',views.docker_container),
+    url(r'^Container_Node',views.Container_Node),
+    url(r'^ContainerNodeList',views.ContainerNodeList),
+    url(r'^ContainerDelNode',views.ContainerDelNode),
+
+    url(r'^images/$', views.docker_images, name='docker-images-list'),
+    url(r'^images/search$', views.search_images, name='search-images'),
+    url(r'^images/pull/(?P<uuid_token>[-\w]+)/$', views.docker_pull_image, name='pull-image'),
+    url(r'^images/remove/$', views.docker_remove_image, name='removeimage'),
 
     url(r'^script',views.script,name="script"),
     url(r'^PushCode',views.PushCode,name="PushCode"),

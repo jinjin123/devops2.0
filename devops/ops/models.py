@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import Group
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.encoding import python_2_unicode_compatible
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
@@ -236,3 +237,70 @@ class AccessRecord(models.Model):
 
     def __str__(self):
         return "%s Access Record" % self.date.strftime('%Y-%m-%d')
+#
+# @python_2_unicode_compatible
+# class ContainerIp(models.Model):
+#     ip_addr = models.GenericIPAddressField(unique=True)
+#     mac_addr = models.CharField(max_length=200, null=True, blank=True)
+#     is_routed = models.BooleanField(default=False)
+#     is_active = models.BooleanField(default=True)
+#     is_available = models.BooleanField(default=True)
+#
+#     def __str__(self):
+#         return self.ip_addr
+#
+# @python_2_unicode_compatible
+# class ContainerHost(models.Model):
+#     hostname = models.CharField(max_length=100, blank=True)
+#     is_active = models.BooleanField(default=True)
+#     ssh_port = models.CharField(max_length=10, default='22')
+#     docker_api_port = models.CharField(max_length=10)
+#     docker_network = models.CharField(max_length=100, blank=True)
+#
+#     def __str__(self):
+#         return self.ip.ip_addr
+#
+# class ImageManager(models.Manager):
+#     def get_image(self, name, user):
+#         try:
+#             image = Image.objects.get(name=name)
+#             if user == image.user or user.is_superuser:
+#                 return image
+#             else:
+#                 return None
+#         except ObjectDoesNotExist:
+#             return None
+#
+# @python_2_unicode_compatible
+# class Image(models.Model, ImageMixin):
+#     name = models.CharField(max_length=200)
+#     tag = models.CharField(max_length=200)
+#     user = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
+#     snapshot = models.CharField(max_length=200)
+#     is_snapshot = models.BooleanField(default=False)
+#     objects = ImageManager()
+#
+#     def __str__(self):
+#         return self.name
+#
+# class ContainerManager(models.Manager):
+#     def get_container(self, container_id, user):
+#         try:
+#             container = Container.objects.get(container_id=container_id)
+#             if user == container.user or user.is_superuser:
+#                 return container
+#             else:
+#                 return None
+#         except ObjectDoesNotExist:
+#             return None
+#
+# class Container(models.Model):
+#     hostname = models.CharField(max_length=100)
+#     container_id = models.CharField(max_length=200)
+#     image = models.ForeignKey(Image)
+#     ip = models.ForeignKey(ContainerIp)
+#     user = models.ManyToManyField(UserInfo)
+#     objects = ContainerManager()
+#
+#     def __str__(self):
+#         return self.container_id

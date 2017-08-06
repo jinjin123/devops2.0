@@ -138,6 +138,7 @@ a.cg-bt{
     height: 100%;
     background: rgba(0,0,0,0.5);
     display: none;
+    margin: -15 0 0 0 ;
 }
 /*弹出层*/
 .head_box{
@@ -240,6 +241,134 @@ color:#ACA899;
     left: -7%;
     border-radius: 4px;
     display: initial;
+}
+.NewContainerShow_box{
+    width: 500px;
+    height: 250px;
+    position: fixed;left: 50%; top: 22%;
+    background: white;
+    margin-left: -250px;
+    border-top:6px double #e5e5e5;
+    border-radius: 10px;
+    border-right: 3px solid #e5e5e5;
+    border-left:3px solid #e5e5e5; 
+}
+.NewNode_input{
+    position: relative;
+    left: 17%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 80%;
+    text-indent: 10px;
+    font-size: 10px;
+    /* top: -13px; */
+    line-height: initial;
+}
+.NewContainer_main{
+    position: relative;
+    /* left: 17%; */
+    /* border: 1px solid #ccc; */
+    border-radius: 4px;
+    width: 80%;
+    text-indent: 10px;
+    font-size: 10px;
+    /* top: -13px; */
+    margin: 0;
+    padding: 0;
+    top:30px;
+}
+.ContainerService_box{
+    width: 500px;
+    height: 290px;
+    position: fixed;left: 50%; top: 22%;
+    background: white;
+    margin-left: -250px;
+    border-top:6px double #e5e5e5;
+    border-radius: 10px;
+    border-right: 3px solid #e5e5e5;
+    border-left:3px solid #e5e5e5; 
+}
+.ContainerService_input{
+    position: relative;
+    left: 17%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 80%;
+    text-indent: 10px;
+    font-size: 10px;
+    /* top: -13px; */
+    line-height: initial;
+}
+.ContainerService_main{
+    position: relative;
+    /* left: 17%; */
+    /* border: 1px solid #ccc; */
+    border-radius: 4px;
+    width: 80%;
+    text-indent: 10px;
+    font-size: 10px;
+    /* top: -13px; */
+    margin: 0;
+    padding: 0;
+    top:30px;
+}
+.DelBxCk_box{
+    width: 500px;
+    height: 200px;
+    position: fixed;left: 50%; top: 22%;
+    background: white;
+    margin-left: -250px;
+    border-top:6px double #e5e5e5;
+    border-radius: 10px;
+    border-right: 3px solid #e5e5e5;
+    border-left:3px solid #e5e5e5; 
+}
+.del_node{
+    width: 20px;
+    height: 20px;
+    background-color: #F9FBFD;
+    border-radius: 10px;
+    border: 0px solid #DBE6EF;
+    display:   block; 
+    position: absolute;
+    bottom: 20px; 
+    left: 150px;
+}
+ .del_node:after{
+    content: "\2716";
+    color: #999;  
+    font-size: 12px;
+    position: absolute;
+    left: 4px;
+    cursor: hand;
+    display: block;
+}  */
+/* .del_node:hover{
+    display: block;
+} */
+
+.close{
+      width: 20px;
+    height: 20px;
+    background-color:green;
+    border-radius: 10px;
+    border: 1px solid #DBE6EF;
+    display: inline-block;
+    position: relative;
+     bottom: 1px; 
+    right: 1px;  
+}
+.close:after{
+    content: "\2716";
+    color: green ;
+    font-size: 12px;
+    position: relative;
+    left: 4px;
+    /* bottom: 3px; */
+    cursor: hand;
+}
+.DelTips{
+    
 }
 /*.cg-pwd{*/
 

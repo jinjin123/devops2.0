@@ -37,6 +37,13 @@ var DockerIMG = "/ops/docker_img"
 var DockerIMGTAGS = "/ops/docker_imagestags?image="
 var DockerIMGTAGS_HISTORY = "/ops/docker_tagshistory?image="
 var DockerIMGDEL = "/ops/docker_delimg"
+var ContainerNode = "/ops/Container_Node"
+var ContainerNodeList = "/ops/ContainerNodeList"
+var ContainerDelNode = "/ops/ContainerDelNode"
+var Docker_pulled_images =  "/ops/images"
+var Docker_search_images = "/ops/images/search"
+var Docker_pull_images = "/ops/images/pull/"
+var deleteImgURL = "/ops/images/remove"
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;
@@ -112,6 +119,47 @@ function initGetServersList() {
     });
 }
 
+//global  Node list
+$(function(){
+  getJSON(ContainerNodeList).then(function(data){
+        // data = data.replace(/[\\]/g,"");
+        data = JSON.parse(data)
+        // window.ContainerNodeList = JSON.parse(data)
+        console.log(data)
+        // return data
+        // //n 得到下标
+        $.map(data,function (i,n ){
+            window.ContainerNodeList = i
+            // console.log(window.ContainerNodeList )
+          // for(x=0;x<i.length;x++){
+          // //   // console.log(i[x])
+          //   window.ContainerNodeList = i[x]
+          //   console.log(  window.ContainerNodeList)
+          // //   console.log(window.ContainerNodeList)
+          // //   // createNode(i[x])
+          // }
+        })
+  });
+})
+// $(function  LoadNodeList() {
+//   getJSON(ContainerNodeList).then(function(data){
+//         // data = data.replace(/[\\]/g,"");
+//         data = JSON.parse(data)
+//         // window.ContainerNodeList = JSON.parse(data)
+//         console.log(data)
+//         // return data
+//         // //n 得到下标
+//         $.map(data,function (i,n ){
+//           for(x=0;x<i.length;x++){
+//             // console.log(i[x])
+//             window.ContainerNodeList = i[x]
+//             console.log(window.ContainerNodeList)
+//             // createNode(i[x])
+//           }
+//         })
+//   });
+// }
+
 //ajax callback to check data to do something
 function responseCheck(data) {
     // console.log(data);
@@ -160,6 +208,53 @@ function stopShadow() {
     document.getElementById("shadow").style.display = "none"
 
 }
+function postJSON(url, data) {
+    return new Promise( (resolve, reject) => {
+        var xhr = new XMLHttpRequest()
+        xhr.open("POST", url, true)
+        // xhr.setRequestHeader("Content-type", "application/json  charset=UTF-8");
+        xhr.send(JSON.stringify(data))
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    $('#NewContainerShow').hide()
+                    $('#DelBxCheck').hide()
+                    resolve(JSON.parse(this.responseText), this)
+                } else {
+                    var resJson = { code: this.status, response: this.response }
+                    showErrorInfo(resJson.code)
+                    reject(resJson, this)
+                }
+            }
+        }
+
+    })
+}
+
+function getJSON (url) {
+
+    return new Promise( (resolve, reject) => {
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', url, true)
+        xhr.setRequestHeader("Content-type", "application/json  charset=UTF-8");
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    resolve(response);
+                    console.log(response);
+                } else {
+                    var resJson = { code: this.status, response: this.response }
+                    reject(resJson, this)
+                }
+            }
+        }
+
+        xhr.send()
+    })
+
+}
 
 //guidance station
 $(function(){
@@ -184,9 +279,6 @@ $(function(){
     $('#Pushcode').click(function () {
         window.location.href = '/ops/PushCode';
     });
-    $('#docker_repo').click(function () {
-        window.location.href = '/ops/docker_repo';
-    });
     $('#fileup').click(function () {
         window.location.href = '/ops/fileup';
     });
@@ -195,5 +287,11 @@ $(function(){
     });
     $('#remotefile').click(function () {
         window.location.href = '/ops/remotefile';
+    });
+    $('#docker_repo').click(function () {
+        window.location.href = '/ops/docker_repo';
+    });
+    $('#docker_container').click(function () {
+        window.location.href = '/ops/docker_container';
     });
 })

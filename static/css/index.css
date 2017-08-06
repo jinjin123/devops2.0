@@ -38,6 +38,8 @@
 }
 .cd-section.visible {
   /* this is the visible/selected section */
+  height: 100%;
+  overflow-y: auto;
   position: relative;
   z-index: 2;
   -webkit-overflow-scrolling: touch;
@@ -107,7 +109,8 @@
 
   }
   .cd-content p {
-    font-size: 1.6rem;
+    /*font-size: 1.6rem;*/
+    font-size: 0.6rem;
   }
 }
 

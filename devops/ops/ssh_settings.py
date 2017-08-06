@@ -9,5 +9,5 @@ upload_dir="/Users/wupeijin/code3/django-tornado/upload"
 download_file_url="/Users/wupeijin/code3/django-tornado/download/file"
 keyfile_dir="/Users/wupeijin/code3/django-tornado/keys"
 script_dir="/Users/wupeijin/code3/django-tornado/script"
-redisip='139.219.104.90'
-redisport=6379
+redisip='182.254.154.81'
+redisport=23456

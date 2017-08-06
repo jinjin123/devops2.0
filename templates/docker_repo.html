@@ -178,7 +178,7 @@
                          </span>
                     </div>
                     </p>
-                    <div class="panel-heading" style="z-index: 1;background: white;">
+                    <div class="panel-heading" style="z-index: 1;background: white;margin:0;margin-top: -20;">
                         <button class="btn btn-success btn-xs glyphicon glyphicon-plus "
                                 id="CreateRepoDiv">创建镜像仓库</button>
                         <button class="btn btn-default btn-xs glyphicon glyphicon-refresh"
@@ -191,6 +191,8 @@
                                 </a>
                             </li>
                             <li><a href="#img_list" data-toggle="tab" id="docker_img">镜像列表</a><span id="image_title"></span></li>
+                            <li><a href="#img_pull" data-toggle="tab" id="docker_pull">镜像下载</a><span id="img_pull_center"></span></li>
+                            <li><a href="#floating_ip" data-toggle="tab" id="floating_ip">弹性vpc</a><span id="floating_ip"></span></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div class="tab-pane fade in active" id="repo_list">
@@ -268,6 +270,50 @@
                                         <div id="image_list" class="col-md-12"></div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="tab-pane fade" id="img_pull">
+                              <div class="panel-body">
+                                  <div class="row">
+                                      <!-- <div class="col-md-9" style="margin-bottom: 13px">
+                                          <button type="button" class="btn btn-primary" id="btn_collapse_all"
+                                                  onclick="collapseAll()">折叠
+                                          </button>
+                                      </div> -->
+
+                                      <!-- Search  docker hub  bar -->
+                                      <div class="col-md-3" style="margin-bottom: 13px;float: right; width: 100%">
+                                          <div class="input-icon-group">
+                                              <div class="input-group">
+                                                  <input type="text" class="form-control" id="Search_images"
+                                                         placeholder="Search Docker Hub" autofocus/>
+                                                  <span class="input-group-addon">
+                                                      <i class="glyphicon glyphicon-search"> </i>
+                                                  </span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="search_result row"></div>
+                                  <h3 class="heading">Images</h3>
+                                  <div style="height: 180px;overflow-y: auto;margin: 0;padding: 0;">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">Ttile</th>
+                                                <th width="10%">Tag</th>
+                                                <th width="10%">Image ID</th>
+                                                <th width="15%">Size</th>
+                                                <th width="20%">Date</th>
+                                                <th width="8%">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="showDockerImagesTbody"></tbody>
+                                    </table>
+                                  </div>
+                                  <!-- <div class="row">
+                                      <div id="image_list" class="col-md-12"></div>
+                                  </div> -->
+                              </div>
                             </div>
                         </div>
                     </div>

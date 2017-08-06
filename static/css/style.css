@@ -1,4 +1,4 @@
-/* -------------------------------- 
+/* --------------------------------
 
 Primary style
 
@@ -41,7 +41,7 @@ input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 Main Page Content
 
@@ -82,7 +82,7 @@ Main Page Content
   }
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 Header
 
@@ -106,8 +106,8 @@ Header
 }
 @media only screen and (min-width: 768px) {
   .cd-main-header {
-    position: absolute;
-    height: 60px;
+    position: fixed;
+    height: 50px;
     z-index: 6;
   }
 }
@@ -296,7 +296,7 @@ Header
   }
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 Top Navigation
 
@@ -366,7 +366,7 @@ Top Navigation
   }
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
 Sidebar
 

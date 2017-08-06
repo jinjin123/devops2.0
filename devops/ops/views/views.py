@@ -3,7 +3,7 @@
 import os,sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
-from django.http import HttpResponseRedirect,HttpResponse,request
+from django.http import HttpResponseRedirect,HttpResponse,request,JsonResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.contrib.auth.decorators import  login_required
@@ -22,11 +22,14 @@ from crontab_controler import  SSHCrontabControler
 from remote_file import  RemoteFile
 from requests.auth import HTTPBasicAuth
 from docker_img_show import Docker_registry
+from devops.settings  import DOCKER_API_PORT
+from utils import  ImageMixin,ContainerMixin
 # from docker import  docker
 import ssh_modol_controler,threading,cpu,mem,hashlib,datetime,redis,random,commands,time,requests
 import simplejson as json
 import demjson
 import re
+import uuid
 
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 img = '../static/img/cd-avatar.png'
@@ -42,7 +45,8 @@ def Login(request):
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         # print user,'48'
-        if user is not None and user.is_active and models.UserLock.objects.filter(ip=ip,status=0):
+        # if user is not None and user.is_active and models.UserLock.objects.filter(ip=ip,status=0):
+        if user is not None and user.is_active :
              login(request,user)
              request.session['user'] = username
              return  HttpResponseRedirect(reverse('ops_index'))
@@ -61,11 +65,6 @@ def Login(request):
             return response
     return HttpResponseRedirect("/")
 
-# @login_required(login_url='/')
-# def index(request):
-#     print request.user
-#     return HttpResponse("hello")
-    # return HttpResponseRedirect("/")
 
 @login_required(login_url='/')
 def index(request):
@@ -109,8 +108,8 @@ def getcpu(request):
 def hello(request):
     return render(request,'service.html')
 
-@login_required(login_url='/')
-@ajax_http
+# @login_required(login_url='/')
+# @ajax_http
 def host_input(request):
     Format = []
     if request.method == 'POST':
@@ -549,12 +548,12 @@ def delete_script(request):
 			pass
 		else:
 			data=json.loads(data)
-			if filename==data["script"] :
+			if filename==data["script"]:
 				r.hdel("scripts",filename)
 				try:
 					os.remove(full_path)
 					print "delte.."
-				except:
+				except Exception,e:
 					pass
 		ssh_info["status"]=True
 	except Exception,e:
@@ -711,7 +710,7 @@ def upload_keyfile(request):
 def docker_repo(request):
     info = {"status": True, "content": ""}
     if request.method == "POST":
-        print request.body
+        # print request.body
         try:
             parameters = request.POST.get("parameters")
         except Exception,e:
@@ -918,8 +917,223 @@ def docker_delimg(request):
                 # result["result"] = str(e)
             return json.dumps(result)
 
-# def docker_imagestags(request):
-#     return render(request,"repo_tag.html",{"user":request.user,"head":img})
+@login_required(login_url='/')
+@ajax_http
+def  Container_Node(request):
+    if request.method == "POST":
+        result = {}
+        try:
+            # print request.POST.get("")
+            parameters = json.loads(request.body)
+            parameters.update({"time":time.strftime('%Y-%m-%d %H:%M:%S')})
+            print parameters
+            try:
+                #"{'parameters': {'NodeIp': 'fdsf', 'NodeName': 'fdsf', 'NodeId': 'e1iv944r95'}, 'time': '2017-07-31 14:52:26'}"
+                # r.lpush("Container_Node",parameters["NodeName"],parameters)
+                ##use list
+                r.hset("Container_Node",parameters["NodeName"],json.dumps(parameters))
+                result["status"]  = 200
+            except Exception,e:
+                print e
+        except Exception,e:
+            result["status"]  = 401
+            print e
+        return json.dumps(result)
+
+@login_required(login_url='/')
+@ajax_http
+def  ContainerNodeList(request):
+     result = {"status": True, "data": []}
+     try:
+         NodeList = r.hvals("Container_Node")
+         for  _list  in NodeList:
+             print _list
+             print type(_list)
+             result["data"].append(_list)
+         result["status"] = True
+         print result
+     except Exception, e:
+         print e
+     return json.dumps(result)
+
+@login_required(login_url='/')
+@ajax_http
+def  ContainerDelNode(request):
+        if request.method == "POST":
+            result =  {"status": 200 }
+            try:
+                # data = {"data": 'fdsff'}
+                ###多个引号
+                print request.body
+                data = re.split("\"",request.body)[1]
+                NodeList = r.hdel("Container_Node", data)
+                result =  {"status": 200 }
+            except Exception ,e :
+                result =  {"status": "can not  connect redis" }
+            return  json.dumps(result)
+
+@login_required(login_url='/')
+@ajax_http
+def  docker_images(request):
+    result = {"status": True, "content": []}
+    uuid_token = str(uuid.uuid4())
+    try:
+        image_list = r.hvals("docker_img")
+        for  _image in image_list:
+            #  image = json.loads(_image)
+            #  detail = ImageMixin().details(image['fromImage'],image['tag'])
+             result["content"].append(_image)
+        result["status"] = True
+        print result
+    except Exception,e:
+        print str(e)
+        result["status"] =  False
+        result["content"] =  str(e)
+    return json.dumps(result)
+
+
+@login_required(login_url='/')
+# @ajax_http
+def search_images(request):
+    term = request.POST['term']
+    print term
+    images = requests.get('http://localhost:' + DOCKER_API_PORT + '/images/search?term=' + term)
+    print images
+    return HttpResponse(json.dumps(images.json()),
+                        content_type='application/json')
+
+@login_required(login_url='/')
+def docker_pull_image(request, uuid_token):
+    # TODO userdefined tag
+    #TODO  everyuser hasown image
+    print request.user
+    params = {'tag': 'latest', 'fromImage': request.POST['imageName']}
+    print uuid_token
+    response = requests.post('http://localhost:' + DOCKER_API_PORT + '/images/create', params=params, stream=True)
+    if response:
+        for line in response.iter_lines():
+            print line,'1014'
+            file = open('/tmp/' + uuid_token, 'w')
+            if line:
+                output = json.loads(str(line.decode(encoding='UTF-8')))
+                try:
+                    ####already downloaded  shld be  save  image  info
+                    if output['progressDetail']:
+                        progress = (output['progressDetail']['current'] * 100) / output['progressDetail']['total']
+                        file.write('{"status": "ok","image-status":"' + output['status'] + '","progress":' + str(
+                            int(progress)) + ',"id":"' + output['id'] + '"}')
+                        # params = json.loads(params)
+                        # params.update({""})
+                        # params["user"] = str(request.user)
+                except KeyError:
+                    try:
+                        if 'Digest:' in output['status']:
+                            print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+                            detail = ImageMixin().details(name=request.POST['imageName'],tag='latest')
+                            params.update({"id":detail["id"],"size":detail["size"],"created":time.strftime('%Y-%m-%d %H:%M:%S')})
+                            print params
+                            r.hset("docker_img",request.POST['imageName'],json.dumps(params))
+                    except KeyError:
+                        pass
+                    file.close()
+                    file = open('/tmp/progress', 'w')
+                    file.write(str({"status": output['status']}))
+        file.close()
+        return JsonResponse({'status': 'ok'})
+    else:
+        return JsonResponse({'status': 'error'})
+
+@login_required(login_url='/')
+@ajax_http
+def docker_remove_image(request):
+    #TODO  everyuser  only del own image
+    info  = {"result": ''}
+    image = r.hget('docker_img',request.GET.get('name'))
+    if image:
+        status_code = ImageMixin().remove(request.GET.get('name'))
+        if status_code == 200:
+            r.hdel('docker_img',request.GET.get('name'))
+            info['result'] = 'Deleted'
+            return info
+        elif status_code == 404:
+            info['result'] = 'NO SUCH IMAGE'
+            return info
+        elif status_code == 409:
+            info['result'] = 'Image Conflict'
+            return info
+    info['result'] = 'Unable to remove image'
+    return info
+
+    # if image:
+    #     if request.POST:
+    #         passphrase = request.POST['passphrase']
+    #         if request.user.check_password(passphrase):
+    #             status_code = image.remove()
+    #             if status_code == 200:
+    #                 image.delete()
+    #                 return JsonResponse({'success': 'Deleted'})
+    #             elif status_code == 404:
+    #                 return JsonResponse({'ERROR': 'NO SUCH IMAGE'})
+    #             elif status_code == 409:
+    #                 return JsonResponse({'ERROR': 'Image Conflict'})
+    #             return JsonResponse({'ERROR': 'Unable to remove image'})
+    #         return JsonResponse({'perror': True})
+    #     else:
+    #         details_d = image.details()
+    #         image.__dict__.update(details_d)
+    #         return render(request, 'remove_image.html', {'image': image})
+    # return render(request, 'no_access.html')
+# @login_required(login_url='/')
+# @ajax_http
+# def launch_image(request, name):
+#     image = Image.objects.get(name=name)
+#     if image.has_access(request.user):
+#         if request.method == "POST":
+#             container_form = ContainerForm(request.POST, ssh_users=request.POST.getlist('ssh_users'))
+#             if container_form.is_valid():
+#                 memory, cores, hostname = container_form.cleaned_data['ram'], \
+#                     container_form.cleaned_data['cores'], \
+#                     container_form.cleaned_data['hostname']
+#                 image_obj = Image.objects.get(id=request.POST['image'])
+#                 container_obj = container_form.save(commit=False)
+#                 if container_obj.ip.is_routed:
+#                     result = image_obj.run_bridge(cores, memory, container_obj.ip.ip_addr, hostname)
+#                 else:
+#                     result = image_obj.run_macvlan(cores, memory, container_obj.ip.ip_addr, container_obj.ip.mac_addr, hostname)
+#                 container_obj.container_id = result
+#                 container_obj.save()
+#                 for r in request.POST.getlist('user'):
+#                     container_obj.user.add(r)
+#                 container_obj.save()
+#
+#                 for ssh_user in request.POST.getlist('ssh_users'):
+#                     user_obj = User.objects.get(email=ssh_user)
+#                     container_obj.copy_ssh_pub_key(user_obj)
+#
+#                 passphrase = container_obj.set_passphrase()
+#                 request.session['launched_container_id'] = container_obj.container_id.decode('utf-8')
+#                 ip = IP.objects.get(ip_addr=str(container_obj.ip))
+#                 ip.is_available = False
+#                 ip.save()
+#                 url = reverse('docker_box:container_info', kwargs={'container_id': container_obj.container_id.decode('utf-8')})
+#                 return JsonResponse({'success': 'image launched', 'url': url, 'passphrase': passphrase})
+#
+#             return JsonResponse({'FORM_ERRORS': 'true', 'form_errors': container_form.errors})
+#         else:
+#             users = [request.user]
+#             if request.user.is_superuser:
+#                 users = User.objects.filter(is_active=True)
+#                 images = Image.objects.all()
+#             else:
+#                 images = Image.objects.filter(user=request.user)
+#             ips = IP.objects.filter(is_active=True, is_available=True)
+#
+#             return render(request, "launch_image.html", {'ips': ips, 'images': images, 'image_name': name, 'users': users})
+#     raise PermissionDenied
+
+
+def docker_container(request):
+    return render(request,"docker_container.html",{"user":request.user,"head":img})
 
 def docker(request):
     return render(request,"docker_repo.html",{"user":request.user,"head":img})

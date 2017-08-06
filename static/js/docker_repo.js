@@ -149,30 +149,84 @@ function load_repo_list(){
         }
     })
 }
-function deleteRepo(deleteButton) {
-    //deleteButton filename
-    var addname = deleteButton.getAttribute("address");
-    console.log(addname)
-    var td = $(deleteButton).parent();
-    var tr = $(td).parent();
-    jQuery.ajax({
-        "url": deleteRepotURL,
-        "dataType": "jsonp",
-        "data": {"addname": addname},
-        "beforeSend": start_load_pic,
-        "error": errorAjax,
-        "complete": stop_load_pic,
-        "success": function (data) {
-            if (!data.status) {
-                showErrorInfo(data.content);
-                return false;
-            }
-            else {
-                showSuccessNotic();
-                $(tr).remove();//del line
-            }
+//load pulled images list
+function  load_pulled_images(){
+  $.ajax({
+      "url": Docker_pulled_images,
+      "dataType": "jsonp",
+      "beforeSend": start_load_pic,
+      "error": errorAjax,
+      "complete": stop_load_pic,
+      "success": function (data) {
+        //  console.log(JSON.parse(data));
+        data = JSON.parse(data)
+        console.log(data)
+        if (data.status == false){
+              showErrorInfo(data.content);
+        } else {
+           console.log(data.content)
+              createImageLine(data.content);
+          //  for (let i in data.content){
+          //      console.log(i)
+          //     data.content[i] = JSON.parse(data.content[i]);
+          //     console.log(data.content[i]);
+          //     // console.log(data.content[i]);
+          //     // showSuccessNotic();
+          //     createImageLine(data.content[i]);
+          //  }
         }
-    });
+          // if (!data.status) {
+              // showErrorInfo(data.content);
+              // return false;
+          // }
+          // else {
+              // showSuccessNotic();
+              // createRepoTableLine(data.content);
+          // }
+      }
+  })
+}
+function createImageLine(data){
+    $('#showDockerImagesTbody').children().remove();
+    for(let i in data){
+       data[i] = JSON.parse(data[i]);
+       var showDockerImagesTbody = document.getElementById("showDockerImagesTbody");
+       var tr = document.createElement("tr")
+       // title
+       var Title = document.createElement("td");
+       Title.textContent = data[i]["fromImage"];
+       tr.appendChild(Title);
+       //tag
+       var tag = document.createElement("td");
+       tag.textContent = data[i]["tag"];
+       tr.appendChild(tag);
+       // id
+       var id = document.createElement("td");
+       id.textContent = data[i]["id"];
+       tr.appendChild(id);
+       //size
+       var size = document.createElement("td");
+       size.textContent = data[i]["size"] + 'M';
+       tr.appendChild(size);
+       //date
+       var created = document.createElement("td");
+       created.textContent = data[i]["created"] ;
+       tr.appendChild(created);
+       //action
+       var opTd = document.createElement("td");
+       var deleteButton = document.createElement("button");
+       deleteButton.className = "btn btn-xs btn-danger glyphicon glyphicon-trash";
+       deleteButton.setAttribute("image_name", data[i]["fromImage"]);
+       deleteButton.style.marginLeft = "3px";
+       deleteButton.onclick = function () {
+           deleteImg(this);
+       }
+       opTd.appendChild(deleteButton);
+       tr.appendChild(opTd);
+       showDockerImagesTbody.appendChild(tr);
+
+      //  $('#showDockerImagesTbody').children().remove();
+    }
 }
 //create table
 function createRepoTableLine(data) {
@@ -206,7 +260,59 @@ function createRepoTableLine(data) {
 
     }
 }
-
+//del  docker repo
+function deleteRepo(deleteButton) {
+    //deleteButton filename
+    var addname = deleteButton.getAttribute("address");
+    console.log(addname)
+    var td = $(deleteButton).parent();
+    var tr = $(td).parent();
+    jQuery.ajax({
+        "url": deleteRepotURL,
+        "dataType": "jsonp",
+        "data": {"addname": addname},
+        "beforeSend": start_load_pic,
+        "error": errorAjax,
+        "complete": stop_load_pic,
+        "success": function (data) {
+            if (!data.status) {
+                showErrorInfo(data.content);
+                return false;
+            }
+            else {
+                showSuccessNotic();
+                $(tr).remove();//del line
+            }
+        }
+    });
+}
+//del  docker  images
+function deleteImg(deleteButton) {
+    //deleteButton filename
+    var delname = deleteButton.getAttribute("image_name");
+    console.log(delname)
+    var td = $(deleteButton).parent();
+    var tr = $(td).parent();
+    jQuery.ajax({
+        "url": deleteImgURL,
+        "dataType": "jsonp",
+        "data": {"name": delname},
+        "beforeSend": start_load_pic,
+        "error": errorAjax,
+        "complete": stop_load_pic,
+        "success": function (data) {
+            console.log(data);
+            if (data.result != 'Deleted') {
+                showErrorInfo(data.result);
+                return false;
+            }
+            else {
+                showSuccessNotic();
+                $(tr).remove();//del line
+            }
+        }
+    });
+}
 
 //search the  script content
 function searchValue(input) {
@@ -239,6 +345,8 @@ function GotBackPage(){
 //init
 $(function () {
     load_repo_list();
+    a = guid()
+    console.log(a)
     //bind refreash
     document.getElementById("refreshRepoList").onclick = function () {
         window.location.reload();
@@ -277,8 +385,75 @@ $(function () {
     $("#Docker_repo").on('click',function () {
         load_repo_list();
     });
+    $("#docker_pull").on('click',function () {
+        // load_repo_list();
+        load_pulled_images();
+    });
+    $("#floating_ip").on('click',function () {
+        // load_repo_list();
+        console.log('b');
+    });
     $(document).on('keyup', '.searchValue', function () {
         searchValue(this);
     });
+    $('#Search_images').keyup(function () {
+            var term = $('#Search_images').val();
+            $.post(Docker_search_images, {'term': term}, function (data) {
+                if (data.length > 0) {
+                    $('.search_result').text('')
+                    //control  content size show
+                    $('.search_result').css({"height": "300px","overflow-y": "auto"})
+                    for (var key in data) {
+                        $('.search_result').append(
+                                '<div class="col-lg-12 col-md-12"><div class="card" style="background:white; padding:   10px 20px; border-bottom: 1px solid #dadada;"><div class="card-block row"><div class="col-md-12"><h4 class="card-title">' + data[key].name + '</h4></div><div class="col-md-12"><div class="col-lg-8 col-md-8 col-sm-12"><p class="card-text">Description: ' + data[key].description + '</p></div><div class="col-lg-2 col-md-2 col-sm-6"><i class="fa fa-star"></i> ' + data[key].star_count + '</div><div class="col-lg-2 col-md-2 col-sm-6"><button class="btn btn_color pull">Pull</button></div><div class="'+data[key].name+'"></div></div></div></div></div>'
+                        );
+                    }
+                }
+                else {
+                    $('.search_result').html('<p class="heading text-center">No Images Found :(</p>')
+                }
+            });
 
+      });
+      timer2 = false
+      count = 0
+      function timer(){
+          if(count == 0){
+              $('.search_result').text('');
+              $('.search_result').css({"display": "none"});
+              load_pulled_images();
+              // window.location = Docker_pulled_images
+          }
+          timer2 = setTimeout(timer, 1000)
+      }
+      $("body").on("click", ".pull", function (e) {
+          e.preventDefault();
+          count += 1
+          console.log(timer2)
+          if(!timer2){
+              timer()
+          }
+          $(this).off('click')
+          imageName = $($(this).closest('.card-block').children()[0]).text()
+          $(this).text('Pulling..');
+          this1 = $(this)
+          // $.post(Docker_pull_images, {imageName: imageName},
+          uuid_token = guid()
+          $.post( Docker_pull_images  + uuid_token + '/', {imageName: imageName},
+              function (data, status, xhr) {
+                   console.log(data);
+                  if (status == 'success') {
+                      if (data['status'] == 'ok') {
+                          this1.text('Pulled')
+                          count -= 1
+                      }
+                  }
+              });
+     });
+     function S4() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+     };
+     function guid() {
+        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+     };
 })

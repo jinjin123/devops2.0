@@ -1,4 +1,4 @@
-<html>
+  <html>
 <head>
     <link rel="stylesheet" href="../static/css/reset.css"> <!-- CSS reset -->
 	<link rel="stylesheet" type="text/css" href="../static/css/default.css">
@@ -91,12 +91,13 @@
         </div>
 
 	<header class="cd-main-header">
-		<a href="#0" class="cd-logo"><img src="../static/img/logo.jpeg" alt="Logo"></a>
-		<div class="cd-search is-hidden">
+    <a class="navbar-brand" href="/ops/index"><i style="font-style:italic;">DevOps2.0</i></a>
+		<!-- <a href="#0" class="cd-logo"><img src="../static/img/logo.jpeg" alt="Logo"></a> -->
+		<!-- <div class="cd-search is-hidden">
 			<form action="#0">
 				<input type="search" placeholder="Search...">
 			</form>
-		</div> <!-- cd-search -->
+		</div> <!-- cd-search --> -->
 		<a href="#0" class="cd-nav-trigger">Menu<span></span></a>
 		<nav class="cd-nav">
 			<ul class="cd-top-nav">
@@ -114,7 +115,7 @@
 		</nav>
        <div class="box" id="head">
             <div class="head_box">
-                <a href="javascript:;" onclick="$('#head').hide()" class="close">关闭</a>
+                <a href="javascript:;" onclick="$('#head').hide()" class="close"></a>
                 <div>
                     <a href="javascript:;" class="file">上传头像
                         <input id="hd_img_in" type="file" class="" accept="images/*">
@@ -195,7 +196,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="content"><a id="docker_repo" data-menu="docker_repo"><i class="fa fa-circle-o"></i>镜像仓库</a></li>
-                        <li class="content"><a href="#"><i class="fa fa-circle-o"></i> 容器管理</a></li>
+                        <li class="content"><a id="docker_container"><i class="fa fa-circle-o"></i> 容器管理</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
