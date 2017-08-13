@@ -44,6 +44,9 @@ var Docker_pulled_images =  "/ops/images"
 var Docker_search_images = "/ops/images/search"
 var Docker_pull_images = "/ops/images/pull/"
 var deleteImgURL = "/ops/images/remove"
+var Container_Ava_Ip = "/ops/Container_Ava_Ip"
+var Create_Container_Net = "/ops/Create_Container_Net"
+var deleteCTNetRange = "/ops/Container_Net_range/remove"
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;
@@ -214,7 +217,6 @@ function postJSON(url, data) {
         xhr.open("POST", url, true)
         // xhr.setRequestHeader("Content-type", "application/json  charset=UTF-8");
         xhr.send(JSON.stringify(data))
-
         xhr.onreadystatechange = function () {
             if (this.readyState === 4) {
                 if (this.status === 200) {
@@ -233,7 +235,6 @@ function postJSON(url, data) {
 }
 
 function getJSON (url) {
-
     return new Promise( (resolve, reject) => {
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url, true)
@@ -250,10 +251,8 @@ function getJSON (url) {
                 }
             }
         }
-
         xhr.send()
     })
-
 }
 
 //guidance station

@@ -251,7 +251,7 @@ color:#ACA899;
     border-top:6px double #e5e5e5;
     border-radius: 10px;
     border-right: 3px solid #e5e5e5;
-    border-left:3px solid #e5e5e5; 
+    border-left:3px solid #e5e5e5;
 }
 .NewNode_input{
     position: relative;
@@ -286,7 +286,7 @@ color:#ACA899;
     border-top:6px double #e5e5e5;
     border-radius: 10px;
     border-right: 3px solid #e5e5e5;
-    border-left:3px solid #e5e5e5; 
+    border-left:3px solid #e5e5e5;
 }
 .ContainerService_input{
     position: relative;
@@ -321,7 +321,7 @@ color:#ACA899;
     border-top:6px double #e5e5e5;
     border-radius: 10px;
     border-right: 3px solid #e5e5e5;
-    border-left:3px solid #e5e5e5; 
+    border-left:3px solid #e5e5e5;
 }
 .del_node{
     width: 20px;
@@ -329,23 +329,33 @@ color:#ACA899;
     background-color: #F9FBFD;
     border-radius: 10px;
     border: 0px solid #DBE6EF;
-    display:   block; 
+    display:   block;
     position: absolute;
-    bottom: 20px; 
+    bottom: 20px;
     left: 150px;
 }
  .del_node:after{
     content: "\2716";
-    color: #999;  
+    color: #999;
     font-size: 12px;
     position: absolute;
     left: 4px;
     cursor: hand;
     display: block;
-}  */
-/* .del_node:hover{
-    display: block;
-} */
+}
+.CreateNetworkShow_box{
+    width: 1000px;
+    height: 190px;
+    position: relative;
+    top: 22%;
+    margin: 10px auto;;
+    background: white;
+    /*margin-left: -250px;*/
+    border-top:6px double #e5e5e5;
+    /*border-radius: 10px;
+    border-right: 3px solid #e5e5e5;
+    border-left:3px solid #e5e5e5;*/
+}
 
 .close{
       width: 20px;
@@ -355,8 +365,8 @@ color:#ACA899;
     border: 1px solid #DBE6EF;
     display: inline-block;
     position: relative;
-     bottom: 1px; 
-    right: 1px;  
+     bottom: 1px;
+    right: 1px;
 }
 .close:after{
     content: "\2716";
@@ -368,7 +378,7 @@ color:#ACA899;
     cursor: hand;
 }
 .DelTips{
-    
+
 }
 /*.cg-pwd{*/
 

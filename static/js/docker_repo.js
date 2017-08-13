@@ -313,6 +313,93 @@ function deleteImg(deleteButton) {
         }
     });
 }
+//del contaniner ip range
+function DelContainerIprange(deleteButton){
+    var delname = deleteButton.getAttribute("Nodename");
+    console.log(delname)
+    var td = $(deleteButton).parent();
+    var tr = $(td).parent();
+    jQuery.ajax({
+        "url": deleteCTNetRange,
+        "dataType": "jsonp",
+        "data": {"name": delname},
+        "beforeSend": start_load_pic,
+        "error": errorAjax,
+        "complete": stop_load_pic,
+        "success": function (data) {
+            console.log(data);
+            if (data.result != 'Deleted') {
+                showErrorInfo(data.result);
+                return false;
+            }
+            else {
+                showSuccessNotic();
+                $(tr).remove();//del line
+                LoadAvailableContainerIp();
+            }
+        }
+    });
+}
+//create  Container  ip range
+function LoadAvailableContainerIp (){
+  getJSON(Container_Ava_Ip).then(function(data){
+    //if empty the ip list  its null,then  show the  info is create  network
+    if(data.result == 'empty'){
+      $('#showAvailableIp').children().empty()
+      var showAvailableIp = document.getElementById("showAvailableIp");
+      var tr = document.createElement("tr");
+      var empty = document.createElement("td");
+      empty.style = "position: absolute;vertical-align: middle;padding-right: 0;box-sizing: border-box;padding: 16px 10px 16px 500px;line-height: 24px;color: #999;text-align: center;"
+      empty.textContent = "你还没有创建子网,现在就"
+      var content = document.createElement("a");
+      content.setAttribute("id","CreateNetwork")
+      content.textContent = "创建第一个吧";
+      empty.append(content)
+      tr.append(empty);
+      showAvailableIp.append(tr);
+      console.log(data);
+      $("#CreateNetwork").on('click',function (){
+          $('#CreateNetworkShow').show();
+      })
+    }else{
+      $('#showAvailableIp').children().remove()
+      $.map(data.result,function (i,n){
+        console.log(i)
+        data = JSON.parse(i)
+        console.log(data)
+        var showAvailableIp = document.getElementById('showAvailableIp')
+        var tr = document.createElement("tr");
+        var name = document.createElement("td");
+        name.textContent = data.netname
+        tr.appendChild(name)
+
+        var node = document.createElement("td");
+        node.textContent =  data.Nodename
+        tr.appendChild(node)
+
+        var netrange = document.createElement("td");
+        netrange.textContent = data.Netrange
+        tr.appendChild(netrange)
+
+        var available = document.createElement("td");
+        available.textContent = data.available
+        tr.appendChild(available)
+        // opeation button
+        var opTd = document.createElement("td");
+        var deleteButton = document.createElement("button");
+        deleteButton.className = "btn btn-xs btn-danger glyphicon glyphicon-trash";
+        deleteButton.setAttribute("Nodename", data.Nodename);
+        deleteButton.style.marginLeft = "3px";
+        deleteButton.onclick = function () {
+            DelContainerIprange(this);
+        }
+        opTd.appendChild(deleteButton);
+        tr.appendChild(opTd);
+        showAvailableIp.appendChild(tr)
+    })
+   }
+  })
+}
 
 //search the  script content
 function searchValue(input) {
@@ -386,13 +473,39 @@ $(function () {
         load_repo_list();
     });
     $("#docker_pull").on('click',function () {
-        // load_repo_list();
         load_pulled_images();
     });
-    $("#floating_ip").on('click',function () {
-        // load_repo_list();
-        console.log('b');
+    $("#container_ip").on('click',function () {
+        LoadAvailableContainerIp();
     });
+    //limit input network alias name length  of compute
+    $('#subnetName').keyup(function(){
+        len = $.trim(this.value).length
+        $(this).parent().find("span")[0].textContent =  len + '/' + '60'
+    })
+    $('.nw-ce-btn').on('click',function(){
+        NetName = $('#subnetName')[0].value;
+        len = $('#key-number')[0].value;
+        if(len != ''){
+          $('#instead-key')[0].textContent = $('#key-number')[0].value;
+        }
+        Netrange = 88 + '.' + 99 + '.' + $('#instead-key')[0].textContent + '.' +  0 + '/'
+        Netmask = $('#Net-range').children()[1].value
+        nodename = $('.node-select')[0].value
+        data = {"netname": NetName,"Nodename": nodename,"Netrange": Netrange + Netmask}
+        postJSON(Create_Container_Net,data).then(function (data){
+            if(data.status){
+              showSuccessNotic();
+              $('#CreateNetworkShow').hide();
+              LoadAvailableContainerIp();
+            }else{
+              showErrorInfo(data.result);
+            }
+        })
+        // console.log(Netrange)
+        // console.log(node)
+        // console.log($('#Net-range').children()[1].value);
+    })
     $(document).on('keyup', '.searchValue', function () {
         searchValue(this);
     });
@@ -453,6 +566,7 @@ $(function () {
      function S4() {
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
      };
+     //create the uuid
      function guid() {
         return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
      };

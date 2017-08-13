@@ -83,6 +83,117 @@
             </div>
         </div>
 {#    show error  end  #}
+<!-- new node   -->
+<div class="box" id="CreateNetworkShow">
+      <div class="CreateNetworkShow_box">
+          <a href="javascript:;" onclick="$('#CreateNetworkShow').hide()" class="close" id="close_edit"></a>
+          <div>
+              <div class="glyphicon glyphicon-edit " style="top:10px;left: 10px;">创建网络</div><br><br>
+              <div style="background-color: #f6f8fa;border-bottom: 1px solid #d1d5de;margin: 0 20px 0 20px;">
+                <table style="position:relative;border-top:2px dashed #e5e5e5;border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
+                   <colgroup>
+                     <col style="width:30%;">
+                     <col style="width:30%;">
+                     <col style="width:25%;">
+                     <col style="width:8%;">
+                   </colgroup>
+                    <thead>
+                        <tr>
+                            <th>
+                              <div>子网名称</div>
+                            </th>
+                            <th>
+                              <div>
+                                <span>CIDR</span>
+                              </div>
+                            </th>
+                            <th>
+                              <div>
+                                <span>可用区</span>
+                              </div>
+                            </th>
+                            <th>
+                              <div>
+                                <span>操作</span>
+                              </div>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+              </div>
+              <div style="border-bottom: 1px solid #D1D5DE;margin: 10px 20px 0 20px;">
+                <table style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;position: relative;bottom: 5px;">
+                   <colgroup>
+                     <col style="width:30%;">
+                     <col style="width:30%;">
+                     <col style="width:25%;">
+                     <col style="width:8%;">
+                   </colgroup>
+                   <tbody>
+                     <td>
+                       <div>
+                         <span>
+                           <input type="text" data-name="subnetName" class="input-txt" id="subnetName" data-position="right" data-auto="" maxlength="60" placeholder="请输入子网名称">
+                           <span style="display: inline;" class="">0/60</span>
+                         </span>
+                       </div>
+                     </td>
+                     <td>
+                       <div>
+                         <span id="Net-range" data-name="cidr" data-position="bottom" data-auto="">
+                           <em class="vpc-ip-input" data-name="subnetNet">
+                             <em>
+                               <em style="">88</em>
+                               <input type="text" class="tc-input-text" style="width: 36px;height: 22px;line-height: 22px;padding: 0;text-align: center;margin-right: 3px; display: none; " data-trigger="focus" data-style="min-width:100px" data-hide-destroy="1" qc-popover="范围：10">
+                             </em>
+                             .
+                             <em>
+                               <em style="">99</em>
+                               <input type="text" class="tc-input-text" style="width: 36px;height: 22px;line-height: 22px;padding: 0;text-align: center;margin-left: 3px; margin-right: 3px; display: none; " data-trigger="focus" data-style="min-width:100px" data-hide-destroy="1" qc-popover="范围：0">
+                             </em>
+                            .
+                            <em>
+                              <em id='instead-key' style="display: none; ">114</em>
+                              <input id='key-number' type="text" class="tc-input-text" style="width: 36px;height: 22px;line-height: 22px;padding: 0;text-align: center;margin-left: 3px; margin-right: 3px; " data-trigger="focus" data-style="min-width:100px" data-hide-destroy="1" qc-popover="范围：0-255">
+                            </em>
+                            .
+                            <em>
+                              <em style="">0</em>
+                              <input type="text" class="tc-input-text" style="width: 36px;height: 22px;line-height: 22px;padding: 0;text-align: center;margin-left: 3px; margin-right: 3px; display: none; " data-trigger="focus" data-style="min-width:100px" data-hide-destroy="1" qc-popover="范围：0">
+                            </em>
+                          </em>
+                          /
+                          <select class="vpc-select" data-name="subnetMask" > <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option>
+                            <option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option>
+                          </select>
+                         </span>
+                       </div>
+                     </td>
+                     <td>
+                        <select class="node-select" data-name="NodeMask" >
+                            <option  value="default">default</option>
+                        </select>
+                     </td>
+                     <td>
+                       <div>
+                         <span>-</span>
+                       </div>
+                     </td>
+                   </tbody>
+                </table>
+              </div>
+              <div style="cursor: default;cursor: pointer;text-align: center;text-align: center;line-height: 55px;">
+                <a href="javascript:;" data-z-index="9999" data-title="" class=""  style="vertical-align: middle;color: #2277da;text-decoration: none;">+ 新增一行</a>
+              </div>
+              <div style="padding: 10px 20px;min-height: 35px;background: #f0f4f7;border: 1px solid #dadde0;border-top: 0;position: relative;">
+                <div style="text-align: center;position: relative;z-index: 0;">
+                      <button class="nw-ce-btn"><span>创建</span></button>
+                      <!-- <button class="nw-ce-btn cancel"><span>取消</span></button> -->
+                </div>
+              </div>
+      </div>
+  </div>
+</div>
 {#    create  script   input  #}
         <div class="box" style="z-index: 1004;width:auto;height:100%;position: fixed;left: 0px;right: 0px;top: 0px;;bottom: 0%;margin: auto;display:none;" id="showScriptName">
             <div class="modal" style="height: 100%;;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
@@ -192,7 +303,7 @@
                             </li>
                             <li><a href="#img_list" data-toggle="tab" id="docker_img">镜像列表</a><span id="image_title"></span></li>
                             <li><a href="#img_pull" data-toggle="tab" id="docker_pull">镜像下载</a><span id="img_pull_center"></span></li>
-                            <li><a href="#floating_ip" data-toggle="tab" id="floating_ip">弹性vpc</a><span id="floating_ip"></span></li>
+                            <li><a href="#floating_ip" data-toggle="tab" id="container_ip">弹性vpc</a><span id="docker_container_ip"></span></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div class="tab-pane fade in active" id="repo_list">
@@ -274,13 +385,6 @@
                             <div class="tab-pane fade" id="img_pull">
                               <div class="panel-body">
                                   <div class="row">
-                                      <!-- <div class="col-md-9" style="margin-bottom: 13px">
-                                          <button type="button" class="btn btn-primary" id="btn_collapse_all"
-                                                  onclick="collapseAll()">折叠
-                                          </button>
-                                      </div> -->
-
-                                      <!-- Search  docker hub  bar -->
                                       <div class="col-md-3" style="margin-bottom: 13px;float: right; width: 100%">
                                           <div class="input-icon-group">
                                               <div class="input-group">
@@ -310,9 +414,24 @@
                                         <tbody id="showDockerImagesTbody"></tbody>
                                     </table>
                                   </div>
-                                  <!-- <div class="row">
-                                      <div id="image_list" class="col-md-12"></div>
-                                  </div> -->
+                              </div>
+                            </div>
+                            <div class="tab-pane fade" id="floating_ip">
+                              <div class="panel-body">
+                                  <div style="height: 180px;overflow-y: auto;margin: 0;padding: 0;">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">ID/名称</th>
+                                                <th width="20%">所属节点</th>
+                                                <th width="20%">子网段</th>
+                                                <th width="20%">可用IP</th>
+                                                <th width="20%">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="showAvailableIp"></tbody>
+                                    </table>
+                                  </div>
                               </div>
                             </div>
                         </div>

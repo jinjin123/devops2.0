@@ -53,6 +53,9 @@ urlpatterns = [
     url(r'^Container_Node',views.Container_Node),
     url(r'^ContainerNodeList',views.ContainerNodeList),
     url(r'^ContainerDelNode',views.ContainerDelNode),
+    url(r'^Container_Ava_Ip',views.Container_Ava_Ip),
+    url(r'^Create_Container_Net',views.Create_Container_Net),
+    url(r'^Container_Net_range/remove/$',views.Del_Container_Net),
 
     url(r'^images/$', views.docker_images, name='docker-images-list'),
     url(r'^images/search$', views.search_images, name='search-images'),

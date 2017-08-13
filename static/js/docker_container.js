@@ -170,7 +170,7 @@ $(function(){
                })
         })
     }
-    //add the Nodename list  into  ServiceNode  option 
+    //add the Nodename list  into  ServiceNode  option
       $('#Service').on('click',function(){
           nodelist = window.ContainerNodeList
           console.log(nodelist)

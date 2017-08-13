@@ -351,6 +351,7 @@ def create_tgz_pack(request):
         ssh_info["content"] = str(e)
     return ssh_info
 
+### run commands
 @login_required(login_url='/')
 @ajax_http
 def execute_command(request):
@@ -397,7 +398,7 @@ def execute_command(request):
             ssh_info["content"] = str(e)
         return ssh_info
 
-
+## get the command results
 @login_required(login_url='/')
 @ajax_http
 def get_command_result(request):
@@ -434,6 +435,7 @@ def get_command_result(request):
         print ssh_info,'409999999999999999999'
         return  ssh_info
 
+###get the command history
 @login_required(login_url='/')
 @ajax_http
 def my_command_history(request):
@@ -446,7 +448,7 @@ def my_command_history(request):
     print  ssh_info
     return ssh_info
 
-
+###upload script file
 @login_required(login_url='/')
 @ajax_http
 def upload_script(request):
@@ -478,6 +480,7 @@ def upload_script(request):
             ssh_info["status"] = False
     return ssh_info
 
+###get script  file Content
 @login_required(login_url='/')
 @ajax_http
 def get_script_content(request):
@@ -485,7 +488,7 @@ def get_script_content(request):
 	full_path=os.path.join(ssh_settings.script_dir,filename)
 	return File().get_content(full_path)
 
-
+###load script file list
 @login_required(login_url='/')
 @ajax_http
 def scripts_list(request):
@@ -498,9 +501,9 @@ def scripts_list(request):
         ssh_info["content"] = str(e)
         ssh_info["status"] = False
 
+    return demjson.encode(ssh_infow)
 
-    return demjson.encode(ssh_info)
-
+### edit script file content
 @login_required(login_url='/')
 @ajax_http
 def write_script_content(request):
@@ -535,6 +538,7 @@ def write_script_content(request):
 
 	return ssh_info
 
+### del script
 @login_required(login_url='/')
 @ajax_http
 def delete_script(request):
@@ -561,7 +565,7 @@ def delete_script(request):
 		ssh_info["status"]=False
 	return ssh_info
 
-
+###run script file
 @login_required(login_url='/')
 @ajax_http
 def script_init(request):
@@ -569,6 +573,7 @@ def script_init(request):
     sfile=request.GET.get("sfile")
     return SSHScript().script_init(ip,sfile)
 
+###creaet conjob to any server
 @login_required(login_url='/')
 @ajax_http
 def save_crontab_to_server(request):
@@ -577,11 +582,13 @@ def save_crontab_to_server(request):
     data=json.loads(data)
     return SSHCrontabControler().save_crontab_to_server(action,data)
 
+##get conjob list
 @login_required(login_url='/')
 @ajax_http
 def get_crontab_list(request):
 	return SSHCrontabControler().get_crontab_list_to_web()
 
+### del conjob
 @login_required(login_url='/')
 @ajax_http
 def delete_crontab_list(request):
@@ -589,12 +596,13 @@ def delete_crontab_list(request):
 	tid=request.GET.get("tid")
 	return SSHCrontabControler().delete_crontab(sid,tid)
 
+## get remote file list
 @login_required(login_url='/')
 @ajax_http
 def get_remote_file_list(request):
 	return RemoteFile().get_remote_file_list()
 
-
+### transfer file to any server
 @login_required(login_url='/')
 @ajax_http
 def add_remote_file(request):
@@ -613,7 +621,7 @@ def add_remote_file(request):
         ssh_info["content"] = str(e)
     return ssh_info
 
-
+### get remote file content
 @login_required(login_url='/')
 @ajax_http
 def get_remote_file_opt(request):
@@ -623,6 +631,7 @@ def get_remote_file_opt(request):
     return RemoteFile().remote_file_content(id,action)
 
 
+### write remote file content
 @login_required(login_url='/')
 @ajax_http
 def write_remote_file_opt(request):
@@ -633,13 +642,14 @@ def write_remote_file_opt(request):
         file_content = "%s\n" % file_content
     return RemoteFile().remote_file_content(id, action, file_content)
 
+### del remote file
 @login_required(login_url='/')
 @ajax_http
 def delete_remote_file_list(request):
 	id=request.GET.get("id")
 	return RemoteFile().delete_remote_file_list(id)
 
-
+### load  ssh key  list
 @login_required(login_url='/')
 @ajax_http
 def show_keyfile_list(request):
@@ -655,6 +665,7 @@ def show_keyfile_list(request):
         ssh_info["content"] = str(e)
     return ssh_info
 
+###del   ssh key
 @login_required(login_url='/')
 @ajax_http
 def delete_keyfile(request):
@@ -682,7 +693,7 @@ def delete_keyfile(request):
         ssh_info["content"] = str(e)
     return ssh_info
 
-
+###upload  ssh key
 @login_required(login_url='/')
 @ajax_http
 def upload_keyfile(request):
@@ -705,6 +716,7 @@ def upload_keyfile(request):
         r.rpush("keyfile.list", line)
     return ssh_info
 
+###add docker repo
 @login_required(login_url='/')
 @ajax_http
 def docker_repo(request):
@@ -727,9 +739,9 @@ def docker_repo(request):
              info["status"]  = ''
              info["content"] = str(e)
              print info
-
         return info
 
+##load  docke repo list
 @login_required(login_url='/')
 @ajax_http
 def docker_repo_list(request):
@@ -753,6 +765,7 @@ def docker_repo_list(request):
         info["content"] = str(e)
     return info
 
+##del docker repo
 @login_required(login_url='/')
 @ajax_http
 def docker_repo_del(request):
@@ -771,9 +784,9 @@ def docker_repo_del(request):
     except Exception,e:
         info["status"] = False
         info["content"] = str(e)
-
     return info
 
+##load docker  repo images
 # @login_required(login_url='/')
 @ajax_http
 def docker_img(request):
@@ -792,7 +805,7 @@ def docker_img(request):
         print e
     return json.dumps(info)
 
-
+##load docker repo images tag list
 # @ajax_http
 @login_required(login_url='/')
 def docker_imagestags(request):
@@ -846,6 +859,7 @@ def docker_imagestags(request):
 
     return  render(request,"repo_tag.html",{"tags":json.dumps(tags),"image":tags["image_name"],"head":img})
 
+###load  docker repo images tag with history
 # @login_required(login_url='/')
 @ajax_http
 def docker_tagshistory(request):
@@ -887,6 +901,7 @@ def docker_tagshistory(request):
     # print history
     return json.dumps(history)
 
+##del docker  repo  images
 @ajax_http
 def docker_delimg(request):
     if request.method == "DELETE":
@@ -917,6 +932,7 @@ def docker_delimg(request):
                 # result["result"] = str(e)
             return json.dumps(result)
 
+####Create Container_Node  tag
 @login_required(login_url='/')
 @ajax_http
 def  Container_Node(request):
@@ -940,6 +956,7 @@ def  Container_Node(request):
             print e
         return json.dumps(result)
 
+##load Container Machine  list
 @login_required(login_url='/')
 @ajax_http
 def  ContainerNodeList(request):
@@ -956,6 +973,7 @@ def  ContainerNodeList(request):
          print e
      return json.dumps(result)
 
+####when it remove ContainerNode but these Container Service not to be remove
 @login_required(login_url='/')
 @ajax_http
 def  ContainerDelNode(request):
@@ -972,6 +990,7 @@ def  ContainerDelNode(request):
                 result =  {"status": "can not  connect redis" }
             return  json.dumps(result)
 
+###load  pulled  docker images
 @login_required(login_url='/')
 @ajax_http
 def  docker_images(request):
@@ -991,7 +1010,7 @@ def  docker_images(request):
         result["content"] =  str(e)
     return json.dumps(result)
 
-
+###search docker images
 @login_required(login_url='/')
 # @ajax_http
 def search_images(request):
@@ -1002,6 +1021,7 @@ def search_images(request):
     return HttpResponse(json.dumps(images.json()),
                         content_type='application/json')
 
+###pull docker image and saving  pull image info
 @login_required(login_url='/')
 def docker_pull_image(request, uuid_token):
     # TODO userdefined tag
@@ -1022,13 +1042,11 @@ def docker_pull_image(request, uuid_token):
                         progress = (output['progressDetail']['current'] * 100) / output['progressDetail']['total']
                         file.write('{"status": "ok","image-status":"' + output['status'] + '","progress":' + str(
                             int(progress)) + ',"id":"' + output['id'] + '"}')
-                        # params = json.loads(params)
-                        # params.update({""})
-                        # params["user"] = str(request.user)
                 except KeyError:
                     try:
                         if 'Digest:' in output['status']:
                             print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+                            ### need to wait the api response the info
                             detail = ImageMixin().details(name=request.POST['imageName'],tag='latest')
                             params.update({"id":detail["id"],"size":detail["size"],"created":time.strftime('%Y-%m-%d %H:%M:%S')})
                             print params
@@ -1043,6 +1061,7 @@ def docker_pull_image(request, uuid_token):
     else:
         return JsonResponse({'status': 'error'})
 
+###del  docker image
 @login_required(login_url='/')
 @ajax_http
 def docker_remove_image(request):
@@ -1064,25 +1083,60 @@ def docker_remove_image(request):
     info['result'] = 'Unable to remove image'
     return info
 
-    # if image:
-    #     if request.POST:
-    #         passphrase = request.POST['passphrase']
-    #         if request.user.check_password(passphrase):
-    #             status_code = image.remove()
-    #             if status_code == 200:
-    #                 image.delete()
-    #                 return JsonResponse({'success': 'Deleted'})
-    #             elif status_code == 404:
-    #                 return JsonResponse({'ERROR': 'NO SUCH IMAGE'})
-    #             elif status_code == 409:
-    #                 return JsonResponse({'ERROR': 'Image Conflict'})
-    #             return JsonResponse({'ERROR': 'Unable to remove image'})
-    #         return JsonResponse({'perror': True})
-    #     else:
-    #         details_d = image.details()
-    #         image.__dict__.update(details_d)
-    #         return render(request, 'remove_image.html', {'image': image})
-    # return render(request, 'no_access.html')
+##load  all  Container  network range
+@login_required(login_url='/')
+@ajax_http
+def Container_Ava_Ip(request):
+    info  = {"result": '',"status": ''}
+    try:
+        iplist = r.hgetall("docker_network")
+        if iplist:
+            print iplist
+            print type(iplist)
+            info['result'] = iplist
+            info['status'] = 200
+        else:
+            info['result'] = "empty"
+            info['status'] = 400
+    except Exception,e:
+        info['result'] = str(e)
+        info['status'] = 400
+        print str(e)
+    return  info
+
+###Create  Container  network range
+@login_required(login_url='/')
+@ajax_http
+def Create_Container_Net(request):
+    info  = {"result": '',"status": ''}
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            data.update({"available":int(253)})
+            r.hset("docker_network",data['Nodename'],json.dumps(data))
+            info['status'] = True
+        except Exception,e:
+            print str(e)
+            info['status'] = False
+            info['result'] = "无法连接数据库"
+    return info
+
+###del Container  Network   range
+@login_required(login_url='/')
+@ajax_http
+def Del_Container_Net(request):
+    info  = {"result": ''}
+    try:
+        response = r.hdel('docker_network',request.GET.get('name'))
+        if response > 0:
+            info["result"] = 'Deleted'
+        else:
+            info["result"] = '请先创建一个子网'
+    except  Exception, e:
+        info["result"] = str(e)
+    return info
+
+
 # @login_required(login_url='/')
 # @ajax_http
 # def launch_image(request, name):
