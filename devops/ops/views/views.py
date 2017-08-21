@@ -24,8 +24,9 @@ from requests.auth import HTTPBasicAuth
 from docker_img_show import Docker_registry
 from devops.settings  import DOCKER_API_PORT
 from utils import  ImageMixin,ContainerMixin
+from ssh_check import SSHCheck
 # from docker import  docker
-import ssh_modol_controler,threading,cpu,mem,hashlib,datetime,redis,random,commands,time,requests
+import ssh_module_controller,threading,cpu,mem,hashlib,datetime,redis,random,commands,time,requests
 import simplejson as json
 import demjson
 import re
@@ -252,7 +253,7 @@ def filetrans_upload(request):
         sfile = os.path.join(ssh_settings.upload_dir, os.path.basename(parameters["sfile"]))
         dfile = parameters["dfile"]
         if not type(parameters) == type({}): raise Exception ('type error')
-        host = ssh_modol_controler.SSHControler().convert_id_to_ip(parameters["ip"])
+        host = ssh_module_controller.SSHControler().convert_id_to_ip(parameters["ip"])
         if  host["status"] == 'False': raise Exception( host["content"])
         host = host['content']
         print host
@@ -298,7 +299,7 @@ def remote_download(request):
 
         if not parameters.has_key("sfile"): raise Exception("no such sfile")
         sfile = parameters["sfile"]
-        host = ssh_modol_controler.SSHControler().convert_id_to_ip(parameters["ip"])
+        host = ssh_module_controller.SSHControler().convert_id_to_ip(parameters["ip"])
         if not host["status"]: raise Exception(host['content'])
         host = host['content']
         ip = host["ip"]
@@ -383,7 +384,7 @@ def execute_command(request):
             _ip = []
             for ip in servers:
                 try:
-                    host_list = ssh_modol_controler.SSHControler().convert_id_to_ip(ip)
+                    host_list = ssh_module_controller.SSHControler().convert_id_to_ip(ip)
                     _ip.append(host_list)
                 except Exception, e:
                     pass
@@ -501,7 +502,7 @@ def scripts_list(request):
         ssh_info["content"] = str(e)
         ssh_info["status"] = False
 
-    return demjson.encode(ssh_infow)
+    return demjson.encode(ssh_info)
 
 ### edit script file content
 @login_required(login_url='/')
@@ -666,6 +667,7 @@ def show_keyfile_list(request):
     return ssh_info
 
 ###del   ssh key
+##TODO  can not del
 @login_required(login_url='/')
 @ajax_http
 def delete_keyfile(request):
@@ -702,6 +704,7 @@ def upload_keyfile(request):
     info = {"status": False, "content": "", "path": ""}
     if request.method == "POST":
         filename = str(request.FILES.get("file"))
+        print filename
         file_content = request.FILES.get('file').read()
         os.chdir(ssh_settings.keyfile_dir)
 
@@ -711,7 +714,10 @@ def upload_keyfile(request):
         os.chdir(full_dir)
         with open(filename.encode('utf8'), "wb") as f:
             f.write(file_content)
+        print file_content
         line = {"keyfile": filename}
+        line.update({"keycontent": file_content,"user": str(request.user)})
+        print line
         line = json.dumps(line, encoding="utf8", ensure_ascii=False)
         r.rpush("keyfile.list", line)
     return ssh_info
@@ -947,8 +953,13 @@ def  Container_Node(request):
                 #"{'parameters': {'NodeIp': 'fdsf', 'NodeName': 'fdsf', 'NodeId': 'e1iv944r95'}, 'time': '2017-07-31 14:52:26'}"
                 # r.lpush("Container_Node",parameters["NodeName"],parameters)
                 ##use list
+                Node = r.exists('Container_Node')
+                if Node is False:
+                    default = {"NodeIp": "127.0.0.1", "time": "2017-08-14 13:19:15", "NodeName": "default", "NodeId": "xxxxxx"}
+                    r.hset("Container_Node",default["NodeName"],json.dumps(default))
+
                 r.hset("Container_Node",parameters["NodeName"],json.dumps(parameters))
-                result["status"]  = 200
+                result["status"] = 200
             except Exception,e:
                 print e
         except Exception,e:
@@ -960,17 +971,18 @@ def  Container_Node(request):
 @login_required(login_url='/')
 @ajax_http
 def  ContainerNodeList(request):
-     result = {"status": True, "data": []}
+     result = {}
      try:
+         Node = r.exists('Container_Node')
+         print Node
+         temp = {"NodeIp": "127.0.0.1", "time": "2017-08-14 13:19:15", "NodeName": "default", "NodeId": "xxxxxx"}
+         if Node is False:
+             r.hset("Container_Node",temp["NodeName"],json.dumps(temp))
          NodeList = r.hvals("Container_Node")
-         for  _list  in NodeList:
-             print _list
-             print type(_list)
-             result["data"].append(_list)
-         result["status"] = True
+         result["data"] =  NodeList
          print result
      except Exception, e:
-         print e
+         print str(e)
      return json.dumps(result)
 
 ####when it remove ContainerNode but these Container Service not to be remove
@@ -1108,6 +1120,7 @@ def Container_Ava_Ip(request):
 @login_required(login_url='/')
 @ajax_http
 def Create_Container_Net(request):
+    ###TODO  create docker network to any server
     info  = {"result": '',"status": ''}
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -1136,54 +1149,213 @@ def Del_Container_Net(request):
         info["result"] = str(e)
     return info
 
+###create container service
+@login_required(login_url='/')
+@ajax_http
+def  Create_container_service(request):
+     ####TODO save the  other  db to select
+     ###TODO  with ssh key   put down into  docker
+     info  = {"result": '',"status": True}
+     if request.method == "POST":
+        data = json.loads(request.body)
+        try:
+            container_id = ImageMixin().run_bridge(data['cpu'],data['memory'],data['serviceAddress'],data['servicename'],data['image'])
+            data.update({"container_id":container_id,"user": str(request.user),"created":time.strftime('%Y-%m-%d %H:%M:%S')})
+            r.lpush("Unavailable_Container_IP",data['serviceAddress'])
+            pubkey = {"user": str(request.user), "sshpubkey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuLVDCriLoKZeEmThg5zCAq9+QoQJIIyxE4iJ6nSa9OJZMqDr8ZJmh1uRiPTCjmmC4KmP0q99Yfcvu0rc8UCKcJQE6yB9vpxR+kOyEtfAqsQVYMRd0Y+IN98GiG+z8nps7ra2k5etGN+NmBiLoiT86xHrvwvrePbf8i96ZkNeb+TpCPzx6KJqKdQfFZKG+0yt2WhNd3b3YKveQaKax70gbpay9Qy1BjpMvItWErtOymv+SNQPBHddRQs3PEEcVTR2u0QpEUoHyb3nIZNIY7Ykgq3Q8FbykYrFHnhF4eSyw70JGtuDs1JS53TZzv3bP9ia08GOHaVc2z/EpOpNFp93f skey_160973"}
+            try:
+                pubkey = json.loads(r.hget("ssh_pub_key",str(request.user)))
+                print pubkey
+                print type(pubkey)
+                copy_ssh_pub_key = ContainerMixin().copy_ssh_pub_key(str(request.user),container_id,pubkey['sshpubkey'])
+                passphrase = ContainerMixin().set_passphrase(container_id)
+                print  passphrase
+                data.update({"password": passphrase})
+                r.lpush(str(request.user)+'_container',json.dumps(data))
+                datalist = r.lrange(str(request.user)+'_container',0,-1)
+                print datalist
 
-# @login_required(login_url='/')
-# @ajax_http
-# def launch_image(request, name):
-#     image = Image.objects.get(name=name)
-#     if image.has_access(request.user):
-#         if request.method == "POST":
-#             container_form = ContainerForm(request.POST, ssh_users=request.POST.getlist('ssh_users'))
-#             if container_form.is_valid():
-#                 memory, cores, hostname = container_form.cleaned_data['ram'], \
-#                     container_form.cleaned_data['cores'], \
-#                     container_form.cleaned_data['hostname']
-#                 image_obj = Image.objects.get(id=request.POST['image'])
-#                 container_obj = container_form.save(commit=False)
-#                 if container_obj.ip.is_routed:
-#                     result = image_obj.run_bridge(cores, memory, container_obj.ip.ip_addr, hostname)
-#                 else:
-#                     result = image_obj.run_macvlan(cores, memory, container_obj.ip.ip_addr, container_obj.ip.mac_addr, hostname)
-#                 container_obj.container_id = result
-#                 container_obj.save()
-#                 for r in request.POST.getlist('user'):
-#                     container_obj.user.add(r)
-#                 container_obj.save()
-#
-#                 for ssh_user in request.POST.getlist('ssh_users'):
-#                     user_obj = User.objects.get(email=ssh_user)
-#                     container_obj.copy_ssh_pub_key(user_obj)
-#
-#                 passphrase = container_obj.set_passphrase()
-#                 request.session['launched_container_id'] = container_obj.container_id.decode('utf-8')
-#                 ip = IP.objects.get(ip_addr=str(container_obj.ip))
-#                 ip.is_available = False
-#                 ip.save()
-#                 url = reverse('docker_box:container_info', kwargs={'container_id': container_obj.container_id.decode('utf-8')})
-#                 return JsonResponse({'success': 'image launched', 'url': url, 'passphrase': passphrase})
-#
-#             return JsonResponse({'FORM_ERRORS': 'true', 'form_errors': container_form.errors})
-#         else:
-#             users = [request.user]
-#             if request.user.is_superuser:
-#                 users = User.objects.filter(is_active=True)
-#                 images = Image.objects.all()
-#             else:
-#                 images = Image.objects.filter(user=request.user)
-#             ips = IP.objects.filter(is_active=True, is_available=True)
-#
-#             return render(request, "launch_image.html", {'ips': ips, 'images': images, 'image_name': name, 'users': users})
-#     raise PermissionDenied
+                info["status"] = True
+                info["result"] = datalist
+            except Exception, e:
+                print str(e),'1175'
+                info["status"] = False
+                info["result"] = str(e)
+
+        except Exception ,e :
+            print str(e),'1180'
+            info["status"] = False
+            info["result"] = str(e)
+     return json.dumps(info)
+
+### load owner Container service
+@login_required(login_url='/')
+@ajax_http
+def Load_Container_Service(request):
+    info  = {"result": '',"status": True}
+    datalist = r.lrange(str(request.user)+'_container',0,-1)
+    if len(datalist) > 0:
+        info["status"] = True
+        info["result"] = datalist
+    else:
+        info["status"] = False
+        info["result"] = "empty"
+
+    return json.dumps(info)
+
+@ajax_http
+def container_check(request):
+    sid = request.GET.get('sid')
+    sip = request.GET.get('sip')
+    try:
+        status = {
+        	"status":"checking",
+			"content":"检查中",
+            "button": "start",
+			"time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()),
+        }
+        health = ContainerMixin().checkcontainer(sid)
+        print str(health)
+        if health  == "alive":
+            status["status"] = "success"
+            status["ip"] = sip
+            status["button"] = "start"
+            status["content"] = "连接正常"
+            print status
+            r.set("container_status.%s"%sip,json.dumps(status))
+        else:
+            status["status"] = "failed"
+            status["ip"] = sip
+            status["button"] = "stop"
+            status["content"] = "连接失败"
+            r.set("container_status.%s"%sip,json.dumps(status))
+    except Exception , e:
+        pass
+    return json.dumps(status)
+
+#### Container stop
+@ajax_http
+def Container_Stop(request):
+    ###postjson  post the "value"  need to  json.loads
+    Container_id = json.loads(request.body)
+    print Container_id
+    response = ContainerMixin().stop(Container_id)
+    print response.status_code
+    info = {"status": True, "result": ""}
+    if response.status_code  == 204 or response.status_code == 304:
+        r.set("container_status.%s"%Container_id,json.dumps({"status": "stop"}))
+        info["status"] = True
+        info["result"] = "停止成功"
+    else:
+        info["status"] = False
+        info["result"] = "未知错误"
+    # print response.status_code,response.json()
+    return json.dumps(info)
+
+#### Container start
+@ajax_http
+def Container_Start(request):
+    ###postjson  post the "value"  need to  json.loads
+    Container_id = json.loads(request.body)
+    print Container_id
+    response = ContainerMixin().stop(Container_id)
+    print response.status_code
+    info = {"status": True, "result": ""}
+    if response.status_code  == 204 or response.status_code == 304:
+        r.set("container_status.%s"%Container_id,json.dumps({"status": "start"}))
+        info["status"] = True
+        info["result"] = "启动成功"
+    else:
+        info["status"] = False
+        info["result"] = "未知错误"
+        r.set("container_status.%s"%Container_id,json.dumps({"status": "stop"}))
+    # print response.status_code,response.json()
+    return json.dumps(info)
+
+#### Container restart
+@ajax_http
+def Container_ReStart(request):
+    ###postjson  post the "value"  need to  json.loads
+    Container_id = json.loads(request.body)
+    print Container_id
+    response = ContainerMixin().restart(Container_id)
+    print response.status_code
+    info = {"status": True, "result": ""}
+    if response.status_code  == 204 or response.status_code == 304:
+        r.set("container_status.%s"%Container_id,json.dumps({"status": "start"}))
+        info["status"] = True
+        info["result"] = "重启成功"
+    else:
+        info["status"] = False
+        info["result"] = "未知错误"
+        r.set("container_status.%s"%Container_id,json.dumps({"status": "stop"}))
+    # print response.status_code,response.json()
+    return json.dumps(info)
+
+#### Container  remove
+@ajax_http
+def Container_Remove(request):
+    ###postjson  post the "value"  need to  json.loads
+    Container_id = json.loads(request.body)
+    print Container_id
+    response = ContainerMixin().remove(Container_id)
+    print response.status_code
+    info = {"status": True, "result": ""}
+    if response.status_code  == 204 or response.status_code == 304:
+        try:
+            datalist = r.lrange(str(request.user)+'_container',0,-1)
+            ###there is a remove  list method
+            for _list in datalist:
+                 if Container_id == json.loads(_list)['container_id']:
+                     r.lrem(str(request.user)+'_container',0,_list)
+
+            r.delete("container_status.%s"%Container_id)
+            info["status"] = True
+            info["result"] = "删除成功"
+        except Exception,e:
+            print str(e)
+    else:
+        info["status"] = False
+        info["result"] = "未知错误"
+    return json.dumps(info)
+
+####backup container as new one
+@ajax_http
+def Container_Backup(request):
+    ###postjson  post the "value"  need to  json.loads
+    content = json.loads(request.body)
+    print content['backupname']
+    response,image_id = ContainerMixin().commit(content['container_id'],content['backupname'])
+    print response,image_id
+    info = {"status": True, "result": ""}
+    if response.status_code  == 201:
+        r.set("container_backup.%s"%content['container_id'], json.dumps({"backupname":content['backupname'] + 'latest',"image_id": image_id}))
+        info["status"] = True
+        info["result"] = "备份成功"
+    else:
+        info["status"] = False
+        info["result"] = "未知错误"
+
+    return json.dumps(info)
+
+#### check the ssh  login
+@ajax_http
+def ssh_check(request):
+	sid=request.GET.get('sid')
+	ssh=SSHCheck(sid=sid)
+	ssh.run()
+	status=r.get("server.status.%s"%sid)
+	if status is None:
+		status={
+			"status":"checking",
+			"content":"检查中",
+			"time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()),
+		}
+	else:
+		status=json.loads(status)
+        print status,'127888888888888888888888'
+	status["alias"]=ssh_module_controller.SSHControler.convert_id_to_ip(sid)["content"]["alias"]
+	return status
 
 
 def docker_container(request):

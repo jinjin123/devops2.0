@@ -175,14 +175,6 @@ function  load_pulled_images(){
           //     createImageLine(data.content[i]);
           //  }
         }
-          // if (!data.status) {
-              // showErrorInfo(data.content);
-              // return false;
-          // }
-          // else {
-              // showSuccessNotic();
-              // createRepoTableLine(data.content);
-          // }
       }
   })
 }
@@ -362,9 +354,11 @@ function LoadAvailableContainerIp (){
           $('#CreateNetworkShow').show();
       })
     }else{
+      //{"status": 200,"result": {"default": {"a":"b"}}}
       $('#showAvailableIp').children().remove()
+      console.log(data)
       $.map(data.result,function (i,n){
-        console.log(i)
+        console.log(data.result)
         data = JSON.parse(i)
         console.log(data)
         var showAvailableIp = document.getElementById('showAvailableIp')

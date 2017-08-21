@@ -4,7 +4,7 @@ import sys, json, os, re,redis
 from .. import ssh_settings
 from ssh_error import SSHError
 from  ssh_file_transfer import SSHFileTransfer
-from ssh_modol_controler import SSHControler
+from ssh_module_controller import SSHControler
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 class RemoteFile(object):
     def __init__(self):

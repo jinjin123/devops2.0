@@ -91,7 +91,7 @@ function createKeyFileTbody(filename){
 }
 
 function chownKeyFile(){
-    showErrorInfo("TODO  feature")
+    showErrorInfo("TODO  feature  uploadkeyfile.js  94 line , cannot edit keyfile")
     return false;
 }
 

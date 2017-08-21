@@ -125,6 +125,22 @@
     .Scontainer{
         display: block;
     }
+    .loader{
+      display: none;
+      position: fixed;
+      left: 0px;
+      top: 40px;
+      width: 100%;
+      height: initial;
+      z-index: 1;
+      border-radius: 0px;
+      background: url(../static/img/loading.gif) 50% 50% no-repeat;
+    }
+    .loadingtext{
+      background: rgba(0, 0, 0, 0.8);
+      width: 300px;
+      margin-top: 75px;
+    }
     </style>
 {% endblock %}
 
@@ -236,7 +252,7 @@
                              <!-- <div class="NodeName">ID<input  id="container_id" type="text" class="ContainerService_input" disabled="true"></div> -->
                              <div class="NewNode">所属节点<select id="DependsNode" style="position: relative;margin: 0;padding: 0;width: 80%;left: 17%;"><option  id="" type="text" class="ContainerService_input">请选择</option></select></div>
                              <div class="NewNode">服务名称<input  id="ServiceName" type="text" class="ContainerService_input"></div>
-                             <div class="NewNode">服务地址<input  id="ServiceAddress" type="text" class="ContainerService_input"></div>
+                             <div class="NewNode">服务地址<input  id="ServiceAddress" type="text" class="ContainerService_input"  placeholder="范围是子网段＋2~254"></div>
                              <div class="NewNode">使用镜像<select id="image" style="position: relative;margin: 0;padding: 0;width: 80%;left: 17%;"><option  id="" type="text" class="ContainerService_input"></option></select></div>
                              <div class="NewNode">内存分配<input  id="MemLimit" type="text" class="ContainerService_input"></div>
                              <div class="NewNode">CPU分配<input  id="CpuLimit" type="text" class="ContainerService_input"></div>
@@ -269,6 +285,76 @@
             </div>
         </div>
         </div>
+<!-- check container status -->
+        <div  style="z-index: 10004;width:auto;height: 200px;position: fixed;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;display:none;"
+              id="showServerCheckInfo">
+            <div class="modal "
+                 style="overflow:hidden;overflow-y:hidden;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content  ">
+                        <div class="modal-header" style="cursor: move;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class=" glyphicon glyphicon-success  glyphicon glyphicon-info-sign " >主机检测信息</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div     class="col-md-12  col-sm-12 col-xs-12 col-lg-12  input-group">
+                                <div class="col-md-12  col-sm-12 col-xs-12 col-lg-12 "  style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">主机</label>
+                                    <div  id="showCheckHost"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 " style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3 ">时间</label>
+                                    <div  id="showCheckTime"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 " style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">状态</label>
+                                    <div   id="showCheckStatus" class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 " style="margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">信息</label>
+                                    <div  id="showCheckInfo" style="word-wrap: break-word;word-break:break-all;"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"  id="closeCheckInfo">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- check container status -->
+  <!--create backup -->
+        <div  style="z-index: 10004;width:auto;height: 200px;position: fixed;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;display:none;"
+              id="showBackupFrom">
+            <div class="modal "
+                 style="overflow:hidden;overflow-y:hidden;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content  ">
+                        <div class="modal-header" style="cursor: move;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class=" glyphicon glyphicon-success  glyphicon glyphicon-info-sign " >BackupName</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-12  col-sm-12 col-xs-12 col-lg-12  input-group">
+                                <div class="col-md-12  col-sm-12 col-xs-12 col-lg-12 "  style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">Name:</label>
+                                    <div><input id="backupname" style="width:100%"><div>
+                                    <div  id="showCheckHost"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"  id="SubmitBackupName">提交</button>
+                            <!-- <button type="button" class="btn btn-default"  id="closeCheckInfo">关闭</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- create backup -->
             {% endblock %}
 	</header> <!-- .cd-main-header -->
 
@@ -316,6 +402,20 @@
             <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px">
                 <div style="background: white;height:100%;display: block;border: 2px solid #e1e8ed" id="CreateDockerRepo">
                   <div id="BoxDiv">
+                    <div class="col-md-3" style="float:right;margin-top:20px;">
+                        <div class="input-icon-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control Search_container"
+                                       placeholder="Search Container ..." autofocus/>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-search"> </i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="loader">
+                        <div class="text-center loadingtext"></div>
+                    </div>
                     <div id="LeftDiv">
                           <div class="button"><button id="CreateCTNNode" class="btn btn-success" style="background-color:#67aaf5" onclick="$('#NewContainerShow').show()"><i class="glyphicon glyphicon-plus"></i> 创建节点 </button></div>
                           <div class="title">节点名称</div>
@@ -349,30 +449,8 @@
                                       <th>服务操作</th>
                                     </tr>
                                   </thead>
-                                  <tbody>
-                                    <tr>
-                                      <!-- <td>Tanmay</td>
-                                      <td>Bangalore</td>
-                                      <td>560001</td>
-                                      <td>560001</td>
-                                      <td>560001</td>
-                                      <td>560001</td>
-                                      <td>Bangalore</td>
-                                      <td>560001</td>
-                                      <td>560001</td>
-                                      <td>560001</td>
-                                      <td>560001</td> -->
-                                            <!-- <td><iframe id="container" frameborder="0" scrolling="no" width="1000px"  marginheight="0" style="margin-left: 220px;margin-bottom: 20px;padding-left: 0;padding-right: 0;margin-top: -55%;left: 100px;"></iframe></td> -->
-                                            <!-- <td><iframe id="container" frameborder="0" scrolling="no" width="" height="20px"  marginheight="0" style="position:relative;"></iframe></td> -->
-                                   </tr>
-                                        <!-- <div class="Scontainer" id="Scontainer">
-                                            <iframe id="container" frameborder="0" scrolling="no" width="1000px"  marginheight="0" style="margin-left: 220px;margin-bottom: 20px;padding-left: 0;padding-right: 0;margin-top: -55%;left: 100px;"></iframe>
-                                        </div> -->
-                                  </tbody>
+                                  <tbody id="showContainerService"></tbody>
                                 </table>
-                            <!-- <div class="Scontainer" id="Scontainer">
-                                <iframe id="container" frameborder="0" scrolling="no" width="1000px"  marginheight="0" style="margin-left: 220px;margin-bottom: 20px;padding-left: 0;padding-right: 0;margin-top: -55%;left: 100px;"></iframe>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -396,83 +474,6 @@
     <script src="../static/js/velocity.min.js"></script>
     <script>
     $.sidebarMenu($('.sidebar-menu'))
-    </script>
-     <script type="text/javascript">
-        // $('#myTab').find('a').mouseenter(function (e){
-        //         console.log(e);
-        //         $(this).next("div").show()
-                // $(this).next("div").show()
-                //如果根据id触发 因为id是唯一 所以不能用于多个click 所以找到myTab 里面div tag 触发
-                // $('#myTab').find('div').on('click',function(e){
-                //     //got the prev  array
-                //         DelNode = $(this).prev()[0].textContent
-                //         console.log(DelNode)
-                //         // console.log(DelNode)
-                //         $('#DelBxCheck').show();
-                //         $('.close').css({"width": "20px","height": "20px","background-color": "green","border-radius": "10px",
-                //         "border": "1px solid #DBE6EF","display": "inline-block","position": "relative","bottom": "1px",
-                //         "right": "1px"  })
-                //         // console.log($('.DelBxCheck_main').find('p'))
-                //         //transfer  node content in  this
-                //         $('.DelBxCheck_main').find('p')[0].innerHTML = DelNode
-                // })
-                // $('#myTab').find('li').on('click',function(e){
-                //      CatchNode = $(this).children()[0].title
-                //      console.log(CatchNode);
-                //      console.log(e)
-                // })
-                  //  $('#container').empty();
-                  //   // html = "<iframe id=\"container\" frameborder=\"0\" scrolling=\"no\" width=\"1000px\"  marginheight=\"0\" style=\"margin-left: 220px;margin-bottom: 20px;padding-left: 0;padding-right: 0;margin-top: -55%;left: 100px;\"></iframe>"
-                  //   html = "<iframe id=\"container\" frameborder=\"0\" scrolling=\"no\" width=\"\"  marginheight=\"0\" style=\"position:relative;\"></iframe>"
-                  //  $('#container').append(html)
-                  //  enable  edit  iframe
-                  //  document.getElementById("container").contentEditable = true;
-                  //  var content = "<table class=\"table table-hover\" style=\"width: 100%\">"
-                  //  + "<thead>"
-                  //  + "<tr>"
-                  //  + "<th>ID</th>"
-                  //  + "<th>服务名称</th>"
-                  //  + "<th>所属节点</th>"
-                  //  + "<th>所属用户</th>"
-                  //  + "<th>服务地址</th>"
-                  //  + "<th>使用镜像</th>"
-                  //  + "<th>内存分配</th>"
-                  //  + "<th>CPU分配</th>"
-                  //  + "<th>创建时间</th>"
-                  //  + "<th>服务状态</th>"
-                  //  + "<th>服务操作</th>"
-                  //  + "</tr>"
-                  //  + "</thead>"
-                  //  + "<tbody>"
-                  //  + "<tr>"
-                  //  + "<td>Tanmay</td>"
-                  //  + "<td>Bangalore</td>"
-                  //  + "<td>560001</td>"
-                  //  + "<td>560001</td>"
-                  //  + "<td>560001</td>"
-                  //  + "<td>560001</td>"
-                  //  + "<td>560001</td>"
-                  //  + "<td>560001</td>"
-                  //  + "<td>560001</td>"
-                  //  + "<td>560001</td>"
-                  //  + "<td>560001</td>"
-                  //  + "</tr>"
-                  //  + "</tbody>"
-                  //  document.getElementById("container").contentWindow.document.write(content)
-
-              // $(document).ready(function (){
-              //       a = document.getElementById("container").contentWindow.document.getElementsByTagName('table')[0];
-              //       a.addRule
-              //       console.log(a);
-              //   })
-        // })
-        // $('#myTab').find('a').mouseleave(function (e){
-        //         console.log(e);
-        //         $(this).next("div").hide()
-        // })
-        // function stopPropagation (event) {// 阻止事件冒泡
-        //         event.stopPropagation() && event.preventDefault();
-        // }
     </script>
 
 {% endblock %}

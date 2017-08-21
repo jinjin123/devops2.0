@@ -62,6 +62,16 @@ urlpatterns = [
     url(r'^images/pull/(?P<uuid_token>[-\w]+)/$', views.docker_pull_image, name='pull-image'),
     url(r'^images/remove/$', views.docker_remove_image, name='removeimage'),
 
+    url(r'^images/launch/(?P<name>.+)/$', views.Create_container_service, name='launch-image'),
+
+
+    url(r'^checkcontainer',views.container_check,name="container_check"),
+    url(r'^Container_Service',views.Load_Container_Service),
+    url(r'^Container_Stop',views.Container_Stop),
+    url(r'^Container_Start',views.Container_Start),
+    url(r'^Container_ReStart',views.Container_ReStart),
+    url(r'^Container_Remove',views.Container_Remove),
+    url(r'^Container_backup',views.Container_Backup),
     url(r'^script',views.script,name="script"),
     url(r'^PushCode',views.PushCode,name="PushCode"),
     url(r'^UploadKey',views.UploadKey,name="UploadKey"),

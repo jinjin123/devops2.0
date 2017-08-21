@@ -47,6 +47,14 @@ var deleteImgURL = "/ops/images/remove"
 var Container_Ava_Ip = "/ops/Container_Ava_Ip"
 var Create_Container_Net = "/ops/Create_Container_Net"
 var deleteCTNetRange = "/ops/Container_Net_range/remove"
+var Create_CTN_Service = "/ops/images/launch/"
+var CheckContainerURL = "/ops/checkcontainer"
+var Container_Service = "/ops/Container_Service"
+var ContainerSPURL = "/ops/Container_Stop"
+var ContainerSTURL = "/ops/Container_Start"
+var ContainerRSURL = "/ops/Container_ReStart"
+var ContainerRMURL = "/ops/Container_Remove"
+var ContainerBKURL = "/ops/Container_backup"
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;
@@ -71,7 +79,7 @@ function showSuccessNotic() {
     var element = "";
     if (window.innerWidth > 737) {
         $("#showSuccessNotic").slideDown("fast");
-    }
+      }
     else {
         var t = document.getElementById("showSuccessNotice");
         t.style.display = "block";
@@ -85,13 +93,12 @@ function showSuccessNotic() {
 
 }
 
-// //loading ....
+//loading ....
 function start_load_pic() {
     document.getElementById("loadPic").style.display = "block";
     //document.getElementById("shadow").style.display = "block";
 
 }
-//
 // //loading ....
 function stop_load_pic() {
     document.getElementById("loadPic").style.display = "none";
@@ -123,17 +130,16 @@ function initGetServersList() {
 }
 
 //global  Node list
+// {"data": {"NodeIp": "fff", "time": "2017-08-14 13:36:18", "NodeName": "ffff", "NodeId": "krviixpq8q"}}
 $(function(){
   getJSON(ContainerNodeList).then(function(data){
         // data = data.replace(/[\\]/g,"");
         data = JSON.parse(data)
-        // window.ContainerNodeList = JSON.parse(data)
         console.log(data)
-        // return data
         // //n 得到下标
         $.map(data,function (i,n ){
             window.ContainerNodeList = i
-            // console.log(window.ContainerNodeList )
+            console.log(window.ContainerNodeList )
           // for(x=0;x<i.length;x++){
           // //   // console.log(i[x])
           //   window.ContainerNodeList = i[x]
@@ -144,25 +150,125 @@ $(function(){
         })
   });
 })
-// $(function  LoadNodeList() {
-//   getJSON(ContainerNodeList).then(function(data){
-//         // data = data.replace(/[\\]/g,"");
-//         data = JSON.parse(data)
-//         // window.ContainerNodeList = JSON.parse(data)
-//         console.log(data)
-//         // return data
-//         // //n 得到下标
-//         $.map(data,function (i,n ){
-//           for(x=0;x<i.length;x++){
-//             // console.log(i[x])
-//             window.ContainerNodeList = i[x]
-//             console.log(window.ContainerNodeList)
-//             // createNode(i[x])
-//           }
-//         })
-//   });
-// }
+// Server check status  & check has ssh container
+function sshCheck(sid){
+    //用来ssh登录检查服务器状态的，新建和修改的服务器使用，在请求之前就修改状态图标
+    $("#"+sid).children().remove();//remove before status
+    var i=document.createElement("i");
+    i.className="fa-refresh   fa-spin  fa fa-lg  fa-li";
+    i.style.position="static";
+    document.getElementById(sid).appendChild(i);
 
+    jQuery.ajax({
+        "url":sshCheckURL,
+        "dataType":"jsonp",
+        "data":{"sid":sid},
+        "success":function (data) {
+            createServerStatusTd(sid,data);
+
+        }
+    });
+}
+
+// check container status
+function checkcontainer(sid,sip){
+    //用来ssh登录检查服务器状态的，新建和修改的服务器使用，在请求之前就修改状态图标
+    // console.log(sip)
+    $("#"+sip).children().remove();//remove before status
+    var i = document.createElement("i");
+    i.className="fa-refresh   fa-spin  fa fa-lg  fa-li";
+    i.style.position="static";
+    document.getElementById(sip).appendChild(i);
+
+  jQuery.ajax({
+        "url":CheckContainerURL,
+        "dataType":"jsonp",
+        "data":{"sid":sid,"sip":sip},
+        "success":function (data) {
+            createServerStatusTd(sip,JSON.parse(data));
+        }
+    });
+}
+//add click Server status detail info
+function createServerStatusTd(sip,data){
+   //remove status  tag
+    console.log(data.button)
+    if(data.button == "start"){
+      // console.log($("#"+sip).nextAll().children()[1].className="btn btn-xs btn-default glyphicon glyphicon-stop")
+      $("#"+sip).nextAll().children()[1].className="btn btn-xs btn-default glyphicon glyphicon-stop"
+    }else{
+      $("#"+sip).nextAll().children()[1].className="btn btn-xs btn-default glyphicon glyphicon-play"
+    }
+    $("#"+sip).children().remove()
+    var span=document.createElement("span");
+    span.setAttribute("time",data.time);
+    span.setAttribute("status",data.status);
+    span.setAttribute("info",data.content);
+    span.setAttribute("ip",data.ip);
+    //绑定点击显示详细信息
+    span.onclick=function(){
+        $("#showServerCheckInfo").show("fast");
+        document.getElementById("showCheckHost").textContent=this.getAttribute("ip");
+        document.getElementById("showCheckTime").textContent=this.getAttribute("time");
+        var status=this.getAttribute("status");
+        var showCheckStatus= document.getElementById("showCheckStatus");
+        var span=document.createElement("span");
+        if(data.status=="success"){
+            span.className="label label-success";
+            span.textContent="正常"
+        }
+        else{
+            span.className="label label-danger";
+            span.textContent="失败"
+        }
+        $(showCheckStatus).children().remove();//删除此前的状态，避免重复
+        showCheckStatus.appendChild(span);//加入新的状态信息
+        document.getElementById("showCheckInfo").textContent=this.getAttribute("info");
+        $("#showServerCheckInfo").show("fast");
+        startShadow();
+    }
+    if(data.status=="success"){
+        span.textContent="正常";
+        span.className="label label-success";
+        document.getElementById(sip).appendChild(span);
+    }
+    else if(data.status=="failed"){
+        span.textContent="失败";
+        span.className="label label-danger";
+        document.getElementById(sip).appendChild(span);
+        $("[data-toggle='tooltip']").tooltip();//绑定信息提示工具
+    }
+    else if(data.status=="checking"){
+        var i=document.createElement("i");
+        i.className="fa-refresh   fa-spin  fa fa-lg  fa-li";
+        i.style.position="static";
+        document.getElementById(sip).appendChild(i);
+    }
+}
+
+
+//load pulled images
+$(function(){
+  $.ajax({
+      "url": Docker_pulled_images,
+      "dataType": "jsonp",
+      "beforeSend": start_load_pic,
+      "error": errorAjax,
+      "complete": stop_load_pic,
+      "success": function (data) {
+        //  console.log(JSON.parse(data));
+        data = JSON.parse(data)
+        console.log(data)
+        if (data.status == false){
+              showErrorInfo(data.content);
+        } else {
+           window.pulled_images = data.content
+           console.log(data.content)
+              // createImageLine(data.content);
+        }
+      }
+  })
+})
 //ajax callback to check data to do something
 function responseCheck(data) {
     // console.log(data);
@@ -234,6 +340,13 @@ function postJSON(url, data) {
     })
 }
 
+// remove   space
+function  Rmspace(content){
+    data=content.replace(/[' ']/g,"");
+    return data
+}
+
+//{status: 200, result: { default : "{"Netrange": "88.99.1.0/28", "available": 253, "Nodename": "default", "netname": "fff"}}
 function getJSON (url) {
     return new Promise( (resolve, reject) => {
         var xhr = new XMLHttpRequest()
@@ -244,7 +357,7 @@ function getJSON (url) {
                 if (this.status === 200) {
                     var response = JSON.parse(xhr.responseText);
                     resolve(response);
-                    console.log(response);
+                    // console.log(response);
                 } else {
                     var resJson = { code: this.status, response: this.response }
                     reject(resJson, this)
@@ -257,6 +370,10 @@ function getJSON (url) {
 
 //guidance station
 $(function(){
+   //show the setting  own configure
+    $('#set').click(function (){
+          $('#head').slideDown("slow");
+    });
     $('#index').click(function () {
         window.location.href = '/ops/index';
     });

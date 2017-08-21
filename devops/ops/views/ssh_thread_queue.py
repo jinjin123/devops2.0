@@ -2,14 +2,14 @@
 # coding:utf-8
 import threading, Queue, time
 from ssh_thread_num import AutoGetThreadNum
-from ssh_modol_controler import SSHControler
+from ssh_module_controller import SSHControler
 from ssh_error import SSHError
 from .. import ssh_settings
 import os, sys, json,redis
-
+r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 class SSHThreadAdmin(object):
     def __init__(self):
-            self.r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
+            self.r = r
 
     def run(self, parameter={}):
         ssh_info = {"status": True, "content": ""}
@@ -26,8 +26,6 @@ class SSHThreadAdmin(object):
                 current = "current.%s" % tid
                 self.r.set(total, len(servers))
                 self.r.set(current, 0)
-                # SSHConnector.progress[total]=len(servers)
-                # SSHConnector.progress[current]=0
                 if multi_thread:
                     pool = SSHPool()
                     for s in servers:
@@ -35,9 +33,7 @@ class SSHThreadAdmin(object):
                         param = {"cmd": cmd, "ip": s, "tid": tid}
                         print param,'36'
                         pool.add_task(controler.command_controler, param)
-
                 else:
-
                     for s in servers:
                         controler = SSHControler()
                         controler.command_controler(cmd=cmd, ip=s, tid=tid)

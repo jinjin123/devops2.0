@@ -4,7 +4,7 @@ from random import SystemRandom
 import psutil
 import shutil
 import requests
-import json
+import json,re
 from django.conf import settings
 
 
@@ -62,10 +62,11 @@ class ImageMixin(object):
                 ip_addr, mac_addr, hostname, self.name)
         return check_output(run_cmd, shell=True)[0:12]
 
-    def run_bridge(self, cores, memory, ip_addr, hostname):
+    @staticmethod
+    def run_bridge(cores, memory, ip_addr, hostname,name):
         #TODO implement with api, or handle exception
         run_cmd = 'docker run --cpuset-cpus=%s -m %sM --net=dbox_bridge \
-                --ip=%s -h %s -itd %s' % (cores, memory, ip_addr, hostname, self.name)
+                --ip=%s -h %s --name %s -itd %s' % (cores, memory, ip_addr, hostname, hostname,name)
         return check_output(run_cmd, shell=True)[0:12]
 
     @staticmethod
@@ -101,33 +102,35 @@ class ContainerMixin:
         else:
             return False
 
-    def start(self):
-        if isinstance(self.container_id, bytes):
-            container_id = self.container_id.decode("utf-8")
-        else:
-            container_id = self.container_id
+    @staticmethod
+    def start(container_id):
+        container_id = str(container_id)
         response = requests.post('http://localhost:' + settings.DOCKER_API_PORT + \
                 '/containers/' + container_id + '/start')
-        return response.status_code
+        return response
 
-    def stop(self):
-        if isinstance(self.container_id, bytes):
-            container_id = self.container_id.decode("utf-8")
-        else:
-            container_id = self.container_id
+    @staticmethod
+    def stop(container_id):
+        container_id = str(container_id)
         response = requests.post('http://localhost:' + settings.DOCKER_API_PORT + \
-                '/containers/' + container_id + '/stop')
-        return response.status_code
+                    '/containers/' + container_id + '/stop')
 
-    def restart(self):
+        return response
+        # return response.json
+
+    @staticmethod
+    def restart(container_id):
+        container_id = str(container_id)
         response = requests.post('http://localhost:' + settings.DOCKER_API_PORT + \
-                '/containers/' + self.container_id + '/restart')
-        return response.status_code
+                '/containers/' + container_id + '/restart')
+        return response
 
-    def remove(self):
+    @staticmethod
+    def remove(container_id):
+        response = ContainerMixin().stop(container_id)
         response = requests.delete('http://localhost:' + settings.DOCKER_API_PORT + \
-                '/containers/' + self.container_id + '?v=1?force=1')
-        return response.status_code
+                '/containers/' + container_id + '?v=1?force=1')
+        return response
 
     def details(self):
         details_rg = requests.get('http://localhost:' + settings.DOCKER_API_PORT + \
@@ -154,29 +157,39 @@ class ContainerMixin:
         container = requests.get('http://localhost:' + settings.DOCKER_API_PORT + '/containers/' + self.container_id + '/json')
         return container.json()
 
-    def commit(self, name):
-        params = {'container': self.container_id, 'repo': name, 'tag': 'latest'}
+    @staticmethod
+    def commit(container_id,name):
+        params = {'container': container_id, 'repo': name, 'tag': 'latest'}
         response = requests.post('http://localhost:%s/commit' % (settings.DOCKER_API_PORT), params=params)
-        return response.status_code, response.json()
+        return response, response.json()['Id'].split(":")[1][:10]
 
-    def set_passphrase(self):
+    @staticmethod
+    def checkcontainer(container_id):
+        if type(container_id) == str:
+            cmd = 'fping %s'% (container_id)
+        else:
+            cmd = 'fping %s'% (container_id)
+        return re.split('(is ' ')',check_output(cmd,shell=True))[2].strip('\n')
+
+    @staticmethod
+    def set_passphrase(container_id):
         symbols = '!@#%^&*_-=;:?><,.'
         passphrase = ''.join(SystemRandom().choice(ascii_uppercase+digits+symbols) for _ in range(15))
-        if type(self.container_id) == str:
-            cmd = r'''docker exec %s bash -c "echo root:$'%s' | chpasswd"''' % (self.container_id, passphrase)
+        if type(container_id) == str:
+            cmd = r'''docker exec %s bash -c "echo root:$'%s' | chpasswd"''' % (container_id, passphrase)
         else:
-            cmd = r'''docker exec %s bash -c "echo root:$'%s' | chpasswd"''' % (self.container_id.decode("utf-8"), passphrase)
+            cmd = r'''docker exec %s bash -c "echo root:$'%s' | chpasswd"''' % (container_id.decode("utf-8"), passphrase)
         check_output(cmd, shell=True)
         return passphrase
 
-    def copy_ssh_pub_key(self, user):
-        ssh_pub_key = user.ssh_pub_key
-        if type(self.container_id) == str:
+    @staticmethod
+    def copy_ssh_pub_key(user,container_id,ssh_pub_key):
+        if type(container_id) == str:
             cmd = r'''docker exec %s bash -c "ls /root/.ssh || mkdir /root/.ssh && echo '%s' >> /root/.ssh/authorized_keys"''' \
-                    % (self.container_id, ssh_pub_key)
+                    % (container_id, ssh_pub_key)
         else:
             cmd = r'''docker exec %s bash -c "ls /root/.ssh || mkdir /root/.ssh && echo '%s' >> /root/.ssh/authorized_keys"''' \
-                    % (self.container_id.decode('utf-8'), ssh_pub_key)
+                    % (container_id.decode('utf-8'), ssh_pub_key)
         check_output(cmd, shell=True)
 
     def top(self):

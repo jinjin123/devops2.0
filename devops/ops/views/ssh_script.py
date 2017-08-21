@@ -4,7 +4,7 @@ import os, sys, threading
 from .. import ssh_settings
 from ssh_error import SSHError
 from ssh_file_transfer import SSHFileTransfer
-import ssh_modol_controler, random
+import ssh_module_controller, random
 from ssh import SSH_SSH
 
 
@@ -18,7 +18,7 @@ class SSHScript(object):
         try:
             sfile = os.path.join(ssh_settings.script_dir,  os.path.basename(sfile))
             dfile = os.path.join('/tmp/', tid)
-            host = ssh_modol_controler.SSHControler().convert_id_to_ip(ip)
+            host = ssh.module_controller.SSHControler().convert_id_to_ip(ip)
             if not host["status"]: raise SSHError(host['content'])
             _host_info = host['content']
             sftp = SSHFileTransfer()
@@ -44,7 +44,7 @@ class SSHScript(object):
         try:
             sfile = os.path.join(ssh_settings.script_dir,  os.path.basename(sfile))
             dfile = os.path.join('/tmp/', tid)
-            host = ssh_modol_controler.SSHControler().convert_id_to_ip(ip)
+            host = ssh_module_controller.SSHControler().convert_id_to_ip(ip)
             if not host["status"]: raise SSHError(host['content'])
             _host_info = host['content']
             sftp = SSHFileTransfer()

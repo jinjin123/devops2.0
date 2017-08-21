@@ -6,7 +6,7 @@ from .. import ssh_settings
 from ssh_thread_queue import SSHPool
 from ssh import SSH_SSH
 from crontab import SSHCrontab
-from ssh_modol_controler import SSHControler
+from ssh_module_controller import SSHControler
 
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 
