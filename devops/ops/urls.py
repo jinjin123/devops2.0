@@ -73,7 +73,7 @@ urlpatterns = [
     url(r'^Container_Remove',views.Container_Remove),
     url(r'^Container_backup',views.Container_Backup),
     url(r'^Container_play',views.Container_Play),
-    url(r'^Container_status/(?P<container_id>.+)/$', views.Container_status),
+    # url(r'^Container_status/(?P<container_id>.+)/$', views.Container_status),
     url(r'^Get_Container_backup/$', views.get_container_backup),
     url(r'^Remove_container_backup/$', views.Remove_container_backup),
     url(r'^Get_container_process/$', views.container_top),

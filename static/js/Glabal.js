@@ -85,6 +85,77 @@ function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
         content = "SSH已经响应,但是出现意外的错误";
     }
 }
+// interval
+function mem_usage() {
+  mem_timer = setInterval(function(){
+    $.ajax({
+       type: "post",
+       url: Container_mem,
+       data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
+       dataType: "json",
+       success : function(data){
+         console.log(JSON.parse(data))
+         data = JSON.parse(data)
+        //  console.log($('.cpu_percentage').highcharts())
+         //x one line
+        $('.memory').highcharts().series[0].addPoint(data[0],true,true)
+        //x two line
+        $('.memory').highcharts().series[1].addPoint(data[1],true,true)
+       }
+     });
+  },3000)
+}
+function mem_percentage() {
+  mem_percentage_timer = setInterval(function(){
+    $.ajax({
+       type: "post",
+       url: Container_mem_percentage,
+       data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
+       dataType: "json",
+       success : function(data){
+         data = JSON.parse(data)
+         console.log(data)
+        //  console.log($('.areaChartTwoWay').highcharts())
+        $('.mem_percentage').highcharts().series[0].addPoint(data,true,true)
+       }
+     });
+  },3000)
+}
+function cpu() {
+  cpu_timer = setInterval(function(){
+    $.ajax({
+       type: "post",
+       url: Container_cpuusage,
+       data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
+       dataType: "json",
+       success : function(data){
+         console.log(JSON.parse(data))
+         data =  JSON.parse(data)
+        //  console.log($('.areaChartTwoWay').highcharts())
+        $('.cpu').highcharts().series[0].addPoint(data,true,true)
+       }
+     });
+  },3000)
+}
+function network() {
+  network_timer = setInterval(function(){
+    $.ajax({
+       type: "post",
+       url: Container_net,
+       data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
+       dataType: "json",
+       success : function(data){
+         console.log(JSON.parse(data))
+         data = JSON.parse(data)
+        //  console.log($('.cpu_percentage').highcharts())
+         //x one line
+        $('.network').highcharts().series[0].addPoint(data[0],true,true)
+        //x two line
+        $('.network').highcharts().series[1].addPoint(data[1],true,true)
+       }
+     });
+  },3000)
+}
 
 //add  action  success notice
 function showSuccessNotic() {

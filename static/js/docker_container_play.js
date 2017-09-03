@@ -1,23 +1,42 @@
 $(function(){
   setTimeout("load_container()",200);
-  // load_container();
+  $('#overview_button').click(function(){
+    start_graph();
+  })
   $('#images_button').click(function(){
+       stop_graph();
        $('#backup_images').show();
        get_container_backup();
   })
   $('#runprocesses_button').click(function(){
+     stop_graph();
      $('#backup_images').hide();
-    Container_process();
+     Container_process();
   })
   $('#filechanges_button').click(function(){
+     stop_graph();
      $('#backup_images').hide();
      container_get_filediff();
   })
   $('#terminal_button').click(function(){
-    //  $('#shell').css('display', 'block');
+    stop_graph();
     setTimeout("terminal_func()",200);
   })
 })
+//stop interval
+function stop_graph (){
+  clearInterval(mem_timer);
+  clearInterval(mem_percentage_timer);
+  clearInterval(cpu_timer);
+  clearInterval(network_timer);
+}
+// start interval
+function start_graph(){
+  mem_usage();
+  mem_percentage();
+  cpu();
+  network();
+}
 //memory graph
 $(function () {
     var commonOptions = {
@@ -58,7 +77,6 @@ $(function () {
         lineWidth: 1
         // tickLength: 1,
       },
-
       // Area Chart
       plotOptions: {
         series: {
@@ -145,27 +163,8 @@ $(function () {
           marker: { lineColor: '#70ba47', fillColor: 'white', },
         }]
       }))
-
     });
-    function mem_usage() {
-      setInterval(function(){
-        $.ajax({
-           type: "post",
-           url: Container_mem,
-           data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
-           dataType: "json",
-           success : function(data){
-             console.log(JSON.parse(data))
-             data = JSON.parse(data)
-            //  console.log($('.cpu_percentage').highcharts())
-             //x one line
-            $('.memory').highcharts().series[0].addPoint(data[0],true,true)
-            //x two line
-            $('.memory').highcharts().series[1].addPoint(data[1],true,true)
-           }
-         });
-      },3000)
-    }
+
 
     $('.highcharts-grid > path:last-child').remove();
     $('.highcharts-markers > path:last-child').remove();
@@ -290,22 +289,7 @@ $(function () {
         }))
 
       });
-      function mem_percentage() {
-        setInterval(function(){
-          $.ajax({
-             type: "post",
-             url: Container_mem_percentage,
-             data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
-             dataType: "json",
-             success : function(data){
-               data = JSON.parse(data)
-               console.log(data)
-              //  console.log($('.areaChartTwoWay').highcharts())
-              $('.mem_percentage').highcharts().series[0].addPoint(data,true,true)
-             }
-           });
-        },3000)
-      }
+
 
       $('.highcharts-grid > path:last-child').remove();
       $('.highcharts-markers > path:last-child').remove();
@@ -430,22 +414,7 @@ $(function () {
           }))
 
         });
-        function cpu() {
-          setInterval(function(){
-            $.ajax({
-               type: "post",
-               url: Container_cpuusage,
-               data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
-               dataType: "json",
-               success : function(data){
-                 console.log(JSON.parse(data))
-                 data =  JSON.parse(data)
-                //  console.log($('.areaChartTwoWay').highcharts())
-                $('.cpu').highcharts().series[0].addPoint(data,true,true)
-               }
-             });
-          },3000)
-        }
+
 
         $('.highcharts-grid > path:last-child').remove();
         $('.highcharts-markers > path:last-child').remove();
@@ -579,26 +548,25 @@ $(function () {
             }))
 
           });
-          function network() {
-            setInterval(function(){
-              // var data = {"container_id": document.getElementById("myTab").getElementsByClassName("active")[0].textContent}
-              $.ajax({
-                 type: "post",
-                 url: Container_net,
-                 data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
-                 dataType: "json",
-                 success : function(data){
-                   console.log(JSON.parse(data))
-                   data = JSON.parse(data)
-                  //  console.log($('.cpu_percentage').highcharts())
-                   //x one line
-                  $('.network').highcharts().series[0].addPoint(data[0],true,true)
-                  //x two line
-                  $('.network').highcharts().series[1].addPoint(data[1],true,true)
-                 }
-               });
-            },3000)
-          }
+          // function network() {
+          //   network_timer = setInterval(function(){
+          //     $.ajax({
+          //        type: "post",
+          //        url: Container_net,
+          //        data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
+          //        dataType: "json",
+          //        success : function(data){
+          //          console.log(JSON.parse(data))
+          //          data = JSON.parse(data)
+          //         //  console.log($('.cpu_percentage').highcharts())
+          //          //x one line
+          //         $('.network').highcharts().series[0].addPoint(data[0],true,true)
+          //         //x two line
+          //         $('.network').highcharts().series[1].addPoint(data[1],true,true)
+          //        }
+          //      });
+          //   },3000)
+          // }
 
           $('.highcharts-grid > path:last-child').remove();
           $('.highcharts-markers > path:last-child').remove();

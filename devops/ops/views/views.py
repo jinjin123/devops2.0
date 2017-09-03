@@ -1435,6 +1435,7 @@ def container_terminal(request):
     ncp_proc = subprocess.Popen(go_cmd, shell=True, executable='/bin/bash')
     return JsonResponse({'container_id': container_id, 'port': port})
 
+###TODO when the container  create ,will create a process collcet  container status, and  not real time return status
 ###get container cpu usage
 @login_required(login_url='/')
 @ajax_http
@@ -1478,7 +1479,7 @@ def get_container_net(request):
         time = ContainerMixin().time()
         upload,download = ContainerMixin().network(container_id)
         result = [time, upload],[time,download]
-        print result
+        # print result
         return json.dumps(result)
 #### check the ssh  login
 @ajax_http

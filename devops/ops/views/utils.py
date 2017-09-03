@@ -113,9 +113,7 @@ class ContainerMixin:
         response = response.split()
         if response:
             result = float(response[1].split('%')[0])
-            # result = '[{"cpu":"%s","memory":"%s","memTotal":"%s","netDow":"%s","netDowUnit":"%s", \
-            #          "netUp":"%s","netUpUnit":"%s"}],' % (response[1], response[7], response[5], \
-            #          response[8], response[9], response[11], response[12]
+            #['c63b28fdb64b', '0.00%', '3.258MiB', '/', '300MiB', '1.09%', '20.8kB', '/', '5.38kB', '11.8MB', '/', '0B', '3']
         return result
 
     @staticmethod
@@ -138,7 +136,6 @@ class ContainerMixin:
         response = response.split()
         if response:
             result = float(response[5].split('%')[0])
-        
         return result
 
     @staticmethod
@@ -158,6 +155,7 @@ class ContainerMixin:
                 '/containers/' + container_id + '/start')
         return response
 
+    ### the framework  not support  async,  use yield will block  other  http request
     @staticmethod
     def stats(container_id):
         container_id = str(container_id)
