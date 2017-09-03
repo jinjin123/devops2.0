@@ -586,11 +586,13 @@ $(function () {
             container = JSON.parse(i[x]);
             var ul = document.getElementById("myTab")
             var li = document.createElement("li")
+            var a  = document.createElement("a")
             if(x==0){
                 li.className  = "active"
             }
-            var a  = document.createElement("a")
             a.setAttribute("title",container.container_id)
+            // this attribute  can  toggle  change
+            a.setAttribute("data-toggle", "tab")
             a.textContent = container.container_id
             li.appendChild(a)
             ul.appendChild(li)
@@ -600,6 +602,7 @@ $(function () {
 
  }
 
+ //get this container backup image
 function  get_container_backup(){
     var data = {"container_id": document.getElementById("myTab").getElementsByClassName("active")[0].textContent}
     //防治重复

@@ -145,6 +145,7 @@ class ContainerMixin:
         response = response.split()
         if response:
             upload = float(response[6].split('k')[0])
+            # print response[8]
             download = float(response[8].split('k')[0])
         return upload,download
 

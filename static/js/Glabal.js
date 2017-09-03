@@ -123,6 +123,8 @@ function mem_percentage() {
 }
 function cpu() {
   cpu_timer = setInterval(function(){
+    // tooggle different  contianer_id  show different status
+  // console.log(document.getElementById("myTab").getElementsByClassName("active")[0].textContent)
     $.ajax({
        type: "post",
        url: Container_cpuusage,
