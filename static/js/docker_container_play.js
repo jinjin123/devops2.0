@@ -581,6 +581,7 @@ $(function () {
 //push container option to the left list
  function load_container (){
     content = window.owner_container
+    console.log(content)
     $.map(content, function(i, n) {
         for (x = 0; x < i.length; x++){
             container = JSON.parse(i[x]);
@@ -593,12 +594,36 @@ $(function () {
             a.setAttribute("title",container.container_id)
             // this attribute  can  toggle  change
             a.setAttribute("data-toggle", "tab")
+            a.setAttribute("tag", container.servicename)
             a.textContent = container.container_id
             li.appendChild(a)
             ul.appendChild(li)
             // console.log(container)
+            $(document).on('keyup', '.Search_container', function () {
+                searchValue(this);
+            });
         }
     });
+ }
+
+ //search the Container  service tag, support  enginsh  or chinese
+function searchValue(input) {
+     var searchValue = input.value;
+     var a = $("#myTab").find("li a");
+     a.each(
+         function () {
+             // if(!searchValue)return false;
+             var e = jQuery(this);
+            //  console.log(this.getAttribute("tag"))
+             var eValue = this.getAttribute("tag");
+             if (!eValue.match(searchValue)) {
+                 e.hide();
+             }
+             else {
+                 e.show()
+             }
+         }
+     );
 
  }
 
