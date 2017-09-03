@@ -1,12 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Author: PythonPie <contact@pythonpie.com>
-# Copyright (c) 2015 - THSTACK <contact@thstack.com>
 
-""" 获取cpu数据， 从 /proc/stat 文件 """
-""" @Site: www.pythonpie.com
-    @Date: 2015-05-23
-    @Version: v1.2
+""" 
     @Note:
         需要一个缓冲文件 /tmp/proc_stat 来保存上一次的数据。
         本次计算的时候，（用本次数据total和上次total做差 - 本次数据idle和

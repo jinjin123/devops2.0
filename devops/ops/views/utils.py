@@ -3,7 +3,7 @@ from string import ascii_uppercase, digits
 from random import SystemRandom
 import psutil
 import shutil
-import requests
+import requests,time
 import json,re
 from django.conf import settings
 
@@ -103,11 +103,73 @@ class ContainerMixin:
             return False
 
     @staticmethod
+    def time():
+        return (int(time.time()) + 8 * 3600) * 1000
+
+    @staticmethod
+    def cpu(container_id):
+        container_id = str(container_id)
+        response = str(check_output("docker stats --no-stream " + container_id + "| tail -1", shell=True))
+        response = response.split()
+        if response:
+            result = float(response[1].split('%')[0])
+            # result = '[{"cpu":"%s","memory":"%s","memTotal":"%s","netDow":"%s","netDowUnit":"%s", \
+            #          "netUp":"%s","netUpUnit":"%s"}],' % (response[1], response[7], response[5], \
+            #          response[8], response[9], response[11], response[12]
+        return result
+
+    @staticmethod
+    def memusage(container_id):
+        container_id = str(container_id)
+        response = str(check_output("docker stats --no-stream " + container_id + "| tail -1", shell=True))
+        response = response.split()
+        if response:
+            mem_usage = float(response[2].split('M')[0])
+            mem_limit = int(response[4].split('M')[0])
+            # result = '[{"cpu":"%s","memory":"%s","memTotal":"%s","netDow":"%s","netDowUnit":"%s", \
+            #          "netUp":"%s","netUpUnit":"%s"}],' % (response[1], response[7], response[5], \
+            #          response[8], response[9], response[11], response[12]
+        return mem_usage,mem_limit
+
+    @staticmethod
+    def mem_percentage(container_id):
+        container_id = str(container_id)
+        response = str(check_output("docker stats --no-stream " + container_id + "| tail -1", shell=True))
+        response = response.split()
+        if response:
+            result = float(response[5].split('%')[0])
+        
+        return result
+
+    @staticmethod
+    def network(container_id):
+        container_id = str(container_id)
+        response = str(check_output("docker stats --no-stream " + container_id + "| tail -1", shell=True))
+        response = response.split()
+        if response:
+            upload = float(response[6].split('k')[0])
+            download = float(response[8].split('k')[0])
+        return upload,download
+
+    @staticmethod
     def start(container_id):
         container_id = str(container_id)
         response = requests.post('http://localhost:' + settings.DOCKER_API_PORT + \
                 '/containers/' + container_id + '/start')
         return response
+
+    @staticmethod
+    def stats(container_id):
+        container_id = str(container_id)
+        # while True:
+        response = str(check_output("docker stats --no-stream " + container_id + "| tail -1", shell=True))
+        response = response.split()
+        if response:
+            yield '[{"cpu":"%s","memory":"%s","memTotal":"%s","netDow":"%s","netDowUnit":"%s", \
+                     "netUp":"%s","netUpUnit":"%s"}],' % (response[1], response[7], response[5], \
+                     response[8], response[9], response[11], response[12])
+            # print result
+            # return result
 
     @staticmethod
     def stop(container_id):
@@ -192,14 +254,16 @@ class ContainerMixin:
                     % (container_id.decode('utf-8'), ssh_pub_key)
         check_output(cmd, shell=True)
 
-    def top(self):
-        top_rg = requests.get('http://localhost:' + settings.DOCKER_API_PORT + '/containers/%s/top' % (self.container_id))
+    @staticmethod
+    def top(container_id):
+        top_rg = requests.get('http://localhost:' + settings.DOCKER_API_PORT + '/containers/%s/top' % (container_id))
         if top_rg.status_code == 200:
             return top_rg.json()
         return None
 
-    def diff(self):
-        diff_rg = requests.get('http://localhost:' + settings.DOCKER_API_PORT + '/containers/%s/changes' % (self.container_id))
+    @staticmethod
+    def diff(container_id):
+        diff_rg = requests.get('http://localhost:' + settings.DOCKER_API_PORT + '/containers/%s/changes' % (container_id))
         if diff_rg.status_code == 200:
             return diff_rg.json()
         return []

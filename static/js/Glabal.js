@@ -55,6 +55,18 @@ var ContainerSTURL = "/ops/Container_Start"
 var ContainerRSURL = "/ops/Container_ReStart"
 var ContainerRMURL = "/ops/Container_Remove"
 var ContainerBKURL = "/ops/Container_backup"
+var PlayContainer = "/ops/Container_play"
+var ContainerStatusURL = "/ops/Container_status/"
+var Get_container_backup = "/ops/Get_Container_backup/"
+var Remove_container_backup = "/ops/Remove_container_backup/"
+var Get_container_process = "/ops/Get_container_process/"
+var Get_container_filediff =  "/ops/Get_container_filediff/"
+var Container_terminal = "/ops/Container_terminal/"
+var Container_mem = "/ops/Container_mem/"
+var Container_mem_percentage = "/ops/Container_mem_percentage/"
+var Container_cpuusage  = "/ops/Container_cpuusage/"
+var Container_net = "/ops/Container_net/"
+// var ContainerStatusURL = "/test/"
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;
@@ -245,6 +257,23 @@ function createServerStatusTd(sip,data){
         document.getElementById(sip).appendChild(i);
     }
 }
+//load owner has container service
+$(function() {
+      getJSON(Container_Service).then(function(data){
+        // console.log(data);
+        content = JSON.parse(data);
+        if (content.status) {
+                    window.owner_container = content
+            // $.map(content, function(i, n) {
+            //     for (x = 0; x < i.length; x++){
+            //         ServiceInfo = JSON.parse(i[x]);
+            //         console.log(ServiceInfo)
+            //         window.owner_container =  ServiceInfo
+            //     }
+            // })
+        }
+      })
+})
 
 
 //load pulled images
@@ -263,7 +292,7 @@ $(function(){
               showErrorInfo(data.content);
         } else {
            window.pulled_images = data.content
-           console.log(data.content)
+          //  console.log(data.content)
               // createImageLine(data.content);
         }
       }
@@ -295,6 +324,7 @@ function responseCheck(data) {
 
     }
 }
+
 
 function loadKeyFileAdminHTML(){
     window.location.reload();
@@ -339,12 +369,37 @@ function postJSON(url, data) {
 
     })
 }
+(function(global) {
+    var common = {};
+    common.getDate = function() {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = ("00" + (date.getMonth()+1)).substr(-2);
+        var day = ("00" + date.getDate()).substr(-2);
+        return {
+            'year'  : year,
+            'month' : month,
+            'day'   : day
+        }
+    }
+    global.common = common;
+})(this);
 
 // remove   space
+// function  Rmspace(content){
+//     data=content.replace(/[' ']/g,"");
+//     return data
+// }
 function  Rmspace(content){
-    data=content.replace(/[' ']/g,"");
+    data=content.replace(/[\n\t' ']/g,"");
     return data
-}
+  }
+
+//remove  /n /t
+function  Rmtab(content){
+    data=content.replace(/[\n\t' ']/g,"");
+    return data
+  }
 
 //{status: 200, result: { default : "{"Netrange": "88.99.1.0/28", "available": 253, "Nodename": "default", "netname": "fff"}}
 function getJSON (url) {
@@ -410,4 +465,7 @@ $(function(){
     $('#docker_container').click(function () {
         window.location.href = '/ops/docker_container';
     });
+    $('#docker_container_play').click(function(){
+        window.location.href = PlayContainer;
+    })
 })

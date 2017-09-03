@@ -3,12 +3,13 @@
 import os,sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
-from django.http import HttpResponseRedirect,HttpResponse,request,JsonResponse
+from django.http import HttpResponseRedirect,HttpResponse,request,JsonResponse,StreamingHttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.contrib.auth.decorators import  login_required
 from django.contrib.auth import authenticate,logout,login
 from django.core.cache import cache
+from django.core import serializers
 from .. import ssh_settings
 from .. import  models
 from ssh_file_transfer import  SSHFileTransfer
@@ -22,15 +23,14 @@ from crontab_controler import  SSHCrontabControler
 from remote_file import  RemoteFile
 from requests.auth import HTTPBasicAuth
 from docker_img_show import Docker_registry
-from devops.settings  import DOCKER_API_PORT
+from devops.settings  import DOCKER_API_PORT,HOST_IP_ADDR,BASE_DIR
 from utils import  ImageMixin,ContainerMixin
+from django.views.decorators.http import condition
+from socket import socket
 from ssh_check import SSHCheck
-# from docker import  docker
-import ssh_module_controller,threading,cpu,mem,hashlib,datetime,redis,random,commands,time,requests
+import ssh_module_controller,threading,cpu,mem,hashlib,datetime,redis,random,commands,time,requests,subprocess
 import simplejson as json
-import demjson
-import re
-import uuid
+import re,uuid
 
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 img = '../static/img/cd-avatar.png'
@@ -1203,6 +1203,7 @@ def Load_Container_Service(request):
 
     return json.dumps(info)
 
+@login_required(login_url='/')
 @ajax_http
 def container_check(request):
     sid = request.GET.get('sid')
@@ -1234,11 +1235,12 @@ def container_check(request):
     return json.dumps(status)
 
 #### Container stop
+@login_required(login_url='/')
 @ajax_http
 def Container_Stop(request):
     ###postjson  post the "value"  need to  json.loads
     Container_id = json.loads(request.body)
-    print Container_id
+    # print Container_id
     response = ContainerMixin().stop(Container_id)
     print response.status_code
     info = {"status": True, "result": ""}
@@ -1253,13 +1255,14 @@ def Container_Stop(request):
     return json.dumps(info)
 
 #### Container start
+@login_required(login_url='/')
 @ajax_http
 def Container_Start(request):
     ###postjson  post the "value"  need to  json.loads
     Container_id = json.loads(request.body)
-    print Container_id
+    # print Container_id
     response = ContainerMixin().stop(Container_id)
-    print response.status_code
+    # print response.status_code
     info = {"status": True, "result": ""}
     if response.status_code  == 204 or response.status_code == 304:
         r.set("container_status.%s"%Container_id,json.dumps({"status": "start"}))
@@ -1273,11 +1276,12 @@ def Container_Start(request):
     return json.dumps(info)
 
 #### Container restart
+@login_required(login_url='/')
 @ajax_http
 def Container_ReStart(request):
     ###postjson  post the "value"  need to  json.loads
     Container_id = json.loads(request.body)
-    print Container_id
+    # print Container_id
     response = ContainerMixin().restart(Container_id)
     print response.status_code
     info = {"status": True, "result": ""}
@@ -1293,13 +1297,14 @@ def Container_ReStart(request):
     return json.dumps(info)
 
 #### Container  remove
+@login_required(login_url='/')
 @ajax_http
 def Container_Remove(request):
     ###postjson  post the "value"  need to  json.loads
     Container_id = json.loads(request.body)
-    print Container_id
+    # print Container_id
     response = ContainerMixin().remove(Container_id)
-    print response.status_code
+    # print response.status_code
     info = {"status": True, "result": ""}
     if response.status_code  == 204 or response.status_code == 304:
         try:
@@ -1319,17 +1324,22 @@ def Container_Remove(request):
         info["result"] = "未知错误"
     return json.dumps(info)
 
-####backup container as new one
+####backup container as new on##
+@login_required(login_url='/')
 @ajax_http
 def Container_Backup(request):
     ###postjson  post the "value"  need to  json.loads
     content = json.loads(request.body)
-    print content['backupname']
+    ###commit backup
     response,image_id = ContainerMixin().commit(content['container_id'],content['backupname'])
-    print response,image_id
+    ###get the backup info
+    details = ImageMixin().details(name=content['backupname'],tag='latest')
     info = {"status": True, "result": ""}
     if response.status_code  == 201:
-        r.set("container_backup.%s"%content['container_id'], json.dumps({"backupname":content['backupname'] + 'latest',"image_id": image_id}))
+        data = {}
+        data.update({"image_id":details['id'],"tag":'latest',"created":time.strftime('%Y-%m-%d %H:%M:%S'),"size":details["size"],"backupname":content['backupname']})
+        #### push redis  backup info
+        r.lpush(str(request.user)+"_container_backup.%s"%content['container_id'],json.dumps(data))
         info["status"] = True
         info["result"] = "备份成功"
     else:
@@ -1338,6 +1348,138 @@ def Container_Backup(request):
 
     return json.dumps(info)
 
+
+###load container  backup image
+@login_required(login_url='/')
+@ajax_http
+def get_container_backup(request):
+    info  = {"result": '',"status": True}
+    if request.method == 'POST':
+        content = json.loads(request.body)
+        print content
+        try:
+            backup = r.lrange(str(request.user)+"_container_backup.%s"%content['container_id'],0,-1)
+            if len(backup) > 0:
+                info["status"] = True
+                info["result"] = backup
+        except Exception,e:
+            info["status"] = False
+            info["result"] = "empty"
+            print str(e)
+        return json.dumps(info)
+
+###remove container backup
+@login_required(login_url='/')
+@ajax_http
+def Remove_container_backup(request):
+    info  = {"result": '',"status": True}
+    if request.method == 'POST':
+        rmname = json.loads(request.body)
+        print rmname['rmname'],rmname['container_id']
+        try:
+            backup = r.lrange(str(request.user)+"_container_backup.%s"%rmname['container_id'],0,-1)
+            for _list in backup:
+                if rmname['rmname'] == json.loads(_list)['image_id']:
+                    r.lrem(str(request.user)+"_container_backup.%s"%rmname['container_id'],0,_list)
+                    response = ImageMixin().remove(rmname['rmname'])
+                info["status"] = True
+                info["result"] = "删除成功"
+        except Exception,e:
+            info["status"] = False
+            info["result"] = str(e)
+            print str(e)
+        return json.dumps(info)
+
+####get container  process
+##{"Processes": [["2614", "root", "0:00", "/sbin/init"], ["2696", "root", "0:00", "/usr/sbin/sshd -D"]], "Titles": ["PID", "USER", "TIME", "COMMAND"]}
+@login_required(login_url='/')
+def container_top(request):
+        container_id = json.loads(request.body)
+        # print container_id
+        top = ContainerMixin().top(container_id)
+        if top:
+            return JsonResponse(top)
+        return JsonResponse({'Titles': None, 'Processes': None,'status': False})
+
+###get the container file change info
+## {"deleted": [], "added": ["/root/.bash_history", "/root/.ssh", "/root/.ssh/authorized_keys", "/run/sshd", "/run/sshd.pid", "/var/log/dmesg.0", "/var/log/dmesg.1.gz", "/var/log/dmesg.2.gz", "/var/log/dmesg.3.gz", "/var/log/dmesg.4.gz"], "modified": ["/etc", "/etc/.pwd.lock", "/etc/shadow", "/root", "/run", "/var/log", "/var/log/dmesg", "/var/log/upstart"]}
+@login_required(login_url='/')
+def container_filediff(request):
+    container_id = json.loads(request.body)
+    diff = ContainerMixin().diff(container_id)
+    modified = []
+    added = []
+    deleted = []
+    for file_info in diff:
+        if file_info['Kind'] == 0:
+            modified.append(file_info['Path'])
+        elif file_info['Kind'] == 1:
+            added.append(file_info['Path'])
+        elif file_info['Kind'] == 2:
+            deleted.append(file_info['Path'])
+    return JsonResponse({'modified': modified[:10], 'added': added[:10], 'deleted': deleted[:10]})
+
+###random socket port
+def find_free_port():
+    s = socket()
+    s.bind(('', 0))
+    return s.getsockname()[1]
+
+####connect container terminal
+@login_required(login_url='/')
+def container_terminal(request):
+    container_id = json.loads(request.body)
+    port = find_free_port()
+    uuid_token = str(uuid.uuid4())
+    go_cmd = '%s/ops/views/terminal %s %s %s %s ' % (BASE_DIR,port, HOST_IP_ADDR, DOCKER_API_PORT, container_id)
+    ncp_proc = subprocess.Popen(go_cmd, shell=True, executable='/bin/bash')
+    return JsonResponse({'container_id': container_id, 'port': port})
+
+###get container cpu usage
+@login_required(login_url='/')
+@ajax_http
+def get_container_cpu(request):
+    if request.method == "POST":
+            container_id = request.body
+            time = ContainerMixin().time()
+            stats = ContainerMixin().cpu(container_id)
+            result = [time, stats]
+            # print result
+            return json.dumps(result)
+
+###get container mem usage
+@login_required(login_url='/')
+@ajax_http
+def get_container_memusage(request):
+    if request.method == "POST":
+        container_id = request.body
+        time = ContainerMixin().time()
+        usage,limit = ContainerMixin().memusage(container_id)
+        result = [time, usage],[time,limit]
+        # print result
+        return json.dumps(result)
+
+###get container mem_percentage
+@login_required(login_url='/')
+@ajax_http
+def get_container_mem_percentage(request):
+    if request.method == "POST":
+        container_id = request.body
+        time = ContainerMixin().time()
+        stats = ContainerMixin().mem_percentage(container_id)
+        result = [time, stats]
+        return json.dumps(result)
+
+##network IO
+@login_required(login_url='/')
+@ajax_http
+def get_container_net(request):
+        container_id = request.body
+        time = ContainerMixin().time()
+        upload,download = ContainerMixin().network(container_id)
+        result = [time, upload],[time,download]
+        print result
+        return json.dumps(result)
 #### check the ssh  login
 @ajax_http
 def ssh_check(request):
@@ -1357,6 +1499,8 @@ def ssh_check(request):
 	status["alias"]=ssh_module_controller.SSHControler.convert_id_to_ip(sid)["content"]["alias"]
 	return status
 
+def Container_Play(request):
+    return render(request,"docker_container_play.html",{"user":request.user,"head":img})
 
 def docker_container(request):
     return render(request,"docker_container.html",{"user":request.user,"head":img})

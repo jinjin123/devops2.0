@@ -5,22 +5,24 @@ from tornado.escape import utf8
 from qr import get_qrcode
 from tornado.options import options, define, parse_command_line
 from tornado.concurrent import Future
-import sys
-import os
+import sys,os,json,subprocess
 import base64
 import tornado.ioloop
 import tornado.web
-import tornado.gen
+# import tornado.gen
+from tornado import gen
 import tornado.httpclient
 import tornado.escape
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 import tornado.wsgi
-import uuid
+import uuid,redis
 from django.core.wsgi import get_wsgi_application
+from django.http import StreamingHttpResponse
 
 define('port', type=int, default=8080)
+r = redis.StrictRedis(host='182.254.154.81', port=23456, db=0)
 
 
 def create_url_signed_value(secret, value):
@@ -52,7 +54,7 @@ global_login_buff = LoginBuff()
 class BaseHandler(tornado.web.RequestHandler):
 
     def get_current_user(self):
-        user_id = self.get_secure_cookie('user_id')
+        user_id = self.get_secure_cookie('user')
         if not user_id:
             return None
         else:
@@ -148,6 +150,39 @@ class PCLoginHandler(BaseHandler):
     def on_connection_close(self):
         global_login_buff.waiters.pop(self.user_id)
 
+class StatusHandler(BaseHandler):
+    # @tornado.web.asynchronous
+    # @tornado.gen.coroutine
+    def get(self,user_id,container_id):
+        print self.request.uri
+        user_id = self.request.uri.split("/")[2]
+        container_id = self.request.uri.split("/")[3]
+        print user_id,container_id
+        # print self.get_body_argument(container_id)
+        # container_id = request.get_full_path().split("/")[3]
+        datalist = r.lrange(str(user_id)+'_container',0,-1)
+        """
+        if request owner  with  his own container_id will return container status
+        """
+        for _list in datalist:
+             if container_id == json.loads(_list)['container_id']:
+                    for i in self.stream_response_generator(container_id):
+                        print i
+                    return StreamingHttpResponse(self.stream_response_generator(container_id))
+
+    @gen.coroutine
+    def stream_response_generator(self,container_id):
+        while True:
+            response = str(subprocess.check_output("docker stats --no-stream " + container_id + "| tail -1", shell=True))
+            response = response.split()
+            if response:
+                print response
+                yield '[{"cpu":"%s","memory":"%s","memTotal":"%s","netDow":"%s","netDowUnit":"%s",\
+                        "netUp":"%s","netUpUnit":"%s"}],' % (response[1], response[7], response[5], \
+                        response[8], response[9], response[11], response[12])
+            else:
+                yield response
+
 settings = {
         "cookie_secret":"81oETzKXQAGaYdkL5gEmGeJJFuYh7EQnpZXdTP1o",
         "login_url" : "/pc",
@@ -178,6 +213,7 @@ def main():
             (r"/logout", LogoutHandler),
             (r"/pc/([^/]+)", PCLoginHandler),
             (r"/pc", PCLoginRedirectHandler),
+            (r"/test/([^/]+)/([^/]+)", StatusHandler),
             ('.*', tornado.web.FallbackHandler, dict(fallback=container)),
         ],**settings)
 

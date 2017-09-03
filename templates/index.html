@@ -107,7 +107,7 @@
                 <a href="javascript:;" onclick=""  class="glyphicon glyphicon-cog show" id="set"></a>
                 <a href="/ops/logout" class="glyphicon glyphicon-share" id="out"></a>
 				<li class="has-children account">
-					<a href="#0">
+					<a href="#0" id="user_id">
                         <img src={{ head }} >
                         {{  user }}
 					</a>
@@ -203,7 +203,8 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="content"><a id="docker_repo" data-menu="docker_repo"><i class="fa fa-circle-o"></i>镜像仓库</a></li>
-                        <li class="content"><a id="docker_container"><i class="fa fa-circle-o"></i> 容器管理</a></li>
+                        <li class="content"><a id="docker_container"><i class="fa fa-circle-o"></i>容器管理</a></li>
+                        <li class="content"><a id="docker_container_play"><i class="fa fa-circle-o"></i>容器互动</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
