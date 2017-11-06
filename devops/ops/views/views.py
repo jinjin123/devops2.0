@@ -1849,22 +1849,14 @@ def hook_history(request):
             history.append(dict)
         return history
 
-        #
-        # if request.method == 'POST':
-        #     for t in  models.HostInfo.objects.all():
-        #         data = json.dumps({"Ip":t.ip,"Port":t.port,"Group":t.group,"User":t.user,"Pwd":t.pwd,"Key":str(t.key),
-        #                            "lg_type":t.login_type,"US_SUDO":t.us_sudo,"US_SU":t.us_su,"SUDO":t.sudo,"SU":t.su,
-        #                            "Status":t.alive,"bz":t.bz,"id":t.ip})
-        #         dict = json.loads(data)
-        #         Format.append(dict)
-        #     DRreturn = json.dumps({"totals":models.HostInfo.objects.count(),"data":Format})
-        #     # print DRreturn
-        #     return HttpResponse(DRreturn)
 
 
 
+@login_required(login_url='/')
+def Ansible_easy_module(request):
+    return render(request,"easy_module.html",{"user":request.user,"head":img})
 
-@login_required(login_url='/login')
+@login_required(login_url='/')
 def Container_Play(request):
     return render(request,"docker_container_play.html",{"user":request.user,"head":img})
 

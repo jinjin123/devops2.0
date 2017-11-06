@@ -94,6 +94,7 @@ var hook_socket_host = window.location.host
 var hook_history_url = "/get_hook_history"
 var update_work_order_status_url = "/update_work_order_status"
 var work_order_finish_notify = "/work_order_finish_notify"
+var Ansible_easy_module = "/easy_module"
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;
@@ -1007,6 +1008,9 @@ $(function(){
            showErrorInfo("发送通知出现异常，请联系Jimmy!")
          }
        })
+    })
+    $("#ansible_easy_module").click(function(){
+        window.location.href = Ansible_easy_module;
     })
     $('#set').click(function (){
           $('#head').slideDown("slow");

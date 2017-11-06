@@ -27,12 +27,12 @@
     overflow: hidden;
     color: #1E88C7;
     text-decoration: none;
-    text-indent: 12px;
-    line-height: 20px;
+    text-indent: 7px;
+    line-height: 26px;
     width: 80%;
      display: none;
     left: 17%;
-    top: -12px;
+    top: -17px;
 }
 .key input {
         position: absolute;
@@ -186,7 +186,7 @@ a.cg-bt{
 }
 .im_host_box{
     width: 500px;
-    height: 520px;
+    height: 600px;
     position: fixed;left: 50%; top: 22%;
     background: white;
     margin-left: -250px;
@@ -214,7 +214,7 @@ a.cg-bt{
     width: 80%;
     text-indent: 10px;
     font-size: 10px;
-    top: -13px;
+    top: -19px;
 }
 
 input[disabled]{

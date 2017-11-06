@@ -302,7 +302,7 @@ $(function () {
         , pageSize: 20
         , columnData: [{
             key: 'Ip',
-            width: '100px',
+            width: '120px',
             text: 'IP',
             sorting: 'IP'
         }, {
@@ -326,10 +326,12 @@ $(function () {
             text: '登录方式'
         }, {
             key: 'Key',
+            width: '100px',
             remind: '秘钥文件',
             text: '秘钥文件'
         }, {
             key: 'Pwd',
+            width: '100px',
             remind: '密码',
             text: '密码',
             template: function (action, rowObject) {
@@ -403,6 +405,7 @@ $(function () {
             }
         }, {
             key: 'bz',
+            width: '100px',
             remind: '备注',
             text: '备注'
         }, {

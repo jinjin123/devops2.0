@@ -27,7 +27,6 @@ function searchValue(input) {
             }
         }
     );
-
 };
 
 function initKeyFileDropZ(){
