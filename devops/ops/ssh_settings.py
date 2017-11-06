@@ -11,3 +11,6 @@ keyfile_dir="/Users/wupeijin/code3/django-tornado/keys"
 script_dir="/Users/wupeijin/code3/django-tornado/script"
 redisip='182.254.154.81'
 redisport=23456
+Pushid='wxfcf60e7eba5f47f3'
+Pushsecure='KBUIEJBhIo4WBaNRddq79tSzL_SuPWIATfHDF9iQ6yk'
+agentid=1000002

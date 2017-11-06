@@ -24,13 +24,16 @@ from remote_file import  RemoteFile
 from requests.auth import HTTPBasicAuth
 from docker_img_show import Docker_registry
 from devops.settings  import DOCKER_API_PORT,HOST_IP_ADDR,BASE_DIR
-from utils import  ImageMixin,ContainerMixin
+from utils import  ImageMixin,ContainerMixin,EmailMinxin
 from django.views.decorators.http import condition
 from socket import socket
 from ssh_check import SSHCheck
+from tasks import tasks
+from wechat_notify import WeiXin
+from  dwebsocket.decorators import accept_websocket,require_websocket
 import ssh_module_controller,threading,cpu,mem,hashlib,datetime,redis,random,commands,time,requests,subprocess
 import simplejson as json
-import re,uuid
+import re,uuid,StringUtil
 
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 img = '../static/img/cd-avatar.png'
@@ -50,6 +53,9 @@ def Login(request):
         if user is not None and user.is_active :
              login(request,user)
              request.session['user'] = username
+            #  return HttpResponseRedirect("/ops/index")
+             print 'aaa'
+            #  return HttpResponseRedirect("http://localhost:8080/index")
              return  HttpResponseRedirect(reverse('ops_index'))
 
         else:
@@ -64,7 +70,9 @@ def Login(request):
             response = HttpResponseRedirect('/')
             response.delete_cookie('sessionid')
             return response
-    return HttpResponseRedirect("/")
+    else:
+        return render(request,"login.html",{"user":request.user})
+    # return HttpResponseRedirect("/")
 
 
 @login_required(login_url='/')
@@ -109,75 +117,148 @@ def getcpu(request):
 def hello(request):
     return render(request,'service.html')
 
-# @login_required(login_url='/')
+@login_required(login_url='/')
 # @ajax_http
 def host_input(request):
     Format = []
     if request.method == 'POST':
-        for test in  models.HostInfo.objects.all():
-            data = json.dumps({"Ip":test.ip,"Port":test.port,"Group":test.group,"User":test.user,"Pwd":test.pwd,"Key":str(test.key),
-                               "lg_type":test.login_type,"US_SUDO":test.us_sudo,"US_SU":test.us_su,"SUDO":test.sudo,"SU":test.su,
-                               "Status":test.alive,"bz":test.bz})
+        for t in  models.HostInfo.objects.all():
+            data = json.dumps({"Ip":t.ip,"Port":t.port,"Group":t.group,"User":t.user,"Pwd":t.pwd,"Key":str(t.key),
+                               "lg_type":t.login_type,"US_SUDO":t.us_sudo,"US_SU":t.us_su,"SUDO":t.sudo,"SU":t.su,
+                               "Status":t.alive,"bz":t.bz,"id":t.ip})
             dict = json.loads(data)
             Format.append(dict)
-            # DRreturn = json.dumps({"data":Format},{"totals":models.HostInfo.objects.count()})
-            DRreturn = json.dumps({"totals":models.HostInfo.objects.count(),"data":Format})
-            # print DRreturn
+        DRreturn = json.dumps({"totals":models.HostInfo.objects.count(),"data":Format})
+        # print DRreturn
         return HttpResponse(DRreturn)
 
     return render(request,'host_input.html',{"user":request.user,"head":img})
 
 
-#TODO: return server status   to upgrade  server status,  单个添加完成的时候 也需要传ID
+"""
+    push cache db first and start ssh check with login status then  del  old one line and update status into the server config to new one,
+    为了加入status 检测状态 不得不加TAG 判断表单提交的TAG  是添加 还是更新 ，如果不加TAG 将重复添加数据到cache db里面
+"""
 @login_required(login_url='/')
-@ajax_http
+# @ajax_http
 def add_server_list(request):
     if request.method=='POST':
         try:
             StringBody = request.body
-            dict = eval(StringBody)
-            ip = dict['ip']
-            port = dict['port']
-            group = dict['group']
-            user = dict['user']
-            pwd = dict['password']
-            login_type = dict['lg_type']
-            key = dict['key']
-            us_sudo = dict['us_sudo']
-            us_su = dict['us_su']
-            sudo = dict['sudoPassword']
-            su = dict['suPassword']
-            alive = dict['status']
-            bz = dict['BZ']
-            id = dict['id']
-            data = {
-                "ip": ip,
-                "port": port,
-                "group": group,
-                "user": user,
-                "lg_type": login_type,
-                "key": key,
-                "pwd": pwd,
-                "us_sudo": us_sudo,
-                "us_su": us_su,
-                "sudo": sudo,
-                "su": su,
-                "status": 0,
-                "bz": bz,
-                "id": id,
-            }
-            print data
-            r.lpush("server",StringBody)
-            r.hset(id,'server',data)
+            dict = json.loads(StringBody)
+            if dict["opt_tag"] == "ADD":
+                ip = dict['ip']
+                port = dict['port']
+                group = dict['group']
+                user = dict['user']
+                pwd = dict['password']
+                login_type = dict['lg_type']
+                key = dict['key']
+                us_sudo = dict['us_sudo']
+                us_su = dict['us_su']
+                sudo = dict['sudoPassword']
+                su = dict['suPassword']
+                bz = dict['BZ']
+                Id = dict['id']
+                data = {
+                    "ip": ip,
+                    "port": port,
+                    "group": group,
+                    "user": user,
+                    "lg_type": login_type,
+                    "key": key,
+                    "pwd": pwd,
+                    "us_sudo": us_sudo,
+                    "us_su": us_su,
+                    "sudo": sudo,
+                    "su": su,
+                    "status": '',
+                    "bz": bz,
+                    "id": Id
+                }
+                print  data
+                r.lpush("server",json.dumps(data))
+                server_line = r.lrange("server",0,-1)
+                server_status = ssh_check(ip)
+                for _server in server_line:
+                    server = json.loads(_server)
+                    if ip == server["ip"]:
+                        try:
+                            r.lrem("server",0,_server)
+                            server["status"]=server_status
+                            r.lpush("server",json.dumps(server))
+                        except Exception as e:
+                            print str(e)
 
-            models.HostInfo.objects.create(ip=dict['ip'],port=dict['port'],group=dict['group'],
-                                           user=dict['user'],pwd=dict['password'],login_type=dict['lg_type'],
-                                           key=dict['key'],us_sudo=dict['us_sudo'],us_su=dict['us_su'],sudo=dict['sudoPassword'],
-                                           su=dict['suPassword'],alive=dict['status'],bz=dict['BZ'])
+                models.HostInfo.objects.create(ip=ip,port=port,group=group,
+                                               user=user,pwd=pwd,login_type=login_type,
+                                               key=key,us_sudo=us_sudo,us_su=us_su,sudo=sudo,
+                                               su=su,alive=server_status,bz=bz)
+            else:
+                ip = dict['ip']
+                port = dict['port']
+                group = dict['group']
+                user = dict['user']
+                pwd = dict['password']
+                login_type = dict['lg_type']
+                key = dict['key']
+                us_sudo = dict['us_sudo']
+                us_su = dict['us_su']
+                sudo = dict['sudoPassword']
+                su = dict['suPassword']
+                bz = dict['BZ']
+                Id = dict['id']
+                server_status = ssh_check(ip)
+                data = {
+                    "ip": ip,
+                    "port": port,
+                    "group": group,
+                    "user": user,
+                    "lg_type": login_type,
+                    "key": key,
+                    "pwd": pwd,
+                    "us_sudo": us_sudo,
+                    "us_su": us_su,
+                    "sudo": sudo,
+                    "su": su,
+                    "status": server_status,
+                    "bz": bz,
+                    "id": Id
+                }
+                server_line = r.lrange("server",0,-1)
+                for _server in server_line:
+                    server = json.loads(_server)
+                    if ip == server["ip"]:
+                        try:
+                            r.lrem("server",0,_server)
+                            r.lpush("server",json.dumps(data))
+                        except Exception as e:
+                            print str(e)
+
+                ####can not use  object.all ,because the primary key limit
+                models.HostInfo.objects.filter(ip=ip).update(ip=ip,port=port,group=group,
+                                               user=user,pwd=pwd,login_type=login_type,
+                                               key=key,us_sudo=us_sudo,us_su=us_su,sudo=sudo,
+                                               su=su,alive=server_status,bz=bz)
         except Exception,e:
-            print e
+            print e,'18989989899'
         return  HttpResponse(status=200)
 
+def ssh_check(ip):
+    ssh=SSHCheck(ip)
+    ssh.run()
+    status=r.get("server.status.%s"%ip)
+    if status is None:
+        status = {
+            "ip":ip,
+            "status":"checking",
+            "content":"检查中",
+            "time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()),
+        }
+        status = json.dumps(status)
+    else:
+        status = json.dumps(status)
+    return status
 
 # matching id  to delete server
 @login_required(login_url='/')
@@ -188,16 +269,20 @@ def del_server_list(request):
             content = json.loads(request.body)
             print content
             print content['ip']
-            id =  content['id']
+            IP =  content['ip']
             try:
                 models.HostInfo.objects.filter(ip=content['ip']).delete()
-                r.hdel(id)
+                server_list = r.lrange("server",0,-1)
+                for _line in server_list:
+                    print _line
+                    lines = json.loads(_line)
+                    if IP == lines['ip']:
+                        r.lrem("server",0,_line)
             except Exception,e:
                 print e
         except Exception,e:
             print e
 
-        return  HttpResponse(status=200)
 
 ###load all server config
 @login_required(login_url='/')
@@ -425,6 +510,7 @@ def get_command_result(request):
                 for i in range(LLEN):
                     _content = r.lpop(log_name)
                     _content = json.loads(_content)
+                    # print _content,'51111'
                     content += _content["content"]
                     ssh_info["content"] = {"content": content, "stage": _content["stage"],
                                                  "status": _content["status"]}
@@ -433,7 +519,6 @@ def get_command_result(request):
             ssh_info["status"] = False
             ssh_info["content"] = str(e)
 
-        print ssh_info,'409999999999999999999'
         return  ssh_info
 
 ###get the command history
@@ -502,7 +587,7 @@ def scripts_list(request):
         ssh_info["content"] = str(e)
         ssh_info["status"] = False
 
-    return demjson.encode(ssh_info)
+    return json.dumps(ssh_info)
 
 ### edit script file content
 @login_required(login_url='/')
@@ -666,8 +751,6 @@ def show_keyfile_list(request):
         ssh_info["content"] = str(e)
     return ssh_info
 
-###del   ssh key
-##TODO  can not del
 @login_required(login_url='/')
 @ajax_http
 def delete_keyfile(request):
@@ -686,9 +769,13 @@ def delete_keyfile(request):
         else:
             os.remove(full_path)
         line = {"keyfile": filename}
-        line = json.dumps(line, encoding="utf8", ensure_ascii=False)
-        print line
-        r.lrem("keyfile.list", 0, line)
+        # line = json.dumps(line, encoding="utf8", ensure_ascii=False)
+        # print line
+        keyfilecontent = r.lrange("keyfile.list",0,-1)
+        for _keyfile in keyfilecontent:
+            if line['keyfile'] == json.loads(_keyfile)['keyfile']:
+                r.lrem("keyfile.list", 0, _keyfile)
+
         ssh_info["status"] = True
     except Exception, e:
         ssh_info["status"] = False
@@ -699,7 +786,6 @@ def delete_keyfile(request):
 @login_required(login_url='/')
 @ajax_http
 def upload_keyfile(request):
-    ssh_info = {"status": True, "content": ""}
     fid = str(random.randint(90000000000000000000, 99999999999999999999))
     info = {"status": False, "content": "", "path": ""}
     if request.method == "POST":
@@ -714,13 +800,13 @@ def upload_keyfile(request):
         os.chdir(full_dir)
         with open(filename.encode('utf8'), "wb") as f:
             f.write(file_content)
-        print file_content
+        # print file_content
         line = {"keyfile": filename}
         line.update({"keycontent": file_content,"user": str(request.user)})
-        print line
+        # print line
         line = json.dumps(line, encoding="utf8", ensure_ascii=False)
         r.rpush("keyfile.list", line)
-    return ssh_info
+    return info
 
 ###add docker repo
 @login_required(login_url='/')
@@ -1481,54 +1567,354 @@ def get_container_net(request):
         result = [time, upload],[time,download]
         # print result
         return json.dumps(result)
-#### check the ssh  login
-@ajax_http
-def ssh_check(request):
-	sid=request.GET.get('sid')
-	ssh=SSHCheck(sid=sid)
-	ssh.run()
-	status=r.get("server.status.%s"%sid)
-	if status is None:
-		status={
-			"status":"checking",
-			"content":"检查中",
-			"time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()),
-		}
-	else:
-		status=json.loads(status)
-        print status,'127888888888888888888888'
-	status["alias"]=ssh_module_controller.SSHControler.convert_id_to_ip(sid)["content"]["alias"]
-	return status
 
+@login_required(login_url='/')
+@ajax_http
+def receive_email(request):
+    if request.method == "POST":
+        user =  str(request.user)
+        email = str(request.user.email)
+        e_pwd = request.body.replace('"','')
+        r.set("{email}".format(email=email),e_pwd)
+        result =  EmailMinxin().email(email,e_pwd)
+        return result
+    else:
+        user =  str(request.user)
+        email =  request.user.email
+        e_pwd = r.get("{email}".format(email=email))
+        result =  EmailMinxin().email(email,e_pwd)
+        # r.lpush('%s',result)% email
+        r.lpush("{user}.{email}".format(user=user,email=email),result)
+        return  result
+
+
+
+@ajax_http
+def wechat_notify(request):
+    if request.method == "POST":
+        agentid=1000002
+        server_status  =  requests.body
+        print server_status
+        wx = WeiXin(ssh_settings.Pushid, ssh_settings.Pushsecure)
+        message = {"content": server_status}
+        data = wx.send_message(userid='@all',agentid=agentid,toparty=4,totag=4,messages=message)
+        print wx
+
+"""
+  push a work order will  click wechat notify
+"""
+
+@login_required(login_url='/')
+@ajax_http
+def work_order(request):
+    info = {"status": 'false'}
+    if request.method == "POST":
+        agentid=ssh_settings.agentid
+        data = json.loads(request.body)
+        data['time'] = time.strftime('%Y-%m-%d %H:%M:%S')
+        data['status'] =  '未确认'
+        print data
+        try:
+            wx = WeiXin(ssh_settings.Pushid, ssh_settings.Pushsecure)
+            r.lpush("work_order",json.dumps(data))
+            messages={"content": data['title'] + "\n" + "发起更新时间: " + data["time"]}
+            data = wx.send_message(userid='@all',agentid=agentid,toparty=4,totag=4,messages=messages)
+        except  Exception as e:
+            pass
+        return data
+
+
+@login_required(login_url='/')
+@ajax_http
+def work_order_finish_notify(request):
+    if request.method == "POST":
+        agentid=ssh_settings.agentid
+        data = json.loads(request.body)
+        data['time'] = time.strftime('%Y-%m-%d %H:%M:%S')
+        try:
+            wx = WeiXin(ssh_settings.Pushid, ssh_settings.Pushsecure)
+            r.lpush("work_order_finish_log",json.dumps(data))
+            messages={"content": data['title'] + "\n" + "完成时间 :" + ' ' + data["time"] + "\n" +  "状态 :" + ' ' + data["status"] + "\n" + "处理人 :" + ' ' + str(request.user)}
+            data = wx.send_message(userid='@all',agentid=agentid,toparty=4,totag=4,messages=messages)
+        except  Exception as e:
+            pass
+
+
+@login_required(login_url='/')
+@ajax_http
+def work_order_list(request):
+    work_order = r.lrange("work_order",0,-1)
+    totals = r.llen("work_order")
+    content = {"totals":totals,"data":work_order}
+    # print content
+    return json.dumps(content)
+
+"""
+add log
+"""
+@login_required(login_url='/')
+@ajax_http
+def update_work_order_status(request):
+    status = {"status": 'success'}
+    if request.method == "POST":
+        time = json.loads(request.body)
+        # print time['time']
+        try:
+             data = r.lrange("work_order",0,-1)
+             for _data in data:
+                 List = json.loads(_data)
+                 if List['time'] == time['time']:
+                     List['status'] = '已确认'
+                     r.lrem('work_order',0,_data)
+                     r.lpush('work_order',json.dumps(List))
+
+             status['status'] = 'success'
+        except Exception as e:
+             status['status'] = 'failed'
+
+        return  status
+
+@login_required(login_url='/')
+@ajax_http
+def  Work_plan_list(request):
+    status = {"status": 'success'}
+    if request.method == "POST":
+        ### 前端传字典过来实际上是字符串需要 loads 变成字典在塞到redis里 返回前端才是对象
+         data = json.loads(request.body)
+         try:
+             r.lpush("work_plan",json.dumps(data))
+             status['status'] = 'success'
+         except Exception as e:
+             status['status'] = 'failed'
+
+         return  status
+
+@login_required(login_url='/')
+@ajax_http
+def get_work_plan_list(request):
+    try:
+        data = r.lrange("work_plan",0,-1)
+    except Exception as e:
+        pass
+    return json.dumps(data)
+
+@login_required(login_url='/')
+@ajax_http
+def Del_work_plan_ops(request):
+    if request.method == "POST":
+        try:
+            ops = request.body
+            print ops
+            data = r.lrange("work_plan",0,-1)
+            for  _data in data:
+                 List = json.loads(_data)
+                 if List['title'] == ops:
+                    r.lrem("work_plan",0,_data)
+        except Exception as e:
+            print e
+
+@login_required(login_url='/')
+@ajax_http
+def Del_work_order(request):
+    if request.method == "POST":
+        try:
+            order_time = request.body
+            print order_time
+            work_time = r.lrange("work_order",0,-1)
+            for  _data in work_time:
+                 List = json.loads(_data)
+                 if List['time'] == order_time:
+                    r.lrem("work_order",0,_data)
+        except Exception as e:
+            print e
+
+## TODO   webhook
+@login_required(login_url='/')
+@ajax_http
+def Save_hook_info(request):
+    if request.method == "POST":
+        try:
+            key = StringUtil.md5_token()
+            data = json.loads(request.body)
+            data['key'] = key
+            # r.lpush("hook_list",json.dumps(data))
+            if data['opt'] == 'add':
+                models.WebHook.objects.create(repo=data['repo'],branch=data['branch'],shell=data['shell'],server=data['server'],
+                                           add_time=time.strftime('%Y-%m-%d %H:%M:%S'),key=key,status=data['status'],
+                                           lastUpdate=time.strftime('%Y-%m-%d %H:%M:%S'))
+            else:
+                hook_index = data['hook_index']
+                data = {'repo':data['repo'],'branch':data['branch'],'shell':data['shell'],'server':data['server']}
+                models.WebHook.objects.filter(id=hook_index).update(**data)
+        except Exception as e:
+            return json.dumps(e)
+
+## TODO:  get webhook and  hisotry  分开 渲染， 这里主要返回webhook id 去获得history
+@login_required(login_url='/')
+@ajax_http
+def Get_hook_info(request):
+    arr = []
+    # data = r.lrange("hook_list",0,-1)
+    # print json.dumps(data)
+    hook_info = models.WebHook.objects.all()
+    for t in hook_info:
+        data = json.dumps({"id": t.id,"repo":t.repo,"branch": t.branch,"shell": t.shell,"server":t.server,"key":t.key,"status": t.status,"lastUpdate": str(t.lastUpdate)})
+        arr.append(data)
+
+    return arr
+
+@login_required(login_url='/')
+@ajax_http
+def Del_hook_info(request):
+    status = {"status": "sccuess"}
+    if request.method == "POST":
+        data = json.loads(request.body)
+        try:
+            List = r.lrange("hook_list",0,-1)
+            for _list in List:
+                h_list = json.loads(_list)
+                if h_list['key'] == data['key']:
+                    r.lrem("hook_list",0,_list)
+                    models.WebHook.objects.filter(key=data['key']).delete()
+            status['status'] = "sccuess"
+        except Exception as e:
+            status['status'] = "faild"
+
+        return status
+
+
+##TODO  更新webhook 状态 和 插入history 日至  最后将状态返回 渲染 这里 只发送成功和失败,放到celery 队列去执行 ,或者是queue里面去跑完 拿结果集 返回给前段 前端处理
+###w将更新的仓库  塞入redis里 ，前段手动触发去取 执行更新
+# @login_required(login_url='/')
+"""
+0  unknow 1 no data 3 failed 4  sccuess
+"""
+@accept_websocket
+def webhook_callback(request,callback_token):
+    ###将更新的
+    if request.method == "POST":
+        Hook_post = json.loads(request.body)
+        repo = Hook_post['repository']['name']
+        if Hook_post.has_key('pusher'):
+            pusher = Hook_post['pusher']['name'] + ' ' + '<'+ Hook_post['pusher']['email'] + '>'
+        else:
+            pusher = 'nobody'
+        # branch = 'master'  ###  coding not  attribute
+        push_user = Hook_post['commits']
+        ## which repo need to update how  much number
+        obj = models.WebHook.objects.get(key=callback_token)
+        server = obj.server
+        shell = obj.shell
+        #### history bind the access_token  match  index id
+        webhook_id = obj.id
+        stdout = tasks.get_hook_info_execute.delay(callback_token,server,shell,webhook_id)
+        if not stdout.get()['status']:
+            data = {"status":'3',"lastUpdate":time.strftime('%Y-%m-%d %H:%M:%S')}
+            models.WebHook.objects.filter(key=callback_token).update(**data)
+            models.History.objects.create(status=3,shell_log=stdout.get()[u'content'],data=Hook_post,push_user=pusher,
+                add_time=time.strftime('%Y-%m-%d %H:%M:%S'),update_time=time.strftime('%Y-%m-%d %H:%M:%S'),webhook_id_id=obj.id)
+            r.lpush("hook_update_status", json.dumps({'key':callback_token,'status':'3',"time":time.strftime('%Y-%m-%d %H:%M:%S')}))
+        else:
+            ###update more  only put one arguments -> dict
+            data = {"status":'4',"lastUpdate":time.strftime('%Y-%m-%d %H:%M:%S')}
+            models.WebHook.objects.filter(key=callback_token).update(**data)
+            models.History.objects.create(status=4,shell_log=stdout.get()[u'content'],data=Hook_post,push_user=pusher,
+                add_time=time.strftime('%Y-%m-%d %H:%M:%S'),update_time=time.strftime('%Y-%m-%d %H:%M:%S'),webhook_id_id=obj.id)
+
+            r.lpush("hook_update_status", json.dumps({'key':callback_token,'status':'4',"time":time.strftime('%Y-%m-%d %H:%M:%S')}))
+
+        return HttpResponse('updating')
+    else:
+        """
+             just  send status of socket
+        """
+        if  request.is_websocket():
+                status = r.lpop("hook_update_status")
+                if status is not None:
+                    request.websocket.send(status)
+                else:
+                    request.websocket.send('1')
+
+
+### [{xxx},{xxxxx}]
+@login_required(login_url='/')
+@ajax_http
+def hook_history(request):
+    if request.method == "POST":
+        num = request.body
+        history = []
+        for i in  models.History.objects.filter(webhook_id_id=num).order_by('-update_time')[:15]:
+            data = json.dumps({"id":i.id,"status":i.status,"shell_log":i.shell_log,"push_user":i.push_user,"update_time": str(i.update_time)})
+            dict = json.loads(data)
+            history.append(dict)
+        return history
+
+        #
+        # if request.method == 'POST':
+        #     for t in  models.HostInfo.objects.all():
+        #         data = json.dumps({"Ip":t.ip,"Port":t.port,"Group":t.group,"User":t.user,"Pwd":t.pwd,"Key":str(t.key),
+        #                            "lg_type":t.login_type,"US_SUDO":t.us_sudo,"US_SU":t.us_su,"SUDO":t.sudo,"SU":t.su,
+        #                            "Status":t.alive,"bz":t.bz,"id":t.ip})
+        #         dict = json.loads(data)
+        #         Format.append(dict)
+        #     DRreturn = json.dumps({"totals":models.HostInfo.objects.count(),"data":Format})
+        #     # print DRreturn
+        #     return HttpResponse(DRreturn)
+
+
+
+
+@login_required(login_url='/login')
 def Container_Play(request):
     return render(request,"docker_container_play.html",{"user":request.user,"head":img})
 
+@login_required(login_url='/')
 def docker_container(request):
     return render(request,"docker_container.html",{"user":request.user,"head":img})
 
+@login_required(login_url='/')
 def docker(request):
     return render(request,"docker_repo.html",{"user":request.user,"head":img})
 
+@login_required(login_url='/')
 def PushCode(request):
     return  render(request,'pushcode.html',{"user":request.user,"head":img})
 
+@login_required(login_url='/')
 def UploadKey(request):
-    return  render(request,'uploadkey.html',{"user":request.user,"head":img})
+    # header = render(request,'uploadkey.html',{"user":request.user,"head":img})
+    # header['Etag'] = '315c43a156661946d0490a53b49b2c32'
+    # return  header
+    return render(request,'uploadkey.html',{"user":request.user,"head":img})
 
+@login_required(login_url='/')
+def Calendar(request):
+    return render(request,'Calendar.html',{"user":request.user,"head":img})
+
+@login_required(login_url='/')
+def Work_plan(request):
+    return render(request,'work_plan.html',{"user":request.user,"head":img})
+
+@login_required(login_url='/')
 def remotefile(request):
     return  render(request,'remotefile.html',{"user":request.user,"head":img})
 
+@login_required(login_url='/')
 def crond(request):
     return  render(request,'crond.html',{"user":request.user,"head":img})
 
+@login_required(login_url='/')
 def script(request):
     return  render(request,'script.html',{"user":request.user,"head":img})
 
+@login_required(login_url='/')
 def command(request):
     return  render(request,'command.html',{"user":request.user,"head":img})
 
+@login_required(login_url='/')
 def fileup(request):
     return  render(request,'fileup.html',{"user":request.user,"head":img})
 
+@login_required(login_url='/')
 def filedown(request):
     return  render(request,'filedown.html',{"user":request.user,"head":img})

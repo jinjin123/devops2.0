@@ -1,0 +1,68 @@
+<html>
+<head>
+{#    <meta http-equiv="REFRESH"  content="5">#}
+    <link href="https://res.wx.qq.com/connect/zh_CN/htmledition/images/favicon16cb56.ico" rel="Shortcut Icon">
+{#	<link rel="stylesheet" media="screen" href="../static/css/default.css">#}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="../static/js/jquery.min.js" type="application/javascript"></script>
+    <title>微信扫码登录</title>
+    <style>
+        .radius {
+            background-color: #232323;
+            width: 256px;
+            height: 50px;
+            border-radius: 10px;
+            -webkit-border-radius: 25px;
+            -moz-border-radius: 5px;
+            margin-top: 20px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+    p{
+        position: relative;
+        top: 5px;
+        text-align: center;
+        color: white;
+        font-size: 13px;
+    }
+        </style>
+</head>
+<body style="background-color:rgb(51, 51, 51); padding: 50px; margin: 0; font-family:'Microsoft YaHei','Hiragino Sans GB',Helvetica,Arial,'Lucida Grande',sans-serif;">
+    <div style="text-align: center; padding-top: 10%; margin-bottom: 160px;">
+        <img alt="qrcode" src="data:image/png;base64,{{ base64_img_data }}" style="width: 250px;height: 250px"/>
+        <div class='radius'>
+            <p> 请用微信扫描二维码登录<br>
+                DevOps 2.0 系统</p>
+        </div>
+        <!--<div style="font-size: 20px; color:#ffffff; margin-top: 8px;">扫描二维码完成登录</div>-->
+    </div>
+    <script type="text/javascript">
+        function getCookie(name) {
+            console.log("ing");
+            var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+            return r ? r[1] : undefined;
+        }
+        function ajax() {
+            var args = {"_xsrf": getCookie("_xsrf")};
+            console.log(args);
+            $.ajax({
+                url: "",
+                type: "POST",
+                data: $.param(args),
+                success: function (response) {
+                    if (response == 'ok') {
+                        window.location.href = '/ops/index'
+                    }
+                }
+            })
+        }
+        $(function () {
+                    console.log("start...");
+                    ajax();
+                    console.log("end...");
+                }
+        )
+    </script>
+</body>
+</html>

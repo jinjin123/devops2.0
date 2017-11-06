@@ -4,7 +4,7 @@ from random import SystemRandom
 import psutil
 import shutil
 import requests,time
-import json,re
+import json,re,ssh_settings
 from django.conf import settings
 
 
@@ -93,6 +93,15 @@ class ImageMixin(object):
             return True
         else:
             return False
+
+class  EmailMinxin:
+    def email(self,email,password):
+        # cmd = '/usr/bin/python  %s %s %s %s' % (format(ssh_settings.HOME + '/devops/ops/views/emmail.py'),user,email,password)
+        # cmd = '/usr/bin/python  %s %s %s' % (format(ssh_settings.HOME + '/devops/ops/views/emmail.py'),email,password)
+        cmd = '/usr/bin/python  %s  %s %s' % (format(ssh_settings.HOME + '/devops/ops/views/emmail.py'),email,password)
+        data = str(check_output(cmd,shell=True))
+        result = dict({"content": data})
+        return  json.dumps(result)
 
 
 class ContainerMixin:

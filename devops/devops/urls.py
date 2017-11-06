@@ -22,7 +22,7 @@ import xadmin
 xadmin.autodiscover()
 
 urlpatterns = [
-    url(r'^ops/',include('ops.urls')),
+    url(r'',include('ops.urls')),
     #url(r'^admin/', include(admin.site.urls)),
     url(r'xadmin/', include(xadmin.site.urls)),
 ]

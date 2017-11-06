@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.encoding import python_2_unicode_compatible
+import datetime
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
@@ -32,6 +33,7 @@ USER_TYPE_LIST  = (
 USER_ALIVE_STATUS = (
     (0,'dead'),
     (1,'alive'),
+    (2,'check'),
 )
 GROUP_TYPE_LIST  = (
     ('user','user'),
@@ -90,7 +92,7 @@ class HostInfo(models.Model):
     us_sudo = models.CharField(choices=USE_SUDO,null=False,blank=False,max_length=10)
     us_su = models.CharField(choices=USE_SUDO,null=False,blank=False,max_length=10)
     key = models.FileField(upload_to="keys",null=True,blank=True)
-    alive = models.IntegerField(choices=USER_ALIVE_STATUS,null=False,default=0)
+    alive = models.CharField(max_length=256,null=False,blank=True)
     bz = models.CharField(max_length=128,null=True,blank=True)
 
     class Meta:
@@ -237,6 +239,70 @@ class AccessRecord(models.Model):
 
     def __str__(self):
         return "%s Access Record" % self.date.strftime('%Y-%m-%d')
+
+@python_2_unicode_compatible
+class WebHook(models.Model):
+    '''webhook'''
+    id = models.AutoField(primary_key=True)
+    repo = models.CharField(max_length=32)  # repo name
+    branch = models.CharField(max_length=32)  # repo branch
+    shell = models.TextField(max_length=500)  # do what
+    server = models.CharField(max_length=32)  # repo branch
+    add_time = models.DateTimeField(default=datetime.datetime.now)
+    key = models.CharField(max_length=32, unique=True)
+
+    # 1:waiting, 2:ing, 3:error, 4:success, 5:except, other
+    status = models.CharField(max_length=1)
+    lastUpdate = models.DateTimeField(default=datetime.datetime.now)
+
+    # def dict(self, with_key=False):
+    #     rst = {}
+    #     rst['id'] = self.id
+    #     rst['repo'] = self.repo
+    #     rst['branch'] = self.branch
+    #     rst['shell'] = self.shell
+    #     rst['server'] = self.server
+    #     rst['add_time'] = self.add_time
+    #     rst['key'] = with_key and self.key or ''
+    #     rst['status'] = self.status
+    #     rst['lastUpdate'] = self.lastUpdate
+    #     return rst
+
+    # def updateStatus(self, status):
+    #     self.status = status
+    #     self.lastUpdate = datetime.datetime.now()
+    #     self.save()
+
+
+    ####  can not return int type
+    def __str__(self):
+        return self.repo
+
+class History(models.Model):
+    '''push history'''
+    # md5, notice, output, push_name, push_email, success, add_time
+    id = models.AutoField(primary_key=True)
+    # 1:waiting, 2:ing, 3:error, 4:success, 5:except, other
+    status = models.CharField(max_length=1)
+    shell_log = models.TextField(max_length=500)  # hook shell log
+
+    data = models.TextField(max_length=500)  # git push data
+    push_user = models.CharField(max_length=64)  # git push user(name<email>)
+    add_time = models.DateTimeField(default=datetime.datetime.now)  # git push time
+    update_time = models.DateTimeField(default=datetime.datetime.now)  # last update time
+    webhook_id = models.ForeignKey(WebHook,related_name='webhook')
+
+    def __str__(self):
+        return self.status
+
+    class Meta:
+        ordering = ['-update_time']
+    # def updateStatus(self, status):
+    #     self.update_time = datetime.datetime.now()
+    #     self.status = status
+    #     self.save()
+
+
 #
 # @python_2_unicode_compatible
 # class ContainerIp(models.Model):

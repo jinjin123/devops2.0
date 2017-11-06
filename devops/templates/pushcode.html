@@ -1,0 +1,600 @@
+{% extends "index.html" %}
+{% block meta %}
+    <style type="text/css">
+    *{margin:0;padding:0;list-style-type:none;}
+    a,img{border:0;cursor: hand}
+    body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd; overflow: hidden;}
+/* leftsead */
+    #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
+    *html #leftsead{margin-top:258px;position:absolute;}
+    #leftsead li{width:131px;height:53px;}
+    #leftsead li img{float:right;border-bottom-left-radius:5px;border-top-left-radius:5px;}
+    #leftsead li a{height:49px;float:right;display:block;min-width:47px;max-width:131px;}
+    #leftsead li a .shows{display:block;}
+    #leftsead li a .hides{margin-right:-166px;}
+    #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
+    .glyphicon {top:-1px;}
+    .main-sidebar{
+	position: absolute;
+	padding-top: 3%;
+	left: 0;
+	height: 100%;
+	min-height: 100%;
+	z-index: 5;
+	background-color: #222d32;
+    }
+    #showCRTWindow pre::-webkit-scrollbar {
+        width: 10px;
+    }
+    #showCRTWindow pre::-webkit-scrollbar-thumb {
+        background: #09C;
+        border-radius: 4px;
+    }
+    .steps {
+    width: 760px;
+    height: 95px;
+    position: relative;
+    margin: 0 auto;
+    }
+
+    .first {
+        position: absolute;
+        width: 230px;
+        height: 95px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .first .big-circle {
+        width: 33px;
+        height: 33px;
+        position: absolute;
+        left: 60px;
+        top: 31px;
+        text-align: center;
+    }
+
+    .first .min-circle,
+    .second .min-circle,
+    .third .min-circle,
+    .fourth .min-circle,
+    .fifth .min-circle {
+        width: 43px;
+        height: 43px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-top: 5px;
+        text-align: center;
+        line-height: 23px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+        background: #999;
+    }
+
+    .round_active {
+        background: #40c4ff !important;
+    }
+
+    .first .title {
+        position: absolute;
+        bottom: -20px;
+        left: 50px;
+        line-height: 24px;
+        color: #8A8A8A;
+    }
+
+    .first .tame {
+        position: absolute;
+        left: 50px;
+        bottom: -100px;
+        color: #A19F9D;
+        font-size: 14px;
+    }
+
+    .first .big-line {
+        width: 186px;
+        height: 10px;
+        position: absolute;
+        left: 91px;
+        top: 42px;
+        text-align: center;
+        z-index: 999;
+    }
+
+    .first .min-line,
+    .second .min-line,
+    .third .min-line,
+    .fourth .min-line,
+    .fifth .min-line {
+        width: 270px;
+        height: 10px;
+        margin-left: 12px;
+        margin-top: 10px;
+        background: #999;
+    }
+
+    .line_active {
+        background: #40c4ff !important;
+    }
+
+    .second {
+        width: 210px;
+        position: absolute;
+        top: 0;
+        left: 330px;
+        height: 95px;
+    }
+
+    .second .big-circle,
+    .third .big-circle,
+    .fourth .big-circle,
+    .fifth .big-circle {
+        width: 33px;
+        height: 33px;
+        position: absolute;
+        left: 43px;
+        top: 31px;
+        text-align: center;
+    }
+
+    .second .title,
+    .fourth .title,
+    .fifth .title,
+    .third .title {
+        position: absolute;
+        bottom: -20px;
+        left: 30px;
+        line-height: 24px;
+        color: #8A8A8A;
+    }
+
+    .second .tame,
+    .third .tame,
+    .fourth .tame,
+    .fifth .tame {
+        position: absolute;
+        left: 30px;
+        bottom: -100px;
+        color: #A19F9D;
+        font-size: 14px;
+    }
+
+    .second .big-line,
+    .third .big-line,
+    .fifth .big-line,
+    .fourth .big-line {
+        width: 186px;
+        height: 10px;
+        position: absolute;
+        left: 71px;
+        top: 42px;
+        text-align: center;
+        z-index: 999;
+    }
+
+    .third {
+        width: 210px;
+        position: absolute;
+        top: 0;
+        left: 640px;
+        height: 95px;
+    }
+    .fourth {
+        width: 210px;
+        position: absolute;
+        top: 0;
+        left: 950px;
+        height: 95px;
+    }
+    .fifth {
+        width: 210px;
+        position: absolute;
+        top: 0;
+        left: 1260px;
+        height: 95px;
+    }
+    .label-three-feeds{
+       width: 80%;
+       border-radius: 1px;
+       line-height: 20px;
+       margin:0 10px;
+    }
+    .label-title{
+      width: 30%;
+      display: flex;
+      margin:0 10px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    .shell_content{
+      color: #f8f8f2;
+      background: none;
+      text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+      font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace!important;
+      text-align: left;
+      word-spacing: normal;
+      word-break: normal;
+      word-wrap: normal;
+      line-height: 1.5;
+      -moz-tab-size: 4;
+      -o-tab-size: 4;
+      tab-size: 4;
+      -webkit-hyphens: none;
+      -moz-hyphens: none;
+      -ms-hyphens: none;
+      hyphens: none;
+      padding: 0.3em 1em;
+      margin: .1em 0;
+      overflow: auto;
+      border-radius: 0.3em;
+      background: #272822;
+      padding: .1em;
+      border-radius: .3em;
+      /*white-space: normal;*/
+    }
+    .glyphicon-copyright-mark {
+        position: relative;
+        display: inline-block;
+        top: 2px;
+        /*border-bottom: 1px dotted black;*/
+    }
+
+    .glyphicon-copyright-mark .copy_tips {
+        visibility: hidden;
+        width: 700px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        top: -5px;
+        right: 110%;
+    }
+
+    .glyphicon-copyright-mark .copy_tips::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        margin-top: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent transparent black;
+    }
+    .glyphicon-copyright-mark:hover .copy_tips {
+        visibility: visible;
+    }
+    </style>
+{% endblock %}
+
+
+	<header class="cd-main-header">
+        {% block ext %}
+{#   loadding  pic     #}
+        <div id="loadPic"
+             style="text-align: center;padding: 10px;color: white;font-weight:bold   ;border-radius:8px;background: rgba(0,0,0,0.5);z-index: 1004;width: 200px;height:40px;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
+            <i class="fa fa-refresh fa-spin"></i>
+            <span style="letter-spacing: 4px;">请稍后...</span>
+        </div>
+{#    loadding end     #}
+{#    show error    #}
+        <div id="confirmCommandDiv"
+             style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
+            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
+                 id="">
+                <div class="modal "
+                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                    <div class="modal-dialog">
+                        <div class="modal-content  ">
+                            <div class="modal-header" style="cursor: move;">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
+                            </div>
+                            <div class="modal-body  ">
+                                <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">
+                                    请确认您的内容?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                        id="forceExecuteCommand">强制
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"
+                                        id="closeConfirmCommandButton">
+                                    放弃
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#    show error  end  #}
+{#    create  script   input  #}
+        <div class="box" style="z-index: 1004;width:auto;height:100%;position: fixed;left: 0px;right: 0px;top: 0px;;bottom: 0%;margin: auto;display:none;" id="showScriptName">
+            <div class="modal" style="height: 100%;;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content  ">
+                        <div class="modal-header" style="cursor: move;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class=" glyphicon glyphicon-edit " style="color: green;">更新路径</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">更新路径</label>
+                                    <div class="col-md-10">
+                                        <input id="scriptName" class="form-control" placeholder="请输入新建脚本名称" style="border:1px dashed #b0b0b0;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button style="float: left;" type="button" class="btn btn-default" data-dismiss="modal"
+                                    id="closeScriptNameButton">取消
+                            </button>
+                            <button style="float:right;" type="button" class="btn btn-success" data-dismiss="modal"
+                                    id="inputScriptName">确定
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#   create script  input     #}
+{#   upload plugins     #}
+        <div id="uploadScriptProgressDiv" class="progress progress-striped" style="font-weight: bold;font-size: 500%;z-index: 1004;width:40%;height:5%;margin:auto;position:fixed;top:0%;bottom:0%;right:0px;left:120%;display: block;">
+            <div id="showScriptProgressText" class="progress-bar  progress-bar-success active">
+            </div>
+        </div>
+            {% endblock %}
+	</header> <!-- .cd-main-header -->
+
+    <div id="leftsead">
+    	<ul>
+            {# 其实可以将通知，邮件都放到这里来，后面在考虑吧  #}
+{#	     <li>#}
+{#			<a id="top_btn">#}
+{#				<img src="../static/img/foot03/ll06.png" width="47" height="49" class="hides"/>#}
+{#				<img src="../static/img/foot03/l06.png" width="47" height="49" class="shows" />#}
+{#			</a>#}
+{#		</li>#}
+
+		<li>
+			<a href="">
+				<img src="../static/img/foot03/ll03.png"  width="47" height="49" class="hides"/>
+				<img src="../static/img/foot03/l03.png" width="47" height="49" class="shows" />
+			</a>
+		</li>
+            {# 增加微信聊天求助websocket#}
+{#            <li>#}
+{#                <a href="">#}
+{#                  <img src="../static/img/foot03/ll02.png" width="166" height="49" class="hides"/>#}
+{#                  <img src="../static/img/foot03/l04.png" width="47" height="49" class="shows" />#}
+{#                </a>#}
+{#            </li>#}
+		    <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+            <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+    	</ul>
+    </div><!--leftsead end-->
+{% block content %}
+    <main class="cd-main">
+        <section class="cd-section PushCode visible">
+            <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px">
+              <div id="add_hook" style="background:white;width:100%;margin:20px 0 60px 5px;position:absolute;top:0%;bottom:0%;z-index:9999;display:none">
+                <div style="height: 500px;overflow-y: auto;margin: 0;padding: 0;">
+                <table  class="table">
+                    <thead>
+                        <tr>
+                            <th width="14%">仓库</th>
+                            <th width="20%">脚本</th>
+                            <th width="20%">服务器</th>
+                            <th width="14%">触发时间</th>
+                            <th width="14%">状态</th>
+                            <th width="20%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hook_list_tbody">
+                    </tbody>
+                </table>
+              </div>
+
+                <form style="position:absolute;bottom:10px;" id="hook-form" action="#">
+                  <hr>
+                  <div  style="display:flex">
+                    <div style="width:30%;">
+                      <label  class="label-title">仓库</label>
+                      <input id="Git_repo" type="text" class="label-three-feeds" placeholder="仓库名"/>
+                    </div>
+                    <div style="width:30%;">
+                      <label  class="label-title">分支</label>
+                      <input id="Branch" type="text" class="label-three-feeds" placeholder="分支名"/>
+                    </div>
+                    <div style="width:30%;">
+                      <label  class="label-title">服务器</label>
+                      <select  id="hook_server"   class="label-three-feeds">
+                      </select>
+                    </div>
+                  </div>
+                  <div style="width:100%;">
+                    <label class="label-title">执行脚本</label>
+                    <textarea id="hook_script" rows="4" style="width:100%;margin:0 10px"></textarea>
+                  </div>
+                    <div style="margin-bottom: 14px;position:relative;">
+                      <div style="margin:0 500px;margin-bottom:50px">
+                        <button for="edit-title" type="button" id="hook-save" OPT="add" style="line-height: 32px;display: block;float: left;width: 210px;position:relative;background-color:#00B5AD;color: #FFF;">
+                          添加新的hook
+                        </button>
+                        <button for="edit-title" type="button" id="hook-edit-close" style="line-height: 32px;display: block;float: left;width: 210px;position:relative;background-color:#DB2828;color: #FFF;">
+                          关闭表单
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+              </div>
+              <div id="hook_history" style="background:white;width:100%;margin:20px 0 60px 5px;position:absolute;top:0%;bottom:0%;z-index:9999;display:none">
+                  <div style="height: 800px;overflow-y: auto;margin: 0;padding: 0;">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <button id="hook_history_back" class="btn btn-default active btn-lg fa fa-reply" style="width:100%;"></button>
+                        </tr>
+                        <tr>
+                          <th width="14%">#</th>
+                          <th width="20%">Pusher</th>
+                          <th width="20%">Shell log</th>
+                          <th width="14%">Time</th>
+                          <th width="14%">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="hook_history_tbody">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              <div class="container">
+                 <div class="first">
+                     <div class="title">
+                       已发送通知给今晚值班运维
+                     </div>
+                     <div class="big-circle">
+                         <div class="min-circle round_active">
+                         </div>
+                     </div>
+                     <div class="tame">
+                         <div class="Uname">
+                             张三
+                         </div>
+                         <div class="Utime">
+                             2017-01-10 10:10
+                         </div>
+                     </div>
+                     <div class="big-line">
+                         <div class="min-line line_active "></div>
+                     </div>
+                 </div>
+                 <div class="second">
+                     <div class="title">
+                         今晚值班人员已受理
+                     </div>
+                     <div class="big-circle">
+                         <div class="min-circle  ">
+                         </div>
+                     </div>
+                     <div class="tame">
+                         <div class="Uname">
+                             张三
+                         </div>
+                         <div class="Utime">
+                             2017-01-10 10:10
+                         </div>
+                     </div>
+                     <div class="big-line">
+                         <div class="min-line  "></div>
+                     </div>
+                 </div>
+                 <div class="third">
+                     <div class="title">
+                         运维人员开始更新
+                     </div>
+                     <div class="big-circle">
+                         <div class="min-circle ">
+                         </div>
+                     </div>
+                     <div class="tame">
+                         <div class="Uname">
+                             张三
+                         </div>
+                         <div class="Utime">
+                             2017-01-10 10:10
+                         </div>
+                     </div>
+                     <!-- //blue line -->
+                     <div class="big-line">
+                         <div class="min-line "></div>
+                     </div>
+                 </div>
+                 <div class="fourth">
+                   <div class="title">
+                       运维人员更新完成
+                   </div>
+                   <div class="big-circle">
+                       <div class="min-circle ">
+                       </div>
+                   </div>
+                   <div class="tame">
+                       <div class="Uname">
+                           张三
+                       </div>
+                       <div class="Utime">
+                           2017-01-10 10:10
+                       </div>
+                   </div>
+                   <div class="big-line">
+                       <div class="min-line "></div>
+                   </div>
+                 </div>
+                 <div class="fifth">
+                   <div class="title">
+                       发送通知给相关人员
+                   </div>
+                   <div class="big-circle">
+                       <div class="min-circle ">
+                       </div>
+                   </div>
+                   <div class="tame">
+                       <div class="Uname">
+                           张三
+                       </div>
+                       <div class="Utime">
+                          2017-01-10 10:10
+                        </div>
+                   </div>
+                 </div>
+             </div>
+             <div style="height: 500px;overflow-y: auto ;margin: 0;padding: 0;margin-top:20%">
+               <table class="table">
+                   <thead>
+                       <tr>
+                           <th width="20%">工单</th>
+                           <th width="20%">时间</th>
+                           <th width="20%">状态</th>
+                           <th width="20%">操作</th>
+                       </tr>
+                   </thead>
+                   <tbody id="show_work_order_tbody"></tbody>
+               </table>
+             </div>
+            </div>
+        </section>
+    </main>
+    <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
+    {% endblock %}
+
+{% block footer %}
+    <script src="/static/js/work_list_order.js"></script>
+    <script src="/static/js/auto-line-number.js"></script>
+    <script src="/static/js/headimg.js"></script>
+    <script src="/static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
+    <script src="/static/js/jquery.menu-aim.js"></script>
+    <script src="/static/js/rightpg.js"></script> <!-- Resource $ -->
+    <script src="/static/js/sidebar-menu.js"></script> <!-- Resource $ -->
+    <script src="/static/js/velocity.min.js"></script>
+    <script>
+    $.sidebarMenu($('.sidebar-menu'))
+    </script>
+{% endblock %}

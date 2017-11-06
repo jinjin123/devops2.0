@@ -1,8 +1,11 @@
 #!/usr/bin/env python
-# coding:utf-8
-import paramiko, re, socket, os, sys, json, time,redis
+# -*- coding: utf-8 -*-
+import paramiko, re, socket
+import os,sys,json,time,redis
+reload(sys)
+sys.setdefaultencoding("utf-8")
 from ssh_error import SSHError
-from .. import ssh_settings
+import ssh_settings,re
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 
 class SSH_SSH(object):
@@ -15,18 +18,18 @@ class SSH_SSH(object):
         ssh_info = {"status": False, "content": ""}
         try:
             self.username = kws["user"]
-            self.password = kws["password"]
+            self.password = kws["pwd"]
             self.port = kws["port"]
             self.lg_type = kws["lg_type"]
             self.ip = kws["ip"]
             self.keyfile = os.path.join(ssh_settings.keyfile_dir,  kws["key"])
             self.sudo = kws["us_sudo"]
-            self.sudo_password = kws["sudoPassword"]
+            self.sudo_password = kws["sudo"]
             self.su = kws["us_su"]
-            self.su_password = kws["suPassword"]
+            self.su_password = kws["su"]
             self.port = int(self.port)
             ssh = paramiko.SSHClient()
-            if self.lg_type == '密码方式':
+            if str(self.lg_type) == str("密码方式"):
                 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) ##allow  host not in  know_host
                 ssh.connect(self.ip, self.port, self.username, self.password)
             else:
@@ -40,13 +43,13 @@ class SSH_SSH(object):
             data = self.clean_buffer()
             if not data["status"]: raise SSHError(data["content"])
             if self.sudo == "Y":
-                _sudo = self.sudo_login()
+                _sudo = sudo_login()
                 if _sudo["status"]:
                     pass
                 else:
                     raise SSHError(_sudo["content"])
             elif self.su == "Y":
-                _su = self.su_login()
+                _su = su_login()
                 if _su["status"]:
                     # self.get_prompt()
                     pass
@@ -72,10 +75,11 @@ class SSH_SSH(object):
             else:
                 ssh_info["content"] = "认证类型应该是秘钥"
         except Exception, e:
+            print str(e)
             ssh_info['status'] = False
             ssh_info['content'] = str(e)
-        if re.search("Not a valid RSA private key file \(bad ber encoding\)", ssh_info["content"]):
-            ssh_info["content"] = "秘钥的密码不正确"
+        if re.search("not a valid RSA private key file", ssh_info["content"]):
+            ssh_info["content"] = "无效的秘钥文件"
         return ssh_info
 
     def get_prompt(self):
@@ -133,7 +137,7 @@ class SSH_SSH(object):
         return ssh_info
 
     def execute(self, cmd='', ip="", tid="", ignore=False):
-        print cmd,ip ,tid,'136'
+        # print cmd,ip ,tid,'136'
         ssh_info = {"status": False, "content": ""}
         log_content = {
             "content": "",
@@ -146,8 +150,12 @@ class SSH_SSH(object):
             if not data["status"]: raise SSHError(data["content"])
             self.set_prompt()
             log_name = "log.%s.%s" % (tid, ip)
+            ### will return  have text  color
+            if cmd == "ls":
+                self.shell.send("ls --color=never\n")
             self.shell.send("%s\n" % cmd)
             ssh_info['content'] = self.recv(ip=ip, tid=tid)
+            ### get the command result was success or failed
             self.shell.send("echo $?\n")
             _status = self.recv(ip=ip, tid=tid, ignore=True)
             status = re.search('echo \$\?\\r\\n(.*)\\r\\n%s' % self.prompt, _status).group(1)
@@ -157,7 +165,7 @@ class SSH_SSH(object):
                 log_content["status"] = True
             else:
                 ssh_info["status"] = False
-                # r.rpush("command.logs",ssh_info)
+                r.rpush("command.logs",ssh_info)
         except Exception, e:
             ssh_info["status"] = False
             ssh_info["content"] = str(e)
@@ -169,8 +177,6 @@ class SSH_SSH(object):
         if not ignore:
             log_content["content"] = ssh_info["content"]
             self.write_command_log(tid, log_content)
-
-        print ssh_info,'17666666666666666'
         return ssh_info
 
     def write_command_log(self, tid, log_content):
@@ -178,17 +184,19 @@ class SSH_SSH(object):
             history = r.lrange("command.history", -5, -1)
             for _line in history:
                 line = json.loads(_line)
-                if str(_line["tid"]) == tid :
+                if str(line["tid"]) == str(tid):
                     content = """%s</br>%s<hr style="border-bottom:1px solid #b0b0b0"/>""" % (line["content"], log_content["content"])
+                    # content = """%s""" % (log_content["content"])
                     log_content["content"] = content
                     line = dict(line, **log_content)
-                    r.lrem("command.history", _line,0)
+                    # print line
+                    # r.lrem("command.history", _line,0)
                     _line = json.dumps(line, encoding="utf8", ensure_ascii=False)
                     r.lpush("command.history", _line)
-                break
+                # break
         except Exception, e:
-            # print "写入日志报错", str(e),'19777777'
-            pass
+            print "写入日志报错", str(e),'19777777'
+            # pass
 
     def sudo_login(self):
         ssh_info = {"status": False, "content": ""}
@@ -264,3 +272,6 @@ class SSH_SSH(object):
 
     def __del__(self):
         self.logout()
+
+if __name__ == '__main__':
+    print 'a'

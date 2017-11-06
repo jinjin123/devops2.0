@@ -1,6 +1,6 @@
 #from django.contrib import admin
 from __future__ import absolute_import
-from .models import  UserInfo,HostInfo,HardWareInfo,UserLock,PushCodeEvent,TopContServer, IDC, Host, MaintainLog, HostGroup, AccessRecord
+from .models import  WebHook,History,UserInfo,HostInfo,HardWareInfo,UserLock,PushCodeEvent,TopContServer, IDC, Host, MaintainLog, HostGroup, AccessRecord
 import hashlib
 import xadmin
 from xadmin import views

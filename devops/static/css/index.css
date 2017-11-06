@@ -1,0 +1,284 @@
+.cd-main {
+  height: 100vh;
+  overflow: hidden;
+  background-color: #F3F3F4;
+  z-index: -13;
+}
+
+.cd-section {
+  position: absolute;
+  z-index: -1;
+  top: 60px;
+  left: 140px;
+  right:auto;
+  height: 100%;
+  width: 90%;
+  /*overflow-y: auto;*/
+  padding-left: 70px;
+  /* Force Hardware Acceleration */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-transform: translateX(-100%);
+  -moz-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  -o-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-transition: -webkit-transform 0s 0.5s;
+  -moz-transition: -moz-transform 0s 0.5s;
+  transition: transform 0s 0.5s;
+}
+.cd-section.overflow-hidden {
+  /* this class is used to hide the scrolling bar while a new section is entering the viewport */
+  overflow: hidden;
+}
+.cd-section.visible {
+  /* this is the visible/selected section */
+  height: 100%;
+  overflow-y: hidden;
+  position: relative;
+  z-index: 2;
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0);
+  -webkit-transition: -webkit-transform 0.5s 0s;
+  -moz-transition: -moz-transform 0.5s 0s;
+  transition: transform 0.5s 0s;
+}
+.cd-section.visible .cd-scroll {
+  visibility: visible;
+  -webkit-transform: translateX(-50%) scale(1);
+  -moz-transform: translateX(-50%) scale(1);
+  -ms-transform: translateX(-50%) scale(1);
+  -o-transform: translateX(-50%) scale(1);
+  transform: translateX(-50%) scale(1);
+  -webkit-transition: -webkit-transform 0.3s 0.5s, visibility 0s 0s;
+  -moz-transition: -moz-transform 0.3s 0.5s, visibility 0s 0s;
+  transition: transform 0.3s 0.5s, visibility 0s 0s;
+  -webkit-animation: cd-scroll-down 1.2s 0.9s;
+  -moz-animation: cd-scroll-down 1.2s 0.9s;
+  animation: cd-scroll-down 1.2s 0.9s;
+  -webkit-animation-iteration-count: 2;
+  -moz-animation-iteration-count: 2;
+  animation-iteration-count: 2;
+}
+@media only screen and (min-width: 480px) {
+  .cd-section {
+    padding-left: 90px;
+  }
+}
+.visible .cd-title {
+  opacity: 1;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  -webkit-transition: -webkit-transform 0.4s 0.3s, opacity 0.4s 0.3s;
+  -moz-transition: -moz-transform 0.4s 0.3s, opacity 0.4s 0.3s;
+  transition: transform 0.4s 0.3s, opacity 0.4s 0.3s;
+}
+@media only screen and (min-width: 768px) {
+  .cd-title h2 {
+    font-size: 5rem;
+  }
+}
+
+.cd-content {
+  padding: 2em 0;
+  /*background-color: #ebebeb;*/
+}
+.cd-content p {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto 2em;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  color: #999999;
+}
+@media only screen and (min-width: 768px) {
+  .cd-content {
+    padding: 4em 0;
+
+  }
+  .cd-content p {
+    /*font-size: 1.6rem;*/
+    font-size: 0.6rem;
+  }
+}
+
+/* --------------------------------
+
+ Loading Bar
+
+-------------------------------- */
+#cd-loading-bar {
+  position: fixed;
+  z-index:2;
+  left: 9%;
+  width: 8px;
+  visibility: hidden;
+   /*Force Hardware Acceleration*/
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+}
+#cd-loading-bar.index {
+  background-color: #83b0b9;
+}
+#cd-loading-bar.services {
+  background-color: #5dd351;
+}
+#cd-loading-bar.projects {
+  background-color: #343943;
+}
+#cd-loading-bar.contact {
+  background-color: #e4b162;
+}
+#cd-loading-bar.loading {
+  visibility: visible;
+}
+#zhezhao{
+   width:100%;
+   height:100%;
+   background:#f00;
+   filter:alpha(opacity:0);
+   opacity:0;
+   z-index:9999;
+   position:absolute;
+   top:0;
+   left:0;
+   display:none;
+  }
+  #div2{
+   width:600px;
+   height:400px;
+   /*不能用相对定位 会影响其他元素*/
+   position:absolute;
+   background:wheat;
+   border:3px solid #EEEEEE;
+   z-index: 9999;
+   /*margin  不能用 不然会固定死动不了*/
+   /*margin: auto;*/
+   top:20%;
+   left: 30%;
+   display:none;
+  }
+  #email_content{
+    /*overflow: hidden;*/
+    overflow: auto;
+  }
+  #div1{
+   width:15px;
+   height:15px;
+   background:#99CC00;
+   position:absolute;
+   right:0px;
+   bottom:0px;
+   cursor:nw-resize;
+   overflow:hidden;
+   font-size:12px;
+   text-align:center;
+   line-height:15px;
+   color:#FFFFFF;
+   float:right;
+   z-index:3;
+  }
+  #right{
+   width:15px;
+   height:100%;
+   background:#f00;
+   float:right;
+   position:absolute;
+   right:0;
+   top:0;
+   cursor:e-resize;
+   overflow:hidden;
+   filter:alpha(opacity:0);
+   opacity:0;
+   z-index:1;
+  }
+  #bottom{
+   width:100%;
+   height:15px;
+   background:#f00;
+   position:absolute;
+   left:0;
+   bottom:0;
+   cursor:n-resize;
+   overflow:hidden;
+   filter:alpha(opacity:0);
+   opacity:0;
+   z-index:1;
+  }
+  #div2 p{
+   padding:10px;
+   line-height:24px;
+   font-size:13px;
+   text-indent:24px;
+   color:#996600;
+  }
+  #div2 h2{
+   width:100%;
+   height:25px;
+   line-height:25px;
+   font-size:14px;
+   background:#CC9900;
+   color:#FFFFFF;
+   text-indent:15px;
+   cursor:move;
+   overflow:hidden;
+  }
+  .triangle {
+     position: absolute;
+     width: 200px;
+     height: 60px;
+     border: 2px solid wheat;
+     border-radius: 5px;
+     z-index: 999;
+     background-color: wheat;
+     top: 40px;
+     right: 35px;
+     display: none;
+ }
+
+ .triangle:before {
+     position: absolute;
+     content: "";
+     top: -10px;
+     left: 25px;
+     border-left: 10px solid transparent;
+     border-right: 10px solid transparent;
+     border-bottom: 10px solid wheat;
+ }
+ /* 白色覆盖*/
+ .triangle:after {
+     position: absolute;
+     content: "";
+     /*减少两像素*/
+     top: -8px;
+     left: 25px;
+     border-left: 10px solid transparent;
+     border-right: 10px solid transparent;
+     border-bottom: 10px solid #fff;
+ }
+ #notice{position: absolute;  right: 220px;  top: 40%;}
+ #mail{position: absolute;  right: 190px;  top: 40%;}
+ #set{position: absolute;  right: 160px;  top: 40%;}
+ #out{position: absolute;  right: 130px;  top: 40%;}
+/*@media only screen and (min-width: 480px) {*/
+  /*#cd-loading-bar {*/
+    /*left: 90px;*/
+  /*}*/
+/*}*/

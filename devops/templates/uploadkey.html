@@ -1,0 +1,217 @@
+{% extends "index.html" %}
+{% block meta %}
+    <style type="text/css">
+    *{margin:0;padding:0;list-style-type:none;}
+    a,img{border:0;cursor: hand}
+    body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd;overflow: hidden;}
+/* leftsead */
+    #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
+    *html #leftsead{margin-top:258px;position:absolute;}
+    #leftsead li{width:131px;height:53px;}
+    #leftsead li img{float:right;border-bottom-left-radius:5px;border-top-left-radius:5px;}
+    #leftsead li a{height:49px;float:right;display:block;min-width:47px;max-width:131px;}
+    #leftsead li a .shows{display:block;}
+{#    #leftsead li a .hides{margin-right:-166px;cursor:pointer;cursor:hand;}#}
+    #leftsead li a .hides{margin-right:-166px;}
+    #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
+    .glyphicon {top:-1px;}
+    .main-sidebar{
+	position: absolute;
+	padding-top: 3%;
+	left: 0;
+	height: 100%;
+	min-height: 100%;
+	z-index: 5;
+	background-color: #222d32;
+    }
+    #notice{position: absolute;  right: 220px;  top: 40%;}
+    #mail{position: absolute;  right: 190px;  top: 40%;}
+    #set{position: absolute;  right: 160px;  top: 40%;}
+    #out{position: absolute;  right: 130px;  top: 40%;}
+    #showCRTWindow pre::-webkit-scrollbar {
+        width: 10px;
+    }
+    #showCRTWindow pre::-webkit-scrollbar-thumb {
+        background: #09C;
+        border-radius: 4px;
+    }
+    </style>
+{% endblock %}
+
+
+	<header class="cd-main-header">
+        {% block ext %}
+{#   loadding  pic     #}
+        <div id="loadPic"
+             style="text-align: center;padding: 10px;color: white;font-weight:bold   ;border-radius:8px;background: rgba(0,0,0,0.5);z-index: 1004;width: 200px;height:40px;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
+            <i class="fa fa-refresh fa-spin"></i>
+            <span style="letter-spacing: 4px;">请稍后...</span>
+        </div>
+{#    loadding end     #}
+{#    show error    #}
+        <div id="confirmCommandDiv"
+             style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
+            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
+                 id="">
+                <div class="modal "
+                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                    <div class="modal-dialog">
+                        <div class="modal-content  ">
+                            <div class="modal-header" style="cursor: move;">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
+                            </div>
+                            <div class="modal-body  ">
+                                <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">
+                                    请确认您的内容?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                        id="forceExecuteCommand">强制
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"
+                                        id="closeConfirmCommandButton">
+                                    放弃
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#    show error  end  #}
+{#    create  script   input  #}
+        <div class="box" style="z-index: 1004;width:auto;height:100%;position: fixed;left: 0px;right: 0px;top: 0px;;bottom: 0%;margin: auto;display:none;" id="showScriptName">
+            <div class="modal" style="height: 100%;;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content  ">
+                        <div class="modal-header" style="cursor: move;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class=" glyphicon glyphicon-edit " style="color: green;">脚本名</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">脚本名</label>
+                                    <div class="col-md-10">
+                                        <input id="scriptName" class="form-control" placeholder="请输入新建脚本名称" style="border:1px dashed #b0b0b0;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button style="float: left;" type="button" class="btn btn-default" data-dismiss="modal"
+                                    id="closeScriptNameButton">取消
+                            </button>
+                            <button style="float:right;" type="button" class="btn btn-success" data-dismiss="modal"
+                                    id="inputScriptName">下一步
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#   create script  input     #}
+{#   upload plugins     #}
+        <div id="uploadScriptProgressDiv" class="progress progress-striped" style="font-weight: bold;font-size: 500%;z-index: 1004;width:40%;height:5%;margin:auto;position:fixed;top:0%;bottom:0%;right:0px;left:120%;display: block;">
+            <div id="showScriptProgressText" class="progress-bar  progress-bar-success active">
+            </div>
+        </div>
+        {% endblock %}
+	</header> <!-- .cd-main-header -->
+
+    <div id="leftsead">
+    	<ul>
+            {# 其实可以将通知，邮件都放到这里来，后面在考虑吧  #}
+{#	     <li>#}
+{#			<a id="top_btn">#}
+{#				<img src="../static/img/foot03/ll06.png" width="47" height="49" class="hides"/>#}
+{#				<img src="../static/img/foot03/l06.png" width="47" height="49" class="shows" />#}
+{#			</a>#}
+{#		</li>#}
+
+		<li>
+			<a href="">
+				<img src="../static/img/foot03/ll03.png"  width="47" height="49" class="hides"/>
+				<img src="../static/img/foot03/l03.png" width="47" height="49" class="shows" />
+			</a>
+		</li>
+            {# 增加微信聊天求助websocket#}
+{#            <li>#}
+{#                <a href="">#}
+{#                  <img src="../static/img/foot03/ll02.png" width="166" height="49" class="hides"/>#}
+{#                  <img src="../static/img/foot03/l04.png" width="47" height="49" class="shows" />#}
+{#                </a>#}
+{#            </li>#}
+		    <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+            <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+    	</ul>
+    </div><!--leftsead end-->
+{% block content %}
+    <main class="cd-main">
+        <section class="cd-section UploadKey visible">
+            <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px">
+                <div style="background: white;;height:100%;display: block" id="uploadKeyFileDropz">
+                    <p class="navbar-form" style="width:100%;margin-bottom:10px;">
+                    <div class="input-group" style="padding:10px;z-index: 0;">
+                        <input type="text" class="form-control searchValue" placeholder="搜索任意关键字"
+                               style="width:100%;">
+                        <span class="input-group-btn">
+                        <button class="btn btn-success" style="height: 34px;">
+                                <span class="glyphicon glyphicon-search">搜索</span>
+                        </button>
+                         </span>
+                    </div>
+                    </p>
+                    <div class="panel-heading" style="z-index: 1;background: white;">
+                        <button class="btn btn-default btn-xs glyphicon glyphicon-refresh"
+                                id="refreshKeyFileList"></button>
+                    </div>
+                    <table class="table table-bordered table-hover table-striped  table-condensed ">
+                        <thead>
+                        <tr>
+                            <th>SSH-KEY</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="showKeyFileTbody"></tbody>
+                        <tr>
+                        </tr>
+                    </table>
+                </div>
+                <div id="uploadKeyFileProgress"
+                     style="color: none;font-weight: bold;font-size: 500%;z-index: 1004;width:5%;height:5%;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
+                    0%
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
+    {% endblock %}
+
+{% block footer %}
+    <script src="/static/js/Glabal.js"></script>
+    <script src="/static/js/auto-line-number.js"></script>
+    <script src="/static/js/dropzone.js"></script>
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <script src="/static/js/uploadKeyFile.js"></script>
+    <script src="/static/js/headimg.js"></script>
+    <script src="/static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
+    <script src="/static/js/jquery.menu-aim.js"></script>
+    <script src="/static/js/rightpg.js"></script> <!-- Resource $ -->
+    <script src="/static/js/sidebar-menu.js"></script> <!-- Resource $ -->
+    <script src="/static/js/velocity.min.js"></script>
+    <script>
+    $.sidebarMenu($('.sidebar-menu'))
+    </script>
+{% endblock %}

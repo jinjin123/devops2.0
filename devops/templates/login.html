@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href="/static/img/lgmeta.ico" rel="Shortcut Icon">
+	<title>SparkPoS | Automating System</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/loginby.css">
+	<link rel="stylesheet" media="screen" href="/static/css/login.css">
+	<link rel="stylesheet" media="screen" href="/static/css/bootstrap.min.css">
+	<!-- <script src="/static/js/Glabal.js" type="application/javascript"></script> -->
+	<!--<link rel="stylesheet" media="screen" href="../static/css/bootstrap.min.css.map">-->
+
+</head>
+<body>
+	<div class="container">
+		<div id="particles-js">
+			<div class="logo1"><a><img src="../static/img/dev.png"/></a></div>
+			<div class="logo"><a><img src="../static/img/devops.png"/></a></div>
+            <!-- <form action="{{ csrf_token }}" method="post"> -->
+            <form action="login" method="post">
+			<div class="login_bar">
+				<h5> DevOps2.0 系统</h5>
+					<label for="edit-name" >
+						<span class="glyphicon glyphicon-user t"></span>
+					</label>
+				<div>
+					<input  placeholder="请输入您的用户名" name="username"  value size="60" maxlength="60" type="text" class="login_bar_ip1" id="edit-name">
+				</div>
+				<div>
+					<input placeholder="请输入您的密码" name="password"  value size="60" maxlength="60" type="password" class="login_bar_ip2" id="edit-pwd">
+					<span class="glyphicon glyphicon-lock t1"></span>
+				</div>
+                <div class="">
+					<input id='boom' type="submit" class="btn btn-info s1" value="登录" style="" onclick="">
+					<input type="reset" class="btn btn-danger s2"  value="忘记密码?">
+				</div>
+				<!-- <div class="link"> -->
+                    <!-- <span class="wechat_link"><a  href="/pc"><img src="../static/img/weixin.png"></a></span> -->
+					<!-- <span><a><img></a></span> -->
+				<!-- </div> -->
+			</div>
+			</form>
+		</div>
+	</div>
+
+	<script src="/static/js/jquery-2.2.3.min.js" type="application/javascript"></script>
+	<script src="/static/js/particles.js"></script>
+	<script src="/static/js/app.js"></script>
+	<script src="/static/js/login.js"></script>
+</body>
+</html>

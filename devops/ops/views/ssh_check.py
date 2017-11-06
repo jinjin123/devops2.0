@@ -1,18 +1,20 @@
 #!/usr/bin/env python
 #coding:utf8
 import os,sys,json,time,redis
+reload(sys)
+sys.setdefaultencoding("utf-8")
 from ssh_error import SSHError
 from ssh_thread_queue import SSHPool
 from ssh import SSH_SSH
-from .. import ssh_settings
+import ssh_settings
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 class SSHCheck(object):
 	def __init__(self,sid=""):
-		self.r = r
-		self.sid=sid
+		self.sid = sid
+		pass
 
 	def run(self):
-		servers_config_list=self.r.lrange("servers.config.list",0,-1)
+		servers_config_list=r.lrange("server",0,-1)
 		if servers_config_list is None:
 			return False
 		_servers_list=[]
@@ -36,8 +38,10 @@ class SSHCheck(object):
 		data["time"]=time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
 		if data["status"]:
 			data["status"]="success"
+			data["ip"] = kws["id"]
 		else:
 			data["status"]="failed"
+			data["ip"] = kws["id"]
 		self.save(kws["id"],data)
 
 	def save(self,sid,data):
@@ -46,11 +50,10 @@ class SSHCheck(object):
 		except Exception,e:
 			print sid
 		#### save the server status id
-		self.r.set("server.status.{sid}".format(sid=sid),data)
+		r.set("server.status.{sid}".format(sid=sid),data)
 		print "已经存储"
 
 
 if __name__=='__main__':
 	g=SSHCheck()
 	g.run()
-	#CheungSSH_SSH()

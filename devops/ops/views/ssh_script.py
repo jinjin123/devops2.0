@@ -18,7 +18,7 @@ class SSHScript(object):
         try:
             sfile = os.path.join(ssh_settings.script_dir,  os.path.basename(sfile))
             dfile = os.path.join('/tmp/', tid)
-            host = ssh.module_controller.SSHControler().convert_id_to_ip(ip)
+            host = ssh_module_controller.SSHControler().convert_id_to_ip(ip)
             if not host["status"]: raise SSHError(host['content'])
             _host_info = host['content']
             sftp = SSHFileTransfer()

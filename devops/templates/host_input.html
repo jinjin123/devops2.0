@@ -1,0 +1,291 @@
+{% extends "index.html" %}
+{% block meta %}
+    <link rel="stylesheet" href="../static/css/GridManager.css">
+    <link rel="stylesheet" href="../static/css/demo.css">
+    <link rel="stylesheet" href="../static/css/uploader.css">
+    <script language="javascript" type="text/javascript" src="../static/js/GridManager.js"></script>
+    <style type="text/css">
+    *{margin:0;padding:0;list-style-type:none;}
+     a,img{border:0;cursor: hand}
+    body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd;overflow: hidden;}
+    #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
+    *html #leftsead{margin-top:258px;position:absolute;}
+    #leftsead li{width:131px;height:53px;}
+    #leftsead li img{float:right;border-bottom-left-radius:5px;border-top-left-radius:5px;}
+    #leftsead li a{height:49px;float:right;display:block;min-width:47px;max-width:131px;}
+    #leftsead li a .shows{display:block;}
+    #leftsead li a .hides{margin-right:-166px;}
+    #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;}
+    .glyphicon {color: #585C64; font-size: large;}
+    .main-sidebar{
+    	position: absolute;
+    	padding-top: 3%;
+    	left: 0;
+    	height: 100%;
+    	min-height: 100%;
+    	z-index: 5;
+    	background-color: #222d32;
+    }
+    .plugin-action{
+            display: inline-block;
+            color: steelblue;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .plugin-action:hover{
+            text-decoration:underline;
+        }
+		.search-area{
+			padding: 10px 20px;
+			border: 1px solid #ccc;
+			background: #efefef;
+		}
+		.search-area .sa-ele{
+			display: inline-block;
+			margin-right: 20px;
+			font-size: 12px;
+		}
+		.search-area .sa-ele .se-title{
+			display: inline-block;
+			margin-right: 10px;
+		}
+		.search-area .sa-ele .se-con{
+			display: inline-block;
+			width:180px;
+			height: 24px;
+			border: 1px solid #ccc;
+			padding: 0px 4px;
+			line-height: 24px;
+		}
+		.search-area .sa-ele .search-action, .search-area .sa-ele .reset-action{
+			display: inline-block;
+			width:80px;
+			height: 26px;
+			border: 1px solid #ccc;
+			background: #e8e8e8;
+			padding: 0px 4px;
+			line-height: 26px;
+			text-align: center;
+			cursor: pointer;
+			margin-right: 10px;
+		}
+		.search-area .sa-ele .search-action:hover, .search-area .sa-ele .reset-action:hover{
+			opacity: 0.7;
+		}
+    </style>
+
+{% endblock meta %}
+
+	<header class="cd-main-header">
+        {% block ext %}
+<!-- {#      show error  #} -->
+        <div id="shadow"
+              style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1003;background: rgba(0,0,0,0.4); "></div>
+        </div>
+<!-- check server status -->
+        <div  style="z-index: 10004;width:auto;height: 400px;position: fixed;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;display:none;"
+              id="showServerCheckInfo">
+            <div class="modal "
+                 style="overflow:hidden;overflow-y:hidden;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content  ">
+                        <div class="modal-header" style="cursor: move;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class=" glyphicon glyphicon-success  glyphicon glyphicon-info-sign " >主机检测信息</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div     class="col-md-12  col-sm-12 col-xs-12 col-lg-12  input-group">
+                                <div class="col-md-12  col-sm-12 col-xs-12 col-lg-12 "  style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">主机</label>
+                                    <div  id="showCheckHost"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 " style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3 ">时间</label>
+                                    <div  id="showCheckTime"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 " style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">状态</label>
+                                    <div   id="showCheckStatus" class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 " style="margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">信息</label>
+                                    <div  id="showCheckInfo" style="word-wrap: break-word;word-break:break-all;"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"  id="closeCheckInfo">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- check server status -->
+{#   添加主机     #}
+        <div class="box" id="im_host">
+            <div class="im_host_box">
+                <a href="javascript:;" onclick="$('#im_host').hide()" class="close" id="close_edit"></a>
+                <div>
+                    <div class="glyphicon glyphicon-edit " style="top:20px;left: 10px;">编辑服务器配置</div><br><br>
+                     <div style="position:relative;border-top:2px dashed #e5e5e5;top:30px;">
+                         <div  class="im_host_main">
+                             <div class="im_host_input_before">IP</div><input  id="ip" type="text" class="im_host_input">
+                             <div class="im_host_input_before">端口</div><input  id='port' type="text" value="22" class="im_host_input">
+                             <div class="im_host_input_before">主机组</div><input id="group" type="text" class="im_host_input">
+                             <div class="im_host_input_before">用户名</div><input id="user" type="text" class="im_host_input">
+                             <div class="im_host_input_before">登录方式</div><select class="im_host_input" style="height: 23px;" id="lg_choice" ><option value="password">password</option><option value="key">key</option></select>
+                             <div class="im_host_input_before" id="choice_lg" style="display: none;">秘钥文件</div><a href="javascript:;" id="choice_key" class="key" >选择秘钥
+                             <!-- <input id="choice_lg3" onclick="" type="file" class="" style="display: none;" accept="" value=""> -->
+                             <select id="keyfiles" style="position: relative;margin: 0;padding: 0;width: 80%;left: 17%;background-color: #D0EEFF;border: 0;" >
+                             </select>
+                             </a>
+                             <div class="im_host_input_before" id="password">密码</div><input id="passwd" type="password" class="im_host_input">
+                             <div class="im_host_input_before" id="sudo" onmouseover="this.style.cursor='hand'"><i id="us_sudo" class="glyphicon glyphicon-unchecked" style="font-size:inherit;"></i>sudo</div><input id="sudoPassword"  type="password" disabled="ture" class="im_host_input">
+                             <div class="im_host_input_before" id="su" onmouseover="this.style.cursor='hand'"> <i id="us_su" class="glyphicon glyphicon-unchecked" style="font-size:inherit;"></i>su</div><input id="suPassword"  type="password" disabled="true" class="im_host_input">
+                             <div class="im_host_input_before" id="bz">备注</div><input id="BZ" type="text" class="im_host_input">
+                             <input type="hidden" name="Id" id="id" >
+                             <input type="hidden" name="opt_tag" id="opt_tag" >
+                         </div>
+                    <button class="btn btn-info" id="add_server_list" style="position:relative;left:65%;margin: 0 22%">保存</button>
+                </div>
+            </div>
+        </div>
+        </div>
+{#  导入excel      #}
+        <div class="box" id="im_table">
+            <div class="im_table_box">
+                <a href="javascript:;" onclick="$('#im_table').hide()" class="close"></a>
+                <a href="ex_template/aa.xlsx" download="aa.xlsx" class="btn btn-info" >下载模版</a>
+                <div>
+                    <div class="row demo-columns">
+                        <div class="col-md-6" style="width:100%;">
+                            <div id="drag-and-drop-zone" class="uploader">
+                                <div>请按照模版文件格式上传</div>
+                                <div class="browser">
+                                    <label>
+                                        <span>选择上传表格</span>
+                                        <input id="in_excel" onclick="server_excel()" type="file" name="files[]" multiple="multiple"
+                                               title='选择上传表格' accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Debug</h3>
+                                </div>
+                                <div class="panel-body demo-panel-debug">
+                                    <ul id="demo-debug">
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /Debug box -->
+                        </div>
+                        <div class="col-md-6" style="width:100%">
+                            <div class="panel panel-default" style="height: 1px;">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">上传</h3>
+                                </div>
+                                <div class="panel-body demo-panel-files" id='demo-files'>
+{#                                    <span class="demo-note">No Files have been selected/droped yet...</span>#}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / Right column -->
+                    </div>
+{#                    <button class="btn btn-info head">提交</button>#}
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+	</header> <!-- .cd-main-header -->
+
+    <div id="leftsead">
+    	<ul>
+            {# 其实可以将通知，邮件都放到这里来，后面在考虑吧  #}
+{#	     <li>#}
+{#			<a id="top_btn">#}
+{#				<img src="../static/img/foot03/ll06.png" width="47" height="49" class="hides"/>#}
+{#				<img src="../static/img/foot03/l06.png" width="47" height="49" class="shows" />#}
+{#			</a>#}
+{#		</li>#}
+
+		<li>
+			<a href="">
+				<img src="../static/img/foot03/ll03.png"  width="47" height="49" class="hides"/>
+				<img src="../static/img/foot03/l03.png" width="47" height="49" class="shows" />
+			</a>
+		</li>
+
+            {# 增加微信聊天求助websocket#}
+{#            <li>#}
+{#                <a href="">#}
+{#                  <img src="../static/img/foot03/ll02.png" width="166" height="49" class="hides"/>#}
+{#                  <img src="../static/img/foot03/l04.png" width="47" height="49" class="shows" />#}
+{#                </a>#}
+{#            </li>#}
+		    <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+            <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+    	</ul>
+    </div><!--leftsead end-->
+    {% block  content %}
+    <main class="cd-main">
+        <section class="cd-section host_input visible">
+            <div id="index-content" class="cd-content ">
+                <div class="search-area">
+                    <div class="sa-ele">
+                        <label class="se-title">IP:</label>
+                        <input class="se-con" name="name"/>
+                    </div>
+                    <div class="sa-ele">
+                        <label class="se-title">端口:</label>
+                        <input class="se-con" name="info"/>
+                    </div>
+                    <div class="sa-ele">
+                        <label class="se-title">状态:</label>
+                        <input class="se-con" name="url"/>
+                    </div>
+                    <div class="sa-ele">
+                        <button class="search-action">搜索</button>
+                        <button class="reset-action">重置</button>
+                    </div>
+                    <div class="sa-ele">
+                        <button id="h_import" onclick="$('#im_table').show()" class="search-action">excel导入</button>
+                        <!-- <button  id="h_add" onclick="$('#im_host').show()" class="btn btn-info" style="background-color: #EFEFEF">＋</button> -->
+                        <button  id="h_add" onclick="" class="btn btn-info" style="background-color: #EFEFEF">＋</button>
+                        <button  id="h_del" onclick="" class="btn btn-info" style="background-color: #EFEFEF">---</button>
+                    </div>
+                </div>
+                <!-- create server table info -->
+                <table grid-manager="demo-disableOrderCode">
+                </table>
+             </div>
+        </section>
+    </main>
+    <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
+    {% endblock %}
+    {% block footer %}
+    <script src="/static/js/headimg.js"></script>
+    <script src="/static/js/server.js"></script>
+    <script src="/static/js/demo.min.js"></script>
+    <script src="/static/js/dmuploader.min.js"></script>
+    <script src="/static/js/jquery.menu-aim.js"></script>
+{#    <script src="/static/js/dycontent.js"></script> <!-- Resource $ -->#}
+    <script src="/static/js/rightpg.js"></script> <!-- Resource $ -->
+    <script src="/static/js/sidebar-menu.js"></script> <!-- Resource $ -->
+    <script src="/static/js/velocity.min.js"></script>
+    <script>
+    $.sidebarMenu($('.sidebar-menu'))
+    </script>
+    {% endblock %}

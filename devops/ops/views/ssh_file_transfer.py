@@ -9,19 +9,23 @@ class SSHFileTransfer(object):
     def __init__(self):
         pass
 
-    def login(self, ip='', user='', password='', port=22, lg_type='', keyfile='', **kws):
-        self.username = user
-        self.password = password
-        self.port = port
-        self.lg_type = lg_type
-        self.ip = ip
-        self.keyfile = os.path.join(ssh_settings.keyfile_dir,  keyfile)
-        self.port = port
+    def login(self,**kws):
+        self.username = kws["user"]
+        self.password = kws["pwd"]
+        self.port = kws["port"]
+        self.lg_type = kws["lg_type"]
+        self.ip = kws["ip"]
+        self.keyfile = os.path.join(ssh_settings.keyfile_dir,  kws["key"])
+        self.sudo = kws["us_sudo"]
+        self.sudo_password = kws["sudo"]
+        self.su = kws["us_su"]
+        self.su_password = kws["su"]
+        self.port = int(self.port)
 
         ssh_info = {"status": False, "content": ""}
         try:
             ssh = paramiko.Transport((self.ip, int(self.port)))
-            if lg_type == '密码方式':
+            if self.lg_type == '密码方式':
                 ssh.connect(username=self.username, password=self.password)
             else:
                 key = paramiko.RSAKey.from_private_key_file(self.keyfile)

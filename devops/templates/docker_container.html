@@ -1,0 +1,467 @@
+{% extends "index.html" %}
+{% block meta %}
+    <link href="../static/css/docker.css" rel="stylesheet">
+    <style type="text/css">
+    *{margin:0;padding:0;list-style-type:none;}
+    a,img{border:0;cursor: hand}
+    body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd;overflow: hidden;}
+/* leftsead */
+    #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
+    *html #leftsead{margin-top:258px;position:absolute;}
+    #leftsead li{width:131px;height:53px;}
+    #leftsead li img{float:right;border-bottom-left-radius:5px;border-top-left-radius:5px;}
+    #leftsead li a{height:49px;float:right;display:block;min-width:47px;max-width:131px;}
+    #leftsead li a .shows{display:block;}
+{#    #leftsead li a .hides{margin-right:-166px;cursor:pointer;cursor:hand;}#}
+    #leftsead li a .hides{margin-right:-166px;}
+    #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
+    #mytab  li a{
+      border-color: white;
+      display: block;
+      margin-top: -1px;
+      padding: 0 25px 0 20px;
+      color: #999;
+      overflow: hidden;
+      word-wrap: normal;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      line-height: 56px;
+      border-top: 1px solid #ebf0f5
+    }
+
+    /*#mytab  ul {max-width: 100px}*/
+    #mytab.nav-tabs {border-bottom: none}
+    #LeftDiv {width: 181px;background-color:#F9FBFD;height:100%;border-right:  1px solid #F9FBFD;}
+    #LeftDiv button{
+        width: 140px;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 10%;
+    }
+    #ServiceDiv {margin: 0;padding: 0;position: absolute;}
+    #service.btn{
+      width: 140px;
+      top:-138px;
+      margin-left: 120px;
+      margin-bottom: 20px;
+      padding-left: 0;
+      padding-right: 0;
+      margin-top: -541%;
+      position: relative;
+      left: 100px;
+    }
+    #refreash{
+        width: 34px;
+        height: 34px;
+        top:-138px;
+        margin-left: 320px;
+        margin-bottom: 20px;
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: -276%;
+        position: absolute;
+        left: 100px;
+    }
+    #myTabContent {
+        margin: 0;
+        padding: 0;
+        position: absolute;
+    }
+    #myTabContent table{
+        position: static;
+        margin-left: 220px;
+        margin-bottom: 20px;
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: -65%;
+        left: 100px;
+        width: 1000px;
+    }
+    .title{
+      margin: 0 20px;
+      width: 140px;
+      height: 44px;
+      font-size: 14px;
+      line-height: 44px;
+      color: #333;
+      text-indent: 20px;
+      background: #f1f4f8;
+    }
+
+    .main-sidebar{
+	position: absolute;
+	padding-top: 3%;
+	left: 0;
+	height: 100%;
+	min-height: 100%;
+	z-index: 5;
+	background-color: #222d32;
+    }
+    #notice{position: absolute;  right: 220px;  top: 40%;}
+    #mail{position: absolute;  right: 190px;  top: 40%;}
+    #set{position: absolute;  right: 160px;  top: 40%;}
+    #out{position: absolute;  right: 130px;  top: 40%;}
+    #showCRTWindow pre::-webkit-scrollbar {
+        width: 10px;
+    }
+    #showCRTWindow pre::-webkit-scrollbar-thumb {
+        background: #09C;
+        border-radius: 4px;
+    }
+    .Scontainer{
+        display: block;
+    }
+    .loader{
+      display: none;
+      position: fixed;
+      left: 0px;
+      top: 40px;
+      width: 100%;
+      height: initial;
+      z-index: 1;
+      border-radius: 0px;
+      background: url(../static/img/loading.gif) 50% 50% no-repeat;
+    }
+    .loadingtext{
+      background: rgba(0, 0, 0, 0.8);
+      width: 300px;
+      margin-top: 75px;
+    }
+    </style>
+{% endblock %}
+
+
+	<header class="cd-main-header">
+        {% block ext %}
+
+{#   loadding  pic     #}
+        <div id="loadPic"
+             style="text-align: center;padding: 10px;color: white;font-weight:bold   ;border-radius:8px;background: rgba(0,0,0,0.5);z-index: 1004;width: 200px;height:40px;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
+            <i class="fa fa-refresh fa-spin"></i>
+            <span style="letter-spacing: 4px;">请稍后...</span>
+        </div>
+{#    loadding end     #}
+{#    show error    #}
+        <div id="confirmCommandDiv"
+             style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
+            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
+                 id="">
+                <div class="modal "
+                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                    <div class="modal-dialog">
+                        <div class="modal-content  ">
+                            <div class="modal-header" style="cursor: move;">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
+                            </div>
+                            <div class="modal-body  ">
+                                <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">
+                                    请确认您的内容?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                        id="forceExecuteCommand">强制
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"
+                                        id="closeConfirmCommandButton">
+                                    放弃
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#    show error  end  #}
+{#    create  script   input  #}
+        <div class="box" style="z-index: 1004;width:auto;height:100%;position: fixed;left: 0px;right: 0px;top: 0px;;bottom: 0%;margin: auto;display:none;" id="showScriptName">
+            <div class="modal" style="height: 100%;;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content  ">
+                        <div class="modal-header" style="cursor: move;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class=" glyphicon glyphicon-edit " style="color: green;">脚本名</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">脚本名</label>
+                                    <div class="col-md-10">
+                                        <input id="scriptName" class="form-control" placeholder="请输入新建脚本名称" style="border:1px dashed #b0b0b0;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button style="float: left;" type="button" class="btn btn-default" data-dismiss="modal"
+                                    id="closeScriptNameButton">取消
+                            </button>
+                            <button style="float:right;" type="button" class="btn btn-success" data-dismiss="modal"
+                                    id="inputScriptName">下一步
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#   create script  input     #}
+{#   upload plugins     #}
+        <div id="uploadScriptProgressDiv" class="progress progress-striped" style="font-weight: bold;font-size: 500%;z-index: 1004;width:40%;height:5%;margin:auto;position:fixed;top:0%;bottom:0%;right:0px;left:120%;display: block;">
+            <div id="showScriptProgressText" class="progress-bar  progress-bar-success active">
+            </div>
+        </div>
+        <!-- new node   -->
+        <div class="box" id="NewContainerShow">
+            <div class="NewContainerShow_box">
+                <a href="javascript:;" onclick="$('#NewContainerShow').hide()" class="close" id="close_edit"></a>
+                <div>
+                    <div class="glyphicon glyphicon-edit " style="top:20px;left: 10px;">创建节点</div><br><br>
+                     <div style="position:relative;border-top:2px dashed #e5e5e5;top:30px;">
+                         <div  class="NewContainer_main">
+                             <div class="NodeName">名称<input  id="Node" type="text" class="NewNode_input"></div>
+                             <div class="Nodeaddress">地址<input  id="NodeIp" type="text" class="NewNode_input"></div>
+                             <div class="NodeId"><input type="hidden" name="Id" id="NodeId" ></div>
+                         </div>
+                    <button class="btn btn-info" id="SaveCTNNode" style="position:relative;left:65%;margin: 0 22%;top:100px">保存</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    <!--add service  -->
+        <div class="box" id="ContainerService">
+            <div class="ContainerService_box">
+                <a href="javascript:;" onclick="$('#ContainerService').hide()" class="close" id="close_edit"></a>
+                <div>
+                    <div class="glyphicon glyphicon-edit " style="top:20px;left: 10px;">创建节点</div><br><br>
+                     <div style="position:relative;border-top:2px dashed #e5e5e5;top:30px;">
+                         <div  class="ContainerService_main">
+                             <!-- <div class="NodeName">ID<input  id="container_id" type="text" class="ContainerService_input" disabled="true"></div> -->
+                             <div class="NewNode">所属节点<select id="DependsNode" style="position: relative;margin: 0;padding: 0;width: 80%;left: 17%;"><option  id="" type="text" class="ContainerService_input">请选择</option></select></div>
+                             <div class="NewNode">服务名称<input  id="ServiceName" type="text" class="ContainerService_input"></div>
+                             <div class="NewNode">服务地址<input  id="ServiceAddress" type="text" class="ContainerService_input"  placeholder="范围是子网段＋2~254"></div>
+                             <div class="NewNode">使用镜像<select id="image" style="position: relative;margin: 0;padding: 0;width: 80%;left: 17%;"><option  id="" type="text" class="ContainerService_input"></option></select></div>
+                             <div class="NewNode">内存分配<input  id="MemLimit" type="text" class="ContainerService_input"></div>
+                             <div class="NewNode">CPU分配<input  id="CpuLimit" type="text" class="ContainerService_input"></div>
+                             <!-- <div class="NodeName">服务状态<input  id="ip" type="text" class="ContainerService_input" disabled="true"></div> -->
+                             <!-- <div class="NodeName">服务操作<input  id="ip" type="text" class="ContainerService_input"></div> -->
+                             <input type="hidden" name="Id" id="id" >
+                         </div>
+                    <button class="btn btn-info" id="SaveCTNService" style="position:relative;left:65%;margin: 0 22%;bottom: -50px">保存</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    <!--del check box-->
+            <div class="box" id="DelBxCheck">
+            <div class="DelBxCk_box">
+                <a href="javascript:;" onclick="$('#DelBxCheck').hide()" class="close" id="close_edit"></a>
+                <div>
+                    <div class="glyphicon glyphicon-edit " style="top:20px;left: 10px;">删除</div><br><br>
+                     <div style="position:relative;border-top:2px dashed #e5e5e5;top:30px;">
+                         <div  class="DelBxCheck_main">
+                             <span class="glyphicons glyphicons-exclamation-sign"></span><p class="DelTips" style="position: absolute;margin: 8%;padding: 0;left: 40%;"></p>
+                         </div>
+                            <div style="margin: 18%;padding: 0;position: relative;left: 57%;">
+                        <!-- <button class="btn btn-info" id="CkDelNode" style="position:relative;left:45%;margin: 0 22%;top:100px">确定</button> -->
+                        <!-- <button class="btn btn-info" id="CancelDelNode" style="position:relative;left:65%;margin: 0 22%;top:100px">取消</button> -->
+                                    <button class="btn btn-info" id="CkDelNode" style="">确定</button>
+                                    <button class="btn btn-info" id="CancelDelNode" style="">取消</button>
+                            </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<!-- check container status -->
+        <div  style="z-index: 10004;width:auto;height: 200px;position: fixed;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;display:none;"
+              id="showServerCheckInfo">
+            <div class="modal "
+                 style="overflow:hidden;overflow-y:hidden;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content  ">
+                        <div class="modal-header" style="cursor: move;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class=" glyphicon glyphicon-success  glyphicon glyphicon-info-sign " >主机检测信息</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div     class="col-md-12  col-sm-12 col-xs-12 col-lg-12  input-group">
+                                <div class="col-md-12  col-sm-12 col-xs-12 col-lg-12 "  style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">主机</label>
+                                    <div  id="showCheckHost"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 " style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3 ">时间</label>
+                                    <div  id="showCheckTime"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 " style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">状态</label>
+                                    <div   id="showCheckStatus" class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 " style="margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">信息</label>
+                                    <div  id="showCheckInfo" style="word-wrap: break-word;word-break:break-all;"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"  id="closeCheckInfo">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- check container status -->
+  <!--create backup -->
+        <div  style="z-index: 10004;width:auto;height: 200px;position: fixed;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;display:none;"
+              id="showBackupFrom">
+            <div class="modal "
+                 style="overflow:hidden;overflow-y:hidden;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                <div class="modal-dialog">
+                    <div class="modal-content  ">
+                        <div class="modal-header" style="cursor: move;">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="$('#showBackupFrom').hide()"></button>
+                            <h4 class=" glyphicon glyphicon-success  glyphicon glyphicon-info-sign " >BackupName</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-12  col-sm-12 col-xs-12 col-lg-12  input-group">
+                                <div class="col-md-12  col-sm-12 col-xs-12 col-lg-12 "  style="border-bottom: 1px solid #b0b0b0;margin-top:10px;">
+                                    <label class="control-label col-md-2 col-lg-2 col-sm-4 col-xs-3">Name:</label>
+                                    <div><input id="backupname" style="width:100%"><div>
+                                    <div  id="showCheckHost"  class="col-md-10 col-lg-10 col-xs-9 col-sm-10"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"  id="SubmitBackupName">提交</button>
+                            <!-- <button type="button" class="btn btn-default"  id="closeCheckInfo">关闭</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- create backup -->
+            {% endblock %}
+	</header> <!-- .cd-main-header -->
+
+
+    <div id="leftsead">
+    	<ul>
+            {# 其实可以将通知，邮件都放到这里来，后面在考虑吧  #}
+{#	     <li>#}
+{#			<a id="top_btn">#}
+{#				<img src="../static/img/foot03/ll06.png" width="47" height="49" class="hides"/>#}
+{#				<img src="../static/img/foot03/l06.png" width="47" height="49" class="shows" />#}
+{#			</a>#}
+{#		</li>#}
+
+		<li>
+			<a href="">
+				<img src="../static/img/foot03/ll03.png"  width="47" height="49" class="hides"/>
+				<img src="../static/img/foot03/l03.png" width="47" height="49" class="shows" />
+			</a>
+		</li>
+            {# 增加微信聊天求助websocket#}
+{#            <li>#}
+{#                <a href="">#}
+{#                  <img src="../static/img/foot03/ll02.png" width="166" height="49" class="hides"/>#}
+{#                  <img src="../static/img/foot03/l04.png" width="47" height="49" class="shows" />#}
+{#                </a>#}
+{#            </li>#}
+		    <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+            <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+    	</ul>
+    </div><!--leftsead end-->
+{% block content %}
+    <main class="cd-main">
+        <section class="cd-section docker_repo visible">
+            <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px">
+                <div style="background: white;height:100%;display: block;border: 2px solid #e1e8ed" id="CreateDockerRepo">
+                  <div id="BoxDiv">
+                    <div class="col-md-3" style="float:right;margin-top:20px;">
+                        <div class="input-icon-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control Search_container"
+                                       placeholder="Search Container ..." autofocus/>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-search"> </i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="loader">
+                        <div class="text-center loadingtext"></div>
+                    </div>
+                    <div id="LeftDiv">
+                          <div class="button"><button id="CreateCTNNode" class="btn btn-success" style="background-color:#67aaf5" onclick="$('#NewContainerShow').show()"><i class="glyphicon glyphicon-plus"></i> 创建节点 </button></div>
+                          <div class="title">节点名称</div>
+                        <ul id="myTab" class="nav nav-tabs  nav-stacked">
+                          <li class="active"><a href="#home" data-toggle="tab" title='127.0.0.1'>default</a></li>
+                          <!-- <li><a href="#ios" data-toggle="tab">iOS</a><div style="" id="del_node" onclick="" class="del_node" title="删除空间" ></div></li> -->
+                            <!-- <li><a href="#ios" data-toggle="tab" title="1.1.1.1">iOS</a><div style="" id="del_node" class="del_node" title="删除空间" ></div></li> -->
+                           <!-- <li><a href="#ios" data-toggle="tab" title="2.2.2.2">b</a><div style="" id="del_node" class="del_node" title="删除空间" ></div></li> -->
+                        </ul>
+                      </div>
+                    <div id="ServiceDiv" >
+                          <button id="Service" class="btn btn-success" style="background-color:#67aaf5" onclick="$('#ContainerService').show()"><i class="glyphicon glyphicon-plus"></i> 创建服务 </button>
+                          <button id="Refreash"><i class="glyphicon glyphicon-refresh"></i><button>
+                    </div>
+                        <div id="myTabContent" class="tab-content">
+                            <!-- <div class="tab-pane fade" id="img_list"> -->
+                            <!-- </div> -->
+                              <table class="table table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th>ID</th>
+                                      <th>服务名称</th>
+                                      <th>所属节点</th>
+                                      <th>所属用户</th>
+                                      <th>服务地址</th>
+                                      <th>使用镜像</th>
+                                      <th>内存分配</th>
+                                      <th>CPU分配</th>
+                                      <th>创建时间</th>
+                                      <th>服务状态</th>
+                                      <th>服务操作</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="showContainerService"></tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
+{% endblock %}
+
+{% block footer %}
+    <script src="../static/js/jquery-3.2.0.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/bootstrap-treeview.min.js"></script>
+    <script src="../static/js/docker_container.js"></script>
+    <script src="../static/js/jquery-ui.min.js"></script>
+    <script src="../static/js/headimg.js"></script>
+    <script src="../static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
+    <script src="../static/js/jquery.menu-aim.js"></script>
+    <script src="../static/js/rightpg.js"></script> <!-- Resource jQuery -->
+    <script src="../static/js/sidebar-menu.js"></script> <!-- Resource jQuery -->
+    <script src="../static/js/velocity.min.js"></script>
+    <script>
+    $.sidebarMenu($('.sidebar-menu'))
+    </script>
+
+{% endblock %}

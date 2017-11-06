@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 # coding:utf-8
-import threading, Queue, time
+import threading, Queue
 from ssh_thread_num import AutoGetThreadNum
 from ssh_module_controller import SSHControler
 from ssh_error import SSHError
-from .. import ssh_settings
-import os, sys, json,redis
+import os,sys,json,time,redis
+reload(sys)
+sys.setdefaultencoding("utf-8")
+import ssh_settings
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 class SSHThreadAdmin(object):
     def __init__(self):
-            self.r = r
+        pass
 
     def run(self, parameter={}):
         ssh_info = {"status": True, "content": ""}
@@ -17,21 +19,21 @@ class SSHThreadAdmin(object):
             task_type = parameter["task_type"]
             tid = parameter["tid"]
             multi_thread = parameter["multi_thread"]
-            if not type(multi_thread) == type(False): raise SSHError("CHB0000000010")
+            if not type(multi_thread) == type(False): raise SSHError("多线程错误")
             if task_type == "cmd":
                 cmd = parameter["cmd"]
                 servers = parameter["servers"]
-                if not type(servers) == type([]): raise SSHError("CHB0000000011")
+                if not type(servers) == type([]): raise SSHError("执行命令里出现类型错误")
                 total = "total.%s" % tid
                 current = "current.%s" % tid
-                self.r.set(total, len(servers))
-                self.r.set(current, 0)
+                r.set(total, len(servers))
+                r.set(current, 0)
                 if multi_thread:
                     pool = SSHPool()
                     for s in servers:
                         controler = SSHControler()
                         param = {"cmd": cmd, "ip": s, "tid": tid}
-                        print param,'36'
+                        # print param,'SSHthreadadmin run'
                         pool.add_task(controler.command_controler, param)
                 else:
                     for s in servers:
@@ -41,11 +43,10 @@ class SSHThreadAdmin(object):
             elif task_type == "file":
                 pass
             else:
-                raise SSHError("CHB0000000009")
+                raise SSHError("只处理命令和文件任务，其他任务无法处理")
         except Exception, e:
             ssh_info["content"] = str(e)
             ssh_info["status"] = False
-        print ssh_info
 
         return ssh_info
 
@@ -79,7 +80,7 @@ class SSHPool(AutoGetThreadNum):
     def add_task(self, func, dict):
         self.queue.put((func, dict))  # 把参数和函数，放到队列里面去，然后，有一个run会来这里取的
 
-    def all_complete(self):
+    def all_complete(self): ## join   之后会去叫上面的run 去取
         self.queue.join()
 
 

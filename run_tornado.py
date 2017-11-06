@@ -170,24 +170,23 @@ class StatusHandler(BaseHandler):
                         print i
                     return StreamingHttpResponse(self.stream_response_generator(container_id))
 
-    @gen.coroutine
-    def stream_response_generator(self,container_id):
-        while True:
-            response = str(subprocess.check_output("docker stats --no-stream " + container_id + "| tail -1", shell=True))
-            response = response.split()
-            if response:
-                print response
-                yield '[{"cpu":"%s","memory":"%s","memTotal":"%s","netDow":"%s","netDowUnit":"%s",\
-                        "netUp":"%s","netUpUnit":"%s"}],' % (response[1], response[7], response[5], \
-                        response[8], response[9], response[11], response[12])
-            else:
-                yield response
+class MyStaticFileHandler(tornado.web.StaticFileHandler):
+
+    def set_default_headers(self):
+        self.set_header("Etag", "3b9ce3548c87ea380f8213d33c84dda7")
+        # self.set_header("Transfer-Encoding", "chunked")
+        self.set_header("Accept", "*/*")
+        self.set_header("X-Frame-Options", "SAMEORIGIN")
+        self.set_header("Content-Type","*")
+        self.set_header("Accept-Ranges","bytes")
+
 
 settings = {
         "cookie_secret":"81oETzKXQAGaYdkL5gEmGeJJFuYh7EQnpZXdTP1o",
         "login_url" : "/pc",
         "template_path":os.path.join(os.path.dirname(__file__),"templates"),
         "static_path":os.path.join(os.path.dirname(__file__),"static"),
+        # "static_handler_class":MyStaticFileHandler,
         "debug": True,
         "xsrf_cookie" : True,
         "gzip" : True
@@ -203,6 +202,7 @@ def main():
 
     wsgi_app = get_wsgi_application()
     container = tornado.wsgi.WSGIContainer(wsgi_app)
+    # static_path = './static'
 
     tornado_app = tornado.web.Application(
         [
@@ -213,6 +213,7 @@ def main():
             (r"/logout", LogoutHandler),
             (r"/pc/([^/]+)", PCLoginHandler),
             (r"/pc", PCLoginRedirectHandler),
+            # (r"/static/(.*)",tornado.web.StaticFileHandler, {'path': static_path}),
             (r"/test/([^/]+)/([^/]+)", StatusHandler),
             ('.*', tornado.web.FallbackHandler, dict(fallback=container)),
         ],**settings)
