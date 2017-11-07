@@ -94,3 +94,122 @@ function searchValue(input) {
         }
     );
 };
+
+//listen module chooice
+function oBtAnsibleModel() {
+	   var obj = document.getElementById("ansible_model");
+	   var index = obj.selectedIndex;
+	   var value = obj.options[index].value;
+     console.log(value)
+    switch (value) {
+      case "raw":
+		   document.getElementById("ansible_args").value="uptime";
+		   document.getElementById("custom_model").style.display = "none";
+        break;
+      case "yum":
+		   document.getElementById("ansible_args").value="name=httpd state=present";
+		   document.getElementById("custom_model").style.display = "none";
+        break;
+      case "service":
+		   document.getElementById("ansible_args").value="name=httpd state=restarted enabled=yes";
+		   document.getElementById("custom_model").style.display = "none";
+        break;
+      case "cron":
+		   document.getElementById("ansible_args").value='name="sync time" minute=*/3 hour=* day=* month=* weekday=* job="/usr/sbin/ntpdate window.time.com"';
+		   document.getElementById("custom_model").style.display = "none";
+        break;
+      case "file":
+		   document.getElementById("ansible_args").value='src=/root/test.txt dest=/tmp/test.txt owner=root group=root mode=700 state=touch';
+		   document.getElementById("custom_model").style.display = "none";
+        break;
+      case "copy":
+		   document.getElementById("ansible_args").value='src=/root/test.txt dest=/tmp/test.txt';
+		   document.getElementById("custom_model").style.display = "none";
+        break;
+      case "user":
+		   document.getElementById("ansible_args").value="name=welliam password='$6yshUMNL8dhY'";
+		   document.getElementById("custom_model").style.display = "none";
+        break;
+      case "synchronize":
+		   document.getElementById("ansible_args").value="src=/root/a dest=/tmp/ compress=yes --exclude=.git";
+		   document.getElementById("custom_model").style.display = "none";
+        break;
+      case "get_url":
+		   document.getElementById("ansible_args").value="url=http://url/test.tar.gz dest=/tmp";
+		   document.getElementById("custom_model").style.display = "none";
+        break;
+      case "custom":
+		   document.getElementById("custom_model").style.display = "";
+		   document.getElementById("ansible_args").value="";
+        break;
+      default:
+		   document.getElementById("ansible_args").value="";
+    }
+}
+
+// post module args
+function runAnsibleModel(obj) {
+  var btnObj = $(obj);
+  var obj = document.getElementById("ansible_model");
+  var index = obj.selectedIndex;
+  var chooice_module = obj.options[index].value;
+  var args = document.getElementById("ansible_args").value
+  var ans_uuid = $('#ans_uuid')[0].value
+  var custom_model = $('#custom_model_name')[0].value
+  var host = [];
+  if ($("#ansible_right_server option").length > 0) {
+      $("#ansible_right_server option").each(function () {
+        //  ioop ip into array {"host":["192.168.1.31","192.168.1.233"],"user":"root"}
+        host.push($(this).val())
+        btnObj.attr('disabled',true);
+      })
+  }else{
+      showErrorInfo('请注意必填项不能为空~')
+      btnObj.removeAttr('disabled');
+      return  false;
+  }
+  post_data = {"host": host,"user": "root","module": chooice_module,"args": args,"ans_uuid": ans_uuid,"custom_model": custom_model}
+  console.log(post_data);
+  $("#result").html("服务器正在处理，请稍等。。。");
+  /* 轮训获取结果 开始  */
+   var interval = setInterval(function(){
+        $.ajax({
+            url : ansible_run,
+            type : 'post',
+            data:  JSON.stringify(post_data),
+            success : function(result){
+              if (result["msg"] !== null ){
+                $("#result").append("<p>"+result["msg"]+"</p>");
+                if (result["msg"].indexOf("[Done]") == 0){
+                  clearInterval(interval);
+                  showSuccessNotic();
+                  btnObj.removeAttr('disabled');
+                }
+              }
+            },
+        error:function(response){
+          btnObj.removeAttr('disabled');
+          clearInterval(interval);
+        }
+        });
+    },1000);
+// 	    /* 轮训获取结果结束  */
+  $.ajax({
+    url: ansible_model,
+    type:"POST",
+    data: JSON.stringify(post_data),
+    success:function(response){
+      btnObj.removeAttr('disabled');
+      if (response["code"] == "500"){
+        clearInterval(interval);
+        btnObj.removeAttr('disabled');
+        showErrorInfo(response["msg"])
+      }
+    },
+      error:function(response){
+        btnObj.removeAttr('disabled');
+        showErrorInfo('执行失败');
+        clearInterval(interval);
+      }
+  })
+}

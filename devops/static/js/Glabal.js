@@ -99,6 +99,8 @@ var Ansible_playbook_config = "/playbook_config"
 var Ansible_playbook_list = "/playbook_list"
 var Get_Group_api = '/api/groups/'
 var Get_user_api = '/api/users/'
+var ansible_run  = '/easy_run'
+var ansible_model = '/callback_model_result'
 
 
 

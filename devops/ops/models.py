@@ -278,6 +278,7 @@ class WebHook(models.Model):
     def __str__(self):
         return self.repo
 
+@python_2_unicode_compatible
 class History(models.Model):
     '''push history'''
     # md5, notice, output, push_name, push_email, success, add_time
@@ -301,6 +302,28 @@ class History(models.Model):
     #     self.update_time = datetime.datetime.now()
     #     self.status = status
     #     self.save()
+
+@python_2_unicode_compatible
+class Ansible_Model_Log(models.Model):
+    ans_user = models.CharField(max_length=50, verbose_name='使用用户', default=None)
+    ans_model = models.CharField(max_length=100, verbose_name='模块名称', default=None)
+    ans_args = models.CharField(max_length=500, blank=True, null=True, verbose_name='模块参数', default=None)
+    ans_server = models.TextField(verbose_name='服务器', default=None)
+    create_time = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='执行时间')
+
+    def __str__(self):
+        return self.ans_model
+
+    class Meta:
+        # db_table = 'log_ansible_model'  for mysql
+        permissions = (
+            ("can_read_log_ansible_model", "读取Ansible模块执行记录权限"),
+            ("can_change_log_ansible_model", "更改Ansible模块执行记录权限"),
+            ("can_add_log_ansible_model", "添加Ansible模块执行记录权限"),
+            ("can_delete_log_ansible_model", "删除Ansible模块执行记录权限"),
+        )
+        verbose_name = 'Ansible模块执行记录表'
+        verbose_name_plural = 'Ansible模块执行记录表'
 
 
 #

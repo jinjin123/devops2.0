@@ -143,26 +143,25 @@
                     <div class="row">
                       <div class="col-lg-6">
                         <legend><i class="fa  fa-paper-plane"></i>Ansible临时任务</legend>
-                        <form role="form" id="ansibleModelRun" class="main form-horizontal"><input type='hidden' name='csrfmiddlewaretoken' value='x5HmMaFXWyDtajhT0SYRVLBl91cWm9J0kaEAdpsBb4sbxAd7kQsWJH2fDPHCJLal' />
+                        <form role="form" id="ansibleModelRun" class="main form-horizontal">
                           <fieldset>
                             <div class="form-group">
                               <label class="col-sm-2 control-label">服务器</label>
                               <div class="col-sm-6" style="display:inline-table">
-                              <input type="text" class="form-control searchValue" placeholder="搜索任意关键字" style="">
+                              <input type="text" class="form-control searchValue" placeholder="Select ip..." style="">
                                <div style="display:flex">
-                                <select multiple class="selectpicker bs-select-hidden" data-live-search="true" name="ansible_server" id="ansible_left_server" style="width:50%">
+                                <select multiple class="selectpicker bs-select-hidden" data-live-search="true" name="ansible_left_server" id="ansible_left_server" style="width:50%">
     		                         </select>
                                  <div style="display:inline-grid">
                                    <input id="add" type="button" value=">>" style="width:30px;" />
-                                   <input id="addlist" type="button" value=">>>>" style="width:30px;" />
+                                   <input id="addlist" type="button" value=">>>" style="width:30px;" />
                                    <input id="delete" type="button" value="<<" style="width:30px;" />
-                                   <input id="deletelist" type="button" value="<<<<" style="width:30px;" />
+                                   <input id="deletelist" type="button" value="<<<" style="width:30px;" />
                                  </div>
-                                <select multiple class="selectpicker bs-select-hidden" data-live-search="true" name="ansible_server" id="ansible_right_server" style="width:50%">
+                                <select multiple class="selectpicker bs-select-hidden" data-live-search="true" name="ansible_right_server" id="ansible_right_server" style="width:50%">
     		                         </select>
+                                 <input  type="hidden"   class="form-control" id="ans_uuid" name="ans_uuid" value={{ ans_uuid }}>
                                </div>
-                                <input type="hidden" class="form-control" name="model" value="model">
-                                <input type="hidden" class="form-control" id="ans_uuid" name="ans_uuid" value="88441beb-f15b-4580-ab87-e76b701c233f">
                               </div>
                             </div>
                             <div class="form-group">
@@ -186,7 +185,7 @@
                             <div id="custom_model" class="form-group" style="display:none;">
                               <label class="col-sm-2 control-label">自定义模块</label>
                               <div class="col-sm-6">
-                                <input id="custom_model" type="text" class="form-control" placeholder="输入模块" name="custom_model" value="">
+                                <input id="custom_model_name" type="text" class="form-control" placeholder="输入模块" name="custom_model" value="">
                               </div>
                             </div>
                           </fieldset>
@@ -200,17 +199,17 @@
                           <legend></legend>
                           <div class="form-group">
                             <label class="col-sm-3 control-label"></label>
-                            <button type="button" onclick="repealFromVaule(this)" class="btn btn-default">撤销</button>
+                            <!-- <button type="button" onclick="repealFromVaule(this)" class="btn btn-default">撤销</button> -->
                             <button type="button" class="btn btn-default" onclick="runAnsibleModel(this)">执行</button>
                           </div>
                         </form>
                       </div>
                       <div class="col-lg-6">
                         <legend><i class="fa  fa-paper-plane-o"></i>执行结果</legend>
-                        <pre>
+                          <pre>
     				                        <div id="result">
     				                        </div>
-    				                    </pre>
+    				              </pre>
                       </div>
                     </div>
                   </div>

@@ -1860,7 +1860,7 @@ def Ansible_playbook_config(request):
 
 @login_required(login_url='/')
 def Ansible_easy_module(request):
-    return render(request,"easy_module.html",{"user":request.user,"head":img})
+    return render(request,"easy_module.html",{"user":request.user,"head":img,"ans_uuid": uuid.uuid4()})
 
 @login_required(login_url='/')
 def Container_Play(request):
