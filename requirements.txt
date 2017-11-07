@@ -10,3 +10,4 @@ requests==2.18.2
 dwebsocket=0.4.2
 django-celery==3.2.1
 celery==3.1.25
+djangorestframework==3.5.3

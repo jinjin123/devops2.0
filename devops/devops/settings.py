@@ -23,7 +23,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'ops.apps.OpsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,11 +31,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ops',
     'djcelery',
-    # 'app',
+    'api',
+    'rest_framework',
     'xadmin',
     'crispy_forms',
     'reversion'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'PAGE_SIZE': 10
+}
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',

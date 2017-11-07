@@ -95,6 +95,15 @@ var hook_history_url = "/get_hook_history"
 var update_work_order_status_url = "/update_work_order_status"
 var work_order_finish_notify = "/work_order_finish_notify"
 var Ansible_easy_module = "/easy_module"
+var Ansible_playbook_config = "/playbook_config"
+var Ansible_playbook_list = "/playbook_list"
+var Get_Group_api = '/api/groups/'
+var Get_user_api = '/api/users/'
+
+
+
+
+
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
     status_code = XMLHttpRequest.status;
@@ -523,11 +532,6 @@ function postJSON(url, data) {
     global.common = common;
 })(this);
 
-// remove   space
-// function  Rmspace(content){
-//     data=content.replace(/[' ']/g,"");
-//     return data
-// }
 function  Rmspace(content){
     data=content.replace(/[\n\t' ']/g,"");
     return data
@@ -641,6 +645,18 @@ function getJSON (url) {
         }
         xhr.send()
     })
+}
+
+function  get_group() {
+   getJSON(Get_Group_api).then(function(data){
+     window.group_resource = data.results
+   })
+}
+
+function  get_user() {
+   getJSON(Get_user_api).then(function(data){
+     window.user_resource = data.results
+   })
 }
 function showKeyFileTable(){
     jQuery.ajax({
@@ -1011,6 +1027,12 @@ $(function(){
     })
     $("#ansible_easy_module").click(function(){
         window.location.href = Ansible_easy_module;
+    })
+    $("#ansible_playbook_config").click(function(){
+        window.location.href = Ansible_playbook_config;
+    })
+    $("#ansible_playbook_list").click(function(){
+        window.location.href = Ansible_playbook_list;
     })
     $('#set').click(function (){
           $('#head').slideDown("slow");

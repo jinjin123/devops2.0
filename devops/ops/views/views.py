@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.contrib.auth.decorators import  login_required
 from django.contrib.auth import authenticate,logout,login
+from django.contrib.auth.models import User,Group
 from django.core.cache import cache
 from django.core import serializers
 from .. import ssh_settings
@@ -1849,8 +1850,13 @@ def hook_history(request):
             history.append(dict)
         return history
 
+@login_required(login_url='/')
+def Ansible_playbook_list(request):
+    return render(request,"playbook_list.html",{"user":request.user,"head":img})
 
-
+@login_required(login_url='/')
+def Ansible_playbook_config(request):
+    return render(request,"playbook_config.html",{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def Ansible_easy_module(request):

@@ -3,6 +3,10 @@ $(function(){
   $(document).on('keyup', '.searchValue', function () {
       searchValue(this);
   });
+  get_group();
+  get_user();
+  setTimeout("push_group_chooice()",500);
+  setTimeout("push_user_chooice()",500);
   //向右侧列表添加数据
   $("#add").click(function () {
       if ($("#ansible_left_server option:selected").length > 0) {
@@ -94,3 +98,21 @@ function searchValue(input) {
         }
     );
 };
+
+//get group  from api
+function push_group_chooice(){
+  for(let x in window.group_resource){
+      group = window.group_resource[x]
+    $('#Group').append("<option value='"+group.name+"'>" + group.name + "</option>")
+  }
+}
+
+
+//get user  from api
+function push_user_chooice(){
+  console.log(window.user_resource)
+  for(let x in window.user_resource){
+      user = window.user_resource[x]
+    $('#User').append("<option value='"+user.username+"'>" + user.username + "</option>")
+  }
+}

@@ -107,6 +107,8 @@ urlpatterns = [
     url(r'^get_hook_history',views.hook_history),
     url(r'^crond',views.crond,name="crond"),
     url(r'^easy_module',views.Ansible_easy_module),
+    url(r'^playbook_config',views.Ansible_playbook_config),
+    url(r'^playbook_list',views.Ansible_playbook_list),
     url(r'^cpu/$', views.getcpu ),
     url(r'^mem/$', views.getmem ),
     # url(r'^ex_template/aa.xlsx$', views.template ),
