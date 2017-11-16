@@ -14,16 +14,6 @@
     #leftsead li a .hides{margin-right:-166px;}
     #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
     .glyphicon {top:-1px;}
-    .main-sidebar{
-	position: absolute;
-	padding-top: 3%;
-	left: 0;
-	height: 100%;
-	min-height: 100%;
-{#	width: 230px;#}
-	z-index: 5;
-	background-color: #222d32;
-    }
     #notice{position: absolute;  right: 220px;  top: 40%;}
     #mail{position: absolute;  right: 190px;  top: 40%;}
     #set{position: absolute;  right: 160px;  top: 40%;}
@@ -277,17 +267,17 @@
     {%  endblock %}
 
 {% block footer %}
-    <script src="../static/js/script.js"></script>
-    <script src="../static/js/auto-line-number.js"></script>
-    <script src="../static/js/dropzone.js"></script>
-    <script src="../static/js/jquery-ui.min.js"></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/auto-line-number.js"></script>
+    <script src="/static/js/dropzone.js"></script>
+    <script src="/static/vendor/js/jquery-ui.min.js"></script>
     <!-- <script src="../static/js/script.js"></script> -->
-    <script src="../static/js/headimg.js"></script>
-    <script src="../static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
-    <script src="../static/js/jquery.menu-aim.js"></script>
-    <script src="../static/js/rightpg.js"></script> <!-- Resource jQuery -->
-    <script src="../static/js/sidebar-menu.js"></script> <!-- Resource jQuery -->
-    <script src="../static/js/velocity.min.js"></script>
+    <script src="/static/js/headimg.js"></script>
+    <script src="/static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
+    <script src="/static/js/jquery.menu-aim.js"></script>
+    <script src="/static/js/rightpg.js"></script> <!-- Resource jQuery -->
+    <script src="/static/js/sidebar-menu.js"></script> <!-- Resource jQuery -->
+    <script src="/static/js/velocity.min.js"></script>
     <script>
     $.sidebarMenu($('.sidebar-menu'))
     </script>

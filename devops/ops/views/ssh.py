@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import paramiko, re, socket
+import paramiko, re, socket,logging
 import os,sys,json,time,redis
 reload(sys)
 sys.setdefaultencoding("utf-8")
+logger = logging.getLogger('django')
 from ssh_error import SSHError
 import ssh_settings,re
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
@@ -268,7 +269,7 @@ class SSH_SSH(object):
             self.active = False
         except Exception, e:
             pass
-        print "已经注销"
+        logger.info("已经注销ssh")
 
     def __del__(self):
         self.logout()

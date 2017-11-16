@@ -1,5 +1,9 @@
 {% extends "index.html" %}
 {% block meta %}
+<!-- Morris Charts JavaScript -->
+    <script type="text/javascript" src="/static/vendor/js/raphael.min.js"></script>
+    <script type="text/javascript" src="/static/vendor/js/morris.min.js"></script>
+
 <!-- bootstrap  table  -->
     <link rel="stylesheet" href="/static/vendor/css/bootstrap-select.css">
     <link rel="stylesheet" href="/static/vendor/css/dataTables.bootstrap.css">
@@ -8,6 +12,10 @@
     <script src="/static/vendor/js/jquery.dataTables.min.js"></script>
     <script src="/static/vendor/js/dataTables.bootstrap.min.js"></script>
     <script src="/static/vendor/js/dataTables.responsive.js"></script>
+    <script src="/static/vendor/js/jquery.flot.tooltip.min.js"></script>
+    <!-- Echat JavaScript -->
+    <script type="text/javascript" src="/static/vendor/js/echarts.js"></script>
+
     <style type="text/css">
     *{margin:0;padding:0;list-style-type:none;}
     a,img{border:0;cursor: hand}
@@ -22,15 +30,6 @@
     #leftsead li a .hides{margin-right:-166px;}
     #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
     .glyphicon {top:-1px;}
-    .main-sidebar{
-    	position: absolute;
-    	padding-top: 3%;
-    	left: 0;
-    	height: 100%;
-    	min-height: 100%;
-    	z-index: 5;
-    	background-color: #222d32;
-    }
     .col-lg-12{
       width: 95%;
       margin-left: 25px;
@@ -48,38 +47,6 @@
             <span style="letter-spacing: 4px;">请稍后...</span>
         </div>
 {#    loadding end     #}
-{#    show error    #}
-        <div id="confirmCommandDiv"
-             style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
-            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
-                 id="">
-                <div class="modal "
-                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
-                    <div class="modal-dialog">
-                        <div class="modal-content  ">
-                            <div class="modal-header" style="cursor: move;">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
-                            </div>
-                            <div class="modal-body  ">
-                                <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">
-                                    请确认您的内容?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal"
-                                        id="forceExecuteCommand">强制
-                                </button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal"
-                                        id="closeConfirmCommandButton">
-                                    放弃
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-{#    show error  end  #}
 
 {#   upload plugins     #}
         <div id="uploadScriptProgressDiv" class="progress progress-striped" style="font-weight: bold;font-size: 500%;z-index: 1004;width:40%;height:5%;margin:auto;position:fixed;top:0%;bottom:0%;right:0px;left:120%;display: block;">
@@ -129,8 +96,8 @@
 {% block content %}
     <main class="cd-main">
       <section class="cd-section PushCode visible">
-        <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px">
-          <div style="background:white;width:100%;margin:20px 0 60px 5px;position:absolute;top:0%;bottom:0%;z-index:9999;">
+        <div id="index-content" class="cd-content" style="margin:0 0 0 -90px">
+          <div style="background:white;width:97%;margin:20px 0 40px 5px;position:absolute;bottom:0%;z-index:1000;height: 100%">
             <div class="row">
               <div class="col-lg-12">
                 <h1 class="page-header"><i class="fa  fa-align-justify "></i>Ansible剧本列表</h1>
@@ -142,80 +109,55 @@
                       <i class="fa fa-database"></i>剧本列表明细
                     </div>
                     <div class="panel-body">
-                      <div id="deployTableList_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="dataTables_length" id="deployTableList_length">
-                              <label>Show
-                                                        <select name="deployTableList_length" aria-controls="deployTableList" class="form-control input-sm">
-                                                          <option value="10">10</option>
-                                                          <option value="25">25</option>
-                                                          <option value="50">50</option>
-                                                          <option value="100">100</option>
-                                                        </select> entries
-                                                      </label>
-                            </div>
-                          </div>
-                          <div class="col-sm-6" >
-                            <div id="deployTableList_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="deployTableList"></label></div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" id="deployTableList" role="grid" aria-describedby="deployTableList_info" style="width: 100%;">
-                              <thead>
-                                <tr role="row">
-                                  <th class="text-center sorting_asc" tabindex="0" aria-controls="deployTableList" rowspan="1" colspan="1" aria-sort="ascending" aria-label="剧本名称: activate to sort column descending" style="width: 10%;">剧本名称</th>
-                                  <th class="text-center sorting" tabindex="0" aria-controls="deployTableList" rowspan="1" colspan="1" aria-label="描述: activate to sort column ascending" style="width: 25%;">描述</th>
-                                  <th class="text-center sorting" tabindex="0" aria-controls="deployTableList" rowspan="1" colspan="1" aria-label="剧本文件: activate to sort column ascending" style="width: 25%;">剧本文件</th>
-                                  <th class="text-center sorting" tabindex="0" aria-controls="deployTableList" rowspan="1" colspan="1" aria-label="目标服务器: activate to sort column ascending" style="width: 25%;">目标服务器</th>
-                                  <th class="text-center sorting" tabindex="0" aria-controls="deployTableList" rowspan="1" colspan="1" aria-label="操作: activate to sort column ascending" style="width: 25%;">操作</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr class="gradeX odd" role="row">
-                                  <td class="text-center sorting_1">aaaa </td>
-                                  <td class="text-center">fafdaafa </td>
-                                  <td class="text-center">
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="getAnsiblePlayBookFile(this,1)"><i class="fa  fa-eye  "></i></button>
-                                  </td>
-                                  <td class="text-center">
-                                    <button type="button" class="btn btn-default" title="" data-container="body" data-toggle="popover" data-placement="top" data-content="
-                                                          															10.10.1.1<br>
-                                                          														" data-html="true" data-original-title="成员">
-                                                          													<i class="fa  fa-group"></i>
-                                                          												</button>
-                                  </td>
-                                  <td class="text-center">
-                                    <button type="button" class="btn btn-default" disabled=""><abbr title="修改资料"><i class="glyphicon glyphicon-edit"></i></abbr></button>
-                                    <button type="button" class="btn btn-default" disabled=""><abbr title="没有权限"><i class="fa fa-play-circle-o"></i></abbr></button>
-                                    <button type="button" class="btn btn-default" disabled=""><abbr title="删除"><i class="glyphicon glyphicon-trash"></i></abbr></button>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="dataTables_info" id="deployTableList_info" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="dataTables_paginate paging_simple_numbers" id="deployTableList_paginate">
-                              <ul class="pagination">
-                                <li class="paginate_button previous disabled" aria-controls="deployTableList" tabindex="0" id="deployTableList_previous"><a href="#">Previous</a></li>
-                                <li class="paginate_button active" aria-controls="deployTableList" tabindex="0"><a href="#">1</a></li>
-                                <li class="paginate_button next disabled" aria-controls="deployTableList" tabindex="0" id="deployTableList_next"><a href="#">Next</a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                          <table width="100%" class="table table-striped table-bordered table-hover" id="deployTableList">
+                            <thead>
+                              <tr>
+                                <th class="text-center">剧本名称</th>
+                                <th class="text-center">剧本uuid</th>
+                                <th class="text-center">描述</th>
+                                <th class="text-center">剧本文件</th>
+                                <th class="text-center">目标服务器</th>
+                                <th class="text-center">操作</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for ds in playbookList %}
+                              <tr class="odd gradeX">
+                                <td class="text-center">{{ds.playbook_name}} </td>
+                                <td class="text-center">{{ds.playbook_uuid}} </td>
+                                <td class="text-center">{{ds.playbook_desc}} </td>
+                                <td class="text-center">
+                                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" file_name="{{ds.playbook_file}}" vars="{{ds.playbook_vars}}" user="{{ds.playbook_auth_user}}" group="{{ds.playbook_auth_group}}" onclick="getAnsiblePlayBookFile(this,{{ds.id}})"><i class="fa  fa-eye  "></i></button>
+                                </td>
+                                <td class="text-center">
+                                  <button type="button" class="btn btn-default" title="成员" data-container="body" data-toggle="popover" data-placement="top" data-content="
+                                                   {% for ds in ds.ansible_playbook_number %}
+                                                     {{ds.playbook_server}}<br/>
+                                                   {% endfor %}
+                                                   " data-html="true">
+                                                 <i class="fa  fa-group"></i>
+                                               </button>
+                                </td>
+                                <td class="text-center">
+                                  {% if ds.runid %}
+                                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#Edit" onclick="mdfAnsiblePlayBookFile(event,{{ds.id}})"><abbr title="修改资料"><i class="glyphicon glyphicon-edit"></i></abbr></button>
+                                  <button  type="button" class="btn btn-default" data-toggle="modal" data-target="#Run" onclick="runAnsiblePlayBookFile(event,{{ds.id}})"><abbr title="运行剧本"><i class="fa fa-play-circle-o"></i></abbr></button>
+                                  <button type="button" class="btn btn-default" onclick="deletePlayBook(this,{{ds.id}})"><abbr title="删除"><i class="glyphicon glyphicon-trash"></i></abbr></button>
+                                  {% else %}
+                                  <button type="button" class="btn btn-default" disabled><abbr title="修改资料"><i class="glyphicon glyphicon-edit"></i></abbr></button>
+                                  <button type="button" class="btn btn-default" disabled><abbr title="没有权限"><i class="fa fa-play-circle-o"></i></abbr></button>
+                                  <button type="button" class="btn btn-default" disabled><abbr title="删除"><i class="glyphicon glyphicon-trash"></i></abbr></button>
+                                  {% endif %}
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
                       <!-- /.table-responsive -->
                       <div class="well">
                         <h4>Ansible剧本管理说明</h4>
                         <p>剧本文件host字段请配置成：hosts: "{ {host} }"</p>
-                        <a class="btn btn-default btn-lg btn-block" target="_blank" href="/apps/playbook/add"><i class="fa fa-plus-circle "></i>新建剧本</a>
+                        <a class="btn btn-default btn-lg btn-block" target="_blank" id="playbook_add" ><i class="fa fa-plus-circle "></i>新建剧本</a>
                       </div>
                     </div>
                     <!-- /.panel-body -->
@@ -227,14 +169,299 @@
           </div>
       </section>
     </main>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width:1280px;height:auto;margin-top:100px">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+              剧本文件内容
+            </h4>
+          </div>
+          <div class="modal-body">
+            <pre>
+              <div id="play_content">
+              </div>
+            </pre>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+            </button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width:1280px;height:auto;margin-top:100px">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+              修改剧本文件
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <i class="fa fa-plus"></i>添加剧本
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                          <legend><i class="fa  fa-paper-plane"></i>Ansible服务器</legend>
+                          <form method="post"  enctype="multipart/form-data">
+                            <div class="form-group">
+                              <label>剧本名称</label>
+                              <input class="form-control" name="playbook_name" id="playbook_name" required="">
+                              <p class="help-block">例如：系统初始化</p>
+                            </div>
+                            <div class="form-group">
+                              <label id="file_tag">现在剧本文件</label>
+                              <input type="file" name="playbook_file" id="playbook_file" required="">
+                            </div>
+                            <div class="form-group">
+                              <label>描述<i class="fa fa-info-circle" data-toggle="tooltip" title="功能描述"></i></label>
+                              <textarea class="form-control" rows="3" name="playbook_desc" id="playbook_desc"></textarea>
+                            </div>
+                            <!-- <button type="reset" class="btn btn-default">撤销</button> -->
+                            <!-- <button type="button" id="playbook_add" class="btn btn-default">添加</button> -->
+                          </form>
+                        </div>
+                      <div class="col-lg-6">
+                        <legend><i class="fa  fa-paper-plane-o"></i>目标服务器
+                          <i class="fa fa-info-circle" data-toggle="tooltip" title="如果不配置，则所有人都能使用"></i>
+                        </legend>
+                        <form role="form" id="ansibleModelRun" class="main form-horizontal">{% csrf_token %}
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">服务器选择</label>
+                              <div class="col-sm-6" style="display:inline-table">
+                              <input type="text" class="form-control searchValue" placeholder="搜索任意关键字" style="">
+                              <div style="display:flex">
+                               <select  multiple name="ansible_server" id="ansible_playbook_edit_left_server" style="width:50%">
+                                </select>
+                                <div style="display:inline-grid">
+                                  <input id="add" type="button" value=">>" style="width:30px;" />
+                                  <input id="addlist" type="button" value=">>>" style="width:30px;" />
+                                  <input id="delete" type="button" value="<<" style="width:30px;" />
+                                  <input id="deletelist" type="button" value="<<<" style="width:30px;" />
+                                </div>
+                               <select multiple name="ansible_server" id="ansible_playbook_edit_right_server" style="width:50%">
+                                </select>
+                              </div>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-sm-2 control-label">用户组
+                              <i class="fa fa-info-circle" data-toggle="tooltip" title="授权给那些用户能够使用" ></i>
+                            </label>
+                              <div class="col-sm-6">
+                                <select class="form-control" name="ansible_model" id="playbook_auth_group" >
+                                </select>
+                              </div>
+                            </div>
+                          </fieldset>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">用户
+                              <i class="fa fa-info-circle" data-toggle="tooltip" title="授权给那些用户能够使用"></i>
+                            </label>
+                            <div class="col-sm-6">
+                              <select class="form-control" name="ansible_model" id="playbook_auth_user" >
+                              </select>
+                            </div>
+                          </div>
+                          </fieldset>
+                          <legend></legend>
+                          <div class="form-group">
+                                            <label>剧本外部变量<i class="fa fa-info-circle" data-toggle="tooltip" title="值为json格式"></i></label>
+                                            <textarea class="form-control" rows="3" name="playbook_vars" id="playbook_vars"></textarea>
+                                            <p class="help-block">
+                        例如：{"user":"root"}
+                                            </p>
+                                        </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="Edit_check" >修改</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="Run" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width:1280px;height:auto;margin-top:100px">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+              运行剧本
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <i class="fa fa-plus"></i>剧本执行
+                  </div>
+                  <div class="panel-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#home" data-toggle="tab"><i class="fa fa-rocket  "></i>执行页面</a>
+                        </li>
+                        <li><a href="#profile" data-toggle="tab"><i class="fa fa-bar-chart-o"></i>汇总展示</a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                 <div class="tab-content">
+                    <div class="tab-pane fade in active" id="home">
+                      <br>
+                      <br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                          <legend><i class="fa  fa-paper-plane"></i>Ansible服务器</legend>
+                            <div class="form-group">
+                              <label>剧本名称</label>
+                              <input class="form-control" name="playbook_name" id="run_playbook_name" required="" disabled>
+                            </div>
+                              <fieldset>
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">服务器选择</label>
+                                  <div class="col-sm-6" style="display:inline-table">
+                                    <input type="text" class="form-control searchValue" placeholder="搜索任意关键字" style="">
+                                    <div style="display:flex">
+                                     <select  multiple name="ansible_server" id="ansible_playbook_run_left_server" style="width:50%">
+                                      </select>
+                                      <div style="display:inline-grid">
+                                        <input id="runadd" type="button" value=">>" style="width:30px;" />
+                                        <input id="runaddlist" type="button" value=">>>" style="width:30px;" />
+                                        <input id="rundelete" type="button" value="<<" style="width:30px;" />
+                                        <input id="rundeletelist" type="button" value="<<<" style="width:30px;" />
+                                      </div>
+                                     <select multiple name="ansible_server" id="ansible_playbook_run_right_server" style="width:50%">
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </fieldset>
+                              <div>
+                                <label>剧本文件</label>
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#runModal"  id="run_show_file"><i class="fa  fa-eye  "></i></button>
+                              </div>
+                              <div class="form-group">
+                                                <label>剧本外部变量</label>
+                                                <textarea class="form-control" rows="3" name="playbook_vars" id="run_playbook_vars"></textarea>
+                                                <p class="help-block">
+                            例如：{"user":"root"}
+                                                </p>
+                                            </div>
+                        </div>
+                          <div class="col-lg-6">
+                            <legend><i class="fa  fa-paper-plane-o"></i>执行结果</legend>
+                              <pre>
+        				                        <div id="run_result">
+        				                        </div>
+        				              </pre>
+                          </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="profile">
+                    <br>
+                    <br>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <i class="fa fa-sitemap  "></i>状态比率
+                          </div>
+                          <!-- /.panel-heading -->
+                          <div class="panel-body">
+                            <div class="table-responsive">
+                              <div id="statPer" style="width: 600px;height:400px;">
+                              </div>
+                            </div>
+                            <!-- /.table-responsive -->
+                          </div>
+                          <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                            <i class="fa fa-tachometer"></i>事件汇总
+                          </div>
+                          <!-- /.panel-heading -->
+                          <div class="panel-body">
+                            <div class="table-responsive">
+                              <div id="summary">
+                              </div>
+                            </div>
+                            <!-- /.table-responsive -->
+                          </div>
+                          <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="run_check" >运行</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+          <div class="modal fade" id="runModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width:1280px;height:auto;margin-top:100px">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title" id="run_myModalLabel">
+                    剧本文件内容
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <pre>
+                    <div id="run_play_content">
+                    </div>
+                  </pre>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
     <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
     {% endblock %}
 
 {% block footer %}
-    <!-- <script src="/static/js/ansible_easy_module.js"></script> -->
+    <script src="/static/js/ansible_playbook_list.js"></script>
     <script src="/static/js/auto-line-number.js"></script>
     <script src="/static/js/headimg.js"></script>
-    <!-- <script src="/static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#} -->
     <script src="/static/js/jquery.menu-aim.js"></script>
     <script src="/static/js/rightpg.js"></script> <!-- Resource $ -->
     <script src="/static/js/sidebar-menu.js"></script> <!-- Resource $ -->

@@ -1,5 +1,6 @@
 $(function(){
   setTimeout("load_container()",200);
+  setTimeout("force_show_mail()",500)
   $('#overview_button').click(function(){
     start_graph();
   })
@@ -30,7 +31,7 @@ function stop_graph (){
   clearInterval(cpu_timer);
   clearInterval(network_timer);
 }
-// start interval
+// global  - start interval
 function start_graph(){
   mem_usage();
   mem_percentage();
@@ -594,7 +595,7 @@ $(function () {
             a.setAttribute("title",container.container_id)
             // this attribute  can  toggle  change
             a.setAttribute("data-toggle", "tab")
-            //for  search  
+            //for  search
             a.setAttribute("tag", container.servicename)
             a.textContent = container.container_id
             li.appendChild(a)

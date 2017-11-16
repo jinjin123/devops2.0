@@ -19,15 +19,6 @@
     #leftsead li a .hides{margin-right:-166px;}
     #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
     .glyphicon {top:-1px;}
-    .main-sidebar{
-	position: absolute;
-	padding-top: 3%;
-	left: 0;
-	height: 100%;
-	min-height: 100%;
-	z-index: 5;
-	background-color: #222d32;
-    }
     .steps {
     width: 760px;
     height: 95px;
@@ -141,6 +132,7 @@
                   <label for="edit-title" style="line-height: 32px;display: block;float: left;width: 110px;margin-right: 14px;">
                       运维
                       <span class="form-required" title="This field is required." style="color: #f00;">*</span>
+                        {% csrf_token %}
                   </label>
                   <input type="text" id="plan-ops" name="title" value="" size="60" maxlength="255" class="form-text required" required="required">
               </div>

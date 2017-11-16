@@ -171,11 +171,13 @@ function runAnsibleModel(obj) {
   post_data = {"host": host,"user": "root","module": chooice_module,"args": args,"ans_uuid": ans_uuid,"custom_model": custom_model}
   console.log(post_data);
   $("#result").html("服务器正在处理，请稍等。。。");
+  var token = get_global_csrf_token ()
   /* 轮训获取结果 开始  */
    var interval = setInterval(function(){
         $.ajax({
             url : ansible_run,
             type : 'post',
+            headers: {'X-CSRFToken': token },
             data:  JSON.stringify(post_data),
             success : function(result){
               if (result["msg"] !== null ){
@@ -197,6 +199,7 @@ function runAnsibleModel(obj) {
   $.ajax({
     url: ansible_model,
     type:"POST",
+    headers: {'X-CSRFToken': token },
     data: JSON.stringify(post_data),
     success:function(response){
       btnObj.removeAttr('disabled');

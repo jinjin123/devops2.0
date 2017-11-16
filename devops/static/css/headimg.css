@@ -28,11 +28,11 @@
     color: #1E88C7;
     text-decoration: none;
     text-indent: 7px;
-    line-height: 26px;
+    /*line-height: 26px;*/
     width: 80%;
      display: none;
     left: 17%;
-    top: -17px;
+    top: -13px;
 }
 .key input {
         position: absolute;
@@ -138,7 +138,7 @@ a.cg-bt{
     height: 100%;
     background: rgba(0,0,0,0.5);
     display: none;
-    margin: -15 0 0 0 ;
+    /*margin: -15 0 0 0 ;*/
 }
 /*弹出层*/
 .head_box{
@@ -186,7 +186,7 @@ a.cg-bt{
 }
 .im_host_box{
     width: 500px;
-    height: 600px;
+    height: 500px;
     position: fixed;left: 50%; top: 22%;
     background: white;
     margin-left: -250px;
@@ -214,7 +214,7 @@ a.cg-bt{
     width: 80%;
     text-indent: 10px;
     font-size: 10px;
-    top: -19px;
+    top: -13px;
 }
 
 input[disabled]{

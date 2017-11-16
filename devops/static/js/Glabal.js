@@ -101,10 +101,29 @@ var Get_Group_api = '/api/groups/'
 var Get_user_api = '/api/users/'
 var ansible_run  = '/easy_run'
 var ansible_model = '/callback_model_result'
+var playbook_add = '/playbook/add'
+var playbook_file_show = '/playbook/file/'
+var playbook_run = '/playbook/run/'
+var del_playbook = '/api/playbook/'
+var assets_config = '/assets_config'
+var create_idc =  '/api/idc/'
+var create_service =  '/api/service/'
+var create_business = '/api/business/'
+var create_zone = '/api/zone/'
+var create_line = '/api/line/'
+var create_raid = '/api/raid/'
+var assets_status = '/api/status/'
+var assets_add = '/assets_add'
+var create_server = '/api/server/'
+var create_net = '/api/net/'
+var assets_list = '/assets_list'
+var assets  = '/api/assets/'
+var assets_facts = '/assets_facts'
 
-
-
-
+function get_global_csrf_token (){
+  token = document.getElementsByName('csrfmiddlewaretoken')[0].value
+  return token
+}
 
 
 function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
@@ -126,14 +145,18 @@ function errorAjax(XMLHttpRequest, textStatus, errorThrown) {
 }
 // interval
 function mem_usage() {
+  var token = get_global_csrf_token()
   mem_timer = setInterval(function(){
     $.ajax({
        type: "post",
+       headers: {
+         'X-CSRFToken': token
+       },
        url: Container_mem,
        data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
        dataType: "json",
        success : function(data){
-         console.log(JSON.parse(data))
+         // console.log(JSON.parse(data))
          data = JSON.parse(data)
         //  console.log($('.cpu_percentage').highcharts())
          //x one line
@@ -145,15 +168,19 @@ function mem_usage() {
   },3000)
 }
 function mem_percentage() {
+  var token = get_global_csrf_token()
   mem_percentage_timer = setInterval(function(){
     $.ajax({
+        headers: {
+          'X-CSRFToken': token
+      },
        type: "post",
        url: Container_mem_percentage,
        data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
        dataType: "json",
        success : function(data){
          data = JSON.parse(data)
-         console.log(data)
+         // console.log(data)
         //  console.log($('.areaChartTwoWay').highcharts())
         $('.mem_percentage').highcharts().series[0].addPoint(data,true,true)
        }
@@ -161,16 +188,20 @@ function mem_percentage() {
   },3000)
 }
 function cpu() {
+  var token = get_global_csrf_token()
   cpu_timer = setInterval(function(){
     // tooggle different  contianer_id  show different status
   // console.log(document.getElementById("myTab").getElementsByClassName("active")[0].textContent)
     $.ajax({
        type: "post",
+        headers: {
+        'X-CSRFToken': token
+        },
        url: Container_cpuusage,
        data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
        dataType: "json",
        success : function(data){
-         console.log(JSON.parse(data))
+         // console.log(JSON.parse(data))
          data =  JSON.parse(data)
         //  console.log($('.areaChartTwoWay').highcharts())
         $('.cpu').highcharts().series[0].addPoint(data,true,true)
@@ -179,21 +210,28 @@ function cpu() {
   },3000)
 }
 function network() {
+  var token = get_global_csrf_token()
   network_timer = setInterval(function(){
     $.ajax({
        type: "post",
+       headers: {
+        'X-CSRFToken': token
+        },
        url: Container_net,
        data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
        dataType: "json",
        success : function(data){
-         console.log(JSON.parse(data))
+         // console.log(JSON.parse(data))
          data = JSON.parse(data)
         //  console.log($('.cpu_percentage').highcharts())
          //x one line
         $('.network').highcharts().series[0].addPoint(data[0],true,true)
         //x two line
         $('.network').highcharts().series[1].addPoint(data[1],true,true)
-       }
+      },
+      error: function(response){
+        console.log(response)
+      }
      });
   },3000)
 }
@@ -216,7 +254,16 @@ function showSuccessNotic() {
     }, 1000)//三秒钟过后，自动消失
 
 }
-
+//when the jquery confict the mail pic will display none so need to  timeout excute  it
+function force_show_mail (){
+  document.getElementById('mail').style.display = 'block'
+  // var sobj = document.createElement('script');
+  // sobj.type = "text/javascript";
+  // sobj.src = '/static/js/headimg.js';
+  // var headobj = document.getElementsByTagName('head')[0];
+  // console.log(headobj)
+  // headobj.appendChild(sobj);
+}
 //loading ....
 function start_load_pic() {
     document.getElementById("loadPic").style.display = "block";
@@ -499,8 +546,9 @@ function stopShadow() {
 function postJSON(url, data) {
     return new Promise( (resolve, reject) => {
         var xhr = new XMLHttpRequest()
+        var token = get_global_csrf_token()
         xhr.open("POST", url, true)
-        // xhr.setRequestHeader("Content-type", "application/json  charset=UTF-8");
+        xhr.setRequestHeader("X-CSRFToken", token);
         xhr.send(JSON.stringify(data))
         xhr.onreadystatechange = function () {
             if (this.readyState === 4) {
@@ -651,13 +699,13 @@ function getJSON (url) {
 
 function  get_group() {
    getJSON(Get_Group_api).then(function(data){
-     window.group_resource = data.results
+     window.group_resource = data
    })
 }
 
 function  get_user() {
    getJSON(Get_user_api).then(function(data){
-     window.user_resource = data.results
+     window.user_resource = data
    })
 }
 function showKeyFileTable(){
@@ -738,11 +786,10 @@ $(function (){
 })
 
 
-//guidance station
 $(function(){
      showKeyFileTable();
-     load_email_content();
-   //show the setting  own configure
+     // load_email_content();
+   //show the setting of owner configure
    $('#mail').toggle(function(){
      load_email_content();
         var storage = window.localStorage
@@ -1083,6 +1130,15 @@ $(function(){
     });
     $('#work_plan').click(function(){
         window.location.href = Work_paln_URL;
+    });
+    $('#base_assets_config').click(function(){
+        window.location.href = assets_config;
+    });
+    $('#assets_add').click(function(){
+        window.location.href = assets_add;
+    });
+    $('#assets_list').click(function(){
+        window.location.href = assets_list;
     });
     ///limit something opeation
     var admin = Rmtab($("#user_id")[0].textContent)

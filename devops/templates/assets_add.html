@@ -1,0 +1,559 @@
+{% extends "index.html" %}
+{% block meta %}
+    <script language="javascript" type="text/javascript" src="/static/plugin/jquery.js"></script>
+    <script src="/static/vendor/js/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="/static/vendor/css/jquery-ui.min.css">
+
+    <!-- date plugins -->
+    <link rel="stylesheet" href="/static/vendor/css/bootstrap-datetimepicker.min.css">
+    <style type="text/css">
+    *{margin:0;padding:0;list-style-type:none;}
+    a,img{border:0;cursor: hand}
+    body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd; overflow: hidden;}
+/* leftsead */
+    #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
+    *html #leftsead{margin-top:258px;position:absolute;}
+    #leftsead li{width:131px;height:53px;}
+    #leftsead li img{float:right;border-bottom-left-radius:5px;border-top-left-radius:5px;}
+    #leftsead li a{height:49px;float:right;display:block;min-width:47px;max-width:131px;}
+    #leftsead li a .shows{display:block;}
+    #leftsead li a .hides{margin-right:-166px;}
+    #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
+    .glyphicon {top:-1px;}
+    .col-lg-12{
+      width: 95%;
+      margin-left: 25px;
+    }
+    </style>
+{% endblock %}
+
+
+	<header class="cd-main-header">
+        {% block ext %}
+{#   loadding  pic     #}
+        <div id="loadPic"
+             style="text-align: center;padding: 10px;color: white;font-weight:bold   ;border-radius:8px;background: rgba(0,0,0,0.5);z-index: 1004;width: 200px;height:40px;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
+            <i class="fa fa-refresh fa-spin"></i>
+            <span style="letter-spacing: 4px;">请稍后...</span>
+        </div>
+{#    loadding end     #}
+{#    show error    #}
+        <div id="confirmCommandDiv"
+             style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
+            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
+                 id="">
+                <div class="modal "
+                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                    <div class="modal-dialog">
+                        <div class="modal-content  ">
+                            <div class="modal-header" style="cursor: move;">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
+                            </div>
+                            <div class="modal-body  ">
+                                <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">
+                                    请确认您的内容?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                        id="forceExecuteCommand">强制
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"
+                                        id="closeConfirmCommandButton">
+                                    放弃
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#    show error  end  #}
+
+{#   upload plugins     #}
+        <div id="uploadScriptProgressDiv" class="progress progress-striped" style="font-weight: bold;font-size: 500%;z-index: 1004;width:40%;height:5%;margin:auto;position:fixed;top:0%;bottom:0%;right:0px;left:120%;display: block;">
+            <div id="showScriptProgressText" class="progress-bar  progress-bar-success active">
+            </div>
+        </div>
+            {% endblock %}
+	</header> <!-- .cd-main-header -->
+
+    <div id="leftsead">
+    	<ul>
+            {# 其实可以将通知，邮件都放到这里来，后面在考虑吧  #}
+{#	     <li>#}
+{#			<a id="top_btn">#}
+{#				<img src="../static/img/foot03/ll06.png" width="47" height="49" class="hides"/>#}
+{#				<img src="../static/img/foot03/l06.png" width="47" height="49" class="shows" />#}
+{#			</a>#}
+{#		</li>#}
+
+		<li>
+			<a href="">
+				<img src="../static/img/foot03/ll03.png"  width="47" height="49" class="hides"/>
+				<img src="../static/img/foot03/l03.png" width="47" height="49" class="shows" />
+			</a>
+		</li>
+            {# 增加微信聊天求助websocket#}
+{#            <li>#}
+{#                <a href="">#}
+{#                  <img src="../static/img/foot03/ll02.png" width="166" height="49" class="hides"/>#}
+{#                  <img src="../static/img/foot03/l04.png" width="47" height="49" class="shows" />#}
+{#                </a>#}
+{#            </li>#}
+		    <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+            <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+    	</ul>
+    </div><!--leftsead end-->
+{% block content %}
+    <main class="cd-main">
+      <section class="cd-section PushCode visible" style="overflow:auto">
+        <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px;">
+            <div id="page-wrapper">
+              <div class="row">
+                <div class="col-lg-12">
+                  <h1 class="page-header"><i class="fa  fa-desktop"></i> 资产添加</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+              </div>
+              <!-- /.row -->
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      资产录入
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-lg-2">
+                        </div>
+                        <div class="col-lg-8">
+                          <fieldset>
+                            <legend>设备资产信息录入 - 必填信息</legend>
+                            <form role="form" method="post" id="addHost" class="main form-horizontal">{% csrf_token %}
+                              <fieldset>
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">设备类型</label>
+                                  <div class="col-sm-6">
+                                    <select class="form-control" name="asset_assets_type" id='assets_type_select' onchange="javascript:oBtAssetsType();">
+            														<option value="server" name="asset_assets_type">服务器</option>
+            														<option value="switch" name="asset_assets_type">交换机</option>
+            														<option value="route" name="asset_assets_type">路由器</option>
+            														<option value="printer" name="asset_assets_type">打印机</option>
+            														<option value="scanner" name="asset_assets_type">扫描仪</option>
+            														<option value="firewall" name="asset_assets_type">防火墙</option>
+            														<option value="storage" name="asset_assets_type">存储设备</option>
+            														<option value="wifi" name="asset_assets_type">无线设备</option>
+            													</select>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">资产编号</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_name" placeholder="编号" value="" class="input-xlarge" required/>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">设备序列号</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_sn" placeholder="序列号" value="" class="input-xlarge" required/>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">购买时间</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" name="asset_buy_time" class="form-control form_datetime" data-date-format="yyyy-mm-dd" title="例如2016-01-01" required>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">过保时间</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" name="asset_expire_date" class="form-control form_datetime" data-date-format="yyyy-mm-dd" title="例如2016-01-01" required>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">购买人</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_buy_user" placeholder="购买人" value="" class="input-xlarge" required/>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">管理IP</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_management_ip" placeholder="管理/预设IP" value="" class="input-xlarge" />
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">生产制造商</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_manufacturer" placeholder="制造商" value="" class="input-xlarge" required/>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">设备型号</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_model" placeholder="设备型号" value="" class="input-xlarge" required/>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">供货商</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="asset_provider" placeholder="供货商" value="" class="input-xlarge" required/>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">设备状态</label>
+                                  <div class="col-sm-6">
+                                    <select class="form-control" name="asset_status" id="asset_status_select">
+            												   		<option selected="selected" value="">请选择一个类型</option>
+            															<option value="0" name="asset_status">已上线</option>
+            															<option value="1" name="asset_status">已下线</option>
+            															<option value="2" name="asset_status">维修中</option>
+            															<option value="3" name="asset_status">已入库</option>
+            															<option value="4" name="asset_status">未使用</option>
+            													</select>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">放置区域</label>
+                                  <div class="col-sm-6">
+                                    <select class="form-control" name="asset_put_zone">
+            												   		<option selected="selected" value="">请选择一个类型</option>
+            															{% for z in baseAssets.idc %}
+            																<option value="{{z.id}}" name="asset_put_zone">{{z.name}}</option>
+            															{% endfor %}
+            													</select>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">所属业务线</label>
+                                  <div class="col-sm-6">
+                                    <select class="form-control" name="asset_group">
+            												   		<option selected="selected" value="">请选择一个类型</option>
+            															{% for g in baseAssets.business %}
+            																<option value="{{g.id}}" name="asset_group">{{g.business_name}}</option>
+            															{% endfor %}
+            													</select>
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">服务类型</label>
+                                  <div class="col-sm-6">
+                                    <select class="form-control" name="asset_business">
+            												   		<option selected="selected" value="">请选择一个类型</option>
+            															{% for s in baseAssets.service %}
+            																<option value="{{s.id}}" name="asset_business">{{s.service_name}}</option>
+            															{% endfor %}
+            													</select>
+                                  </div>
+                                </div>
+
+                              </fieldset>
+                              <fieldset>
+
+                                <div id="asset_server_chioce">
+                                  <legend>服务器设备资产信息录入 - 可选信息</legend>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">主机地址<i class="fa fa-info-circle" data-toggle="tooltip"  title="必填项"></i></label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_ip" placeholder="Ip Address" value="" pattern="^(\d+\.\d+\.\d+\.\d+|[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(/.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+/.?))$" title="请输入IP地址或者域名" class="input-xlarge" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">登录方式<i class="fa fa-info-circle" data-toggle="tooltip"  title="如果选择密钥方式认证，请先在部署服务器到节点服务器做好证书认证"></i></label>
+                                    <div class="col-sm-6">
+                                      <select class="form-control" id='auth_type_select' onchange="javascript:oBtAuthType();" name="server_login_type">
+            												 		<option value="秘钥方式" name="server_login_type">秘钥方式</option>
+            												 		<option value="密码方式" name="server_login_type">密码方式</option>
+            												 	</select>
+                                    </div>
+                                  </div>
+
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label"> 秘钥文件</label>
+                                  <div class="col-sm-6">
+                                    <select class="form-control" name="server_key">
+                                      <option selected="selected" value="">请选择一个类型</option>
+                                        {% for r in baseAssets.keyfile %}
+                                          <option value="{{r}}" name="server_key">{{r}}</option>
+                                        {% endfor %}
+                                      </select>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-2 control-label">账户</label>
+                                  <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="server_user" placeholder="Username" class="input-xlarge" value="" />
+                                  </div>
+                                </div>
+                                  <div id="auth_accout_select" style="display:none;">
+                                    <div class="form-group">
+                                      <label class="col-sm-2 control-label">主机名字</label>
+                                      <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="server_hostname" placeholder="Hostname" class="input-xlarge" value="" />
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                      <label class="col-sm-2 control-label">密码</label>
+                                      <div class="col-sm-6">
+                                        <input type="password" class="form-control" name="server_pwd" placeholder="Password" class="input-xlarge" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">端口</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_port" placeholder="Port" class="input-xlarge" pattern="^(\d+)" value="22" />
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">主机组</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_group" placeholder="host_group" class="input-xlarge" value="default" />
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">使用SUDO</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_us_sudo" placeholder="host_us_sudo" class="input-xlarge" value="N" />
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">使用SU</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_us_su" placeholder="host_us_su" class="input-xlarge" value="N" />
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">SU</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_su" placeholder="host_su" class="input-xlarge" value="N" />
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">SUDO</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_sudo" placeholder="host_sudo" class="input-xlarge" value="N" />
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">CPU型号</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_cpu" placeholder="Cpu" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">物理CPU</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_cpu_number" placeholder="物理CPU个数" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">逻辑CPU</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_vcpu_number" placeholder="逻辑CPU个数" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">CPU核心数</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_cpu_core" placeholder="单个CPU核心数" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">内存容量</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_ram_total" placeholder="单位(GB)" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">内核版本</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_kernel" placeholder="内核版本" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">Selinux状态</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_selinux" placeholder="selinux状态" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">Swap分区</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_swap" placeholder="swap分区容量" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">磁盘空间</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_disk_total" placeholder="Disk" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label"> Raid类型</label>
+                                    <div class="col-sm-6">
+                                      <select class="form-control" name="server_raid">
+            														<option selected="selected" value="">请选择一个类型</option>
+            															{% for r in baseAssets.raid %}
+            																<option value="{{r.id}}" name="server_raid">{{r.raid_name}}</option>
+            															{% endfor %}
+            														</select>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">系统版本号</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="server_system" placeholder="System" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label"> 机房线路</label>
+                                    <div class="col-sm-6">
+                                      <select class="form-control" name="server_line">
+            														<option selected="selected" value="">请选择一个类型</option>
+            														{% for l in baseAssets.line %}
+            															<option value="{{l.id}}" name="server_line">{{l.line_name}}</option>
+            														{% endfor %}
+            														</select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </fieldset>
+
+                              <fieldset>
+
+                                <div id="asset_net_chioce" style="display:none;">
+                                  <legend>网络设备资产信息录入 - 可选信息</legend>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">背板带宽</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="net_bandwidth" placeholder="xGbps" title="请输入IP地址或者域名" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">主机地址</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="net_ip" placeholder="Ip Address" value="" pattern="^(\d+\.\d+\.\d+\.\d+|[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(/.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+/.?))$" title="请输入IP地址或者域名" class="input-xlarge" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">端口数</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="net_port_number" placeholder="port number" pattern="^(\d+)" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">固件版本</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="net_firmware" placeholder="firmware" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">CPU型号</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="net_cpu" placeholder="cpu" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">内存容量</label>
+                                    <div class="col-sm-6">
+                                      <input type="text" class="form-control" name="net_stone" placeholder="Mem" class="input-xlarge" value="" />
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label class="col-sm-2 control-label">配置说明</label>
+                                    <div class="col-sm-6">
+                                      <textarea class="form-control" rows="5" name="net_configure_detail" placeholder="配置说明" value=""></textarea>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </fieldset>
+                              <div class="form-group">
+                                <label class="col-sm-3 control-label"></label>
+                                <button type="reset" class="btn btn-default">撤销操作</button>
+                                <button type="button" class="btn btn-default" onclick="addAssetsData(this)">确认提交</button>
+                              </div>
+
+                            </form>
+                          </fieldset>
+                        </div>
+
+                        <!-- /.col-lg-6 (nested) -->
+                      </div>
+                      <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.panel-body -->
+                  </div>
+                  <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+              </div>
+              <!-- /.row -->
+            </div>
+        </div>
+      </section>
+    </main>
+    <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
+    {% endblock %}
+
+{% block footer %}
+<!-- date plugins -->
+    <script src="/static/vendor/js/bootstrap-datetimepicker.js"></script>
+
+    <script src="/static/js/assets_add.js"></script>
+    <script src="/static/js/auto-line-number.js"></script>
+    <script src="/static/js/headimg.js"></script>
+    <script src="/static/js/jquery.menu-aim.js"></script>
+    <script src="/static/js/rightpg.js"></script> <!-- Resource $ -->
+    <script src="/static/js/sidebar-menu.js"></script> <!-- Resource $ -->
+    <script src="/static/js/velocity.min.js"></script>
+    <script>
+    $.sidebarMenu($('.sidebar-menu'))
+    </script>
+{% endblock %}

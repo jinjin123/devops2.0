@@ -1,4 +1,5 @@
 $(function() {
+	var token = document.getElementsByName('csrfmiddlewaretoken')[0].value
 	$("#boom").on('click', function () {
 		if (document.getElementById("edit-name").value == '' || document.getElementById("edit-pwd").value == '') {
 			document.getElementById('edit-name').style.backgroundColor = "#f2dede";
@@ -9,6 +10,9 @@ $(function() {
 			var password = $("#edit-pwd").val();
 		$.ajax({
 			type: "POST",
+			headers:{
+				'X-CSRFToken': getCookie("csrftoken")
+			},
 			url: "/login",
       async:false,
 			dataType:"json",
@@ -29,20 +33,3 @@ $(function() {
 	}
 	})
 });
- //TODO :接收后段登录返回的消息  进行人性化的交互显示
-// function Gogin() {
-// 			$.ajax({
-// 			type: "GET",
-// 			url: "/ops/index",
-// 			success: function (response) {
-// 					if (response == 'no_user') {
-// 						document.getElementById('edit-name').style.backgroundColor = "#f2dede";
-// 					} else {
-// 						document.getElementById('edit-pwd').style.backgroundColor = "#f2dede";
-// 					}
-// 				}
-// 			})
-// }
-// $(function () {
-// 		Gogin()
-// })

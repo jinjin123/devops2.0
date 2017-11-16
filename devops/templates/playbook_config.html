@@ -1,5 +1,6 @@
 {% extends "index.html" %}
 {% block meta %}
+    <script language="javascript" type="text/javascript" src="/static/plugin/jquery.js"></script>
     <script src="/static/vendor/js/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="/static/vendor/css/jquery-ui.min.css">
     <style type="text/css">
@@ -16,15 +17,6 @@
     #leftsead li a .hides{margin-right:-166px;}
     #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
     .glyphicon {top:-1px;}
-    .main-sidebar{
-    	position: absolute;
-    	padding-top: 3%;
-    	left: 0;
-    	height: 100%;
-    	min-height: 100%;
-    	z-index: 5;
-    	background-color: #222d32;
-    }
     .col-lg-12{
       width: 95%;
       margin-left: 25px;
@@ -145,22 +137,22 @@
                     <div class="row">
                         <div class="col-lg-6">
                           <legend><i class="fa  fa-paper-plane"></i>Ansible服务器</legend>
-                          <form method="post" enctype="multipart/form-data"> <input type="hidden" name="csrfmiddlewaretoken" value="r3LNYfW8Ajzwsv7IU75zeGig9y93YwgCe8I1puJMPPoePM3We5zE2CJaDmEJl8HX">
+                          <form method="post"  enctype="multipart/form-data">
                             <div class="form-group">
                               <label>剧本名称</label>
-                              <input class="form-control" name="playbook_name" required="">
+                              <input class="form-control" name="playbook_name" id="playbook_name" required="">
                               <p class="help-block">例如：系统初始化</p>
                             </div>
                             <div class="form-group">
                               <label>剧本文件</label>
-                              <input type="file" name="playbook_file" required="">
+                              <input type="file" name="playbook_file" id="playbook_file" required="">
                             </div>
                             <div class="form-group">
                               <label>描述<i class="fa fa-info-circle" data-toggle="tooltip" title="功能描述"></i></label>
-                              <textarea class="form-control" rows="3" name="playbook_desc"></textarea>
+                              <textarea class="form-control" rows="3" name="playbook_desc" id="playbook_desc"></textarea>
                             </div>
                             <button type="reset" class="btn btn-default">撤销</button>
-                            <button type="submit" class="btn btn-default">添加</button>
+                            <button type="button" id="playbook_add" class="btn btn-default">添加</button>
                           </form>
                         </div>
                       <div class="col-lg-6">
@@ -178,15 +170,13 @@
     		                         </select>
                                  <div style="display:inline-grid">
                                    <input id="add" type="button" value=">>" style="width:30px;" />
-                                   <input id="addlist" type="button" value=">>>>" style="width:30px;" />
+                                   <input id="addlist" type="button" value=">>>" style="width:30px;" />
                                    <input id="delete" type="button" value="<<" style="width:30px;" />
-                                   <input id="deletelist" type="button" value="<<<<" style="width:30px;" />
+                                   <input id="deletelist" type="button" value="<<<" style="width:30px;" />
                                  </div>
                                 <select multiple class="selectpicker bs-select-hidden" data-live-search="true" name="ansible_server" id="ansible_playbook_config_right_server" style="width:50%">
     		                         </select>
                                </div>
-                                <!-- <input type="hidden" class="form-control" name="model" value="model"> -->
-                                <!-- <input type="hidden" class="form-control" id="ans_uuid" name="ans_uuid" value="88441beb-f15b-4580-ab87-e76b701c233f"> -->
                               </div>
                             </div>
                             <div class="form-group">
@@ -194,7 +184,7 @@
                               <i class="fa fa-info-circle" data-toggle="tooltip" title="授权给那些用户能够使用" ></i>
                             </label>
                               <div class="col-sm-6">
-                                <select class="form-control" name="ansible_model" id="Group" >
+                                <select class="form-control" name="ansible_model" id="playbook_auth_group" >
     														</select>
                               </div>
                             </div>
@@ -204,7 +194,7 @@
                               <i class="fa fa-info-circle" data-toggle="tooltip" title="授权给那些用户能够使用"></i>
                             </label>
                             <div class="col-sm-6">
-                              <select class="form-control" name="ansible_model" id="User" onchange="javascript:oBtAnsibleModel();">
+                              <select class="form-control" name="ansible_model" id="playbook_auth_user" >
                               </select>
                             </div>
                           </div>
@@ -212,7 +202,7 @@
                           <legend></legend>
                           <div class="form-group">
                                             <label>剧本外部变量<i class="fa fa-info-circle" data-toggle="tooltip" title="值为json格式"></i></label>
-                                            <textarea class="form-control" rows="3" name="playbook_vars"></textarea>
+                                            <textarea class="form-control" rows="3" name="playbook_vars" id="playbook_vars"></textarea>
                                             <p class="help-block">
 												例如：{"user":"root"}
                                             </p>

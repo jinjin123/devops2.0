@@ -51,11 +51,13 @@ function  get_work_plan_list(){
 
 function  delete_work_ops(e){
   var admin = Rmtab($("#user_id")[0].textContent)
+  var token = get_global_csrf_token()
   if(admin == window.admin){
     ops = e.getAttribute("ops")
     $.ajax({
         type: "POST",
         url: del_work_plan_ops,
+        headers: {'X-CSRFToken': token },
         data: ops,
         error: errorAjax,
         beforeSend: start_load_pic,

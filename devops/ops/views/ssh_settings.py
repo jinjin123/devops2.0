@@ -11,4 +11,5 @@ keyfile_dir="/Users/wupeijin/code3/django-tornado/keys"
 script_dir="/Users/wupeijin/code3/django-tornado/script"
 redisip='182.254.154.81'
 redisport=23456
+redisdb=0
 pop3_server='pop3.mxhichina.com'

@@ -76,7 +76,7 @@ margin: 0 auto;
 .third .min-line,
 .fourth .min-line,
 .fifth .min-line {
-    width: 270px;
+    width: 200px;
     height: 10px;
     margin-left: 12px;
     margin-top: 10px;
@@ -91,7 +91,7 @@ margin: 0 auto;
     width: 210px;
     position: absolute;
     top: 0;
-    left: 330px;
+    left: 260px;
     height: 95px;
 }
 
@@ -146,21 +146,21 @@ margin: 0 auto;
     width: 210px;
     position: absolute;
     top: 0;
-    left: 640px;
+    left: 500px;
     height: 95px;
 }
 .fourth {
     width: 210px;
     position: absolute;
     top: 0;
-    left: 950px;
+    left: 740px;
     height: 95px;
 }
 .fifth {
     width: 210px;
     position: absolute;
     top: 0;
-    left: 1260px;
+    left: 980px;
     height: 95px;
 }
 .label-three-feeds{

@@ -9,9 +9,10 @@ from ansible.playbook.play import Play
 from ansible.executor.task_queue_manager import TaskQueueManager
 from ansible.plugins.callback import CallbackBase
 from ansible.executor.playbook_executor import PlaybookExecutor
-from ops.views.ssh_settings import redisip,redisport
+#from ops.views.ssh_settings import redisip,redisport
 
-r = redis.StrictRedis(host=redisip, port=redisport, db=0)
+#r = redis.StrictRedis(host=redisip, port=redisport, db=0)
+r = redis.StrictRedis(host='182.254.154.81', port='23456', db=0)
 
 
 class MyInventory(Inventory):
@@ -116,6 +117,7 @@ class ModelResultsCollectorToRedis(CallbackBase):
         r.lpush(self.redisKey, data)
 
     def v2_runner_on_ok(self, result, *args, **kwargs):
+        self.host_ok[result._host.get_name()] = result
         for remove_key in ('changed', 'invocation'):
             if remove_key in result._result:
                 del result._result[remove_key]
@@ -126,6 +128,7 @@ class ModelResultsCollectorToRedis(CallbackBase):
         else:
             data = "{host} | SUCCESS >> {stdout}".format(host=result._host.get_name(),
                                                          stdout=json.dumps(result._result, indent=4))
+        # print data
         r.lpush(self.redisKey, data)
 
     def v2_runner_on_failed(self, result, *args, **kwargs):
@@ -139,6 +142,7 @@ class ModelResultsCollectorToRedis(CallbackBase):
         else:
             data = "{host} | FAILED! => {stdout}".format(host=result._host.get_name(),
                                                          stdout=json.dumps(result._result, indent=4))
+
         r.lpush(self.redisKey, data)
 
 
@@ -338,6 +342,7 @@ class PlayBookResultsCollector(CallbackBase):
             }
 
 
+
 class ANSRunner(object):
     """
     This is a General object for parallel execute modules.
@@ -345,6 +350,7 @@ class ANSRunner(object):
 
     def __init__(self, resource, redisKey=None, *args, **kwargs):
         self.resource = resource
+        # self.host_list = '/etc/ansible/ansible_hosts'
         self.inventory = None
         self.variable_manager = None
         self.loader = None
@@ -375,6 +381,7 @@ class ANSRunner(object):
 
         self.passwords = dict(sshpass=None, becomepass=None)
         self.inventory = MyInventory(self.resource, self.loader, self.variable_manager).inventory
+        # self.inventory = Inventory(loader=self.loader,variable_manager=self.variable_manager,host_list=self.host_list)
         self.variable_manager.set_inventory(self.inventory)
 
     def run_model(self, host_list, module_name, module_args):
@@ -405,18 +412,23 @@ class ANSRunner(object):
             )
             tqm._stdout_callback = self.callback
             tqm.run(play)
+            # print self.callback.host_ok.items()
+            # for host, result in self.callback.host_ok.items():
+            #     print host,result._result
         finally:
             if tqm is not None:
                 tqm.cleanup()
 
-    def run_playbook(self, host_list, playbook_path, extra_vars=None):
+    def run_playbook(self, host_list,playbook_path, extra_vars=None):
         """
         run ansible palybook
         """
         try:
             if self.redisKey:
                 self.callback = PlayBookResultsCollectorToRedis(self.redisKey)
+                # self.callback = mycallback()
             else:
+                # self.callback = mycallback()
                 self.callback = PlayBookResultsCollector()
             if extra_vars: self.variable_manager.extra_vars = extra_vars
             executor = PlaybookExecutor(
@@ -424,10 +436,21 @@ class ANSRunner(object):
                 loader=self.loader,
                 options=self.options, passwords=self.passwords,
             )
+            # self.results_callback=mycallback()
             executor._tqm._stdout_callback = self.callback
-            executor.run()
+            try:
+                result = executor.run()
+                # for host, a in self.callback.task_ok.items():
+                #     print host,a,'447'
+
+            except Exception as e:
+                print e
+            # return result,self.callback
+            # results = self.callback.results
         except Exception as e:
-            return False
+            # return False
+            print e
+
 
     def get_model_result(self):
         self.results_raw = {'success': {}, 'failed': {}, 'unreachable': {}}
@@ -463,6 +486,7 @@ class ANSRunner(object):
         for host, result in self.callback.task_unreachable.items():
             self.results_raw['unreachable'][host] = result
         return self.results_raw
+
 
     def handle_cmdb_data(self, data):
         '''处理setup返回结果方法'''
@@ -611,9 +635,40 @@ class ANSRunner(object):
         else:
             return False
 if __name__ == '__main__':
+    """
+        when u use the dymanic inventory,  this format can custom  group , and u yml file need to define group in hosts with  the variable of the py file
+    """
+    # ---
+    # - name: create user
+    #   hosts: heihei
+    #   user: root
+    #   gather_facts: false
+    #   vars:
+    #   - user: "test"
+    #   tasks:
+    #   - name: create  user
+    #     user: name="{{ user }}"
+    # resource = {
+    #     "heihei":{
+    #         "hosts":[{"hostname": "182.254.154.81","port": 22,"username": 'root',"password": 'jinjin123'},{"hostname": "123.207.123.231","port": 22,"username": 'root',"password": 'jinjin123'}],
+    #         "vars": {
+    #             "var1": "heihei",
+    #         }
+    #     }
+    # }
+    """
+        or u can transfer a list inlcude  the host info ,but the yml hosts: name is  "default_group",other the same
+    """
     resource = [
-        {"hostname": "182.254.154.81"},
+        {"hostname": "182.254.154.81","port": 22,"username": 'root',"password": 'jinjin123'},
+        # {"hostname": "123.207.123.231","port": 22,"username": 'root',"password": 'jinjin123'}
     ]
+    # resource = ["182.254.154.81"]
     rbt = ANSRunner(resource, redisKey='52af3aa9-1ae0-4f35-9653-6831cb8b970c')
-    rbt.run_model(host_list=["182.254.154.81"], module_name='ping',
-                  module_args="")
+    rbt.run_model(host_list=["182.254.154.81"], module_name='setup',module_args="")
+    # rbt.run_playbook(['182.254.154.81','123.207.123.231'],playbook_path='/Users/wupeijin/code3/django-tornado/upload/playbook/1.yml',extra_vars='')
+    # result = rbt.get_playbook_result()
+    a = rbt.get_model_result()
+    print rbt.handle_cmdb_data(a)
+    # print  a
+    # print result

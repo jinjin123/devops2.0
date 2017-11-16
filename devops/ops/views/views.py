@@ -1,18 +1,20 @@
 #-*- coding=utf8 -*-
 #/usr/bin/python env
-import os,sys
+import os,sys,logging
 reload(sys)
 sys.setdefaultencoding("utf-8")
+logger = logging.getLogger('django')
 from django.http import HttpResponseRedirect,HttpResponse,request,JsonResponse,StreamingHttpResponse
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.shortcuts import render,render_to_response
 from django.contrib.auth.decorators import  login_required
 from django.contrib.auth import authenticate,logout,login
 from django.contrib.auth.models import User,Group
 from django.core.cache import cache
 from django.core import serializers
 from .. import ssh_settings
-from .. import  models
+# from .. import  models
+from ops.models import Ansible_Playbook,Ansible_Playbook_Number,UserLock,TopContServer,PushCodeEvent,HostInfo,WebHook,History,UserInfo
 from ssh_file_transfer import  SSHFileTransfer
 from ssh_thread_queue import  SSHThreadAdmin
 from return_http import  ajax_http
@@ -24,7 +26,7 @@ from crontab_controler import  SSHCrontabControler
 from remote_file import  RemoteFile
 from requests.auth import HTTPBasicAuth
 from docker_img_show import Docker_registry
-from devops.settings  import DOCKER_API_PORT,HOST_IP_ADDR,BASE_DIR
+from devops.settings  import DOCKER_API_PORT,HOST_IP_ADDR,BASE_DIR,MEDIA_ROOT
 from utils import  ImageMixin,ContainerMixin,EmailMinxin
 from django.views.decorators.http import condition
 from socket import socket
@@ -37,14 +39,14 @@ import simplejson as json
 import re,uuid,StringUtil
 
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
-img = '../static/img/cd-avatar.png'
-global  img
+# img = '../static/img/cd-avatar.png'
+# global  img
 
 def Login(request):
      #TODO: 默认头像路径，然后如果用户自己上传了头像 则 user : headimgpath ,发布任务次数，已连接服务器建表,reverse 传值到index视图，login
     #TODO :login只做登录授权认证 以及头像
     if request.method == 'POST':
-        img = '../static/img/cd-avatar.png'
+        # img = '../static/img/cd-avatar.png'
         ip = request.META['REMOTE_ADDR']
         username  = request.POST.get('username')
         password = request.POST.get('password')
@@ -54,17 +56,16 @@ def Login(request):
         if user is not None and user.is_active :
              login(request,user)
              request.session['user'] = username
-            #  return HttpResponseRedirect("/ops/index")
-             print 'aaa'
+             # return HttpResponseRedirect("/ops/index")
             #  return HttpResponseRedirect("http://localhost:8080/index")
              return  HttpResponseRedirect(reverse('ops_index'))
 
         else:
             #block the error ip
             r.lpush("lock",ip)
-            models.UserLock.objects.create(user=username, ip=ip, uptime=time.strftime('%Y-%m-%d %H:%M:%S'), status=0)
+            UserLock.objects.create(user=username, ip=ip, uptime=time.strftime('%Y-%m-%d %H:%M:%S'), status=0)
             if r.lrange("lock",0,-1).count(ip) >5:
-                models.UserLock.objects.update(user=username, ip=ip, uptime=time.strftime('%Y-%m-%d %H:%M:%S'), status=1)
+                UserLock.objects.update(user=username, ip=ip, uptime=time.strftime('%Y-%m-%d %H:%M:%S'), status=1)
                 response = HttpResponseRedirect('/')
                 response.delete_cookie('sessionid')
                 return response
@@ -78,18 +79,18 @@ def Login(request):
 
 @login_required(login_url='/')
 def index(request):
-    img = '../static/img/cd-avatar.png'
+    img =  'media/' + str(request.user.head_img)
     # username = list(models.UserInfo.objects.order_by('-uptime'))[0]
     username = request.user
-    usall, hsall, usave, mcont, pub = models.UserInfo.objects.count(), models.HostInfo.objects.count(), models.UserInfo.objects.filter(
-        alive=1).count(), 0, models.PushCodeEvent.objects.count()
+    usall, hsall, usave, mcont, pub = UserInfo.objects.count(), HostInfo.objects.count(), UserInfo.objects.filter(
+        is_active=1).count(), 0, PushCodeEvent.objects.count()
     Topten = []
     Eventen = []
-    for Top in models.TopContServer.objects.order_by('-acount')[:10]:
+    for Top in TopContServer.objects.order_by('-acount')[:10]:
         Topall = Top.ip, Top.uptime, Top.acount, list(Top.user_id.all())[0]
         Topten.append(Topall)
 
-    for Event in models.PushCodeEvent.objects.order_by('-ctime')[:10]:
+    for Event in PushCodeEvent.objects.order_by('-ctime')[:10]:
         Eventall = Event.event, Event.ctime, Event.user_id
         Eventen.append(Eventall)
 
@@ -121,15 +122,20 @@ def hello(request):
 @login_required(login_url='/')
 # @ajax_http
 def host_input(request):
+    img =  'media/' + str(request.user.head_img)
     Format = []
     if request.method == 'POST':
-        for t in  models.HostInfo.objects.all():
-            data = json.dumps({"Ip":t.ip,"Port":t.port,"Group":t.group,"User":t.user,"Pwd":t.pwd,"Key":str(t.key),
-                               "lg_type":t.login_type,"US_SUDO":t.us_sudo,"US_SU":t.us_su,"SUDO":t.sudo,"SU":t.su,
-                               "Status":t.alive,"bz":t.bz,"id":t.ip})
+        for t in  HostInfo.objects.all():
+            ### 资产添加那边有点冲突 需要判断
+            if t.alive is not None:
+                data = json.dumps({"Ip":t.ip,"Port":t.port,"Group":t.group,"User":t.user,"Pwd":t.pwd,"Key":str(t.key),
+                                "lg_type":t.login_type,"US_SUDO":t.us_sudo,"US_SU":t.us_su,"SUDO":t.sudo,"SU":t.su,
+                                "Status":t.alive,"bz":t.bz,"id":t.ip})
+            else:
+                continue
             dict = json.loads(data)
             Format.append(dict)
-        DRreturn = json.dumps({"totals":models.HostInfo.objects.count(),"data":Format})
+        DRreturn = json.dumps({"totals":HostInfo.objects.count(),"data":Format})
         # print DRreturn
         return HttpResponse(DRreturn)
 
@@ -191,7 +197,7 @@ def add_server_list(request):
                         except Exception as e:
                             print str(e)
 
-                models.HostInfo.objects.create(ip=ip,port=port,group=group,
+                HostInfo.objects.create(ip=ip,port=port,group=group,
                                                user=user,pwd=pwd,login_type=login_type,
                                                key=key,us_sudo=us_sudo,us_su=us_su,sudo=sudo,
                                                su=su,alive=server_status,bz=bz)
@@ -237,12 +243,12 @@ def add_server_list(request):
                             print str(e)
 
                 ####can not use  object.all ,because the primary key limit
-                models.HostInfo.objects.filter(ip=ip).update(ip=ip,port=port,group=group,
+                HostInfo.objects.filter(ip=ip).update(ip=ip,port=port,group=group,
                                                user=user,pwd=pwd,login_type=login_type,
                                                key=key,us_sudo=us_sudo,us_su=us_su,sudo=sudo,
                                                su=su,alive=server_status,bz=bz)
         except Exception,e:
-            print e,'18989989899'
+            print e
         return  HttpResponse(status=200)
 
 def ssh_check(ip):
@@ -261,6 +267,14 @@ def ssh_check(ip):
         status = json.dumps(status)
     return status
 
+def interval_check_ssh():
+    for t in  HostInfo.objects.all():
+        if t.user is not None:
+            server_status = ssh_check(t.ip)
+            t.alive = server_status
+            t.save()
+
+
 # matching id  to delete server
 @login_required(login_url='/')
 @ajax_http
@@ -272,7 +286,7 @@ def del_server_list(request):
             print content['ip']
             IP =  content['ip']
             try:
-                models.HostInfo.objects.filter(ip=content['ip']).delete()
+                HostInfo.objects.filter(ip=content['ip']).delete()
                 server_list = r.lrange("server",0,-1)
                 for _line in server_list:
                     print _line
@@ -902,6 +916,7 @@ def docker_img(request):
 # @ajax_http
 @login_required(login_url='/')
 def docker_imagestags(request):
+    img = 'media/' + str(request.user.head_img)
     url = request.get_full_path()
     image = re.split('[\?=]',url)[2]
     # print url,'810'
@@ -1740,13 +1755,13 @@ def Save_hook_info(request):
             data['key'] = key
             # r.lpush("hook_list",json.dumps(data))
             if data['opt'] == 'add':
-                models.WebHook.objects.create(repo=data['repo'],branch=data['branch'],shell=data['shell'],server=data['server'],
+                WebHook.objects.create(repo=data['repo'],branch=data['branch'],shell=data['shell'],server=data['server'],
                                            add_time=time.strftime('%Y-%m-%d %H:%M:%S'),key=key,status=data['status'],
                                            lastUpdate=time.strftime('%Y-%m-%d %H:%M:%S'))
             else:
                 hook_index = data['hook_index']
                 data = {'repo':data['repo'],'branch':data['branch'],'shell':data['shell'],'server':data['server']}
-                models.WebHook.objects.filter(id=hook_index).update(**data)
+                WebHook.objects.filter(id=hook_index).update(**data)
         except Exception as e:
             return json.dumps(e)
 
@@ -1757,7 +1772,7 @@ def Get_hook_info(request):
     arr = []
     # data = r.lrange("hook_list",0,-1)
     # print json.dumps(data)
-    hook_info = models.WebHook.objects.all()
+    hook_info = WebHook.objects.all()
     for t in hook_info:
         data = json.dumps({"id": t.id,"repo":t.repo,"branch": t.branch,"shell": t.shell,"server":t.server,"key":t.key,"status": t.status,"lastUpdate": str(t.lastUpdate)})
         arr.append(data)
@@ -1776,7 +1791,7 @@ def Del_hook_info(request):
                 h_list = json.loads(_list)
                 if h_list['key'] == data['key']:
                     r.lrem("hook_list",0,_list)
-                    models.WebHook.objects.filter(key=data['key']).delete()
+                    WebHook.objects.filter(key=data['key']).delete()
             status['status'] = "sccuess"
         except Exception as e:
             status['status'] = "faild"
@@ -1803,7 +1818,7 @@ def webhook_callback(request,callback_token):
         # branch = 'master'  ###  coding not  attribute
         push_user = Hook_post['commits']
         ## which repo need to update how  much number
-        obj = models.WebHook.objects.get(key=callback_token)
+        obj = WebHook.objects.get(key=callback_token)
         server = obj.server
         shell = obj.shell
         #### history bind the access_token  match  index id
@@ -1811,15 +1826,15 @@ def webhook_callback(request,callback_token):
         stdout = tasks.get_hook_info_execute.delay(callback_token,server,shell,webhook_id)
         if not stdout.get()['status']:
             data = {"status":'3',"lastUpdate":time.strftime('%Y-%m-%d %H:%M:%S')}
-            models.WebHook.objects.filter(key=callback_token).update(**data)
-            models.History.objects.create(status=3,shell_log=stdout.get()[u'content'],data=Hook_post,push_user=pusher,
+            WebHook.objects.filter(key=callback_token).update(**data)
+            History.objects.create(status=3,shell_log=stdout.get()[u'content'],data=Hook_post,push_user=pusher,
                 add_time=time.strftime('%Y-%m-%d %H:%M:%S'),update_time=time.strftime('%Y-%m-%d %H:%M:%S'),webhook_id_id=obj.id)
             r.lpush("hook_update_status", json.dumps({'key':callback_token,'status':'3',"time":time.strftime('%Y-%m-%d %H:%M:%S')}))
         else:
             ###update more  only put one arguments -> dict
             data = {"status":'4',"lastUpdate":time.strftime('%Y-%m-%d %H:%M:%S')}
-            models.WebHook.objects.filter(key=callback_token).update(**data)
-            models.History.objects.create(status=4,shell_log=stdout.get()[u'content'],data=Hook_post,push_user=pusher,
+            WebHook.objects.filter(key=callback_token).update(**data)
+            History.objects.create(status=4,shell_log=stdout.get()[u'content'],data=Hook_post,push_user=pusher,
                 add_time=time.strftime('%Y-%m-%d %H:%M:%S'),update_time=time.strftime('%Y-%m-%d %H:%M:%S'),webhook_id_id=obj.id)
 
             r.lpush("hook_update_status", json.dumps({'key':callback_token,'status':'4',"time":time.strftime('%Y-%m-%d %H:%M:%S')}))
@@ -1844,7 +1859,7 @@ def hook_history(request):
     if request.method == "POST":
         num = request.body
         history = []
-        for i in  models.History.objects.filter(webhook_id_id=num).order_by('-update_time')[:15]:
+        for i in  History.objects.filter(webhook_id_id=num).order_by('-update_time')[:15]:
             data = json.dumps({"id":i.id,"status":i.status,"shell_log":i.shell_log,"push_user":i.push_user,"update_time": str(i.update_time)})
             dict = json.loads(data)
             history.append(dict)
@@ -1852,34 +1867,52 @@ def hook_history(request):
 
 @login_required(login_url='/')
 def Ansible_playbook_list(request):
-    return render(request,"playbook_list.html",{"user":request.user,"head":img})
+    img = 'media/' +  str(request.user.head_img)
+    # 获取剧本数据列表
+    playbookList = Ansible_Playbook.objects.all()
+    for ds in playbookList:
+        ds.ansible_playbook_number = Ansible_Playbook_Number.objects.filter(playbook_id=ds.id)
+        # 如果用户在授权组或者是授权用户，设置runid等于项目id
+        if request.user.has_perm('Ansible_Playbook.can_do_all_ansible_playbook') or request.user.groups.has_perm('Ansible_Playbook.can_do_all_ansible_playbook'):
+            ds.runid = ds.id
+        # # 如果剧本没有授权默认所有用户都可以使用
+        else:
+            ds.runid = ds.id
+    return render(request,"playbook_list.html",{"user":request.user,"head":img,"playbookList": playbookList})
 
 @login_required(login_url='/')
 def Ansible_playbook_config(request):
-    return render(request,"playbook_config.html",{"user":request.user,"head":img})
+    img = 'media/' +  str(request.user.head_img)
+    return render(request,"playbook_config.html",{"user":request.user,"head":img,"ans_uuid": uuid.uuid4()})
 
 @login_required(login_url='/')
 def Ansible_easy_module(request):
+    img = 'media/' +  str(request.user.head_img)
     return render(request,"easy_module.html",{"user":request.user,"head":img,"ans_uuid": uuid.uuid4()})
 
 @login_required(login_url='/')
 def Container_Play(request):
+    img = 'media/' +  str(request.user.head_img)
     return render(request,"docker_container_play.html",{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def docker_container(request):
-    return render(request,"docker_container.html",{"user":request.user,"head":img})
+    img = 'media/' +  str(request.user.head_img)
+    return render(request,"docker_container.html",{"user":request.user,"head": img})
 
 @login_required(login_url='/')
 def docker(request):
+    img = 'media/' +  str(request.user.head_img)
     return render(request,"docker_repo.html",{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def PushCode(request):
+    img = 'media/' +  str(request.user.head_img)
     return  render(request,'pushcode.html',{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def UploadKey(request):
+    img = 'media/' +  str(request.user.head_img)
     # header = render(request,'uploadkey.html',{"user":request.user,"head":img})
     # header['Etag'] = '315c43a156661946d0490a53b49b2c32'
     # return  header
@@ -1887,32 +1920,40 @@ def UploadKey(request):
 
 @login_required(login_url='/')
 def Calendar(request):
+    img = 'media/' +  str(request.user.head_img)
     return render(request,'Calendar.html',{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def Work_plan(request):
+    img = 'media/' +  str(request.user.head_img)
     return render(request,'work_plan.html',{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def remotefile(request):
+    img = 'media/' +  str(request.user.head_img)
     return  render(request,'remotefile.html',{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def crond(request):
+    img = 'media/' +  str(request.user.head_img)
     return  render(request,'crond.html',{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def script(request):
+    img = 'media/' +  str(request.user.head_img)
     return  render(request,'script.html',{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def command(request):
+    img = 'media/' +  str(request.user.head_img)
     return  render(request,'command.html',{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def fileup(request):
+    img = 'media/' +  str(request.user.head_img)
     return  render(request,'fileup.html',{"user":request.user,"head":img})
 
 @login_required(login_url='/')
 def filedown(request):
+    img = 'media/' +  str(request.user.head_img)
     return  render(request,'filedown.html',{"user":request.user,"head":img})

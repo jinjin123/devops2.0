@@ -4,7 +4,8 @@
 $(function() {
   LoadContainerService()
   setTimeout('createNode()', 100);
-  $("#refreash").on('click', function() {
+  $("#Refreash").on('click', function() {
+    window.location.reload()
   })
   //close the Service detail info
   $('#closeCheckInfo').click(function (){

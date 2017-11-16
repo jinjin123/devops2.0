@@ -12,7 +12,6 @@
     #leftsead li img{float:right;border-bottom-left-radius:5px;border-top-left-radius:5px;}
     #leftsead li a{height:49px;float:right;display:block;min-width:47px;max-width:131px;}
     #leftsead li a .shows{display:block;}
-{#    #leftsead li a .hides{margin-right:-166px;cursor:pointer;cursor:hand;}#}
     #leftsead li a .hides{margin-right:-166px;}
     #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
     #mytab  li a{
@@ -40,29 +39,13 @@
         padding-right: 0;
         margin-top: 10%;
     }
-    #ServiceDiv {margin: 0;padding: 0;position: absolute;}
-    #service.btn{
-      width: 140px;
-      top:-138px;
-      margin-left: 120px;
-      margin-bottom: 20px;
-      padding-left: 0;
-      padding-right: 0;
-      margin-top: -541%;
-      position: relative;
-      left: 100px;
+    #ServiceDiv {
+      margin-top: -61.5%;
+      position: absolute;
+      margin-left: 220px;
     }
-    #refreash{
-        width: 34px;
-        height: 34px;
-        top:-138px;
-        margin-left: 320px;
-        margin-bottom: 20px;
-        padding-left: 0;
-        padding-right: 0;
-        margin-top: -276%;
-        position: absolute;
-        left: 100px;
+    #Refreash.btn{
+      height: 35px
     }
     #myTabContent {
         margin: 0;
@@ -75,7 +58,7 @@
         margin-bottom: 20px;
         padding-left: 0;
         padding-right: 0;
-        margin-top: -65%;
+        margin-top: -60%;
         left: 100px;
         width: 1000px;
     }
@@ -90,15 +73,6 @@
       background: #f1f4f8;
     }
 
-    .main-sidebar{
-	position: absolute;
-	padding-top: 3%;
-	left: 0;
-	height: 100%;
-	min-height: 100%;
-	z-index: 5;
-	background-color: #222d32;
-    }
     #notice{position: absolute;  right: 220px;  top: 40%;}
     #mail{position: absolute;  right: 190px;  top: 40%;}
     #set{position: absolute;  right: 160px;  top: 40%;}
@@ -415,8 +389,10 @@
                         </ul>
                       </div>
                     <div id="ServiceDiv" >
+                        <div>
                           <button id="Service" class="btn btn-success" style="background-color:#67aaf5" onclick="$('#ContainerService').show()"><i class="glyphicon glyphicon-plus"></i> 创建服务 </button>
-                          <button id="Refreash"><i class="glyphicon glyphicon-refresh"></i><button>
+                          <button id="Refreash" class="btn btn-default" style="" ><i class="glyphicon glyphicon-refresh"></i></button>
+                        </div>
                     </div>
                         <div id="myTabContent" class="tab-content">
                             <!-- <div class="tab-pane fade" id="img_list"> -->

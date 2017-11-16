@@ -17,20 +17,20 @@ import os,sys
 from django.conf.urls import url,include
 #from django.contrib import admin
 from xadmin.plugins import xversion
-from rest_framework import routers
-from api import views
+# from rest_framework import routers
+# from api import views
 xversion.register_models()
 import xadmin
 xadmin.autodiscover()
-
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+#
+# router = routers.DefaultRouter()
+# router.register(r'users', views.UserViewSet)
+# router.register(r'groups', views.GroupViewSet)
 
 
 urlpatterns = [
-    url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # url(r'^api/', include(router.urls)),
+    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'',include('ops.urls')),
     #url(r'^admin/', include(admin.site.urls)),
     url(r'xadmin/', include(xadmin.site.urls)),

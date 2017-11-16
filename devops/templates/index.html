@@ -17,12 +17,14 @@
     <script src="/static/js/Glabal.js" type="application/javascript"></script>
 
     <link href="/static/plugin/memory/c3-b03125fa.css" media="screen" rel="stylesheet" type="text/css">
-    <script language="javascript" type="text/javascript" src="/static/plugin/jquery.js"></script>
+    <!-- confict  with ansible_playbook_member  show 不同版本jquery会冲突按需加载-->
+    <!-- <script language="javascript" type="text/javascript" src="/static/plugin/jquery.js"></script> -->
     <script language="javascript" type="text/javascript" src="/static/plugin/jquery.flot.js"></script>
     <link  href="/static/plugin/memory/c3.css" rel="stylesheet" type="text/css">
     <script language="javascript" type="text/javascript" src="/static/plugin/memory/c3.js"></script>
     <script language="javascript" type="text/javascript" src="/static/plugin/memory/d3.js"></script>
 {% block meta %}
+    <script language="javascript" type="text/javascript" src="/static/plugin/jquery.js"></script>
     <style type="text/css">
     *{margin:0;padding:0;list-style-type:none;}
     a,img{border:0;cursor: hand}
@@ -37,24 +39,33 @@
     #leftsead li a .hides{margin-right:-166px;}
     #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
     .glyphicon {color: #585C64; font-size: large;}
-    .main-sidebar{
-    	position: absolute;
-    	padding-top: 3%;
-    	left: 0;
-    	height: 100%;
-    	min-height: 100%;
-    	z-index: 5;
-    	background-color: #222d32;
-    }
     </style>
     </head>
 {% endblock %}
 <body>
-            <div id="showErrorInfoDIV" style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
-            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
-                 id="">
-                <div class="modal "
-                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+
+            <div id="assets_update" style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
+            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;" id="">
+                <div class="modal" style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                    <div class="modal-dialog">
+                        <div class="modal-content  ">
+                        <a  id="assets_close" style="cursor: pointer;width: 12px;height: 12px;position: absolute;top: 22px;right: 30px;background:url(/static/img/icons.png) -48px -96px no-repeat;"></a>
+                            <div class="modal-body" style="margin:40px 100px;heigh:100px">
+                                  <p>请输入新名称： </p>
+                                    <input id="asset_name" style="width: 364px;height: 30px;margin-top:6px">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal" id="assets_update_button">  确定
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+            <div id="showErrorInfoDIV" style="z-index: 1007;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
+            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;" id="">
+                <div class="modal" style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
                     <div class="modal-dialog">
                         <div class="modal-content  ">
                             <div class="modal-header" style="cursor: move;">
@@ -73,8 +84,9 @@
                     </div>
                 </div>
             </div>
-            <div id="shadow"
-                 style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1006;background: rgba(0,0,0,0.4); "></div>
+          </div>
+            <div id="shadow"style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1003;background: rgba(0,0,0,0.4); "></div>
+            <!-- <div id="shadow"style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 5;background: rgba(0,0,0,0.4); "></div> -->
         </div>
         <div class="  glyphicon glyphicon-ok  alert alert-success" id="showSuccessNotic"
              style="position:fixed;left: 40%;right: 40%;z-index: 1004;top: 10%;font-size:small;display: none;"> 操作成功!
@@ -105,7 +117,7 @@
 		<nav class="cd-nav">
 			<ul class="cd-top-nav">
                 <a  class="glyphicon glyphicon-bullhorn" href="javascript:;" id="notice"></a>
-                <a class=" glyphicon glyphicon-envelope" href="#1" id="mail" ></a>
+                <a class=" glyphicon glyphicon-envelope" href="javascript:;" id="mail" ></a>
                 <a href="javascript:;" onclick=""  class="glyphicon glyphicon-cog show" id="set"></a>
                 <a href="#0" class="glyphicon glyphicon-share" id="out"></a>
 				<li class="has-children account">
@@ -243,12 +255,13 @@
                 </li>
                  <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-video-camera"></i> <span>资产管理</span>
+                        <i class="fa fa-database fa-fw"></i> <span>资产管理</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="content"><a href="#"><i class="fa fa-circle-o"></i> General </a></li>
-                        <li class="content"><a href="#"><i class="fa fa-circle-o"></i> Advanced</a></li>
+                        <li class="content"><a id="base_assets_config"><i class="fa fa-circle-o"></i> 基础配置 </a></li>
+                        <li class="content"><a id="assets_add"><i class="fa fa-circle-o"></i> 添加资产 </a></li>
+                        <li class="content"><a id="assets_list"><i class="fa fa-circle-o"></i> 资产列表</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -314,14 +327,14 @@
 {#            </li>#}
 		    <li>
 			    <a class="youhui">
-				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
-			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+				    <img src="/static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="/static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
 		    	</a>
 	    	</li>
             <li>
 			    <a class="youhui">
-				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
-			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+				    <img src="/static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="/static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
 		    	</a>
 	    	</li>
     	</ul>
@@ -330,6 +343,7 @@
             {% block content %}
     <main class="cd-main">
         <section class="cd-section index visible">
+                            {% csrf_token %}
             <div id="index-content" class="cd-content ">
                 <div style="border-top:6px double #e5e5e5;background-color: white;position: absolute;width: 210px;height: 120px;top:10px;left:3%;">
                     <div style="position:relative;border-top:1px dashed #e5e5e5;top:30px;"></div>

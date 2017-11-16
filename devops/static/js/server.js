@@ -129,6 +129,7 @@ $(function () {
         var LG_type = $("#lg_choice  option:selected").val();
         // input  before the third are fixed , but behind are not fixed ,so it  need to bind the id  to get the value
         var input = $(this).parent().parent().find('input');
+        var token = get_global_csrf_token()
         console.log(input)
         var IP = input[0].value;
         var PORT = input[1].value;
@@ -171,7 +172,7 @@ $(function () {
         }
         console.log(lg_type)
         if (IP == '' || PORT == '' || USER == ''){
-            showErrorInfo();
+            showErrorInfo('部分字段不能为空');
         }else {
             data = {
                 "ip": IP,
@@ -195,6 +196,7 @@ $(function () {
                     url: addserverURL,
                     type: "post",
                     // contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+                    headers: {'X-CSRFToken': token },
                     data: JSON.stringify(data),
                     error: errorAjax,
                     beforeSend: start_load_pic,
@@ -283,6 +285,7 @@ $(function () {
 //server info  table
 $(function () {
     var table = document.querySelector('table');
+    var token = get_global_csrf_token()
     table.GM({
         supportRemind: true
         , gridManagerName: 'test'
@@ -296,7 +299,8 @@ $(function () {
         , supportExport: true
         // , supportAdjust: false
         , ajax_url: hostInputURL
-//			,ajax_headers: {'header-test': 'baukh'}
+        //fix  cors
+			  ,ajax_headers: {'X-CSRFToken': token }
         , ajax_type: 'POST'
         , query: {pluginId: 1}
         , pageSize: 20
@@ -638,18 +642,20 @@ function showServerStatus(e){
   showCheckStatus.appendChild(span);//加入新的状态信息
   document.getElementById("showCheckInfo").textContent=e.getAttribute("info");
   $("#showServerCheckInfo").show("fast");
-  startShadow();
+  // startShadow();
 }
 
 function DelServer() {
     $('.cd-content').one('click', '.del-server', function () {
          var td = $(this).parent().prevAll();
+         var token = get_global_csrf_token()
         //  console.log(td)
         var ip = td[12].textContent;
         console.log(id,ip);
         $.ajax({
             type:"POST",
             url: delserverURL,
+            headers: {'X-CSRFToken': token },
             data:JSON.stringify({"ip":ip}),
             error: errorAjax,
             beforeSend: start_load_pic,

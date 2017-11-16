@@ -1,6 +1,11 @@
 from django.conf.urls import url
+from django.conf import settings
+from django.views.static import serve
 from views import views
-from views.assets import ansible_run,ansible_model
+from views.ansible_play import ansible_run,ansible_model,ansible_playbook_add,ansible_playbook_file,ansible_playbook_run
+from api import playbook_api,user_api,assets_api
+from views.assets.assets import assets_config,assets_add,assets_list,assets_view,assets_modf,assets_facts
+
 
 urlpatterns = [
     url(r'^$',views.Login,name="login"),
@@ -63,7 +68,6 @@ urlpatterns = [
     url(r'^images/search$', views.search_images, name='search-images'),
     url(r'^images/pull/(?P<uuid_token>[-\w]+)/$', views.docker_pull_image, name='pull-image'),
     url(r'^images/remove/$', views.docker_remove_image, name='removeimage'),
-
     url(r'^images/launch/(?P<name>.+)/$', views.Create_container_service, name='launch-image'),
 
 
@@ -112,6 +116,39 @@ urlpatterns = [
     url(r'^playbook_list',views.Ansible_playbook_list),
     url(r'^easy_run',ansible_run),
     url(r'^callback_model_result',ansible_model),
+    url(r'^playbook/add',ansible_playbook_add),
+    url(r'^playbook/file/(?P<pid>[0-9]+)/$',ansible_playbook_file),
+    url(r'^playbook/run/(?P<pid>[0-9]+)/$',ansible_playbook_run),
+
+    url(r'^assets_config',assets_config),
+    url(r'^assets_add',assets_add),
+    url(r'^assets_list',assets_list),
+    url(r'^assets_facts',assets_facts),
+    url(r'^assets_modf/(?P<aid>[0-9]+)/$',assets_modf),
+    url(r'^assets_view/(?P<aid>[0-9]+)/$',assets_view),
+
+    url(r'^api/users/$',user_api.user_list),
+    url(r'^api/groups/$',user_api.group_list),
+    url(r'^api/playbook/(?P<id>[0-9]+)/$',playbook_api.playbook_del),
+    url(r'^api/idc/$', assets_api.idc_list),
+    url(r'^api/idc/(?P<id>[0-9]+)/$', assets_api.idc_detail),
+    url(r'^api/business/$', assets_api.business_list),
+    url(r'^api/business/(?P<id>[0-9]+)/$', assets_api.business_detail),
+    url(r'^api/service/$', assets_api.service_list),
+    url(r'^api/service/(?P<id>[0-9]+)/$', assets_api.service_detail),
+    url(r'^api/permission/$', user_api.group_list),
+    url(r'^api/permission/(?P<id>[0-9]+)/$', user_api.group_detail),
+    url(r'^api/assets/$', assets_api.asset_list),
+    url(r'^api/assets/(?P<id>[0-9]+)/$', assets_api.asset_detail),
+    url(r'^api/zone/$', assets_api.zone_list),
+    url(r'^api/zone/(?P<id>[0-9]+)/$', assets_api.zone_detail),
+    url(r'^api/raid/$', assets_api.raid_list),
+    url(r'^api/raid/(?P<id>[0-9]+)/$', assets_api.raid_detail),
+    url(r'^api/line/$', assets_api.line_list),
+    url(r'^api/line/(?P<id>[0-9]+)/$', assets_api.line_detail),
+    url(r'^api/server/$', assets_api.asset_server_list),
+    url(r'^api/server/(?P<id>[0-9]+)/$', assets_api.asset_server_detail),
+    url(r'^media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
     url(r'^cpu/$', views.getcpu ),
     url(r'^mem/$', views.getmem ),
     # url(r'^ex_template/aa.xlsx$', views.template ),

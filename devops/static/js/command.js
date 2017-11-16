@@ -35,7 +35,7 @@ $(function () {
     //show choose server event
     document.getElementById("selectServersFilter").onclick = function () {
         $("#showServersPannel").show("fast");
-        document.getElementById("shadow").style.display = "block";
+        // document.getElementById("shadow").style.display = "block";
 
     }
 

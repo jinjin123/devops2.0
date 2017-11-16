@@ -1,0 +1,488 @@
+{% extends "index.html" %}
+{% block meta %}
+
+    <script language="javascript" type="text/javascript" src="/static/plugin/jquery.js"></script>
+
+    <link rel="stylesheet" href="/static/vendor/css/metisMenu.min.css">
+    <link rel="stylesheet" href="/static/vendor/css/sb-admin-2.css">
+    <link rel="stylesheet" href="/static/vendor/css/morris.css">
+<!-- bootstrap  table  -->
+    <link rel="stylesheet" href="/static/vendor/css/bootstrap-select.css">
+    <link rel="stylesheet" href="/static/vendor/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="/static/vendor/css/dataTables.responsive.css">
+    <!-- <script src="/static/vendor/js/bootstrap-select.js"></script> -->
+
+    <script src="/static/vendor/js/metisMenu.min.js"></script>
+
+<!-- Morris Charts JavaScript -->
+    <script type="text/javascript" src="/static/vendor/js/raphael.min.js"></script>
+    <script type="text/javascript" src="/static/vendor/js/morris.min.js"></script>
+
+    <script src="/static/vendor/dist/js/sb-admin-2.js"></script>
+
+    <script src="/static/vendor/js/excanvas.min.js"></script>
+    <script src="/static/vendor/js/jquery.flot.js"></script>
+    <script src="/static/vendor/js/jquery.flot.pie.js"></script>
+    <script src="/static/vendor/js/jquery.flot.resize.js"></script>
+    <script src="/static/vendor/js/jquery.flot.time.js"></script>
+    <script src="/static/vendor/js/jquery.flot.tooltip.min.js"></script>
+     <!-- DataTables JavaScript -->
+    <script src="/static/vendor/js/jquery.dataTables.min.js"></script>
+    <script src="/static/vendor/js/dataTables.bootstrap.min.js"></script>
+    <script src="/static/vendor/js/dataTables.responsive.js"></script>
+    <style type="text/css">
+    *{margin:0;padding:0;list-style-type:none;}
+    a,img{border:0;cursor: hand}
+    body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";background:#ddd; overflow: hidden;}
+/* leftsead */
+    #leftsead{width:131px;height:143px;position:fixed;top:600px;right:0px;z-index: 100;}
+    *html #leftsead{margin-top:258px;position:absolute;}
+    #leftsead li{width:131px;height:53px;}
+    #leftsead li img{float:right;border-bottom-left-radius:5px;border-top-left-radius:5px;}
+    #leftsead li a{height:49px;float:right;display:block;min-width:47px;max-width:131px;}
+    #leftsead li a .shows{display:block;}
+    #leftsead li a .hides{margin-right:-166px;}
+    #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
+    .glyphicon {top:-1px;}
+
+
+    </style>
+{% endblock %}
+
+
+	<header class="cd-main-header">
+        {% block ext %}
+{#   loadding  pic     #}
+        <div id="loadPic"
+             style="text-align: center;padding: 10px;color: white;font-weight:bold   ;border-radius:8px;background: rgba(0,0,0,0.5);z-index: 1004;width: 200px;height:40px;margin:auto;position:fixed;top:0px;bottom:0px;right:0px;left:0px;display: none;">
+            <i class="fa fa-refresh fa-spin"></i>
+            <span style="letter-spacing: 4px;">请稍后...</span>
+        </div>
+{#    loadding end     #}
+{#    show error    #}
+        <div id="confirmCommandDiv"
+             style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
+            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
+                 id="">
+                <div class="modal "
+                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
+                    <div class="modal-dialog">
+                        <div class="modal-content  ">
+                            <div class="modal-header" style="cursor: move;">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
+                            </div>
+                            <div class="modal-body  ">
+                                <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">
+                                    请确认您的内容?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                        id="forceExecuteCommand">强制
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"
+                                        id="closeConfirmCommandButton">
+                                    放弃
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{#    show error  end  #}
+
+{#   upload plugins     #}
+        <div id="uploadScriptProgressDiv" class="progress progress-striped" style="font-weight: bold;font-size: 500%;z-index: 1004;width:40%;height:5%;margin:auto;position:fixed;top:0%;bottom:0%;right:0px;left:120%;display: block;">
+            <div id="showScriptProgressText" class="progress-bar  progress-bar-success active">
+            </div>
+        </div>
+            {% endblock %}
+	</header> <!-- .cd-main-header -->
+
+    <div id="leftsead">
+    	<ul>
+            {# 其实可以将通知，邮件都放到这里来，后面在考虑吧  #}
+{#	     <li>#}
+{#			<a id="top_btn">#}
+{#				<img src="../static/img/foot03/ll06.png" width="47" height="49" class="hides"/>#}
+{#				<img src="../static/img/foot03/l06.png" width="47" height="49" class="shows" />#}
+{#			</a>#}
+{#		</li>#}
+
+		<li>
+			<a href="">
+				<img src="../static/img/foot03/ll03.png"  width="47" height="49" class="hides"/>
+				<img src="../static/img/foot03/l03.png" width="47" height="49" class="shows" />
+			</a>
+		</li>
+            {# 增加微信聊天求助websocket#}
+{#            <li>#}
+{#                <a href="">#}
+{#                  <img src="../static/img/foot03/ll02.png" width="166" height="49" class="hides"/>#}
+{#                  <img src="../static/img/foot03/l04.png" width="47" height="49" class="shows" />#}
+{#                </a>#}
+{#            </li>#}
+		    <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+            <li>
+			    <a class="youhui">
+				    <img src="../static/img/foot03/l02.png" width="47" height="49" class="shows" />
+			    	<img src="../static/img/foot03/qrcode.jpg" width="196" height="205" class="hides" usemap="#taklhtml"/>
+		    	</a>
+	    	</li>
+    	</ul>
+    </div><!--leftsead end-->
+{% block content %}
+    <main class="cd-main">
+      <section class="cd-section PushCode visible" style="overflow:auto">
+        <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -200px">
+            <div id="page-wrapper">
+              <div class="row">
+                <div class="col-lg-12">
+                  <h1 class="page-header"><i class="fa   fa-dashboard"></i>资产列表</h1>
+                </div>
+                {% csrf_token %}
+                <!-- /.col-lg-12 -->
+              </div>
+              <!-- /.row -->
+              <div class="row">
+                <div class="col-lg-3 col-md-6">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-3">
+                          <i class="fa fa-desktop fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                          <div class="huge">{{totalAssets}}</div>
+                          <div>总资产</div>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="#">
+                      <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="panel panel-green">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-3">
+                          <i class="fa fa-check  fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                          <div class="huge">{{assetOnline}}</div>
+                          <div>上线</div>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="#">
+                      <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-3">
+                          <i class="fa fa-wrench fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                          <div class="huge">{{assetMaintain}}</div>
+                          <div>维修</div>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="#">
+                      <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="panel panel-red">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-xs-3">
+                          <i class="glyphicon glyphicon-floppy-remove  fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                          <div class="huge">{{assetOffline}}</div>
+                          <div>下线</div>
+                        </div>
+                      </div>
+                    </div>
+                    <a href="#">
+                      <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <i class="fa fa-sitemap"></i>设备资产比率
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                      <div class="flot-chart">
+                        <div class="flot-chart-content" id="assets_per"></div>
+                      </div>
+                    </div>
+                    <!-- /.panel-body -->
+                  </div>
+                  <!-- /.panel -->
+                </div>
+                <div class="col-lg-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <i class="fa fa-bookmark"></i> 设备资产明细
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                      <div id="asset_number"></div>
+                    </div>
+                    <!-- /.panel-body -->
+                  </div>
+                  <!-- /.panel -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <i class="fa fa-database"></i>资产明细
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                      <table width="100%" class="table table-striped table-bordered table-hover" id="assetsListTable">
+                        <thead>
+                          <tr>
+                            <th class="text-center">资产类型</th>
+                            <th class="text-center">管理IP</th>
+                            <th class="text-center">资产编号</th>
+                            <th class="text-center">设备型号</th>
+                            <th class="text-center">放置区域</th>
+                            <th class="text-center">购买人</th>
+                            <th class="text-center">购买时间</th>
+                            <th class="text-center">使用组</th>
+                            <th class="text-center">设备状态</th>
+                            <th class="text-center">操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for a in assetsList %}
+                          <tr class="odd gradeX">
+                            <td class="text-center">
+                              {% if a.assets_type == "server" %}
+                              <button type="button" class="btn btn-default disabled">服务器</button> {% elif a.assets_type == "switch" %}
+                              <button type="button" class="btn btn-default disabled">交换机</button> {% elif a.assets_type == "route" %}
+                              <button type="button" class="btn btn-default disabled">路由器</button> {% elif a.assets_type == "printer" %}
+                              <button type="button" class="btn btn-default disabled">打印机</button> {% elif a.assets_type == "scanner" %}
+                              <button type="button" class="btn btn-default disabled">扫描仪</button> {% elif a.assets_type == "firewall" %}
+                              <button type="button" class="btn btn-default disabled">防火墙</button> {% elif a.assets_type == "storage" %}
+                              <button type="button" class="btn btn-default disabled">存储设备</button> {% elif a.assets_type == "wifi" %}
+                              <button type="button" class="btn btn-default disabled">无线设备</button> {% endif %}
+                            </td>
+                            <td class="text-center">{{ a.management_ip }}</td>
+                            <td class="text-center">{{ a.name }}</td>
+                            <td class="text-center">{{ a.model }}</td>
+                            <td class="text-center">
+                              {% for z in baseAssets.zone %} {% if z.id == a.put_zone %} {{ z.zone_name }} {% endif %} {% endfor %}
+                            </td>
+                            <td class="text-center">{{ a.buy_user }}</td>
+                            <td class="text-center">{{ a.buy_time|date:"Y/m/d" }}</td>
+                            <td class="text-center">
+                              {% for g in baseAssets.group %} {% if g.id == a.group %}
+                              <button type="button" class="btn btn-default disabled">{{ g.name }}</button> {% endif %} {% endfor %}
+                            </td>
+                            <td class="text-center">
+                              {% if a.status == 0 %}
+                              <button type="button" class="btn btn-outline btn-success">已上线</button> {% elif a.status == 1 %}
+                              <button type="button" class="btn btn-outline btn-primary">已下线</button> {% elif a.status == 2 %}
+                              <button type="button" class="btn btn-outline btn-warning">维修中</button> {% elif a.status == 3 %}
+                              <button type="button" class="btn btn-outline btn-info">已入库</button> {% elif a.status == 4 %}
+                              <button type="button" class="btn btn-outline btn-default">未使用</button> {% endif %}
+                            </td>
+                            <td class="text-center">
+                               {% if a.assets_type == "server" %}
+                              <a href="/assets_view/{{a.id}}" style="text-decoration:none;"><button  type="button" class="btn btn-default"><abbr title="查看详细信息"><i class="glyphicon glyphicon-info-sign"></i></abbr></button></a>
+                              <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            												   	   <font class="glyphicon glyphicon-refresh"></font>
+            												       <span class="caret"></span>
+            												   </button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <li>
+                                    <a href="javascript:" onclick='assetsUpdate(this,{{a.hostinfo.id}},"{{a.hostinfo.ip}}","setup")'>更新主体信息</a>
+                                  </li>
+                                  <li>
+                                    <a href="javascript:" onclick='assetsUpdate(this,{{a.hostinfo.id}},"{{a.hostinfo.ip}}","crawHw")'>更新内存硬盘</a>
+                                  </li>
+                                </ul>
+                              </div>
+                              {% else %}
+                              <div class="btn-group">
+                                <button type="button" class="btn btn-success dropdown-toggle disabled" data-toggle="dropdown">
+            												   	   <font class="glyphicon glyphicon-refresh"></font>
+            												       <span class="caret"></span>
+            												   </button>
+                              </div>
+                              {% endif %}
+
+                              <a href="/assets_modf/{{a.id}}" style="text-decoration:none;"><button  type="button" class="btn btn-default"><abbr title="修改资料"><i class="glyphicon glyphicon-edit"></button></i></abbr></a>
+                              <button type="button" class="btn btn-default" onclick="deleteAssets(this,{{a.id}})"><i class="glyphicon glyphicon-trash"></i></button>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                      <!-- /.table-responsive -->
+                      <div class="well">
+                        <h4>设备资产更新说明</h4>
+                        <ol>
+                          <li>
+                            <p>点击<i class="glyphicon glyphicon-info-sign"></i>查看设备资产明细</li>
+                          <li>
+                            <p>点击<i class="glyphicon glyphicon-refresh"></i>更新设备信息</p>
+                          </li>
+                          <li>
+                            <p>点击<i class="glyphicon glyphicon-edit"></i>编辑设备信息</p>
+                          </li>
+                          <li>
+                            <p>点击<i class="glyphicon glyphicon-trash"></i>删除设备信息</p>
+                          </li>
+                        </ol>
+                        <a class="btn btn-default btn-lg btn-block" target="_blank" href="/assets_add"><i class="fa fa-plus-circle "></i>新增资产</a>
+                      </div>
+                    </div>
+                    <!-- /.panel-body -->
+                  </div>
+                  <!-- /.panel -->
+                </div>
+              </div>
+            </div>
+            </div>
+        </div>
+      </section>
+    </main>
+    <div id="cd-loading-bar" data-scale="1" class="index" style=""></div>
+    {% endblock %}
+
+{% block footer %}
+    <script src="/static/js/assets_list.js"></script>
+    <script src="/static/js/auto-line-number.js"></script>
+    <script src="/static/js/headimg.js"></script>
+    <script src="/static/js/jquery.menu-aim.js"></script>
+    <script src="/static/js/rightpg.js"></script> <!-- Resource $ -->
+    <script src="/static/js/sidebar-menu.js"></script> <!-- Resource $ -->
+    <script src="/static/js/velocity.min.js"></script>
+    <script>
+    $.sidebarMenu($('.sidebar-menu'))
+    </script>
+    <script type="text/javascript">
+    $(function() {
+    	    var data = [
+    	                {% for ds in assetsNumber %}
+    	           		{
+    	           			{% if ds.assets_type == "server" %}
+    	         				label: "服务器",
+    	         			{% elif ds.assets_type == "switch" %}
+    	           				label: "交换机",
+    	         			{% elif ds.assets_type == "route" %}
+    	         				label: "路由器",
+    	         			{% elif ds.assets_type == "printer" %}
+    	         				label: "打印机",
+    	         			{% elif ds.assets_type == "scanner" %}
+    	         				label: "扫描仪",
+    	         			{% elif ds.assets_type == "firewall" %}
+    	         				label: "防火墙",
+    	         			{% elif ds.assets_type == "storage" %}
+    	         				label: "存储设备",
+    	         			{% elif ds.assets_type == "wifi" %}
+    	         				label: "无线设备",
+    	         			{% endif %}
+    	               		data: {{ ds.dcount }}
+    	           		},
+    	           {% endfor %}
+    				];
+
+    	    var plotObj = $.plot($("#assets_per"), data, {
+    	        series: {
+    	            pie: {
+    	                show: true
+    	            }
+    	        },
+    	        grid: {
+    	            hoverable: true
+    	        },
+    	        tooltip: true,
+    	        tooltipOpts: {
+    	            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+    	            shifts: {
+    	                x: 20,
+    	                y: 0
+    	            },
+    	            defaultTheme: false
+    	        }
+    	    });
+
+    	});
+    </script>
+    <script type="text/javascript">
+      $(function() {
+            Morris.Donut({
+                element: 'asset_number',
+                data: [
+                       {% for ds in assetsNumber %}
+                          {
+                            {% if ds.assets_type == "server" %}
+                          label: "服务器",
+                        {% elif ds.assets_type == "switch" %}
+                              label: "交换机",
+                        {% elif ds.assets_type == "route" %}
+                          label: "路由器",
+                        {% elif ds.assets_type == "printer" %}
+                          label: "打印机",
+                        {% elif ds.assets_type == "scanner" %}
+                          label: "扫描仪",
+                        {% elif ds.assets_type == "firewall" %}
+                          label: "防火墙",
+                        {% elif ds.assets_type == "storage" %}
+                          label: "存储设备",
+                        {% elif ds.assets_type == "wifi" %}
+                          label: "无线设备",
+                        {% endif %}
+                              value: {{ ds.dcount }}
+                          },
+                       {% endfor %}
+                       ],
+                resize: true
+            });
+
+          });
+    </script>
+{% endblock %}
