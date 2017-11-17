@@ -1,0 +1,1221 @@
+[I 170704 08:53:41 web:1971] 200 GET / (::1) 1.81ms
+[I 170704 08:53:41 web:1971] 200 GET /static/css/tooltip.css (::1) 5.32ms
+[I 170704 08:53:41 web:1971] 200 GET /static/js/ws.js (::1) 0.45ms
+[I 170704 08:53:41 web:1971] 200 GET /static/js/formvalid.js (::1) 0.47ms
+[I 170704 08:53:41 web:1971] 200 GET /static/js/main.js (::1) 0.45ms
+[I 170704 08:53:41 web:1971] 200 GET /static/css/main.css (::1) 0.41ms
+[I 170704 08:53:41 web:1971] 200 GET /static/image/favicon.ico (::1) 0.69ms
+[I 170704 08:54:26 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170704 08:54:27 transport:1572] Authentication (publickey) failed.
+[I 170704 08:54:27 transport:1572] Authentication (password) successful!
+[I 170704 08:54:28 handlers:56] connection established from: 4533314192
+[W 170704 09:28:41 web:1971] 400 GET /ws (::1) 0.33ms
+[I 170704 09:28:41 handlers:66] client close the connection: 4533314192
+[W 170704 09:28:41 web:1971] 404 GET /favicon.ico (::1) 6.04ms
+[I 170704 09:36:37 web:1971] 304 GET /static/css/tooltip.css (::1) 0.62ms
+[I 170704 09:36:37 web:1971] 304 GET /static/css/main.css (::1) 0.64ms
+[I 170704 09:43:49 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170704 09:43:50 transport:1572] Authentication (publickey) failed.
+[I 170704 09:43:50 transport:1572] Authentication (password) successful!
+[I 170704 09:43:50 handlers:56] connection established from: 4539018000
+[I 170704 10:10:53 web:1971] 200 GET / (::1) 2.22ms
+[I 170704 10:10:53 web:1971] 200 GET /static/css/tooltip.css (::1) 6.90ms
+[I 170704 10:10:53 web:1971] 200 GET /static/js/ws.js (::1) 0.81ms
+[I 170704 10:10:53 web:1971] 200 GET /static/js/formvalid.js (::1) 0.87ms
+[I 170704 10:10:53 web:1971] 200 GET /static/js/main.js (::1) 0.82ms
+[I 170704 10:10:53 web:1971] 200 GET /static/css/main.css (::1) 0.91ms
+[I 170704 10:11:01 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170704 10:11:03 transport:1572] Authentication (publickey) failed.
+[I 170704 10:11:08 transport:1572] Authentication (password) failed.
+[E 170704 10:11:08 websocket:415] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 412, in _run_callback
+        callback(*args, **kwargs)
+      File "/Users/wupeijin/code3/webssh/handlers.py", line 56, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/webssh/daemon.py", line 42, in open
+        (data["username"], data["password"]))
+    Exception: auth failed user:root ,passwd:jinjin123
+[I 170704 10:11:09 handlers:67] client close the connection: 4344238672
+[I 170704 10:11:23 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170704 10:11:25 transport:1572] Authentication (publickey) failed.
+[I 170704 10:11:33 transport:1572] Authentication (password) failed.
+[E 170704 10:11:33 websocket:415] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 412, in _run_callback
+        callback(*args, **kwargs)
+      File "/Users/wupeijin/code3/webssh/handlers.py", line 56, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/webssh/daemon.py", line 42, in open
+        (data["username"], data["password"]))
+    Exception: auth failed user:root ,passwd:jinjin123
+[I 170704 10:11:33 handlers:67] client close the connection: 4344239760
+[I 170704 10:11:49 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170704 10:11:49 transport:1572] Authentication (publickey) failed.
+[I 170704 10:11:49 transport:1572] Authentication (password) successful!
+[I 170704 10:11:49 handlers:57] connection established from: 4344239824
+[I 170704 10:12:08 web:1971] 304 GET / (::1) 0.66ms
+[I 170704 10:12:08 handlers:67] client close the connection: 4344239824
+[I 170704 10:12:08 web:1971] 200 GET /static/image/favicon.ico (::1) 1.69ms
+[I 170704 10:12:28 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170704 10:12:29 transport:1572] Authentication (publickey) failed.
+[I 170704 10:12:29 transport:1572] Authentication (password) successful!
+[I 170704 10:12:29 handlers:57] connection established from: 4349446160
+[I 170704 10:17:54 web:1971] 304 GET / (::1) 0.69ms
+[I 170704 10:17:54 handlers:67] client close the connection: 4349446160
+[I 170704 10:17:54 web:1971] 200 GET /static/image/favicon.ico (::1) 1.22ms
+[I 170704 10:24:41 web:1971] 200 GET / (::1) 1.83ms
+[I 170704 10:24:41 web:1971] 200 GET /static/css/tooltip.css (::1) 7.48ms
+[I 170704 10:24:41 web:1971] 200 GET /static/css/main.css (::1) 0.50ms
+[I 170704 10:24:41 web:1971] 200 GET /static/js/ws.js (::1) 0.66ms
+[I 170704 10:24:41 web:1971] 200 GET /static/js/formvalid.js (::1) 0.57ms
+[I 170704 10:24:41 web:1971] 200 GET /static/js/main.js (::1) 0.77ms
+[I 170704 10:24:46 web:1971] 200 GET / (::1) 0.44ms
+[I 170704 10:24:46 web:1971] 200 GET /static/css/tooltip.css (::1) 0.90ms
+[I 170704 10:24:46 web:1971] 200 GET /static/css/main.css (::1) 0.82ms
+[I 170704 10:24:46 web:1971] 200 GET /static/js/ws.js (::1) 0.59ms
+[I 170704 10:24:46 web:1971] 200 GET /static/js/main.js (::1) 0.70ms
+[I 170704 10:24:46 web:1971] 200 GET /static/js/formvalid.js (::1) 0.83ms
+[I 170704 10:25:09 web:1971] 200 GET / (::1) 0.42ms
+[I 170704 10:25:09 web:1971] 200 GET /static/css/tooltip.css (::1) 0.97ms
+[I 170704 10:25:09 web:1971] 200 GET /static/css/main.css (::1) 0.71ms
+[I 170704 10:25:09 web:1971] 200 GET /static/js/ws.js (::1) 0.74ms
+[I 170704 10:25:09 web:1971] 200 GET /static/js/main.js (::1) 0.53ms
+[I 170704 10:25:09 web:1971] 200 GET /static/js/formvalid.js (::1) 0.58ms
+[I 170704 10:25:09 web:1971] 200 GET / (::1) 0.39ms
+[I 170704 10:25:09 web:1971] 200 GET /static/css/tooltip.css (::1) 0.91ms
+[I 170704 10:25:09 web:1971] 200 GET /static/css/main.css (::1) 0.78ms
+[I 170704 10:25:09 web:1971] 200 GET /static/js/ws.js (::1) 0.72ms
+[I 170704 10:25:09 web:1971] 200 GET /static/js/formvalid.js (::1) 0.62ms
+[I 170704 10:25:09 web:1971] 200 GET /static/js/main.js (::1) 0.73ms
+[I 170704 10:25:16 web:1971] 200 GET / (::1) 1.78ms
+[I 170704 10:25:16 web:1971] 200 GET /static/css/tooltip.css (::1) 6.09ms
+[I 170704 10:25:16 web:1971] 200 GET /static/css/main.css (::1) 0.54ms
+[I 170704 10:25:16 web:1971] 200 GET /static/js/ws.js (::1) 0.60ms
+[I 170704 10:25:16 web:1971] 200 GET /static/js/formvalid.js (::1) 0.79ms
+[I 170704 10:25:16 web:1971] 200 GET /static/js/main.js (::1) 0.59ms
+[I 170704 10:25:16 web:1971] 200 GET / (::1) 0.44ms
+[I 170704 10:25:16 web:1971] 200 GET /static/css/tooltip.css (::1) 0.93ms
+[I 170704 10:25:16 web:1971] 200 GET /static/css/main.css (::1) 0.82ms
+[I 170704 10:25:16 web:1971] 200 GET /static/js/formvalid.js (::1) 0.69ms
+[I 170704 10:25:16 web:1971] 200 GET /static/js/ws.js (::1) 0.67ms
+[I 170704 10:25:16 web:1971] 200 GET /static/js/main.js (::1) 0.49ms
+[I 170704 10:25:50 web:1971] 200 GET / (::1) 0.39ms
+[I 170704 10:25:50 web:1971] 200 GET /static/css/tooltip.css (::1) 0.91ms
+[I 170704 10:25:50 web:1971] 200 GET /static/css/main.css (::1) 0.96ms
+[I 170704 10:25:50 web:1971] 200 GET /static/js/main.js (::1) 0.70ms
+[I 170704 10:25:50 web:1971] 200 GET /static/js/ws.js (::1) 0.88ms
+[I 170704 10:25:50 web:1971] 200 GET /static/js/formvalid.js (::1) 0.86ms
+[I 170704 10:51:35 web:1971] 200 GET / (::1) 1.85ms
+[I 170704 10:51:35 web:1971] 200 GET /static/css/tooltip.css (::1) 6.01ms
+[I 170704 10:51:35 web:1971] 200 GET /static/css/main.css (::1) 0.66ms
+[I 170704 10:51:35 web:1971] 200 GET /static/js/ws.js (::1) 0.66ms
+[I 170704 10:51:35 web:1971] 200 GET /static/js/formvalid.js (::1) 0.54ms
+[I 170704 10:51:35 web:1971] 200 GET /static/js/main.js (::1) 0.50ms
+[I 170704 10:51:55 handlers:52]  bridge client ;<daemon.Bridge object at 0x10cbf0590>
+[I 170704 10:52:00 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170704 10:52:00 transport:1572] Authentication (publickey) failed.
+[I 170704 10:52:01 transport:1572] Authentication (password) successful!
+[I 170704 10:52:01 handlers:57] connection established from: 4508811472
+[I 170704 10:52:01 handlers:52]  bridge client ;<daemon.Bridge object at 0x10cbf0590>
+[I 170705 10:57:02 web:1971] 200 GET / (::1) 1.87ms
+[I 170705 10:57:02 web:1971] 200 GET /static/css/tooltip.css (::1) 5.36ms
+[I 170705 10:57:02 web:1971] 304 GET /static/js/ws.js (::1) 0.61ms
+[I 170705 10:57:02 web:1971] 304 GET /static/js/formvalid.js (::1) 0.61ms
+[I 170705 10:57:02 web:1971] 200 GET /static/js/main.js (::1) 0.56ms
+[I 170705 10:57:02 web:1971] 200 GET /static/css/main.css (::1) 0.64ms
+[I 170705 10:57:52 web:1971] 304 GET / (::1) 0.45ms
+[I 170705 10:57:52 web:1971] 200 GET /static/image/favicon.ico (::1) 0.89ms
+[E 170705 10:58:11 websocket:415] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 412, in _run_callback
+        callback(*args, **kwargs)
+      File "/Users/wupeijin/code3/webssh/handlers.py", line 56, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/webssh/daemon.py", line 35, in open
+        key = paramiko.RSAKey.from_private_key_file(keifile)
+    NameError: global name 'keifile' is not defined
+[I 170705 10:58:11 handlers:67] client close the connection: 4463887120
+[I 170705 11:06:18 web:1971] 200 GET / (::1) 1.97ms
+[I 170705 11:06:18 web:1971] 200 GET /static/css/tooltip.css (::1) 6.53ms
+[I 170705 11:06:18 web:1971] 200 GET /static/css/main.css (::1) 0.47ms
+[I 170705 11:06:18 web:1971] 200 GET /static/js/ws.js (::1) 0.55ms
+[I 170705 11:06:18 web:1971] 200 GET /static/js/formvalid.js (::1) 0.58ms
+[I 170705 11:06:18 web:1971] 200 GET /static/js/main.js (::1) 0.62ms
+[I 170705 11:07:07 web:1971] 200 GET / (::1) 0.42ms
+[I 170705 11:07:07 web:1971] 200 GET /static/css/tooltip.css (::1) 0.82ms
+[I 170705 11:07:07 web:1971] 200 GET /static/css/main.css (::1) 0.61ms
+[I 170705 11:07:07 web:1971] 200 GET /static/js/formvalid.js (::1) 0.63ms
+[I 170705 11:07:07 web:1971] 200 GET /static/js/ws.js (::1) 0.60ms
+[I 170705 11:07:07 web:1971] 200 GET /static/js/main.js (::1) 0.44ms
+[E 170705 11:07:21 websocket:415] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 412, in _run_callback
+        callback(*args, **kwargs)
+      File "/Users/wupeijin/code3/webssh/handlers.py", line 56, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/webssh/daemon.py", line 36, in open
+        ssh.load_system_host_keys()
+    NameError: global name 'ssh' is not defined
+[I 170705 11:07:21 handlers:67] client close the connection: 4473942288
+[I 170705 11:08:40 web:1971] 200 GET / (::1) 2.14ms
+[I 170705 11:08:40 web:1971] 200 GET /static/css/tooltip.css (::1) 7.19ms
+[I 170705 11:08:40 web:1971] 200 GET /static/js/ws.js (::1) 0.87ms
+[I 170705 11:08:40 web:1971] 200 GET /static/js/formvalid.js (::1) 0.81ms
+[I 170705 11:08:40 web:1971] 200 GET /static/js/main.js (::1) 0.58ms
+[I 170705 11:08:40 web:1971] 200 GET /static/css/main.css (::1) 0.68ms
+[E 170705 11:08:52 websocket:415] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 412, in _run_callback
+        callback(*args, **kwargs)
+      File "/Users/wupeijin/code3/webssh/handlers.py", line 56, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/webssh/daemon.py", line 43, in open
+        pkey=key
+    NameError: global name 'key' is not defined
+[I 170705 11:08:52 handlers:67] client close the connection: 4574466640
+[I 170705 11:09:12 web:1971] 200 GET / (::1) 1.75ms
+[I 170705 11:09:12 web:1971] 200 GET /static/css/tooltip.css (::1) 7.37ms
+[I 170705 11:09:12 web:1971] 200 GET /static/css/main.css (::1) 0.91ms
+[I 170705 11:09:12 web:1971] 200 GET /static/js/ws.js (::1) 0.50ms
+[I 170705 11:09:12 web:1971] 200 GET /static/js/formvalid.js (::1) 0.59ms
+[I 170705 11:09:12 web:1971] 200 GET /static/js/main.js (::1) 0.52ms
+[I 170705 11:09:23 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170705 11:09:23 transport:1572] Authentication (publickey) successful!
+[I 170705 11:09:24 handlers:57] connection established from: 4580835600
+[I 170705 11:09:49 web:1971] 200 GET / (::1) 1.83ms
+[I 170705 11:09:49 web:1971] 200 GET /static/css/tooltip.css (::1) 6.02ms
+[I 170705 11:09:49 web:1971] 200 GET /static/css/main.css (::1) 0.68ms
+[I 170705 11:09:49 web:1971] 200 GET /static/js/ws.js (::1) 0.51ms
+[I 170705 11:09:49 web:1971] 200 GET /static/js/formvalid.js (::1) 0.53ms
+[I 170705 11:09:49 web:1971] 200 GET /static/js/main.js (::1) 0.61ms
+[I 170705 11:10:00 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170705 11:10:00 transport:1572] Authentication (publickey) failed.
+[E 170705 11:10:01 websocket:415] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 412, in _run_callback
+        callback(*args, **kwargs)
+      File "/Users/wupeijin/code3/webssh/handlers.py", line 56, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/webssh/daemon.py", line 47, in open
+        (data["username"], data["password"]))
+    Exception: auth failed user:root ,passwd:jinjin123
+[I 170705 11:10:01 handlers:67] client close the connection: 4541427984
+[I 170705 11:10:35 web:1971] 200 GET / (::1) 1.83ms
+[I 170705 11:10:35 web:1971] 200 GET /static/css/tooltip.css (::1) 5.83ms
+[I 170705 11:10:35 web:1971] 200 GET /static/js/ws.js (::1) 0.76ms
+[I 170705 11:10:35 web:1971] 200 GET /static/js/formvalid.js (::1) 0.86ms
+[I 170705 11:10:35 web:1971] 200 GET /static/js/main.js (::1) 0.59ms
+[I 170705 11:10:35 web:1971] 200 GET /static/css/main.css (::1) 0.63ms
+[I 170705 11:10:50 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170705 11:10:50 transport:1572] Authentication (publickey) successful!
+[I 170705 11:10:50 handlers:57] connection established from: 4344398416
+[I 170705 11:41:51 web:1971] 200 GET / (::1) 1.79ms
+[I 170705 11:41:51 web:1971] 200 GET /static/css/tooltip.css (::1) 6.11ms
+[I 170705 11:41:51 web:1971] 200 GET /static/css/main.css (::1) 0.97ms
+[I 170705 11:41:51 web:1971] 200 GET /static/js/ws.js (::1) 0.89ms
+[I 170705 11:41:51 web:1971] 200 GET /static/js/formvalid.js (::1) 0.82ms
+[I 170705 11:41:51 web:1971] 200 GET /static/js/main.js (::1) 0.72ms
+[I 170705 11:42:14 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170705 11:42:16 transport:1572] Authentication (publickey) successful!
+[I 170705 11:42:16 handlers:57] connection established from: 4468023632
+[I 170705 11:43:48 web:1971] 200 GET / (::1) 0.41ms
+[I 170705 11:43:48 handlers:67] client close the connection: 4468023632
+[I 170705 11:43:48 web:1971] 200 GET /static/js/main.js (::1) 1.77ms
+[I 170705 11:43:48 web:1971] 200 GET /static/js/formvalid.js (::1) 1.09ms
+[I 170705 11:43:48 web:1971] 200 GET /static/js/ws.js (::1) 0.79ms
+[I 170705 11:43:48 web:1971] 200 GET /static/css/main.css (::1) 1.03ms
+[I 170705 11:43:48 web:1971] 200 GET /static/css/tooltip.css (::1) 1.28ms
+[I 170705 11:44:04 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170705 11:44:04 transport:1572] Authentication (publickey) successful!
+[I 170705 11:44:05 handlers:57] connection established from: 4473232720
+[I 170705 11:44:21 web:1971] 200 GET / (::1) 1.85ms
+[I 170705 11:44:21 web:1971] 200 GET /static/css/tooltip.css (::1) 7.32ms
+[I 170705 11:44:21 web:1971] 200 GET /static/js/ws.js (::1) 0.78ms
+[I 170705 11:44:21 web:1971] 200 GET /static/js/formvalid.js (::1) 0.87ms
+[I 170705 11:44:21 web:1971] 200 GET /static/js/main.js (::1) 0.99ms
+[I 170705 11:44:21 web:1971] 200 GET /static/css/main.css (::1) 0.89ms
+[I 170705 11:44:27 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 170705 11:44:28 transport:1572] Authentication (publickey) successful!
+[I 170705 11:44:28 handlers:57] connection established from: 4540600976
+[I 171117 12:24:10 web:2063] 200 GET / (::1) 2.58ms
+[I 171117 12:24:10 web:2063] 200 GET /static/css/tooltip.css (::1) 8.04ms
+[I 171117 12:24:10 web:2063] 200 GET /static/js/ws.js (::1) 0.82ms
+[I 171117 12:24:10 web:2063] 200 GET /static/js/formvalid.js (::1) 0.70ms
+[I 171117 12:24:10 web:2063] 200 GET /static/js/main.js (::1) 0.76ms
+[I 171117 12:24:10 web:2063] 200 GET /static/css/main.css (::1) 0.57ms
+[I 171117 12:24:11 web:2063] 200 GET /static/image/favicon.ico (::1) 0.77ms
+[I 171117 12:24:25 web:2063] 101 GET /ws (::1) 0.39ms
+[I 171117 12:24:25 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 12:24:25 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 12:24:26 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 12:24:26 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 12:24:26 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 12:24:26 transport:1572] Authentication (publickey) successful!
+[I 171117 12:24:26 handlers:57] connection established from: 4540413136
+[I 171117 12:45:47 web:2063] 101 GET /ws (::1) 0.47ms
+[I 171117 12:45:47 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 12:45:47 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 12:45:47 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 12:45:47 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 12:45:47 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 12:45:47 transport:1572] Authentication (publickey) successful!
+[I 171117 12:45:47 handlers:57] connection established from: 4543684944
+[I 171117 13:09:17 web:2063] 200 GET / (::1) 0.62ms
+[I 171117 13:09:17 handlers:67] client close the connection: 4543684944
+[I 171117 13:09:17 web:2063] 200 GET /static/css/main.css (::1) 2.40ms
+[I 171117 13:09:17 web:2063] 200 GET /static/js/ws.js (::1) 1.00ms
+[I 171117 13:09:17 web:2063] 200 GET /static/js/formvalid.js (::1) 0.68ms
+[I 171117 13:09:17 web:2063] 200 GET /static/js/main.js (::1) 1.39ms
+[I 171117 13:09:17 web:2063] 200 GET /static/css/tooltip.css (::1) 1.59ms
+[I 171117 13:09:17 handlers:67] client close the connection: 4540413136
+[I 171117 13:09:22 web:2063] 200 GET / (::1) 0.49ms
+[I 171117 13:09:22 web:2063] 200 GET /static/css/tooltip.css (::1) 1.40ms
+[I 171117 13:09:23 web:2063] 200 GET /static/js/ws.js (::1) 2.11ms
+[I 171117 13:09:23 web:2063] 200 GET /static/css/main.css (::1) 3.42ms
+[I 171117 13:09:23 web:2063] 200 GET /static/js/main.js (::1) 2.55ms
+[I 171117 13:09:23 web:2063] 200 GET /static/js/formvalid.js (::1) 1.55ms
+[I 171117 13:09:24 web:2063] 200 GET / (::1) 0.42ms
+[I 171117 13:09:24 web:2063] 200 GET /static/css/tooltip.css (::1) 1.86ms
+[I 171117 13:09:24 web:2063] 200 GET /static/js/main.js (::1) 1.17ms
+[I 171117 13:09:24 web:2063] 200 GET /static/js/formvalid.js (::1) 1.90ms
+[I 171117 13:09:24 web:2063] 200 GET /static/js/ws.js (::1) 2.68ms
+[I 171117 13:09:24 web:2063] 200 GET /static/css/main.css (::1) 1.64ms
+[W 171117 13:09:49 web:2063] 404 GET /favicon.ico (::1) 3.94ms
+[I 171117 13:12:13 web:2063] 200 GET /static/css/main.css (::1) 2.53ms
+[I 171117 13:12:13 web:2063] 200 GET /static/js/ws.js (::1) 1.45ms
+[I 171117 13:12:13 web:2063] 200 GET /static/js/formvalid.js (::1) 0.91ms
+[I 171117 13:12:13 web:2063] 200 GET /static/js/main.js (::1) 1.46ms
+[I 171117 13:12:13 web:2063] 200 GET /static/css/tooltip.css (::1) 2.27ms
+[I 171117 13:16:08 web:2063] 200 GET /static/css/tooltip.css (::1) 3.35ms
+[I 171117 13:16:08 web:2063] 200 GET /static/js/main.js (::1) 2.03ms
+[I 171117 13:16:08 web:2063] 200 GET /static/js/formvalid.js (::1) 1.58ms
+[I 171117 13:16:08 web:2063] 200 GET /static/js/ws.js (::1) 2.44ms
+[I 171117 13:16:08 web:2063] 200 GET /static/css/main.css (::1) 2.22ms
+[I 171117 13:18:26 web:2063] 200 GET /static/css/tooltip.css (::1) 2.16ms
+[I 171117 13:18:26 web:2063] 200 GET /static/js/main.js (::1) 2.23ms
+[I 171117 13:18:26 web:2063] 200 GET /static/js/formvalid.js (::1) 3.36ms
+[I 171117 13:18:26 web:2063] 200 GET /static/js/ws.js (::1) 1.32ms
+[I 171117 13:18:26 web:2063] 200 GET /static/css/main.css (::1) 2.25ms
+[I 171117 13:19:25 web:2063] 200 GET / (::1) 0.59ms
+[I 171117 13:19:25 web:2063] 200 GET /static/js/ws.js (::1) 4.42ms
+[I 171117 13:19:25 web:2063] 200 GET /static/js/formvalid.js (::1) 3.33ms
+[I 171117 13:19:25 web:2063] 200 GET /static/js/main.js (::1) 3.34ms
+[I 171117 13:19:25 web:2063] 200 GET /static/css/main.css (::1) 3.47ms
+[I 171117 13:19:25 web:2063] 200 GET /static/css/tooltip.css (::1) 3.44ms
+[I 171117 13:19:36 web:2063] 101 GET /ws (::1) 0.60ms
+[I 171117 13:19:36 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:19:36 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:19:36 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:19:36 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:19:36 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 13:19:36 transport:1572] Authentication (publickey) failed.
+[I 171117 13:19:36 transport:1572] Authentication (publickey) successful!
+[I 171117 13:19:36 handlers:57] connection established from: 4549927824
+[I 171117 13:19:38 handlers:67] client close the connection: 4549927824
+[I 171117 13:23:10 web:2063] 200 GET /static/css/tooltip.css (::1) 2.08ms
+[I 171117 13:23:10 web:2063] 200 GET /static/js/main.js (::1) 1.96ms
+[I 171117 13:23:10 web:2063] 200 GET /static/js/formvalid.js (::1) 2.77ms
+[I 171117 13:23:10 web:2063] 200 GET /static/js/ws.js (::1) 2.10ms
+[I 171117 13:23:10 web:2063] 200 GET /static/css/main.css (::1) 2.24ms
+[I 171117 13:23:14 web:2063] 200 GET /static/css/tooltip.css (::1) 3.78ms
+[I 171117 13:23:14 web:2063] 200 GET /static/js/main.js (::1) 2.53ms
+[I 171117 13:23:14 web:2063] 200 GET /static/js/formvalid.js (::1) 2.37ms
+[I 171117 13:23:14 web:2063] 200 GET /static/js/ws.js (::1) 3.73ms
+[I 171117 13:23:14 web:2063] 200 GET /static/css/main.css (::1) 1.07ms
+[I 171117 13:24:08 web:2063] 200 GET / (::1) 0.79ms
+[I 171117 13:24:08 web:2063] 200 GET /static/css/tooltip.css (::1) 1.88ms
+[I 171117 13:24:08 web:2063] 200 GET /static/js/main.js (::1) 1.29ms
+[I 171117 13:24:08 web:2063] 200 GET /static/js/formvalid.js (::1) 3.95ms
+[I 171117 13:24:08 web:2063] 200 GET /static/js/ws.js (::1) 5.09ms
+[I 171117 13:24:08 web:2063] 200 GET /static/css/main.css (::1) 0.97ms
+[I 171117 13:24:13 web:2063] 200 GET /static/css/tooltip.css (::1) 2.04ms
+[I 171117 13:24:13 web:2063] 200 GET /static/js/main.js (::1) 1.27ms
+[I 171117 13:24:13 web:2063] 200 GET /static/js/formvalid.js (::1) 4.28ms
+[I 171117 13:24:13 web:2063] 200 GET /static/js/ws.js (::1) 1.71ms
+[I 171117 13:24:13 web:2063] 200 GET /static/css/main.css (::1) 2.07ms
+[I 171117 13:24:19 web:2063] 101 GET /ws (::1) 0.47ms
+[I 171117 13:24:19 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:24:19 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:24:19 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:24:19 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:24:19 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 13:24:20 transport:1572] Authentication (publickey) failed.
+[I 171117 13:24:20 transport:1572] Authentication (publickey) failed.
+[E 171117 13:24:20 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "/Users/wupeijin/code3/webssh/handlers.py", line 56, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/webssh/daemon.py", line 47, in open
+        (data["username"], data["password"]))
+    Exception: auth failed user:root ,passwd:jinjin123
+[I 171117 13:24:20 handlers:67] client close the connection: 4551288080
+[I 171117 13:26:09 web:2063] 200 GET /static/css/tooltip.css (::1) 3.33ms
+[I 171117 13:26:09 web:2063] 200 GET /static/js/main.js (::1) 1.55ms
+[I 171117 13:26:09 web:2063] 200 GET /static/js/formvalid.js (::1) 3.53ms
+[I 171117 13:26:09 web:2063] 200 GET /static/js/ws.js (::1) 1.54ms
+[I 171117 13:26:09 web:2063] 200 GET /static/css/main.css (::1) 2.60ms
+[I 171117 13:39:08 web:2063] 200 GET / (::1) 0.77ms
+[I 171117 13:39:08 web:2063] 200 GET /static/css/tooltip.css (::1) 2.90ms
+[I 171117 13:39:08 web:2063] 200 GET /static/js/ws.js (::1) 4.95ms
+[I 171117 13:39:08 web:2063] 200 GET /static/js/formvalid.js (::1) 1.91ms
+[I 171117 13:39:08 web:2063] 200 GET /static/js/main.js (::1) 2.10ms
+[I 171117 13:39:08 web:2063] 200 GET /static/css/main.css (::1) 3.17ms
+[I 171117 13:39:10 web:2063] 200 GET /static/image/favicon.ico (::1) 2.77ms
+[I 171117 13:39:22 web:2063] 101 GET /ws (::1) 0.53ms
+[I 171117 13:39:23 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:39:23 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:39:23 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:39:23 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 13:39:23 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 13:39:23 transport:1572] Authentication (publickey) failed.
+[I 171117 13:39:23 transport:1572] Authentication (publickey) successful!
+[I 171117 13:39:23 handlers:57] connection established from: 4549659408
+[I 171117 15:04:42 web:2063] 200 GET /static/js/ws.js (::1) 2.52ms
+[I 171117 15:04:42 web:2063] 200 GET /static/js/formvalid.js (::1) 2.00ms
+[I 171117 15:04:42 web:2063] 200 GET /static/js/main.js (::1) 4.72ms
+[I 171117 15:04:42 web:2063] 200 GET /static/css/tooltip.css (::1) 2.69ms
+[I 171117 15:04:42 web:2063] 200 GET /static/css/main.css (::1) 1.64ms
+[E 171117 15:05:24 transport:1572] Socket exception: Connection reset by peer (54)
+[I 171117 15:05:53 handlers:67] client close the connection: 4549659408
+[I 171117 15:05:58 web:2063] 304 GET / (::1) 1.08ms
+[I 171117 15:06:04 web:2063] 101 GET /ws (::1) 0.46ms
+[I 171117 15:06:04 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 15:06:04 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 15:06:04 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 15:06:04 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 15:06:04 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 15:06:04 transport:1572] Authentication (publickey) failed.
+[I 171117 15:06:04 transport:1572] Authentication (publickey) successful!
+[I 171117 15:06:04 handlers:57] connection established from: 4551570128
+[I 171117 15:10:04 web:2063] 101 GET /ws (::1) 0.56ms
+[I 171117 15:10:04 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 15:10:04 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 15:10:04 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 15:10:04 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 15:10:04 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 15:10:05 transport:1572] Authentication (publickey) failed.
+[I 171117 15:10:05 transport:1572] Authentication (publickey) successful!
+[I 171117 15:10:05 handlers:57] connection established from: 4552433744
+[I 171117 16:30:00 web:2063] 304 GET / (::1) 1.63ms
+[I 171117 16:30:00 web:2063] 200 GET /static/image/favicon.ico (::1) 6.59ms
+[I 171117 16:30:05 web:2063] 101 GET /ws (::1) 0.42ms
+[I 171117 16:30:05 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:05 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:05 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:05 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:05 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 16:30:06 transport:1572] Authentication (publickey) successful!
+[I 171117 16:30:06 handlers:57] connection established from: 4380978064
+[I 171117 16:30:08 web:2063] 101 GET /ws (::1) 0.80ms
+[I 171117 16:30:08 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:08 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:08 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:08 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:08 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 16:30:09 transport:1572] Authentication (publickey) successful!
+[I 171117 16:30:09 handlers:57] connection established from: 4386646992
+[I 171117 16:30:12 web:2063] 101 GET /ws (::1) 0.42ms
+[I 171117 16:30:12 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:12 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:12 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:12 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:30:12 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 16:30:13 transport:1572] Authentication (publickey) successful!
+[I 171117 16:30:13 handlers:57] connection established from: 4387487440
+[I 171117 16:41:51 web:2063] 200 GET /static/js/main.js (::1) 0.79ms
+[I 171117 16:41:51 web:2063] 200 GET /static/css/tooltip.css (::1) 0.66ms
+[I 171117 16:41:51 web:2063] 200 GET /static/css/main.css (::1) 0.86ms
+[I 171117 16:41:51 web:2063] 200 GET /static/js/ws.js (::1) 0.81ms
+[I 171117 16:41:51 web:2063] 200 GET /static/js/formvalid.js (::1) 0.80ms
+[I 171117 16:43:05 web:2063] 200 GET / (::1) 0.49ms
+[I 171117 16:43:05 handlers:67] client close the connection: 4386646992
+[I 171117 16:43:05 handlers:67] client close the connection: 4380978064
+[I 171117 16:43:05 web:2063] 200 GET /static/js/formvalid.js (::1) 1.82ms
+[I 171117 16:43:05 web:2063] 200 GET /static/js/ws.js (::1) 1.28ms
+[I 171117 16:43:05 web:2063] 200 GET /static/css/main.css (::1) 1.49ms
+[I 171117 16:43:05 web:2063] 200 GET /static/css/tooltip.css (::1) 2.07ms
+[I 171117 16:43:05 web:2063] 200 GET /static/js/main.js (::1) 2.34ms
+[I 171117 16:43:05 handlers:67] client close the connection: 4387487440
+[I 171117 16:43:17 web:2063] 101 GET /ws (::1) 0.45ms
+[I 171117 16:43:18 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:43:18 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:43:18 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:43:18 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:43:18 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 16:43:18 transport:1572] Authentication (publickey) successful!
+[I 171117 16:43:18 handlers:57] connection established from: 4388278352
+[I 171117 16:44:07 web:2063] 101 GET /ws (::1) 0.58ms
+[I 171117 16:44:07 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:44:07 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:44:07 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:44:07 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:44:07 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 16:44:07 transport:1572] Authentication (publickey) successful!
+[I 171117 16:44:07 handlers:57] connection established from: 4388816592
+[I 171117 16:44:14 web:2063] 200 GET /static/css/tooltip.css (::1) 1.72ms
+[I 171117 16:44:14 web:2063] 200 GET /static/js/main.js (::1) 2.34ms
+[I 171117 16:44:14 web:2063] 200 GET /static/js/formvalid.js (::1) 1.72ms
+[I 171117 16:44:14 web:2063] 200 GET /static/js/ws.js (::1) 1.99ms
+[I 171117 16:44:14 web:2063] 200 GET /static/css/main.css (::1) 1.26ms
+[I 171117 16:44:15 web:2063] 200 GET /static/css/tooltip.css (::1) 2.57ms
+[I 171117 16:44:15 web:2063] 200 GET /static/js/main.js (::1) 3.53ms
+[I 171117 16:44:15 web:2063] 200 GET /static/js/formvalid.js (::1) 1.61ms
+[I 171117 16:44:15 web:2063] 200 GET /static/js/ws.js (::1) 1.82ms
+[I 171117 16:44:15 web:2063] 200 GET /static/css/main.css (::1) 0.92ms
+[I 171117 16:44:16 web:2063] 200 GET /static/css/tooltip.css (::1) 2.34ms
+[I 171117 16:44:16 web:2063] 200 GET /static/js/main.js (::1) 1.65ms
+[I 171117 16:44:16 web:2063] 200 GET /static/js/formvalid.js (::1) 2.57ms
+[I 171117 16:44:16 web:2063] 200 GET /static/js/ws.js (::1) 1.72ms
+[I 171117 16:44:16 web:2063] 200 GET /static/css/main.css (::1) 1.21ms
+[I 171117 16:44:17 web:2063] 200 GET /static/js/formvalid.js (::1) 2.19ms
+[I 171117 16:44:17 web:2063] 200 GET /static/js/ws.js (::1) 1.57ms
+[I 171117 16:44:17 web:2063] 200 GET /static/css/main.css (::1) 1.71ms
+[I 171117 16:44:17 web:2063] 200 GET /static/css/tooltip.css (::1) 2.55ms
+[I 171117 16:44:17 web:2063] 200 GET /static/js/main.js (::1) 1.62ms
+[I 171117 16:44:17 web:2063] 200 GET /static/css/tooltip.css (::1) 2.99ms
+[I 171117 16:44:17 web:2063] 200 GET /static/js/main.js (::1) 1.07ms
+[I 171117 16:44:17 web:2063] 200 GET /static/js/formvalid.js (::1) 2.63ms
+[I 171117 16:44:17 web:2063] 200 GET /static/js/ws.js (::1) 5.10ms
+[I 171117 16:44:17 web:2063] 200 GET /static/css/main.css (::1) 1.88ms
+[I 171117 16:47:12 web:2063] 200 GET /static/js/ws.js (::1) 1.25ms
+[I 171117 16:47:20 web:2063] 200 GET /static/js/formvalid.js (::1) 1.16ms
+[I 171117 16:47:30 web:2063] 200 GET /static/js/main.js (::1) 1.11ms
+[I 171117 16:48:38 web:2063] 200 GET /static/css/main.css (::1) 0.93ms
+[I 171117 16:48:50 web:2063] 200 GET /static/css/tooltip.css (::1) 1.34ms
+[I 171117 16:52:06 web:2063] 200 GET / (::1) 0.47ms
+[I 171117 16:52:06 handlers:67] client close the connection: 4388278352
+[I 171117 16:52:06 handlers:67] client close the connection: 4388816592
+[I 171117 16:52:06 web:2063] 200 GET /static/css/tooltip.css (::1) 2.50ms
+[I 171117 16:52:06 web:2063] 200 GET /static/css/main.css (::1) 1.37ms
+[I 171117 16:52:06 web:2063] 200 GET /static/js/ws.js (::1) 1.04ms
+[I 171117 16:52:06 web:2063] 200 GET /static/js/formvalid.js (::1) 1.57ms
+[I 171117 16:52:06 web:2063] 200 GET /static/js/main.js (::1) 1.00ms
+[I 171117 16:52:08 web:2063] 200 GET /static/image/favicon.ico (::1) 2.30ms
+[I 171117 16:52:17 web:2063] 101 GET /ws (::1) 0.53ms
+[I 171117 16:52:18 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:52:18 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:52:18 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:52:18 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 16:52:18 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 16:52:18 transport:1572] Authentication (publickey) failed.
+[I 171117 16:52:18 transport:1572] Authentication (password) successful!
+[I 171117 16:52:20 handlers:57] connection established from: 4389603408
+[I 171117 17:03:09 web:2063] 200 GET / (::1) 2.07ms
+[I 171117 17:03:09 web:2063] 200 GET /static/css/tooltip.css (::1) 4.96ms
+[I 171117 17:03:09 web:2063] 200 GET /static/js/main.js (::1) 0.52ms
+[I 171117 17:03:09 web:2063] 200 GET /static/css/main.css (::1) 0.72ms
+[I 171117 17:03:09 web:2063] 200 GET /static/js/ws.js (::1) 0.58ms
+[I 171117 17:03:09 web:2063] 200 GET /static/js/formvalid.js (::1) 0.71ms
+[I 171117 17:03:10 web:2063] 200 GET /static/image/favicon.ico (::1) 0.82ms
+[I 171117 17:03:16 web:2063] 101 GET /ws (::1) 0.41ms
+[I 171117 17:03:17 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:03:17 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:03:17 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:03:17 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:03:17 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 17:03:17 transport:1572] Authentication (publickey) successful!
+[I 171117 17:03:17 handlers:57] connection established from: 4572189776
+[I 171117 17:04:28 web:2063] 101 GET /ws (::1) 0.48ms
+[I 171117 17:04:28 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:04:28 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:04:28 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:04:28 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:04:28 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 17:04:28 transport:1572] Authentication (publickey) successful!
+[I 171117 17:04:28 handlers:57] connection established from: 4581474704
+[I 171117 17:04:29 web:2063] 200 GET / (::1) 0.52ms
+[I 171117 17:04:29 handlers:67] client close the connection: 4581474704
+[I 171117 17:04:29 handlers:67] client close the connection: 4572189776
+[I 171117 17:04:29 web:2063] 200 GET /static/js/formvalid.js (::1) 1.59ms
+[I 171117 17:04:29 web:2063] 200 GET /static/js/main.js (::1) 1.84ms
+[I 171117 17:04:29 web:2063] 200 GET /static/js/ws.js (::1) 1.79ms
+[I 171117 17:04:29 web:2063] 200 GET /static/css/main.css (::1) 1.31ms
+[I 171117 17:04:29 web:2063] 200 GET /static/css/tooltip.css (::1) 1.31ms
+[I 171117 17:04:29 web:2063] 200 GET /static/image/favicon.ico (::1) 2.15ms
+[I 171117 17:04:34 web:2063] 101 GET /ws (::1) 0.66ms
+[I 171117 17:04:34 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:04:34 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:04:35 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:04:35 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:04:35 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 17:04:35 transport:1572] Authentication (publickey) successful!
+[I 171117 17:04:36 handlers:57] connection established from: 4582398800
+[I 171117 17:15:40 web:2063] 200 GET / (::1) 1.76ms
+[I 171117 17:15:40 web:2063] 200 GET /static/test1/tooltip.css (::1) 7.36ms
+[I 171117 17:15:40 web:2063] 200 GET /static/test/main.js (::1) 0.77ms
+[I 171117 17:15:40 web:2063] 200 GET /static/test1/main.css (::1) 0.72ms
+[I 171117 17:15:40 web:2063] 200 GET /static/test/ws.js (::1) 0.71ms
+[I 171117 17:15:40 web:2063] 200 GET /static/test/formvalid.js (::1) 0.80ms
+[W 171117 17:15:40 web:2063] 404 GET /static/image/favicon.ico (::1) 2.35ms
+[I 171117 17:15:55 web:2063] 101 GET /ws (::1) 0.43ms
+[I 171117 17:15:55 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:15:55 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:15:55 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:15:55 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:15:55 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 17:15:55 transport:1572] Authentication (publickey) successful!
+[I 171117 17:15:55 main:77] connection established from: 4360813008
+[I 171117 17:16:53 web:2063] 101 GET /ws (::1) 0.52ms
+[I 171117 17:16:53 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:16:53 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:16:53 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:16:53 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:16:53 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 17:16:53 transport:1572] Authentication (publickey) successful!
+[I 171117 17:16:54 main:77] connection established from: 4378438160
+[I 171117 17:27:09 web:2063] 200 GET / (::1) 0.61ms
+[I 171117 17:27:09 main:87] client close the connection: 4360813008
+[I 171117 17:27:09 web:2063] 200 GET /static/test1/main.css (::1) 2.03ms
+[I 171117 17:27:09 web:2063] 200 GET /static/test/ws.js (::1) 2.06ms
+[I 171117 17:27:09 web:2063] 200 GET /static/test/formvalid.js (::1) 1.40ms
+[I 171117 17:27:09 web:2063] 200 GET /static/test/main.js (::1) 1.17ms
+[I 171117 17:27:09 main:87] client close the connection: 4378438160
+[I 171117 17:27:09 web:2063] 200 GET /static/test1/tooltip.css (::1) 1.22ms
+[I 171117 17:27:24 web:2063] 101 GET /ws (::1) 0.52ms
+[I 171117 17:27:24 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:27:24 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:27:24 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:27:24 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:27:24 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 17:27:25 transport:1572] Authentication (publickey) successful!
+[I 171117 17:27:25 main:77] connection established from: 4368995728
+[I 171117 17:33:24 web:2063] 200 GET / (::1) 1.78ms
+[I 171117 17:33:24 web:2063] 200 GET /static/test1/tooltip.css (::1) 5.51ms
+[I 171117 17:33:24 web:2063] 200 GET /static/test1/main.css (::1) 0.59ms
+[I 171117 17:33:24 web:2063] 200 GET /static/test/ws.js (::1) 0.82ms
+[I 171117 17:33:24 web:2063] 200 GET /static/test/formvalid.js (::1) 0.85ms
+[I 171117 17:33:24 web:2063] 200 GET /static/test/main.js (::1) 0.70ms
+[I 171117 17:33:34 web:2063] 101 GET /ws (::1) 0.42ms
+[I 171117 17:33:34 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:33:34 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:33:34 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:33:34 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:33:34 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 17:33:34 transport:1572] Authentication (publickey) successful!
+[I 171117 17:33:34 run_tornado:62] connection established from: 4471996368
+[I 171117 17:34:43 web:2063] 200 GET / (::1) 1.78ms
+[I 171117 17:34:43 web:2063] 200 GET /static/test1/tooltip.css (::1) 5.95ms
+[I 171117 17:34:43 web:2063] 200 GET /static/test/main.js (::1) 0.94ms
+[I 171117 17:34:43 web:2063] 200 GET /static/test1/main.css (::1) 0.97ms
+[I 171117 17:34:43 web:2063] 200 GET /static/test/ws.js (::1) 0.62ms
+[I 171117 17:34:43 web:2063] 200 GET /static/test/formvalid.js (::1) 0.60ms
+[I 171117 17:34:49 web:2063] 101 GET /ws (::1) 0.39ms
+[I 171117 17:34:49 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:34:49 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:34:49 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:34:49 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:34:49 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 17:34:50 transport:1572] Authentication (publickey) successful!
+[I 171117 17:34:50 main:76] connection established from: 4477219984
+[I 171117 17:37:09 web:2063] 200 GET / (::1) 1.55ms
+[I 171117 17:37:09 web:2063] 200 GET /static/test1/tooltip.css (::1) 6.09ms
+[I 171117 17:37:09 web:2063] 200 GET /static/test/main.js (::1) 0.58ms
+[I 171117 17:37:09 web:2063] 200 GET /static/test1/main.css (::1) 0.81ms
+[I 171117 17:37:09 web:2063] 200 GET /static/test/ws.js (::1) 0.81ms
+[I 171117 17:37:09 web:2063] 200 GET /static/test/formvalid.js (::1) 0.79ms
+[I 171117 17:37:17 web:2063] 304 GET / (::1) 0.49ms
+[I 171117 17:37:22 web:2063] 101 GET /ws (::1) 0.38ms
+[I 171117 17:37:22 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:37:22 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:37:22 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:37:22 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 17:37:22 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 17:37:22 transport:1572] Authentication (publickey) successful!
+[I 171117 17:37:22 main:76] connection established from: 4527755792
+[E 171117 19:28:01 transport:1572] Socket exception: Connection reset by peer (54)
+[I 171117 19:28:34 web:2063] 200 GET / (::1) 1.00ms
+[I 171117 19:28:34 web:2063] 200 GET /static/test1/tooltip.css (::1) 2.19ms
+[I 171117 19:28:34 web:2063] 200 GET /static/test1/main.css (::1) 2.06ms
+[I 171117 19:28:34 web:2063] 200 GET /static/test/ws.js (::1) 2.20ms
+[I 171117 19:28:34 web:2063] 200 GET /static/test/formvalid.js (::1) 1.82ms
+[I 171117 19:28:34 web:2063] 200 GET /static/test/main.js (::1) 1.83ms
+[I 171117 19:28:37 main:86] client close the connection: 4527755792
+[I 171117 19:28:42 web:2063] 200 GET / (::1) 0.49ms
+[I 171117 19:28:42 web:2063] 200 GET /static/test1/tooltip.css (::1) 0.72ms
+[I 171117 19:28:42 web:2063] 200 GET /static/test/main.js (::1) 0.59ms
+[I 171117 19:28:42 web:2063] 200 GET /static/test/formvalid.js (::1) 0.53ms
+[I 171117 19:28:42 web:2063] 200 GET /static/test/ws.js (::1) 0.59ms
+[I 171117 19:28:42 web:2063] 200 GET /static/test1/main.css (::1) 0.52ms
+[I 171117 19:28:49 web:2063] 304 GET / (::1) 0.47ms
+[I 171117 19:28:51 web:2063] 304 GET / (::1) 0.47ms
+[I 171117 19:29:02 web:2063] 101 GET /ws (::1) 0.37ms
+[I 171117 19:29:02 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:02 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:02 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:02 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:02 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 19:29:02 transport:1572] Authentication (publickey) successful!
+[I 171117 19:29:05 main:76] connection established from: 4543764880
+[I 171117 19:29:22 web:2063] 101 GET /ws (::1) 0.47ms
+[I 171117 19:29:22 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:22 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:22 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:22 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:22 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 19:29:22 transport:1572] Authentication (publickey) successful!
+[I 171117 19:29:22 main:76] connection established from: 4544501520
+[I 171117 19:29:41 web:2063] 200 GET / (::1) 3.72ms
+[I 171117 19:29:41 web:2063] 200 GET /static/test1/tooltip.css (::1) 6.98ms
+[I 171117 19:29:41 web:2063] 200 GET /static/test/main.js (::1) 0.55ms
+[I 171117 19:29:41 web:2063] 200 GET /static/test1/main.css (::1) 0.67ms
+[I 171117 19:29:41 web:2063] 200 GET /static/test/ws.js (::1) 0.59ms
+[I 171117 19:29:41 web:2063] 200 GET /static/test/formvalid.js (::1) 0.68ms
+[I 171117 19:29:47 web:2063] 101 GET /ws (::1) 0.41ms
+[I 171117 19:29:47 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:47 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:47 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:47 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:29:47 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 19:29:48 transport:1572] Authentication (publickey) failed.
+[I 171117 19:29:48 transport:1572] Authentication (password) successful!
+[I 171117 19:29:48 main:76] connection established from: 4330464400
+[I 171117 19:30:06 web:2063] 101 GET /ws (::1) 0.42ms
+[I 171117 19:30:06 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:30:06 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:30:06 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:30:06 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:30:06 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 19:30:06 transport:1572] Authentication (publickey) successful!
+[I 171117 19:30:06 main:76] connection established from: 4346610256
+[I 171117 19:32:14 web:2063] 304 GET / (::1) 0.54ms
+[I 171117 19:32:21 web:2063] 101 GET /ws (::1) 0.39ms
+[I 171117 19:32:21 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:32:21 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:32:21 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:32:21 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 19:32:21 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 19:32:21 transport:1572] Authentication (publickey) successful!
+[I 171117 19:32:21 main:76] connection established from: 4347512720
+[E 171117 19:34:10 web:1590] Uncaught exception GET / (::1)
+    HTTPServerRequest(protocol='http', host='localhost:8002', method='GET', uri='/', version='HTTP/1.1', remote_ip='::1', headers={'Accept-Language': 'zh-CN,zh;q=0.8', 'Accept-Encoding': 'gzip, deflate, br', 'Host': 'localhost:8002', 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8', 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36 OPR/48.0.2685.52 (Edition Baidu)', 'Connection': 'keep-alive', 'Cache-Control': 'max-age=0', 'If-None-Match': '"9869d499d2ec6b723b5826ba1552103c7e8b352a"', 'Upgrade-Insecure-Requests': '1'})
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/web.py", line 1509, in _execute
+        result = method(*self.path_args, **self.path_kwargs)
+      File "main.py", line 35, in get
+        self.render("test1.html")
+      File "/Library/Python/2.7/site-packages/tornado/web.py", line 724, in render
+        html = self.render_string(template_name, **kwargs)
+      File "/Library/Python/2.7/site-packages/tornado/web.py", line 862, in render_string
+        t = loader.load(template_name)
+      File "/Library/Python/2.7/site-packages/tornado/template.py", line 427, in load
+        self.templates[name] = self._create_template(name)
+      File "/Library/Python/2.7/site-packages/tornado/template.py", line 454, in _create_template
+        with open(path, "rb") as f:
+    IOError: [Errno 2] No such file or directory: '/Users/wupeijin/code3/django-tornado/devops/webssh/devops/templates/test1.html'
+[E 171117 19:34:10 web:2063] 500 GET / (::1) 5.25ms
+[I 171117 19:35:06 web:2063] 200 GET / (::1) 1.43ms
+[I 171117 19:35:17 web:2063] 304 GET / (::1) 0.71ms
+[W 171117 20:28:34 web:2063] 403 GET /ws (::1) 0.29ms
+[W 171117 20:28:43 web:2063] 403 GET /ws (::1) 0.52ms
+[W 171117 20:29:53 web:2063] 403 GET /ws (::1) 0.55ms
+[W 171117 20:29:55 web:2063] 403 GET /ws (::1) 0.33ms
+[W 171117 20:30:40 web:2063] 403 GET /ws (::1) 0.30ms
+[W 171117 20:31:49 web:2063] 403 GET /ws (::1) 0.40ms
+[W 171117 20:34:03 web:2063] 403 GET /ws (::1) 0.31ms
+[W 171117 20:35:07 web:2063] 403 GET /ws (::1) 0.28ms
+[I 171117 20:35:14 web:2063] 200 GET / (::1) 0.50ms
+[W 171117 20:35:14 web:2063] 404 GET /static/test1/tooltip.css (::1) 1.59ms
+[W 171117 20:35:14 web:2063] 404 GET /static/test/main.js (::1) 0.54ms
+[W 171117 20:35:14 web:2063] 404 GET /static/test1/main.css (::1) 0.45ms
+[W 171117 20:35:14 web:2063] 404 GET /static/test/ws.js (::1) 0.44ms
+[I 171117 20:35:14 web:2063] 200 GET /static/test/formvalid.js (::1) 8.07ms
+[W 171117 20:35:15 web:2063] 404 GET /static/test/ws.js (::1) 0.54ms
+[W 171117 20:35:15 web:2063] 404 GET /static/test/main.js (::1) 0.53ms
+[I 171117 20:35:18 web:2063] 200 GET / (::1) 0.54ms
+[W 171117 20:35:18 web:2063] 404 GET /static/test1/tooltip.css (::1) 1.86ms
+[I 171117 20:35:18 web:2063] 200 GET /static/test/formvalid.js (::1) 0.81ms
+[W 171117 20:35:18 web:2063] 404 GET /static/test/main.js (::1) 0.54ms
+[W 171117 20:35:18 web:2063] 404 GET /static/test/ws.js (::1) 0.46ms
+[W 171117 20:35:18 web:2063] 404 GET /static/test1/main.css (::1) 0.55ms
+[W 171117 20:35:20 web:2063] 404 GET /static/test/ws.js (::1) 0.75ms
+[W 171117 20:35:20 web:2063] 404 GET /static/test/main.js (::1) 0.85ms
+[W 171117 20:38:38 web:2063] 403 GET /ws (::1) 0.71ms
+[W 171117 20:39:12 web:2063] 403 GET /ws (::1) 0.47ms
+[W 171117 20:39:56 web:2063] 403 GET /ws (::1) 0.52ms
+[W 171117 20:41:45 web:2063] 403 GET /ws (::1) 0.42ms
+[W 171117 20:44:16 web:2063] 403 GET /ws (::1) 0.33ms
+[W 171117 20:46:11 web:2063] 403 GET /ws (::1) 0.33ms
+[I 171117 20:49:42 web:2063] 101 GET /ws (::1) 0.48ms
+[E 171117 20:49:42 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        if self._check_init_param(client_data.data):
+      File "main.py", line 60, in _check_init_param
+        return check_ip(data["hostname"]) and check_port(data["port"])
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/utils.py", line 17, in check_port
+        if port and port.isdigit():
+    AttributeError: 'int' object has no attribute 'isdigit'
+[I 171117 20:49:42 main:89] client close the connection: 4513750672
+[I 171117 20:51:13 web:2063] 101 GET /ws (::1) 0.35ms
+[E 171117 20:51:13 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        if self._check_init_param(client_data.data):
+      File "main.py", line 60, in _check_init_param
+        return check_ip(data["hostname"]) and check_port(data["port"])
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/utils.py", line 17, in check_port
+        if port and port.isdigit():
+    AttributeError: 'int' object has no attribute 'isdigit'
+[I 171117 20:51:13 main:89] client close the connection: 4513853520
+[I 171117 21:01:02 web:2063] 101 GET /ws (::1) 0.46ms
+[I 171117 21:01:02 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:01:02 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:01:03 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:01:03 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:01:03 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:01:03 transport:1572] Authentication (publickey) failed.
+[I 171117 21:01:03 transport:1572] Authentication (password) successful!
+[I 171117 21:01:04 main:79] connection established from: 4422143632
+[I 171117 21:02:10 main:89] client close the connection: 4422143632
+[I 171117 21:02:14 web:2063] 101 GET /ws (::1) 0.40ms
+[I 171117 21:02:14 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:02:14 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:02:14 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:02:14 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:02:14 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:02:15 transport:1572] Authentication (publickey) failed.
+[I 171117 21:02:15 transport:1572] Authentication (password) successful!
+[I 171117 21:02:15 main:79] connection established from: 4431502032
+[I 171117 21:03:15 main:89] client close the connection: 4431502032
+[I 171117 21:03:20 web:2063] 101 GET /ws (::1) 0.83ms
+[I 171117 21:03:20 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:03:20 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:03:20 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:03:20 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:03:20 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:03:21 transport:1572] Authentication (publickey) failed.
+[I 171117 21:03:21 transport:1572] Authentication (password) successful!
+[I 171117 21:03:22 main:79] connection established from: 4432343568
+[I 171117 21:10:56 main:89] client close the connection: 4432343568
+[I 171117 21:10:58 web:2063] 101 GET /ws (::1) 0.62ms
+[I 171117 21:10:58 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:10:58 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:10:58 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:10:58 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:10:58 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:10:58 transport:1572] Authentication (publickey) failed.
+[I 171117 21:10:59 transport:1572] Authentication (password) successful!
+[I 171117 21:10:59 main:79] connection established from: 4432966992
+[I 171117 21:11:33 main:89] client close the connection: 4432966992
+[I 171117 21:11:36 web:2063] 101 GET /ws (::1) 0.69ms
+[I 171117 21:11:36 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:11:36 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:11:36 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:11:36 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:11:36 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:11:37 transport:1572] Authentication (publickey) failed.
+[I 171117 21:11:37 transport:1572] Authentication (password) successful!
+[I 171117 21:11:37 main:79] connection established from: 4433598672
+[I 171117 21:16:04 main:89] client close the connection: 4433598672
+[I 171117 21:16:07 web:2063] 101 GET /ws (::1) 0.65ms
+[I 171117 21:16:07 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:16:07 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:16:07 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:16:07 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:16:07 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:16:07 transport:1572] Authentication (publickey) failed.
+[I 171117 21:16:08 transport:1572] Authentication (password) successful!
+[I 171117 21:16:08 main:79] connection established from: 4434224336
+[I 171117 21:17:01 main:89] client close the connection: 4434224336
+[I 171117 21:17:03 web:2063] 101 GET /ws (::1) 0.51ms
+[I 171117 21:17:03 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:17:03 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:17:03 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:17:03 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:17:03 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:17:04 transport:1572] Authentication (publickey) failed.
+[I 171117 21:17:04 transport:1572] Authentication (password) successful!
+[I 171117 21:17:04 main:79] connection established from: 4434859664
+[I 171117 21:27:47 main:89] client close the connection: 4434859664
+[I 171117 21:27:50 web:2063] 101 GET /ws (::1) 0.77ms
+[I 171117 21:27:50 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:27:50 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:27:50 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:27:50 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:27:50 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:27:51 transport:1572] Authentication (publickey) failed.
+[I 171117 21:27:51 transport:1572] Authentication (password) successful!
+[I 171117 21:27:52 main:79] connection established from: 4430906256
+[I 171117 21:28:49 main:89] client close the connection: 4430906256
+[I 171117 21:28:52 web:2063] 101 GET /ws (::1) 0.42ms
+[I 171117 21:28:52 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:28:52 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:28:52 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:28:52 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:28:52 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:28:53 transport:1572] Authentication (publickey) failed.
+[I 171117 21:28:54 transport:1572] Authentication (password) successful!
+[I 171117 21:28:54 main:79] connection established from: 4436088912
+[I 171117 21:31:16 main:89] client close the connection: 4436088912
+[I 171117 21:31:19 web:2063] 101 GET /ws (::1) 0.62ms
+[I 171117 21:31:19 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:31:19 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:31:19 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:31:19 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:31:19 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:31:25 transport:1572] Authentication (publickey) failed.
+[I 171117 21:31:25 transport:1572] Authentication (password) successful!
+[I 171117 21:31:26 main:79] connection established from: 4436711056
+[I 171117 21:32:28 main:89] client close the connection: 4436711056
+[I 171117 21:34:46 web:2063] 101 GET /ws (::1) 0.66ms
+[I 171117 21:34:46 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:34:46 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:34:46 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:34:46 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:34:46 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:34:46 transport:1572] Authentication (publickey) failed.
+[I 171117 21:34:46 transport:1572] Authentication (password) successful!
+[I 171117 21:34:47 main:79] connection established from: 4437346320
+[I 171117 21:34:59 main:89] client close the connection: 4437346320
+[I 171117 21:35:01 web:2063] 101 GET /ws (::1) 0.61ms
+[I 171117 21:35:01 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:01 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:01 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:01 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:02 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:35:02 transport:1572] Authentication (publickey) failed.
+[I 171117 21:35:02 transport:1572] Authentication (password) successful!
+[I 171117 21:35:02 main:79] connection established from: 4437972176
+[I 171117 21:35:02 web:2063] 101 GET /ws (::1) 0.44ms
+[I 171117 21:35:03 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:03 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:03 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:03 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:03 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:35:03 transport:1572] Authentication (publickey) failed.
+[I 171117 21:35:03 transport:1572] Authentication (password) successful!
+[I 171117 21:35:04 main:79] connection established from: 4438612368
+[I 171117 21:35:06 main:89] client close the connection: 4437972176
+[I 171117 21:35:06 main:89] client close the connection: 4438612368
+[I 171117 21:35:09 web:2063] 101 GET /ws (::1) 0.59ms
+[I 171117 21:35:09 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:09 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:09 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:09 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:35:09 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:35:09 transport:1572] Authentication (publickey) successful!
+[I 171117 21:35:09 main:79] connection established from: 4439247568
+[I 171117 21:36:17 main:89] client close the connection: 4439247568
+[I 171117 21:36:19 web:2063] 101 GET /ws (::1) 0.47ms
+[I 171117 21:36:19 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:36:19 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:36:19 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:36:19 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:36:19 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:36:21 transport:1572] Authentication (publickey) failed.
+[I 171117 21:36:21 transport:1572] Authentication (password) successful!
+[I 171117 21:36:22 main:79] connection established from: 4439870672
+[I 171117 21:41:32 web:2063] 101 GET /ws (::1) 1.09ms
+[I 171117 21:41:32 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:41:32 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:41:33 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:41:33 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:41:33 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:41:33 transport:1572] Authentication (publickey) failed.
+[I 171117 21:41:34 transport:1572] Authentication (password) successful!
+[I 171117 21:41:34 main:79] connection established from: 4440418256
+[I 171117 21:41:37 main:89] client close the connection: 4440418256
+[I 171117 21:41:37 main:89] client close the connection: 4439870672
+[I 171117 21:41:39 web:2063] 101 GET /ws (::1) 0.63ms
+[I 171117 21:41:39 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:41:39 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:41:39 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:41:39 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:41:40 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:41:41 transport:1572] Authentication (publickey) failed.
+[I 171117 21:41:41 transport:1572] Authentication (password) successful!
+[I 171117 21:41:41 main:79] connection established from: 4441097680
+[I 171117 21:41:43 main:89] client close the connection: 4441097680
+[I 171117 21:42:22 autoreload:198] main.py modified; restarting server
+[I 171117 21:42:36 autoreload:198] main.py modified; restarting server
+[I 171117 21:42:41 web:2063] 101 GET /ws (::1) 0.47ms
+[I 171117 21:42:41 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:42:41 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:42:41 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:42:41 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:42:41 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:42:42 transport:1572] Authentication (publickey) failed.
+[I 171117 21:42:42 transport:1572] Authentication (password) successful!
+[I 171117 21:42:42 main:81] connection established from: 4454981904
+[I 171117 21:44:01 main:91] client close the connection: 4454981904
+[I 171117 21:45:03 web:2063] 101 GET /ws (::1) 0.61ms
+[I 171117 21:45:03 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:45:03 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:45:03 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:45:03 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 21:45:03 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 21:45:04 transport:1572] Authentication (publickey) failed.
+[I 171117 21:45:04 transport:1572] Authentication (password) successful!
+[I 171117 21:45:04 main:81] connection established from: 4464195536
+[I 171117 21:50:01 autoreload:198] /Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py modified; restarting server
+[I 171117 22:02:53 autoreload:198] /Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py modified; restarting server
+[I 171117 22:08:52 web:2063] 101 GET /ws (::1) 0.47ms
+[I 171117 22:08:52 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:08:52 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:08:52 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:08:52 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:08:53 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[E 171117 22:08:55 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py", line 57, in open
+        pkey=keyfile
+      File "/Library/Python/2.7/site-packages/paramiko/client.py", line 381, in connect
+        look_for_keys, gss_auth, gss_kex, gss_deleg_creds, gss_host)
+      File "/Library/Python/2.7/site-packages/paramiko/client.py", line 531, in _auth
+        self._log(DEBUG, 'Trying SSH key %s' % hexlify(pkey.get_fingerprint()))
+    AttributeError: 'unicode' object has no attribute 'get_fingerprint'
+[I 171117 22:08:55 main:88] client close the connection: 4429222096
+[I 171117 22:09:56 web:2063] 101 GET /ws (::1) 0.40ms
+[I 171117 22:09:56 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:09:56 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:09:56 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:09:56 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:09:56 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:09:56 transport:1572] Authentication (publickey) failed.
+[I 171117 22:09:57 transport:1572] Authentication (password) successful!
+[I 171117 22:09:57 main:78] connection established from: 4437726160
+[I 171117 22:09:59 main:88] client close the connection: 4437726160
+[I 171117 22:10:04 web:2063] 101 GET /ws (::1) 0.61ms
+[I 171117 22:10:04 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:10:04 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:10:04 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:10:04 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:10:05 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[E 171117 22:10:06 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py", line 57, in open
+        pkey=keyfile
+      File "/Library/Python/2.7/site-packages/paramiko/client.py", line 381, in connect
+        look_for_keys, gss_auth, gss_kex, gss_deleg_creds, gss_host)
+      File "/Library/Python/2.7/site-packages/paramiko/client.py", line 531, in _auth
+        self._log(DEBUG, 'Trying SSH key %s' % hexlify(pkey.get_fingerprint()))
+    AttributeError: 'unicode' object has no attribute 'get_fingerprint'
+[I 171117 22:10:06 main:88] client close the connection: 4438541840
+[I 171117 22:10:18 autoreload:198] /Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py modified; restarting server
+[I 171117 22:10:22 web:2063] 101 GET /ws (::1) 0.51ms
+[I 171117 22:10:22 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:10:22 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:10:22 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:10:22 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:10:24 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[E 171117 22:10:25 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py", line 58, in open
+        pkey=keyfile
+      File "/Library/Python/2.7/site-packages/paramiko/client.py", line 381, in connect
+        look_for_keys, gss_auth, gss_kex, gss_deleg_creds, gss_host)
+      File "/Library/Python/2.7/site-packages/paramiko/client.py", line 531, in _auth
+        self._log(DEBUG, 'Trying SSH key %s' % hexlify(pkey.get_fingerprint()))
+    AttributeError: 'unicode' object has no attribute 'get_fingerprint'
+[I 171117 22:10:25 main:88] client close the connection: 4461600976
+[I 171117 22:11:25 web:2063] 101 GET /ws (::1) 0.38ms
+[I 171117 22:11:25 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:11:25 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:11:25 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:11:25 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:11:26 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[E 171117 22:11:26 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py", line 58, in open
+        pkey=keyfile
+      File "/Library/Python/2.7/site-packages/paramiko/client.py", line 381, in connect
+        look_for_keys, gss_auth, gss_kex, gss_deleg_creds, gss_host)
+      File "/Library/Python/2.7/site-packages/paramiko/client.py", line 531, in _auth
+        self._log(DEBUG, 'Trying SSH key %s' % hexlify(pkey.get_fingerprint()))
+    AttributeError: 'unicode' object has no attribute 'get_fingerprint'
+[I 171117 22:11:26 main:88] client close the connection: 4470109136
+[I 171117 22:13:36 autoreload:198] /Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py modified; restarting server
+[I 171117 22:13:45 web:2063] 101 GET /ws (::1) 0.50ms
+[I 171117 22:13:45 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:13:45 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:13:45 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:13:45 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:13:46 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[I 171117 22:13:48 transport:1572] Authentication (publickey) successful!
+[I 171117 22:13:49 main:78] connection established from: 4476772560
+[I 171117 22:14:05 autoreload:198] main.py modified; restarting server
+[I 171117 22:14:12 web:2063] 101 GET /ws (::1) 0.63ms
+[I 171117 22:14:12 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:14:12 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:14:12 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:14:12 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:14:12 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:14:12 transport:1572] Authentication (publickey) failed.
+[I 171117 22:14:13 transport:1572] Authentication (publickey) failed.
+[E 171117 22:14:13 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py", line 61, in open
+        (data["username"], data["password"]))
+    Exception: auth failed user:root ,passwd:N
+[I 171117 22:14:13 main:88] client close the connection: 4353495312
+[I 171117 22:15:49 autoreload:198] /Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py modified; restarting server
+[I 171117 22:16:19 web:2063] 101 GET /ws (::1) 0.51ms
+[I 171117 22:16:19 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:19 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:19 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:19 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:19 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:16:20 transport:1572] Authentication (publickey) failed.
+[I 171117 22:16:20 transport:1572] Authentication (publickey) failed.
+[E 171117 22:16:20 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py", line 62, in open
+        (data["username"], data["password"]))
+    Exception: auth failed user:root ,passwd:N
+[I 171117 22:16:20 main:88] client close the connection: 4326686928
+[I 171117 22:16:45 autoreload:198] main.py modified; restarting server
+[I 171117 22:16:49 web:2063] 101 GET /ws (::1) 0.53ms
+[I 171117 22:16:49 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:49 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:49 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:49 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:50 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[I 171117 22:16:52 transport:1572] Authentication (publickey) successful!
+[I 171117 22:16:53 main:78] connection established from: 4362666256
+[I 171117 22:16:54 main:88] client close the connection: 4362666256
+[I 171117 22:16:56 web:2063] 101 GET /ws (::1) 0.41ms
+[I 171117 22:16:56 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:56 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:56 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:56 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:16:57 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:16:57 transport:1572] Authentication (publickey) failed.
+[I 171117 22:16:57 transport:1572] Authentication (publickey) failed.
+[E 171117 22:16:57 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py", line 62, in open
+        (data["username"], data["password"]))
+    Exception: auth failed user:root ,passwd:N
+[I 171117 22:16:58 main:88] client close the connection: 4372226448
+[I 171117 22:18:38 autoreload:198] /Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py modified; restarting server
+[I 171117 22:18:42 web:2063] 101 GET /ws (::1) 0.49ms
+[I 171117 22:18:42 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:18:42 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:18:43 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:18:43 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:18:43 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[I 171117 22:18:46 transport:1572] Authentication (publickey) successful!
+[I 171117 22:18:48 main:78] connection established from: 4394492112
+[I 171117 22:18:48 main:88] client close the connection: 4394492112
+[I 171117 22:18:58 autoreload:198] /Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py modified; restarting server
+[I 171117 22:19:01 web:2063] 101 GET /ws (::1) 0.48ms
+[I 171117 22:19:01 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:19:01 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:19:01 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:19:01 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:19:03 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:19:03 transport:1572] Authentication (publickey) failed.
+[I 171117 22:19:04 transport:1572] Authentication (publickey) failed.
+[E 171117 22:19:04 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 77, in on_message
+        bridge.open(client_data.data)
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py", line 63, in open
+        (data["username"], data["password"]))
+    Exception: auth failed user:root ,passwd:N
+[I 171117 22:19:04 main:88] client close the connection: 4398854352
+[I 171117 22:20:44 web:2063] 101 GET /ws (::1) 0.38ms
+[I 171117 22:20:44 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:20:44 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:20:44 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:20:44 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:20:44 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:20:44 transport:1572] Authentication (publickey) failed.
+[I 171117 22:20:44 transport:1572] Authentication (publickey) successful!
+[I 171117 22:20:44 main:78] connection established from: 4407362512
+[I 171117 22:21:18 main:88] client close the connection: 4407362512
+[I 171117 22:21:35 web:2063] 101 GET /ws (::1) 0.54ms
+[I 171117 22:21:35 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:21:35 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:21:35 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:21:35 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:21:35 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:21:35 transport:1572] Authentication (publickey) failed.
+[I 171117 22:21:35 transport:1572] Authentication (publickey) successful!
+[I 171117 22:21:35 main:78] connection established from: 4407764624
+[I 171117 22:21:46 main:88] client close the connection: 4407764624
+[I 171117 22:21:48 web:2063] 101 GET /ws (::1) 0.90ms
+[I 171117 22:21:48 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:21:48 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:21:48 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:21:48 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:21:49 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[I 171117 22:21:52 transport:1572] Authentication (publickey) successful!
+[I 171117 22:21:53 main:78] connection established from: 4409067024
+[I 171117 22:22:22 main:88] client close the connection: 4409067024
+[I 171117 22:22:24 web:2063] 101 GET /ws (::1) 0.46ms
+[I 171117 22:22:24 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:24 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:24 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:24 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:24 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:22:24 transport:1572] Authentication (publickey) failed.
+[I 171117 22:22:24 transport:1572] Authentication (publickey) successful!
+[I 171117 22:22:24 main:78] connection established from: 4409697488
+[I 171117 22:22:26 main:88] client close the connection: 4409697488
+[I 171117 22:22:39 web:2063] 101 GET /ws (::1) 0.57ms
+[I 171117 22:22:39 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:39 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:39 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:39 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:39 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:22:40 transport:1572] Authentication (publickey) successful!
+[I 171117 22:22:40 main:78] connection established from: 4410320016
+[I 171117 22:22:44 main:88] client close the connection: 4410320016
+[I 171117 22:22:46 web:2063] 101 GET /ws (::1) 0.82ms
+[I 171117 22:22:47 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:47 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:47 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:47 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:22:47 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 171117 22:22:47 transport:1572] Authentication (publickey) successful!
+[I 171117 22:22:47 main:78] connection established from: 4410947984
+[I 171117 22:23:18 autoreload:198] main.py modified; restarting server
+[I 171117 22:23:23 autoreload:198] /Users/wupeijin/code3/django-tornado/devops/webssh/daemon.py modified; restarting server
+[I 171117 22:35:38 web:2063] 101 GET /ws (::1) 0.49ms
+[I 171117 22:35:38 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:35:38 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:35:38 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:35:38 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171117 22:35:39 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[I 171117 22:35:41 transport:1572] Authentication (publickey) successful!
+[I 171117 22:35:42 main:78] connection established from: 4432044240
+[I 171117 22:36:10 main:88] client close the connection: 4432044240
+[I 171117 22:51:03 autoreload:198] main.py modified; restarting server

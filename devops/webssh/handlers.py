@@ -1,34 +1,34 @@
-#-*- coding=utf-8 -*-
-#!/usr/bin/env python
-from tornado.options import options, define, parse_command_line
-import sys,os,json,subprocess
-import base64,logging
-import tornado.httpserver
-import tornado.ioloop
-import tornado.wsgi
+__author__ = 'xsank'
+
+import logging
+
 import tornado.web
 import tornado.websocket
+
 from daemon import Bridge
 from data import ClientData
 from utils import check_ip, check_port
-import django.core.handlers.wsgi
-
-define('port', type=int, default=8002)
 
 
 class IndexHandler(tornado.web.RequestHandler):
 
     def get(self):
-        self.render("test1.html")
+        self.render("index.html")
+
 
 class WSHandler(tornado.websocket.WebSocketHandler):
-
     clients = dict()
 
     def get_client(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
         return self.clients.get(self._id(), None)
 
     def put_client(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
         bridge = Bridge(self)
         self.clients[self._id()] = bridge
 
@@ -71,34 +71,5 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.remove_client()
         logging.info('client close the connection: %s' % self._id())
 
-settings = {
-        "template_path":os.path.join(os.path.dirname(__file__),"../devops/templates"),
-        "static_path":os.path.join(os.path.dirname(__file__),"../devops/static"),
-        }
-
-def main():
-   # os.environ['DJANGO_SETTINGS_MODULE'] = 'devops.settings' # TODO: edit this
-   # sys.path.append('./devops') # path to your project if needed
-
-    parse_command_line()
-    options.parse_config_file("webssh.conf")
-
-    #wsgi_app = get_wsgi_application()
-    #container = tornado.wsgi.WSGIContainer(wsgi_app)
-    wsgi_app = tornado.wsgi.WSGIContainer(
-    django.core.handlers.wsgi.WSGIHandler())
-
-    tornado_app = tornado.web.Application(
-        [
-	   (r"/", IndexHandler),
-	   (r"/ws", WSHandler),
-            ('.*', tornado.web.FallbackHandler, dict(fallback=wsgi_app)),
-        ],**settings)
-
-    server = tornado.httpserver.HTTPServer(tornado_app)
-    server.listen(options.port)
-
-    tornado.ioloop.IOLoop.instance().start()
-
-if __name__ == '__main__':
-    main()
+    def check_origin(self,origin):
+        return True

@@ -438,7 +438,7 @@ class Assets(models.Model):
                           ('wifi',u'无线设备'),
                           )
     assets_type = models.CharField(choices=assets_type_choices, max_length=100, default='server', verbose_name='资产类型')
-    name = models.CharField(max_length=100, verbose_name='资产编号', unique=True)
+    name = models.CharField(max_length=100, verbose_name='资产编号', unique=True) ###  event number  that is  event  kvm define
     sn = models.CharField(max_length=100, verbose_name='设备序列号')
     buy_time = models.DateField(blank=True, null=True, verbose_name='购买时间')
     expire_date = models.DateField(u'过保修期', null=True, blank=True)

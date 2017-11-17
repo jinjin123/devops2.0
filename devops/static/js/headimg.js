@@ -242,12 +242,12 @@ function head_img() {
         return
     }
 }
-function server_excel() {
-    var name = document.getElementById('in_excel').value;
-    var fileName = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
-    if (fileName != "xls" && fileName != "xlsx") {
-        alert("请选择execl格式文件上传！");
-        name.outerHTML = name.outerHTML;
-        return
-    }
-}
+// function server_excel() {
+//     var name = document.getElementById('in_excel').value;
+//     var fileName = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
+//     if (fileName != "xls" && fileName != "xlsx") {
+//         alert("请选择execl格式文件上传！");
+//         name.outerHTML = name.outerHTML;
+//         return
+//     }
+// }

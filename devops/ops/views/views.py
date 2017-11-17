@@ -130,7 +130,7 @@ def host_input(request):
             if t.alive is not None:
                 data = json.dumps({"Ip":t.ip,"Port":t.port,"Group":t.group,"User":t.user,"Pwd":t.pwd,"Key":str(t.key),
                                 "lg_type":t.login_type,"US_SUDO":t.us_sudo,"US_SU":t.us_su,"SUDO":t.sudo,"SU":t.su,
-                                "Status":t.alive,"bz":t.bz,"id":t.ip})
+                                "Status":t.alive,"bz":t.bz,"id":t.id})
             else:
                 continue
             dict = json.loads(data)

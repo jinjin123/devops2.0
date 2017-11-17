@@ -221,7 +221,9 @@ $(function () {
 $(function () {
 //upload server excel filter & progressbar
     $('#drag-and-drop-zone').dmUploader({
-        url: hostInputURL,
+        var token = get_global_csrf_token()
+        url: handle_server_excel,
+        headers: {'X-CSRFToken': token },
         dataType: 'json',
         allowedTypes: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         onInit:function () {
@@ -418,8 +420,9 @@ $(function () {
             width: '80px',
             text: '操作',
             template: function (action, rowObject) {
-                return '<button onclick="EditServer(this)"   class="edit-server btn btn-success btn-xs glyphicon glyphicon-edit " style="margin-left:3px" tag="' + action + '"></button>'
-                    + '<button onclick="DelServer(this)" class="del-server btn btn-danger btn-xs glyphicon glyphicon-trash" style="margin-left: 3px;" tag="' + action + '"></button>';
+                return '<button onclick="EditServer(this)"   class="edit-server btn btn-success btn-xs glyphicon glyphicon-edit " style="margin-left: 1px" tag="' + action + '"></button>'
+                    + '<button onclick="DelServer(this)" class="del-server btn btn-danger btn-xs glyphicon glyphicon-trash" style="margin-left: 1px" tag="' + action + '"></button>'
+                    + '<button onclick="Connect_terminal(this)" class="del-server btn btn-warning btn-xs glyphicon glyphicon-console" style="margin-left: 1px" tag="' + action + '"></button>';
             }
         }
         ]
@@ -674,4 +677,86 @@ function DelServer() {
 
         })
     })
+}
+
+function Connect_terminal(){
+  $('.cd-content').one('click', '.del-server', function () {
+       var td = $(this).parent().prevAll();
+       var token = get_global_csrf_token()
+       var id = this.getAttribute('tag')
+      //  console.log(td)
+      var ip = td[12].textContent;
+      // console.log(this.getAttribute('tag'));
+      $.ajax({
+          type:"GET",
+          url: create_server + id,
+          // headers: {'X-CSRFToken': token },
+          error: errorAjax,
+          success: function (response, status) {
+              if (!status == 200) {
+                showErrorInfo('无法获取目标主机的连接信息，请检查接口！')
+                console.log(response)
+                  return false;
+              }
+              else {
+                var options = {
+                  host: response.ip,
+                  port: response.port.toString(),
+                  username: response.user,
+                  password: response.pwd,
+                  lg_type: response.login_type,
+                  key: response.key
+                }
+                // console.log(options)
+                openTerminal(options)
+              }
+          }
+
+      })
+  })
+}
+
+
+function openTerminal(options) {
+    var client = new WSSHClient();
+    var term = new Terminal({cols: 80, rows: 24, screenKeys: true, useStyle:true}); // setting terminal size
+    term.on('data', function (data) {
+        client.sendClientData(data);
+    });
+    term.on('title', function (title) {
+      // console.log(title) // hostname
+      $('#connect_server').css('display','block')
+      $('#connect_server')[0].textContent = title
+    });
+    term.open();
+    $('.terminal').detach().appendTo('#term');
+    term.write('Connecting...');
+    client.connect({
+        onError: function (error) {
+            term.write('Error: ' + error + '\r\n');
+            console.debug('error happened');
+        },
+        onConnect: function () {
+            client.sendInitData(options);
+            client.sendClientData('\r');
+            console.debug('connection established');
+        },
+        onClose: function () {
+            term.write("\rconnection closed")
+            console.debug('connection reset by peer');
+        },
+        onData: function (data) {
+            term.write(data);
+            console.debug('get data:' + data);
+        }
+    })
+}
+function server_excel() {
+    var name = document.getElementById('in_excel').value;
+    var fileName = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
+    if (fileName != "xls" && fileName != "xlsx") {
+        alert("请选择execl格式文件上传！");
+        name.outerHTML = name.outerHTML;
+        return
+    }
 }
