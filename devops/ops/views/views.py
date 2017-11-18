@@ -14,7 +14,7 @@ from django.core.cache import cache
 from django.core import serializers
 from .. import ssh_settings
 # from .. import  models
-from ops.models import Ansible_Playbook,Ansible_Playbook_Number,UserLock,TopContServer,PushCodeEvent,HostInfo,WebHook,History,UserInfo
+from ops.models import Ansible_Playbook,Ansible_Playbook_Number,UserLock,TopContServer,PushCodeEvent,HostInfo,WebHook,History,UserInfo,Global_Config
 from ssh_file_transfer import  SSHFileTransfer
 from ssh_thread_queue import  SSHThreadAdmin
 from return_http import  ajax_http
@@ -1899,6 +1899,73 @@ def Ansible_playbook_list(request):
         else:
             ds.runid = ds.id
     return render(request,"playbook_list.html",{"user":request.user,"head":img,"playbookList": playbookList})
+
+@login_required()
+def config(request):
+    img = 'media/' +  str(request.user.head_img)
+    if request.method == "GET":
+        try:
+            config = Global_Config.objects.get(id=1)
+        except:
+            config = None
+        try:
+            email = Email_Config.objects.get(id=1)
+        except:
+            email = None
+        return render(request,'config.html', {"user": request.user, "config": config,"email": email,"head":img})
+    elif request.method == "POST":
+        if request.POST.get('op') == "log":
+            try:
+                count = Global_Config.objects.filter(id=1).count()
+            except:
+                count = 0
+            if count > 0:
+                Global_Config.objects.filter(id=1).update(
+                    ansible_model=request.POST.get('ansible_model'),
+                    ansible_playbook=request.POST.get('ansible_playbook'),
+                    cron=request.POST.get('cron'),
+                    project=request.POST.get('project'),
+                    assets=request.POST.get('assets', 0),
+                    server=request.POST.get('server', 0),
+                    email=request.POST.get('email', 0),
+                )
+            else:
+                config = Global_Config.objects.create(
+                    ansible_model=request.POST.get('ansible_model'),
+                    ansible_playbook=request.POST.get('ansible_playbook'),
+                    cron=request.POST.get('cron'),
+                    project=request.POST.get('project'),
+                    assets=request.POST.get('assets'),
+                    server=request.POST.get('server'),
+                    email=request.POST.get('email')
+                )
+            return JsonResponse({'msg': '配置修改成功', "code": 200, 'data': []})
+        elif request.POST.get('op') == "email":
+            try:
+                count = Email_Config.objects.filter(id=1).count()
+            except:
+                count = 0
+            if count > 0:
+                Email_Config.objects.filter(id=1).update(
+                    site=request.POST.get('site'),
+                    host=request.POST.get('host', None),
+                    port=request.POST.get('port', None),
+                    user=request.POST.get('user', None),
+                    passwd=request.POST.get('passwd', None),
+                    subject=request.POST.get('subject', None),
+                    cc_user=request.POST.get('cc_user', None),
+                )
+            else:
+                Email_Config.objects.create(
+                    site=request.POST.get('site'),
+                    host=request.POST.get('host', None),
+                    port=request.POST.get('port', None),
+                    user=request.POST.get('user', None),
+                    passwd=request.POST.get('passwd', None),
+                    subject=request.POST.get('subject', None),
+                    cc_user=request.POST.get('cc_user', None),
+                )
+            return JsonResponse({'msg': '配置修改成功', "code": 200, 'data': []})
 
 @login_required(login_url='/')
 def Ansible_playbook_config(request):

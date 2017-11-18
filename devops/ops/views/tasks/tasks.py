@@ -3,7 +3,7 @@ from celery import shared_task
 from ops.views.ssh_settings import redisip,redisport
 from ops.views.ssh import SSH_SSH
 import redis,os,sys,json
-from ops.models import WebHook,History, Global_Config
+from ops.models import WebHook,History, Global_Config,Ansible_Playbook_Log,Log_Assets
 r = redis.StrictRedis(host=redisip, port=redisport, db=0)
 
 @shared_task
@@ -38,7 +38,7 @@ def recordAnsiblePlaybook(user, ans_id, ans_name, ans_content, ans_server=None):
     try:
         config = Global_Config.objects.get(id=1)
         if config.ansible_playbook == 1:
-            Log_Ansible_Playbook.objects.create(
+            Ansible_Playbook_Log.objects.create(
                 ans_user=user,
                 ans_server=ans_server,
                 ans_name=ans_name,

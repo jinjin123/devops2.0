@@ -120,6 +120,8 @@ var create_net = '/api/net/'
 var assets_list = '/assets_list'
 var assets  = '/api/assets/'
 var assets_facts = '/assets_facts'
+var global_config = '/log_global_config'
+var global_log = '/global_log'
 
 function get_global_csrf_token (){
   token = document.getElementsByName('csrfmiddlewaretoken')[0].value
@@ -1140,6 +1142,12 @@ $(function(){
     });
     $('#assets_list').click(function(){
         window.location.href = assets_list;
+    });
+    $('#global_config').click(function(){
+        window.location.href = global_config;
+    });
+    $('#global_log').click(function(){
+        window.location.href = global_log;
     });
     ///limit something opeation
     var admin = Rmtab($("#user_id")[0].textContent)

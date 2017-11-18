@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from ssh_settings import redisip,redisport,upload_dir
-from ops.models import HostInfo,Ansible_Model_Log,Ansible_Playbook_Number,Ansible_Playbook
+from ops.models import HostInfo,Ansible_Model_Log,Ansible_Playbook_Number,Ansible_Playbook,Ansible_Model_Log,Ansible_Playbook_Log
 from django.contrib.auth.models import User, Group
 from asb_model.ansibleApi import  ANSRunner
 from ops.views.return_http import ajax_http
@@ -237,3 +237,13 @@ def ansible_playbook_run(request, pid):
         else:
             return JsonResponse({'msg': "剧本执行失败，{user}正在执行该剧本".format(
                 user=DsRedis.OpsAnsiblePlayBookLock.get(playbook.playbook_uuid + '-locked')), "code": 500, 'data': []})
+
+
+@login_required()
+def ansible_log(request):
+    img = 'media/' +  str(request.user.head_img)
+    if request.method == "GET":
+        modelList = Ansible_Model_Log.objects.all().order_by('-id')[0:120]
+        playbookList = Ansible_Playbook_Log.objects.all().order_by('-id')[0:120]
+        return render(request, 'global_log.html', {"user": request.user, "modelList": modelList,
+                                                      "playbookList": playbookList,"head":img})

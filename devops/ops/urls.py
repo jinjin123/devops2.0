@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.conf import settings
 from django.views.static import serve
 from views import views
-from views.ansible_play import ansible_run,ansible_model,ansible_playbook_add,ansible_playbook_file,ansible_playbook_run
+from views.ansible_play import ansible_run,ansible_model,ansible_playbook_add,ansible_playbook_file,ansible_playbook_run,ansible_log
 from api import playbook_api,user_api,assets_api
 from views.assets.assets import assets_config,assets_add,assets_list,assets_view,assets_modf,assets_facts
 
@@ -127,6 +127,9 @@ urlpatterns = [
     url(r'^assets_facts',assets_facts),
     url(r'^assets_modf/(?P<aid>[0-9]+)/$',assets_modf),
     url(r'^assets_view/(?P<aid>[0-9]+)/$',assets_view),
+
+    url(r'^log_global_config',views.config),
+    url(r'^global_log',ansible_log),
 
     url(r'^api/users/$',user_api.user_list),
     url(r'^api/groups/$',user_api.group_list),
