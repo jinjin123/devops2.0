@@ -220,10 +220,10 @@ $(function () {
 //TODO  server  handle excel about the server info  insert to db
 $(function () {
 //upload server excel filter & progressbar
+    // var token = get_global_csrf_token();
     $('#drag-and-drop-zone').dmUploader({
-        var token = get_global_csrf_token()
         url: handle_server_excel,
-        headers: {'X-CSRFToken': token },
+        // headers: {'X-CSRFToken': token },
         dataType: 'json',
         allowedTypes: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         onInit:function () {
@@ -278,6 +278,7 @@ $(function () {
      $.danidemo.addLog('#demo-debug', 'error', 'File \'' + file.name + '\' has a Not Allowed Extension');
      },*/
     onFallbackMode: function (message) {
+        console.log(message)
         $.danidemo.addLog('#demo-debug', 'info', 'Browser not supported(do something else here!): ' + message);
     }
    })

@@ -37,6 +37,9 @@ from  dwebsocket.decorators import accept_websocket,require_websocket
 import ssh_module_controller,threading,cpu,mem,hashlib,datetime,redis,random,commands,time,requests,subprocess
 import simplejson as json
 import re,uuid,StringUtil
+from django.views.decorators.csrf import csrf_exempt
+from excel import handle_excel_file
+# import xlrd,xlwt
 
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
 # img = '../static/img/cd-avatar.png'
@@ -297,6 +300,23 @@ def del_server_list(request):
                 print e
         except Exception,e:
             print e
+
+@csrf_exempt
+@login_required()
+@ajax_http
+def handle_excel(request):
+    ssh_info = {"status": True, "content": ""}
+    if request.method == "POST":
+        filename = str(request.FILES.get("file"))
+        file_content = request.FILES.get('file').read()
+        _dir = os.path.join(ssh_settings.upload_dir + '/server_excel/')
+        if not os.path.isdir(_dir):
+            os.mkdir(_dir)
+        dfile = os.path.join(_dir, filename)
+        with open(dfile.encode('utf8'), "wb") as f:
+            f.write(file_content)
+        handle_excel_file(dfile)
+
 
 
 ###load all server config
