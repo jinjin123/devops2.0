@@ -14,19 +14,6 @@
     #leftsead li a .hides{margin-right:-166px;}
     #leftsead li a.youhui .hides{display:none;position:absolute;right:215px;top:-111px;width:200px;}
     .glyphicon {color: #585C64; font-size: large;}
-    .main-sidebar{
-	position: absolute;
-	padding-top: 3%;
-	left: 0;
-	height: 100%;
-	min-height: 100%;
-	z-index: 5;
-	background-color: #222d32;
-    }
-    #notice{position: absolute;  right: 220px;  top: 40%;}
-    #mail{position: absolute;  right: 190px;  top: 40%;}
-    #set{position: absolute;  right: 160px;  top: 40%;}
-    #out{position: absolute;  right: 130px;  top: 40%;}
     </style>
 
 {% endblock %}
@@ -41,34 +28,7 @@
             <span style="letter-spacing: 4px;">请稍后...</span>
         </div>
 {#    loadding end     #}
-{#    show error    #}
-        <div id="showErrorInfoDIV"
-             style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
-            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
-                 id="">
-                <div class="modal "
-                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
-                    <div class="modal-dialog">
-                        <div class="modal-content  ">
-                            <div class="modal-header" style="cursor: move;">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
-                            </div>
-                            <div class="modal-body  ">
-                                <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">
-                                    请确认您的内容?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" id="closeButton">好的
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="shadow"
-                 style="display:none;position: absolute;  top: 0px; bottom: 0px ;left: 0px; right: 0px; z-index: 1006;background: rgba(0,0,0,0.4); "></div>
-        </div>
+
 {#    download error notice    #}
         <div id="showDownloadNotice"
              style="z-index: 1004;position: absolute;left: 0px;right: 0px;top:0px;margin: auto;display:none;">
@@ -90,9 +50,9 @@
                             <button style="float: left;" type="button" class="btn btn-default"
                                     id="closeDownloadFileButton">明白
                             </button>
-{#                            <button style="float:right; " type="button" class="btn btn-success"#}
-{#                                    id="continueDownloadFileButton">下载#}
-{#                            </button>#}
+                            <!-- <button style="float:right; " type="button" class="btn btn-success"
+                                    id="continueDownloadFileButton">下载
+                            </button> -->
 {#        TODO: click  download button  时 将绑定 tid 的文件 进行下载 ，这里有bug 后面在修 先隐藏                   #}
                         </div>
                     </div>
@@ -104,7 +64,7 @@
     {#   fileup  to select server    #}
         <div class="box" id="file_to_down">
             <div class="server_to_select">
-                <a href="javascript:;" onclick="" class="close" id="CloseSelectLink">X</a>
+                <a href="javascript:;" onclick="" class="close" id="CloseSelectLink"></a>
                 <div>
                     <div class="glyphicon  glyphicon-filter " style="top:20px;left: 10px;">选择服务器</div>
                     <br><br>
@@ -238,15 +198,13 @@
     {% endblock %}
 
 {% block footer %}
-    <script src="../static/js/headimg.js"></script>
-    <script src="../static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
-    <script src="../static/js/filedown.js"></script>
-{#    <script src="../static/js/server.js"></script>#}
-    <script src="../static/js/jquery.menu-aim.js"></script>
-{#    <script src="../static/js/dycontent.js"></script> <!-- Resource jQuery -->#}
-    <script src="../static/js/rightpg.js"></script> <!-- Resource jQuery -->
-    <script src="../static/js/sidebar-menu.js"></script> <!-- Resource jQuery -->
-    <script src="../static/js/velocity.min.js"></script>
+    <script src="/static/js/headimg.js"></script>
+    <script src="/static/js/jquery-migrate-1.0.0.js"></script>  {# this is 1.8 feature support toggle  ,1.9 is already  deprecated#}
+    <script src="/static/js/filedown.js"></script>
+    <script src="/static/js/jquery.menu-aim.js"></script>
+    <script src="/static/js/rightpg.js"></script> <!-- Resource jQuery -->
+    <script src="/static/js/sidebar-menu.js"></script> <!-- Resource jQuery -->
+    <script src="/static/js/velocity.min.js"></script>
     <script>
     $.sidebarMenu($('.sidebar-menu'))
     </script>

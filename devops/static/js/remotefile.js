@@ -10,7 +10,7 @@ function closeEditDiv(){
 
 function showEditDiv(){
     //edit remote file Div
-    startShadow();
+    // startShadow();
     $("#remoteFileEditDiv").show("fast");
     document.getElementById("remoteFilePath").focus();
 }

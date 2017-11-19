@@ -147,7 +147,21 @@ $(function () {
           // 鼠标喵点显示名字
           name: '内存使用',
           // 0是 x轴 占位 刻度 多少个0 就代表显示多少个时间
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          // data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          data:(function () {
+            // generate an array of random data
+            var data = [],
+                time = (new Date()).getTime(),
+                i;
+
+            for (i = -19; i <= 0; i += 1) {
+                data.push({
+                    x: time + i * 1000,
+                    // y: Math.random()
+                });
+            }
+            return data;
+          }()),
           //remove  series name
           showInLegend: false,
           color: '#f68936',
@@ -156,7 +170,21 @@ $(function () {
         },{
           name: '限制内存',
           // 0是 x轴 占位 刻度 多少个0 就代表显示多少个时间
-          data: [90, 95, 98, 80, 70, 68, 85, 71, 64, 90],
+          // data: [90, 95, 98, 80, 70, 68, 85, 71, 64, 90],
+          data:(function () {
+            // generate an array of random data
+            var data = [],
+                time = (new Date()).getTime(),
+                i;
+
+            for (i = -19; i <= 0; i += 1) {
+                data.push({
+                    x: time + i * 1000,
+                    // y: Math.random()
+                });
+            }
+            return data;
+          }()),
           //remove  series name
           showInLegend: false,
           color: '#70ba47',
@@ -279,8 +307,24 @@ $(function () {
           series: [{
             // 鼠标喵点显示名字
             name: '内存使用率',
-            // 0是 x轴 占位 刻度 多少个0 就代表显示多少个时间
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            // 0是 x轴 占位 刻度 多少个0 就代表显示多少个时间,function ,先画静态图然后才是动态图
+            // /*
+            data: (function () {
+              // generate an array of random data
+              var data = [],
+                  time = (new Date()).getTime(),
+                  i;
+
+              for (i = -19; i <= 0; i += 1) {
+                  data.push({
+                      x: time + i * 1000,
+                      // y: Math.random()
+                  });
+              }
+              return data;
+            }()),
+            // */
+            // data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             //remove  series name
             showInLegend: false,
             color: '#f68936',
@@ -405,7 +449,21 @@ $(function () {
               // 鼠标喵点显示名字
               name: 'CPU使用率',
               // 0是 x轴 占位 刻度 多少个0 就代表显示多少个时间
-              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              // data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              data:(function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -19; i <= 0; i += 1) {
+                    data.push({
+                        x: time + i * 1000,
+                        // y: Math.random()
+                    });
+                }
+                return data;
+              }()),
               //remove  series name
               showInLegend: false,
               color: '#f68936',
@@ -530,7 +588,21 @@ $(function () {
                 // 鼠标喵点显示名字
                 name: '进入流量',
                 // 0是 x轴 占位 刻度 多少个0 就代表显示多少个时间
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                // data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                data:(function () {
+                  // generate an array of random data
+                  var data = [],
+                      time = (new Date()).getTime(),
+                      i;
+
+                  for (i = -19; i <= 0; i += 1) {
+                      data.push({
+                          x: time + i * 1000,
+                          // y: Math.random()
+                      });
+                  }
+                  return data;
+                }()),
                 //remove  series name
                 showInLegend: false,
                 color: '#f68936',
@@ -539,7 +611,21 @@ $(function () {
               },{
                 name: '出口流量',
                 // 0是 x轴 占位 刻度 多少个0 就代表显示多少个时间
-                data: [90, 95, 98, 80, 70, 68, 85, 71, 64, 90],
+                // data: [90, 95, 98, 80, 70, 68, 85, 71, 64, 90],
+                data:(function () {
+                  // generate an array of random data
+                  var data = [],
+                      time = (new Date()).getTime(),
+                      i;
+
+                  for (i = -19; i <= 0; i += 1) {
+                      data.push({
+                          x: time + i * 1000,
+                          // y: Math.random()
+                      });
+                  }
+                  return data;
+                }()),
                 //remove  series name
                 showInLegend: false,
                 color: '#70ba47',

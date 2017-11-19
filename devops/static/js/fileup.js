@@ -3,7 +3,7 @@
  */
 
 function FileUpSelectServer (){
-    document.getElementById("shadow").style.display="block";
+    // document.getElementById("shadow").style.display="block";
     $("#showFileDownloadServerDIV").slideDown("fast");
     var hostGroups=[];
     window.currentSelectedServers=[];//save select host

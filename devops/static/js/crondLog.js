@@ -54,7 +54,7 @@ function CrondSelectServer() {
 
 
 function changeCrontab(team){
-	startShadow();
+	// startShadow();
 	$("#showCrontabDiv").show("fast");
 	var data=team.getAttribute("data");
 	data=JSON.parse(data);
@@ -73,8 +73,8 @@ function changeCrontab(team){
 	document.getElementById("saveCrontab").setAttribute("tid",tid);
 
 	document.getElementById("saveCrontab").setAttribute("action","modify");
-	
-	
+
+
 }
 
 function deleteCrontab(team){
@@ -184,7 +184,7 @@ function crondLog(){
 
 function clearCrontabDiv(){
 	// clean input div data
-	startShadow();
+	// startShadow();
 	$("#showCrontabDiv").show("fast")
 	document.getElementById("server").value="";
 	document.getElementById("runtime").value="";
@@ -259,7 +259,7 @@ $(function(){
 	document.getElementById("server").onclick=function(){
 		document.getElementById("showCrontabDiv").style.display="none";
 		CrondSelectServer();
-		
+
 	}
 	document.getElementById("closeServerSelect").onclick=function(){
 		document.getElementById("showCrontabDiv").style.display="block";
@@ -292,7 +292,7 @@ $(function(){
 	//bind save btn
 	document.getElementById("saveCrontab").onclick=function(){
 		saveCrontabList();
-		
+
 	}
 
 })

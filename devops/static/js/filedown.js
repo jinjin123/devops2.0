@@ -6,7 +6,7 @@
 // })
 
 function fileDownloadSelectServer (){
-    document.getElementById("shadow").style.display="block";
+    // document.getElementById("shadow").style.display="block";
     $("#showFileDownloadServerDIV").slideDown("fast");
     var hostGroups=[];
     window.currentSelectedServers=[];//save select host
@@ -384,7 +384,3 @@ function remotePathNextButton(model){
     window.uploadFileModel=model;//upload model
     document.getElementById("shadow").style.display="none";
 }
-
-
-
-
