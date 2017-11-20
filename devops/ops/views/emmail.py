@@ -63,13 +63,13 @@ def GetMiddleStr(msg,startStr,endStr):
   return msg[startIndex:endIndex]
 
 if __name__ == "__main__":
-     pop3_server = 'pop3.mxhichina.com'
+     pop3_server = 'pop.sina.com'
      if len(sys.argv) > 1:
-        email = sys.argv[1]
-        password=sys.argv[2]
+         email = sys.argv[1]
+         password=sys.argv[2]
      else:
-        email = 'pjwu@sparkpad.com'
-        password = 'Jinjin123.'
+         email = 'w1p1j1@sina.com'
+         password = 'jinjin123'
 
      server = poplib.POP3(pop3_server)
      server.user(email)

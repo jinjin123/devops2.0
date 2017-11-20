@@ -225,13 +225,6 @@ function createNode(data) {
   DelNode();
 }
 
-function NodeClick() {
-  $('#myTab').find('li').on('click', function(e) {
-    CatchNode = $(this).children()[0].title
-    console.log(CatchNode);
-  })
-}
-
 function DelNode() {
   $('#myTab').find('div').on('click', function(e) {
     //got the prev  array
@@ -263,6 +256,134 @@ function DelNode() {
 
     })
   })
+}
+
+function NodeClick() {
+  $('#myTab').find('li').on('click', function(e) {
+    DockerHost = $(this).children()[0].title
+    console.log(DockerHost);
+    $('#showContainerService').children().remove()
+    postJSON(Distribution_docker_engine,{"ip": DockerHost}).then(function(data){
+        console.log(data)
+        CreateContainerService(data)
+
+    })
+  })
+}
+
+//  load Container  service
+function CreateContainerService(data){
+      // console.log(data)
+      content = JSON.parse(data)
+      console.log(content)
+      if (content.status) {
+        //{"result": '['{"created": "2017-08-16 11:08:32", "image": " ubuntu-upstart:latest ", "container_id": "049c7cb459ab", "servicename": "abc", "serviceAddress": "88.99.1.2", "memory": "500", "password": "@#L<9UEEIBGWIC.", "cpu": "1", "dependsnode": " default ", "user": "j"}']',"status": True}
+        //map  must  be  recived  a list to ioop
+        $('#ContainerService').hide()
+        $.map(content, function(i, n) {
+          for (x = 0; x < i.length; x++) {
+            ServiceInfo = JSON.parse(i[x])
+            // console.log(ServiceInfo)
+            var showContainerService = document.getElementById('showContainerService')
+            var tr = document.createElement("tr");
+            var container_id = document.createElement("td");
+            container_id.textContent = ServiceInfo.container_id
+            tr.appendChild(container_id)
+
+            var servicename = document.createElement("td");
+            servicename.textContent = ServiceInfo.servicename
+            tr.appendChild(servicename)
+
+            var node = document.createElement("td");
+            node.textContent = ServiceInfo.dependsnode
+            tr.appendChild(node)
+
+            var user = document.createElement("td");
+            user.textContent = ServiceInfo.user
+            tr.appendChild(user)
+
+            var serviceaddress = document.createElement("td");
+            serviceaddress.textContent = ServiceInfo.serviceAddress
+            tr.appendChild(serviceaddress)
+
+            var image = document.createElement("td");
+            image.textContent = ServiceInfo.image
+            tr.appendChild(image)
+
+            var memory = document.createElement("td");
+            memory.textContent = ServiceInfo.memory + 'M'
+            tr.appendChild(memory)
+
+            var cpu = document.createElement("td");
+            cpu.textContent = ServiceInfo.cpu
+            tr.appendChild(cpu)
+
+            var created = document.createElement("td");
+            created.textContent = ServiceInfo.created
+            tr.appendChild(created)
+
+
+            //get the  container status  TODO: setTimeout  request the container status
+            var status = document.createElement("td");
+            status.setAttribute("id", ServiceInfo.container_id)
+            status.className = "status"
+            status.style.cursor = "pointer";
+            var span = document.createElement("span")
+            tr.appendChild(status)
+
+            //opeation  button
+            var opeation = document.createElement("td");
+            var restart = document.createElement("button");
+            restart.className = "btn btn-xs btn-default glyphicon glyphicon-refresh";
+            restart.setAttribute("container_id", ServiceInfo.container_id);
+            restart.onclick = function() {
+              //Container_restart(this)
+              Container_restart (this.getAttribute("container_id"))
+            }
+            opeation.appendChild(restart);
+
+            var stop = document.createElement("button");
+            stop.style.marginLeft = "3px";
+            stop.className = "btn btn-xs btn-default glyphicon glyphicon-stop";
+            stop.setAttribute("container_id", ServiceInfo.container_id);
+            stop.onclick = function() {
+              if(this.className == "btn btn-xs btn-default glyphicon glyphicon-stop"){
+                Container_stop(this.getAttribute("container_id"))
+              }else{
+                Container_start(this.getAttribute("container_id"))
+              }
+            }
+            opeation.appendChild(stop);
+
+            var backup = document.createElement("button");
+            backup.style.marginLeft = "3px";
+            backup.className = "btn btn-xs btn-default glyphicon glyphicon-hdd";
+            backup.setAttribute("container_id", ServiceInfo.container_id);
+            backup.onclick = function() {
+              //Container_backup(this)
+              Container_backup(this.getAttribute("container_id"));
+            }
+            opeation.appendChild(backup);
+
+            var del = document.createElement("button");
+            del.style.marginLeft = "3px";
+            del.className = "btn btn-xs btn-default glyphicon glyphicon-trash";
+            del.setAttribute("container_id", ServiceInfo.container_id);
+            del.onclick = function() {
+              Container_remove(this.getAttribute("container_id"))
+            }
+            opeation.appendChild(del);
+            tr.appendChild(opeation);
+            showContainerService.appendChild(tr)
+            checkcontainer(ServiceInfo.serviceAddress, ServiceInfo.container_id)
+            $(document).on('keyup', '.Search_container', function () {
+                searchValue(this);
+            });
+          }
+          //ioop all container  then show success
+          showSuccessNotic()
+        })
+      }
 }
 
 

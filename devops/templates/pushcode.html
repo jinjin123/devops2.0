@@ -28,38 +28,6 @@
             <span style="letter-spacing: 4px;">请稍后...</span>
         </div>
 {#    loadding end     #}
-{#    show error    #}
-        <div id="confirmCommandDiv"
-             style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
-            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
-                 id="">
-                <div class="modal "
-                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
-                    <div class="modal-dialog">
-                        <div class="modal-content  ">
-                            <div class="modal-header" style="cursor: move;">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
-                            </div>
-                            <div class="modal-body  ">
-                                <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">
-                                    请确认您的内容?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal"
-                                        id="forceExecuteCommand">强制
-                                </button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal"
-                                        id="closeConfirmCommandButton">
-                                    放弃
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-{#    show error  end  #}
 {#   upload plugins     #}
         <div id="uploadScriptProgressDiv" class="progress progress-striped" style="font-weight: bold;font-size: 500%;z-index: 1004;width:40%;height:5%;margin:auto;position:fixed;top:0%;bottom:0%;right:0px;left:120%;display: block;">
             <div id="showScriptProgressText" class="progress-bar  progress-bar-success active">
@@ -110,7 +78,7 @@
         <section class="cd-section PushCode visible">
             <div id="index-content" class="cd-content" style="padding: 1em 19px;margin:0 0 0 -90px">
               <div id="add_hook" style="background:white;width:100%;margin:20px 0 60px 5px;position:absolute;top:0%;bottom:0%;z-index:9999;display:none">
-                <div style="height: 500px;overflow-y: auto;margin: 0;padding: 0;">
+                <div style="height: 500px;overflow-y: auto;margin: 0;padding: 0;"> {% csrf_token %}
                 <table  class="table">
                     <thead>
                         <tr>

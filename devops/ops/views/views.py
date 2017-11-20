@@ -1604,21 +1604,37 @@ def get_container_net(request):
         # print result
         return json.dumps(result)
 
-@login_required(login_url='/')
+@login_required()
+@ajax_http
+def get_docker_host_info(request):
+    if request.method == "POST":
+        ip = json.loads(request.body)['ip']
+        allcontainer_list = ContainerMixin().json(ip)
+        container = []
+        for  x in allcontainer_list:
+            container_details = ContainerMixin().details(ip,x[u'Id'][:10])
+            container.append(json.dumps(container_details))
+        return json.dumps({"result": container,"status": True })
+
+
+@login_required()
 @ajax_http
 def receive_email(request):
     if request.method == "POST":
         user =  str(request.user)
-        email = str(request.user.email)
+        email = request.user.email
         e_pwd = request.body.replace('"','')
         r.set("{email}".format(email=email),e_pwd)
+        # print email,e_pwd
         result =  EmailMinxin().email(email,e_pwd)
         return result
     else:
         user =  str(request.user)
         email =  request.user.email
         e_pwd = r.get("{email}".format(email=email))
+        print e_pwd
         result =  EmailMinxin().email(email,e_pwd)
+        # result =  EmailMinxin().email()
         # r.lpush('%s',result)% email
         r.lpush("{user}.{email}".format(user=user,email=email),result)
         return  result

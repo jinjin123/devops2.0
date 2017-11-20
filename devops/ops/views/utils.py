@@ -99,6 +99,7 @@ class  EmailMinxin:
         # cmd = '/usr/bin/python  %s %s %s %s' % (format(ssh_settings.HOME + '/devops/ops/views/emmail.py'),user,email,password)
         # cmd = '/usr/bin/python  %s %s %s' % (format(ssh_settings.HOME + '/devops/ops/views/emmail.py'),email,password)
         cmd = '/usr/bin/python  %s  %s %s' % (format(ssh_settings.HOME + '/devops/ops/views/emmail.py'),email,password)
+        # cmd = '/usr/bin/python  %s ' % (format(ssh_settings.HOME + '/devops/ops/views/emmail.py'))
         data = str(check_output(cmd,shell=True))
         result = dict({"content": data})
         return  json.dumps(result)
@@ -202,29 +203,42 @@ class ContainerMixin:
                 '/containers/' + container_id + '?v=1?force=1')
         return response
 
-    def details(self):
-        details_rg = requests.get('http://localhost:' + settings.DOCKER_API_PORT + \
-                '/containers/' + self.container_id + '/json')
-        j_details = details_rg.json()
-        details_d = {'memory': j_details['HostConfig']['Memory']/1000000}
-        details_d['cores'] = j_details['HostConfig']['CpusetCpus']
+    def details(self,host,container_id):
+        try:
+            details_rg = requests.get('http://'+ host + ':' + settings.DOCKER_API_PORT + \
+                    '/containers/' + container_id + '/json')
+            j_details = details_rg.json()
+            details_d = {'memory': j_details['HostConfig']['Memory']/1000000}
+            if j_details['HostConfig']['CpusetCpus'] == "":
+                details_d['cpu'] = '0'
+            else:
+                details_d['cpu'] = j_details['HostConfig']['CpusetCpus']
+            details_d['image'] = j_details['Config']['Image']
+            details_d['servicename'] = j_details['Name'].split('/')[1]
+            details_d['container_id'] = container_id
+            details_d['dependsnode'] = host
+            details_d['user'] = 'all'
 
-        net = j_details['NetworkSettings']['Networks']
-        if net.get('dbox_macvlan', None):
-            details_d['ip_addr'] = net['dbox_macvlan']['IPAddress']
-        else:
-            details_d['ip_addr'] = net['dbox_bridge']['IPAddress']
+            net = j_details['NetworkSettings']['Networks']
+            details_d['serviceAddress'] = net['bridge']['IPAddress']
+            # if net.get('dbox_macvlan', None):
+                # details_d['ip_addr'] = net['dbox_macvlan']['IPAddress']
+            # else:
+                # details_d['ip_addr'] = net['dbox_bridge']['IPAddress']
 
-        details_d['created'] = j_details['Created'].split('.')[0].replace('T', ' ')
-        details_d['running'] = j_details['State']['Running']
-        return details_d
+            details_d['created'] = j_details['Created'].split('.')[0].replace('T', ' ')
+            details_d['running'] = j_details['State']['Running']
+
+            return details_d
+        except Exception as e:
+            return e
 
     def running_processes(self):
         processes = requests.get('http://localhost:' + settings.DOCKER_API_PORT + '/containers/' + self.container_id + '/top')
         return processes
 
-    def json(self):
-        container = requests.get('http://localhost:' + settings.DOCKER_API_PORT + '/containers/' + self.container_id + '/json')
+    def json(self,host):
+        container = requests.get('http://' + host +':'+ settings.DOCKER_API_PORT + '/containers/json')
         return container.json()
 
     @staticmethod

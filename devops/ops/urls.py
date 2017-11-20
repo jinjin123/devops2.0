@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^delete_keyfile',views.delete_keyfile,name="delete_keyfile"),
     url(r'^show_keyfile_list',views.show_keyfile_list,name="show_keyfile_list"),
 
+    url(r'^get_docker_engine_info',views.get_docker_host_info),
     url(r'^docker_repo_list',views.docker_repo,name="docker_repo"),
     url(r'^docker_repo_content',views.docker_repo_list,name="docker_repo_list"),
     url(r'^docker_repo_del',views.docker_repo_del,name="docker_repo_del"),

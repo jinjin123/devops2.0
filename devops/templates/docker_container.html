@@ -40,7 +40,7 @@
         margin-top: 10%;
     }
     #ServiceDiv {
-      margin-top: -61.5%;
+      margin-top: -60.3%;
       position: absolute;
       margin-left: 220px;
     }
@@ -117,38 +117,6 @@
             <span style="letter-spacing: 4px;">请稍后...</span>
         </div>
 {#    loadding end     #}
-{#    show error    #}
-        <div id="confirmCommandDiv"
-             style="z-index: 1005;display:none;position: fixed;  top: 0px; bottom: 0px ;left: 0px; right: 0px; ">
-            <div style="width:auto;height: 200px;position: relative;left: 0px;right: 0px;top: 40%;bottom: 60%;margin: auto;;"
-                 id="">
-                <div class="modal "
-                     style="overflow:hidden;overflow-y:hidden;position:fixed;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
-                    <div class="modal-dialog">
-                        <div class="modal-content  ">
-                            <div class="modal-header" style="cursor: move;">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                <h4 class=" glyphicon glyphicon-alert " style="color: red;">错误</h4>
-                            </div>
-                            <div class="modal-body  ">
-                                <p id="showWarnContent" style="text-align:center;color:red; font-weight:bold;">
-                                    请确认您的内容?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal"
-                                        id="forceExecuteCommand">强制
-                                </button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal"
-                                        id="closeConfirmCommandButton">
-                                    放弃
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-{#    show error  end  #}
 {#    create  script   input  #}
         <div class="box" style="z-index: 1004;width:auto;height:100%;position: fixed;left: 0px;right: 0px;top: 0px;;bottom: 0%;margin: auto;display:none;" id="showScriptName">
             <div class="modal" style="height: 100%;;position:relative;left:0px;right:0px;bottom:0px;top:0px;margin:auto;display:block;">
@@ -376,7 +344,7 @@
                         </div>
                     </div>
                     <div class="loader">
-                        <div class="text-center loadingtext"></div>
+                        <div class="text-center loadingtext"></div>{% csrf_token %}
                     </div>
                     <div id="LeftDiv">
                           <div class="button"><button id="CreateCTNNode" class="btn btn-success" style="background-color:#67aaf5" onclick="$('#NewContainerShow').show()"><i class="glyphicon glyphicon-plus"></i> 创建节点 </button></div>

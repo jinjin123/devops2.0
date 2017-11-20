@@ -122,6 +122,7 @@ var assets  = '/api/assets/'
 var assets_facts = '/assets_facts'
 var global_config = '/log_global_config'
 var global_log = '/global_log'
+var Distribution_docker_engine = '/get_docker_engine_info'
 
 function get_global_csrf_token (){
   token = document.getElementsByName('csrfmiddlewaretoken')[0].value
@@ -312,7 +313,7 @@ function initGetServersList() {
             }
             else {
                 window.allServersList = responseCheck(data);// global server list
-                console.log(window.allServersList);
+                // console.log(window.allServersList);
                 console.log('接收所有服务器');
             }
         },
@@ -414,7 +415,7 @@ function createServerStatusTd(sip,data){
         showCheckStatus.appendChild(span);//加入新的状态信息
         document.getElementById("showCheckInfo").textContent=this.getAttribute("info");
         $("#showServerCheckInfo").show("fast");
-        startShadow();
+        // startShadow();
     }
     if(data.status=="success"){
         span.textContent="正常";
@@ -503,7 +504,7 @@ function responseCheck(data) {
     try {
         data = JSON.parse(data);
         // console.log(data.content);
-        console.log(data);
+        // console.log(data);
         return data.content;
     }
     catch (e) {
@@ -791,14 +792,13 @@ $(function (){
 
 $(function(){
      showKeyFileTable();
-     // load_email_content();
+     load_email_content();
    //show the setting of owner configure
    $('#mail').toggle(function(){
-     load_email_content();
+     // load_email_content();
         var storage = window.localStorage
         if(localStorage.hasOwnProperty('emmmm_pwd')){
           var em_pwd = storage.getItem("emmmm_pwd")
-          // console.log(em_pwd)
           postJSON(Email_URL, em_pwd).then(function(data){
             $('#div2').slideDown("fast");
             document.getElementsByClassName("triangle")[0].style.display = 'none';
@@ -812,6 +812,7 @@ $(function(){
              if(em_pwd != ''){
                storage.setItem("emmmm_pwd",em_pwd)
               //  console.log(storage["emmmm_pwd"])
+              // console.log(em_pwd)
                postJSON(Email_URL, em_pwd).then(function(data){
                 //  console.log(data)
                  $('#div2').slideDown("fast");
