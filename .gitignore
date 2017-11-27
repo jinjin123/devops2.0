@@ -6,5 +6,6 @@ script/
 keys/
 download/
 db.*
+*.DS_Store
 
 
