@@ -7,12 +7,12 @@
              var writedata = [];
              var recedata = [];
              var transdata = [];
-
+             token = get_global_csrf_token()
              function getData() {
                  if (data.length > 0){
                      data = data.slice(1);
                      $.ajax({
-                          url: "/cpu/",
+                        url: "/cpu/",
                         dataType: "json",
                         success:function(datas){
                             if(datas[0] == 0){

@@ -14,7 +14,7 @@ from django.core.cache import cache
 from django.core import serializers
 from .. import ssh_settings
 # from .. import  models
-from ops.models import Ansible_Playbook,Ansible_Playbook_Number,UserLock,TopContServer,PushCodeEvent,HostInfo,WebHook,History,UserInfo,Global_Config
+from ops.models import Ansible_Playbook,Ansible_Playbook_Number,UserLock,TopContServer,PushCodeEvent,HostInfo,WebHook,History,UserInfo,Global_Config,Assets
 from ssh_file_transfer import  SSHFileTransfer
 from ssh_thread_queue import  SSHThreadAdmin
 from return_http import  ajax_http
@@ -198,12 +198,31 @@ def add_server_list(request):
                             server["status"]=server_status
                             r.lpush("server",json.dumps(server))
                         except Exception as e:
-                            print str(e)
+                            logging.error(e)
 
+                assets = {
+                    "assets_type": 'server',
+                    "name":'N',
+                    "sn": 'N',
+                    "buy_time": time.strftime("%Y-%m-%d",time.localtime()),
+                    "expire_date": time.strftime("%Y-%m-%d",time.localtime()),
+                    "buy_user": 'N',
+                    "management_ip": 'N',
+                    "manufacturer": 'N',
+                    "model": 'N',
+                    "provider": 'N',
+                    "status": 0,
+                    "put_zone": 0,
+                    "group": 0,
+                    "business":0
+                }
+
+                assets_obj = Assets.objects.create(**assets)
+                # data['assets'] = assets_obj
                 HostInfo.objects.create(ip=ip,port=port,group=group,
                                                user=user,pwd=pwd,login_type=login_type,
                                                key=key,us_sudo=us_sudo,us_su=us_su,sudo=sudo,
-                                               su=su,alive=server_status,bz=bz)
+                                               su=su,alive=server_status,bz=bz,assets=assets_obj)
             else:
                 ip = dict['ip']
                 port = dict['port']
@@ -251,7 +270,7 @@ def add_server_list(request):
                                                key=key,us_sudo=us_sudo,us_su=us_su,sudo=sudo,
                                                su=su,alive=server_status,bz=bz)
         except Exception,e:
-            print e
+            logging.error(e)
         return  HttpResponse(status=200)
 
 def ssh_check(ip):
@@ -549,10 +568,10 @@ def get_command_result(request):
                     content += _content["content"]
                     ssh_info["content"] = {"content": content, "stage": _content["stage"],
                                                  "status": _content["status"]}
-            ssh_info["status"] = True
+            ssh_info["content"]['status'] = True
         except Exception, e:
-            ssh_info["status"] = False
-            ssh_info["content"] = str(e)
+            ssh_info["content"]['status'] = False
+            ssh_info["content"]['content'] = str(e)
 
         return  ssh_info
 

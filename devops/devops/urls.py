@@ -21,7 +21,7 @@ from xadmin.plugins import xversion
 # from api import views
 xversion.register_models()
 import xadmin
-xadmin.autodiscover()
+# xadmin.autodiscover()
 #
 # router = routers.DefaultRouter()
 # router.register(r'users', views.UserViewSet)

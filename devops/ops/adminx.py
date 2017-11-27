@@ -1,8 +1,10 @@
 #from django.contrib import admin
-from __future__ import absolute_import
-from .models import  WebHook,History,UserInfo,HostInfo,HardWareInfo,UserLock,PushCodeEvent,TopContServer, IDC, Host, MaintainLog, HostGroup, AccessRecord,PermissonList,RoleList
+#from __future__ import absolute_import
+from ops.models import  WebHook,History,UserInfo,HostInfo,HardWareInfo,UserLock,PushCodeEvent,TopContServer, IDC, Host, MaintainLog, HostGroup, AccessRecord,PermissonList,RoleList
 import hashlib
-import xadmin
+import xadmin,sys
+# sys.path.append('/Users/wupeijin/code3/django-tornado')
+# xadmin.autodiscover()
 from xadmin import views
 from xadmin.layout import Main, TabHolder, Tab, Fieldset, Row, Col, AppendedText, Side
 from xadmin.plugins.inline import Inline

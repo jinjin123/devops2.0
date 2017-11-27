@@ -345,18 +345,20 @@ function getCommandResult(tid,ip) {
                 //if (data.content.stage === "running") {  //stage ? running :done
                 if (data.progress < 100.00) {  //stage ? running :done
                     //still get progress value
-                    setTimeout(_getCommandResult(tid, ip), 1000);
+                     t = setTimeout(_getCommandResult(tid, ip), 1000);
                 }
+                console.log(data)
 
                 if (data.progress == 100.00) {
                     $("#showExecuteRefresh").text("执行").removeClass("fa-refresh  fa-spin");// 100 remove dymanic pic
-                    //$("#commandProgress").removeClass("active");  //progress bar dymanic pic
+                    // $("#commandProgress").removeClass("active");  //progress bar dymanic pic
                     document.getElementById("commandProgress").style.width = "0%";
                     document.getElementById("showCommandProgress").textContent = "0%";
                     document.getElementById("inputCommand").removeAttribute("disabled");
                     $("#execute").find("button")[0].removeAttribute("disabled");
                     document.getElementById("inputCommand").focus();
                     showSuccessNotic();
+                    clearTimeout(t);
                 }
                 console.log(data.content)
                 processProgress(ip, data.content);//show message
