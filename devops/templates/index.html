@@ -234,26 +234,47 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-video-camera"></i> <span>监控中心</span>
+                        <i class="fa fa-search"></i> <span>监控中心</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="content"><a id="#"><i class="fa fa-circle-o"></i> 全局日志 </a></li>
+                        <li class="content"><a id="zabbix_host"><i class="fa fa-circle-o"></i> 主机 </a></li>
+                        <li class="content"><a id="zabbix_group"><i class="fa fa-circle-o"></i> 主机组 </a></li>
+                        <li class="treeview">
+                          <a href="#">
+                              <i class="fa fa-bar-chart-o"></i> <span>应用监控</span>
+                              <i class="fa fa-angle-left pull-right"></i>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li class="content"><a id="#"><i class="fa fa-circle-o"></i> apache监控 </a></li>
+                            <li class="content"><a id="#"><i class="fa fa-circle-o"></i> nginx监控 </a></li>
+                            <li class="content"><a id="#"><i class="fa fa-circle-o"></i> node监控 </a></li>
+                          </ul>
+                        </li>
+                        <li class="treeview">
+                          <a href="#">
+                              <i class="fa fa-database"></i> <span>数据库监控</span>
+                              <i class="fa fa-angle-left pull-right"></i>
+                          </a>
+                          <ul class="treeview-menu">
+                            <li class="content"><a id="#"><i class="fa fa-circle-o"></i> mysql监控 </a></li>
+                            <li class="content"><a id="#"><i class="fa fa-circle-o"></i> redis监控 </a></li>
+                          </ul>
+                        </li>
                     </ul>
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-video-camera"></i> <span>故障处理</span>
+                        <i class="fa fa-bomb"></i> <span>告警事件</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="content"><a href="#"><i class="fa fa-circle-o"></i> General </a></li>
-                        <li class="content"><a href="#"><i class="fa fa-circle-o"></i> Advanced</a></li>
+                        <li class="content"><a href="#"><i class="fa fa-circle-o"></i> 告警事件 </a></li>
                     </ul>
                 </li>
                  <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-database fa-fw"></i> <span>资产管理</span>
+                        <i class="fa fa-database "></i> <span>资产管理</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">

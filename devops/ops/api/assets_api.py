@@ -1,5 +1,5 @@
 # !/usr/bin/env python
-# _#_ coding:utf-8 _*_
+# _*_ coding:utf-8 _*_
 from rest_framework import viewsets, permissions
 from ops.serializers import *
 from ops.models import *

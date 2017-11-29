@@ -9,10 +9,10 @@ from ansible.playbook.play import Play
 from ansible.executor.task_queue_manager import TaskQueueManager
 from ansible.plugins.callback import CallbackBase
 from ansible.executor.playbook_executor import PlaybookExecutor
-#from ops.views.ssh_settings import redisip,redisport
+from ops.views.ssh_settings import redisip,redisport
 
-#r = redis.StrictRedis(host=redisip, port=redisport, db=0)
-r = redis.StrictRedis(host='182.254.154.81', port='23456', db=0)
+r = redis.StrictRedis(host=redisip, port=redisport, db=0)
+# r = redis.StrictRedis(host='182.254.154.81', port='23456', db=0)
 
 
 class MyInventory(Inventory):

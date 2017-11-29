@@ -39,6 +39,7 @@ import simplejson as json
 import re,uuid,StringUtil
 from django.views.decorators.csrf import csrf_exempt
 from excel import handle_excel_file
+from  ops.views.zabbix import zabbix
 # import xlrd,xlwt
 
 r = redis.StrictRedis(host=ssh_settings.redisip, port=ssh_settings.redisport, db=0)
@@ -2050,32 +2051,46 @@ def Work_plan(request):
     img = 'media/' +  str(request.user.head_img)
     return render(request,'work_plan.html',{"user":request.user,"head":img})
 
-@login_required(login_url='/')
+@login_required
 def remotefile(request):
     img = 'media/' +  str(request.user.head_img)
     return  render(request,'remotefile.html',{"user":request.user,"head":img})
 
-@login_required(login_url='/')
+@login_required
 def crond(request):
     img = 'media/' +  str(request.user.head_img)
     return  render(request,'crond.html',{"user":request.user,"head":img})
 
-@login_required(login_url='/')
+@login_required
 def script(request):
     img = 'media/' +  str(request.user.head_img)
     return  render(request,'script.html',{"user":request.user,"head":img})
 
-@login_required(login_url='/')
+@login_required
 def command(request):
     img = 'media/' +  str(request.user.head_img)
     return  render(request,'command.html',{"user":request.user,"head":img})
 
-@login_required(login_url='/')
+@login_required
 def fileup(request):
     img = 'media/' +  str(request.user.head_img)
     return  render(request,'fileup.html',{"user":request.user,"head":img})
 
-@login_required(login_url='/')
+@login_required
 def filedown(request):
     img = 'media/' +  str(request.user.head_img)
     return  render(request,'filedown.html',{"user":request.user,"head":img})
+
+@login_required
+def zabbix_host(request):
+    img = 'media/' +  str(request.user.head_img)
+    hosts =  zabbix.host_list()
+    # print hosts
+    return  render(request,'zabbix_host.html',{"user":request.user,"head":img,"hosts": hosts})
+
+@login_required
+def zabbix_host_monitor(request):
+    img = 'media/' +  str(request.user.head_img)
+    # hosts =  zabbix.host_list()
+    # print hosts
+    return  render(request,'zabbix_host_monitor.html',{"user":request.user,"head":img})

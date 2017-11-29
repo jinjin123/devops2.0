@@ -13,3 +13,6 @@ redisip='182.254.154.81'
 redisport=23456
 redisdb=0
 pop3_server='pop3.mxhichina.com'
+zabbixurl='http://47.94.89.135/zabbix'
+zabbixuser='admin'
+zabbixpwd='jinjin123'

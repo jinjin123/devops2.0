@@ -123,6 +123,12 @@ var assets_facts = '/assets_facts'
 var global_config = '/log_global_config'
 var global_log = '/global_log'
 var Distribution_docker_engine = '/get_docker_engine_info'
+var zabbixhost = '/zabbix_host'
+var zabbixmemory = '/api/zabbixmemory/'
+var zabbixdisk = '/api/zabbixdisk/'
+var zabbixcpu = '/api/zabbixcpu/'
+
+
 
 function get_global_csrf_token (){
   token = document.getElementsByName('csrfmiddlewaretoken')[0].value
@@ -183,6 +189,7 @@ function mem_percentage() {
        data: document.getElementById("myTab").getElementsByClassName("active")[0].textContent,
        dataType: "json",
        success : function(data){
+         // console.log(data)
          data = JSON.parse(data)
          // console.log(data)
         //  console.log($('.areaChartTwoWay').highcharts())
@@ -1149,6 +1156,9 @@ $(function(){
     });
     $('#global_log').click(function(){
         window.location.href = global_log;
+    });
+    $('#zabbix_host').click(function(){
+        window.location.href = zabbixhost;
     });
     ///limit something opeation
     var admin = Rmtab($("#user_id")[0].textContent)

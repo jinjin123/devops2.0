@@ -1276,3 +1276,30 @@
 [I 171127 19:16:05 transport:1572] Authentication (password) successful!
 [I 171127 19:16:05 main:78] connection established from: 4330027408
 [I 171127 19:16:08 main:88] client close the connection: 4330027408
+[I 171129 12:27:01 web:2063] 101 GET /ws (127.0.0.1) 0.51ms
+[I 171129 12:27:01 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 12:27:01 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 12:27:01 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 12:27:01 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 12:27:02 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[I 171129 12:27:02 transport:1572] Authentication (publickey) successful!
+[I 171129 12:27:02 main:78] connection established from: 4512567888
+[I 171129 12:27:37 main:88] client close the connection: 4512567888
+[I 171129 14:38:55 web:2063] 101 GET /ws (127.0.0.1) 0.46ms
+[I 171129 14:38:55 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 14:38:55 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 14:38:55 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 14:38:55 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 14:38:55 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[I 171129 14:38:56 transport:1572] Authentication (publickey) successful!
+[I 171129 14:38:56 main:78] connection established from: 4364370512
+[I 171129 14:39:05 main:88] client close the connection: 4364370512
+[I 171129 15:10:55 web:2063] 101 GET /ws (127.0.0.1) 0.57ms
+[I 171129 15:10:55 hostkeys:319] Not enough fields found in known_hosts in line 303 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 15:10:55 hostkeys:319] Not enough fields found in known_hosts in line 321 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 15:10:55 hostkeys:319] Not enough fields found in known_hosts in line 374 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 15:10:55 hostkeys:319] Not enough fields found in known_hosts in line 387 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 171129 15:10:55 transport:1572] Connected (version 2.0, client OpenSSH_7.4)
+[I 171129 15:10:56 transport:1572] Authentication (publickey) successful!
+[I 171129 15:10:56 main:78] connection established from: 4373735824
+[I 171129 15:11:19 main:88] client close the connection: 4373735824

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.views.static import serve
 from views import views
 from views.ansible_play import ansible_run,ansible_model,ansible_playbook_add,ansible_playbook_file,ansible_playbook_run,ansible_log
-from api import playbook_api,user_api,assets_api
+from api import playbook_api,user_api,assets_api,zabbix_api
 from views.assets.assets import assets_config,assets_add,assets_list,assets_view,assets_modf,assets_facts
 
 
@@ -153,6 +153,20 @@ urlpatterns = [
     url(r'^api/line/(?P<id>[0-9]+)/$', assets_api.line_detail),
     url(r'^api/server/$', assets_api.asset_server_list),
     url(r'^api/server/(?P<id>[0-9]+)/$', assets_api.asset_server_detail),
+
+    url(r'^api/zabbixhosts/$', zabbix_api.HostView),
+    url(r'^api/zabbixgroups/$', zabbix_api.GroupView),
+    url(r'^api/zabbixcpu/(?P<hostid>[0-9]+)/$', zabbix_api.CpuView),
+    url(r'^api/zabbixmemory/(?P<hostid>[0-9]+)/$', zabbix_api.MemoryView),
+    url(r'^api/zabbixdisk/(?P<hostid>[0-9]+)/$', zabbix_api.DiskView),
+    url(r'^api/zabbixevent/$', zabbix_api.EventView),
+    url(r'^api/zabbixusage/(?P<hostid>[0-9]+)/$', zabbix_api.UsageView),
+    url(r'^api/zabbixserviceItems/$', zabbix_api.ServiceItemsView),
+    url(r'^api/zabbixhistory/(?P<itemid>[0-9]+)/$', zabbix_api.HistoryView),
+
+    url(r'^zabbix_host', views.zabbix_host),
+    url(r'^host_monitor', views.zabbix_host_monitor),
+
     url(r'^media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
     url(r'^cpu/$', views.getcpu ),
     url(r'^mem/$', views.getmem ),
