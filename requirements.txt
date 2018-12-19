@@ -6,7 +6,7 @@ simplejson==3.11.1
 paramiko>=2.3.1
 django-reversion==2.0.10
 xadmin==0.6.1
-requests==2.18.2
+requests>=2.18.2
 dwebsocket=0.4.2
 django-celery==3.2.1
 celery==3.1.25
