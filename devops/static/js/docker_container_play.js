@@ -854,6 +854,7 @@ function  container_get_filediff(){
 }
 function  terminal_func(){
   var container_id = document.getElementById("myTab").getElementsByClassName("active")[0].textContent
+  console.log(container_id)
   $('#shell').css('display', 'block');
   postJSON(Container_terminal,container_id).then(function(data){
       console.log(data)
@@ -861,6 +862,7 @@ function  terminal_func(){
       port = data.port
       var ps1 = 'druuu # '
       var url = "ws://"+location.hostname+":"+port+"/exec/"+container_id;
+      //sometime fucking shit
       socket = new WebSocket(url);
       term = new Terminal({
         cols: 80,

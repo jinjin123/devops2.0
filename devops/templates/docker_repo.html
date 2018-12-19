@@ -433,7 +433,7 @@
                         <div class="docker_des" >持续集成  支持持续构建</div> <div style="display: flex;">
                         <input  type="radio" id="supportbuild" class="docker_add" checked="checked"><label class="laber_choise" for="supportbuild">支持</label><input  type="radio" class="docker_add" id="no_support_build"><label class="laber_choise" for="no_support_build">不支持</label></div>
                         <div>
-                            <button id="CreateRepo" class="btn btn-default  active" disabled="disabled">立即创建</button>
+                            <button id="CreateRepo" class="btn btn-default  active" disabled="disabled">立即创建</button>{% csrf_token %}
                         </div>
                     </div>
                 </div>

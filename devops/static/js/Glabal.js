@@ -254,11 +254,11 @@ function showSuccessNotic() {
         $("#showSuccessNotic").slideDown("fast");
       }
     else {
-        var t = document.getElementById("showSuccessNotice");
-        t.style.display = "block";
-
+        // var t = document.getElementById("showSuccessNotice");
+        // t.style.display = "block";
+        $("#showSuccessNotic").css("display","block");
     }
-    element = t;
+    // element = t;
     setTimeout(function () {
         //element.style.display = "none"
         $("#showSuccessNotic").slideUp("slow");

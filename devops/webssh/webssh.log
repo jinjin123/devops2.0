@@ -1303,3 +1303,37 @@
 [I 171129 15:10:56 transport:1572] Authentication (publickey) successful!
 [I 171129 15:10:56 main:78] connection established from: 4373735824
 [I 171129 15:11:19 main:88] client close the connection: 4373735824
+[I 180415 10:15:41 web:2063] 101 GET /ws (::1) 0.50ms
+[I 180415 10:15:41 hostkeys:319] Not enough fields found in known_hosts in line 302 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 180415 10:15:41 hostkeys:319] Not enough fields found in known_hosts in line 320 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 180415 10:15:41 hostkeys:319] Not enough fields found in known_hosts in line 373 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 180415 10:15:41 hostkeys:319] Not enough fields found in known_hosts in line 386 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 180415 10:15:42 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 180415 10:15:43 transport:1572] Authentication (publickey) successful!
+[I 180415 10:15:43 main:78] connection established from: 4344155664
+[I 180415 10:16:44 main:88] client close the connection: 4344155664
+[I 180415 10:16:49 web:2063] 101 GET /ws (::1) 0.60ms
+[I 180415 10:16:49 hostkeys:319] Not enough fields found in known_hosts in line 302 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 180415 10:16:49 hostkeys:319] Not enough fields found in known_hosts in line 320 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 180415 10:16:49 hostkeys:319] Not enough fields found in known_hosts in line 373 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 180415 10:16:49 hostkeys:319] Not enough fields found in known_hosts in line 386 ('ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGcSNpaNXnlh+EoWZhKoEs6bQypLcBaSfktcVwWvZCY9l6pLgcEl5vgS7ya4JxygI0fWGWkWCJlJGGC09S2n2pM=')
+[I 180415 10:16:49 transport:1572] Connected (version 2.0, client OpenSSH_6.6.1)
+[I 180415 10:16:52 transport:1572] Authentication (publickey) successful!
+[I 180415 10:16:52 main:78] connection established from: 4353885648
+[I 180415 10:18:50 main:88] client close the connection: 4353885648
+[I 180415 10:44:01 autoreload:198] /Users/wupeijin/code3/django-tornado/devops/ops/views/ssh_settings.py modified; restarting server
+[I 180415 15:47:44 web:2063] 101 GET /ws (::1) 0.54ms
+[E 180415 15:47:48 websocket:497] Uncaught exception in /ws
+    Traceback (most recent call last):
+      File "/Library/Python/2.7/site-packages/tornado/websocket.py", line 494, in _run_callback
+        result = callback(*args, **kwargs)
+      File "main.py", line 75, in on_message
+        if self._is_init_data(client_data):
+      File "main.py", line 62, in _is_init_data
+        return data.get_type() == 'init'
+      File "/Users/wupeijin/code3/django-tornado/devops/webssh/data.py", line 18, in get_type
+        return self.tp
+    AttributeError: 'ClientData' object has no attribute 'tp'
+[I 180415 15:47:48 main:88] client close the connection: 4334017808
+[I 180415 15:47:51 web:2063] 101 GET /ws (::1) 0.52ms
+[I 180415 15:49:02 main:88] client close the connection: 4334017936

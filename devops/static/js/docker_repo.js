@@ -93,12 +93,15 @@ function SubmitRepoName (){
     var address = document.getElementById("address").value;
     var username = document.getElementById("repo_user").value;
     var password = document.getElementById("repot_pass").value;
-    console.log(address);
     var data =  {"address": address,"repo_user": username,"repo_pass": password};
     data = JSON.stringify(data) ;
+    var token = get_global_csrf_token()
     $.ajax({
         "type":"POST",
         "url": SubmitRepoURL,
+        "headers": {
+                'X-CSRFToken': token
+        },
         "dataType": "json",
         "data": {"parameters":data},
         "beforeSend": start_load_pic,
@@ -126,11 +129,31 @@ function load_repo_list(){
         "error": errorAjax,
         "complete": stop_load_pic,
         "success": function (data) {
-          //  console.log(data.content);
-           for (let i in data.content){
-              data.content[i] = JSON.parse(data.content[i]);
-              // console.log(data.content[i]);
+           if(typeof(data.content) == "object"){
+             for (let i in data.content){
+                data.content[i] = JSON.parse(data.content[i]);
+                // console.log(data.content[i]);
+             }
+             if (!data.status) {
+                 showErrorInfo(data.content);
+                 return false;
+             }
+             else {
+                 showSuccessNotic();
+                 createRepoTableLine(data.content);
+             }
+           }else{
+              $("#showDockerRepoTbody").children().remove();
+              var showDockerRepoTbody = document.getElementById("showDockerRepoTbody");
+              var tr = document.createElement("tr");
+              var Repo = document.createElement("td");
+              Repo.setAttribute("colspan","3")
+              Repo.textContent = data.content
+              tr.appendChild(Repo);
+              //create  time
+              showDockerRepoTbody.appendChild(Repo);
            }
+
               // console.log(data.content);
             // let data1 = (data.content.data);
             // data2 = JSON.parse(data1);
@@ -138,14 +161,6 @@ function load_repo_list(){
             // let result = Array.from(data.content)
             // responseCheck(data);
             // var data = JSON.parse(data);
-            if (!data.status) {
-                showErrorInfo(data.content);
-                return false;
-            }
-            else {
-                showSuccessNotic();
-                createRepoTableLine(data.content);
-            }
         }
     })
 }
@@ -249,7 +264,6 @@ function createRepoTableLine(data) {
         opTd.appendChild(deleteButton);
         tr.appendChild(opTd);
         showDockerRepoTbody.appendChild(tr);
-
     }
 }
 //del  docker repo
@@ -504,22 +518,47 @@ $(function () {
         searchValue(this);
     });
     $('#Search_images').keyup(function () {
-            var term = $('#Search_images').val();
-            $.post(Docker_search_images, {'term': term}, function (data) {
-                if (data.length > 0) {
-                    $('.search_result').text('')
-                    //control  content size show
-                    $('.search_result').css({"height": "300px","overflow-y": "auto"})
-                    for (var key in data) {
-                        $('.search_result').append(
-                                '<div class="col-lg-12 col-md-12"><div class="card" style="background:white; padding:   10px 20px; border-bottom: 1px solid #dadada;"><div class="card-block row"><div class="col-md-12"><h4 class="card-title">' + data[key].name + '</h4></div><div class="col-md-12"><div class="col-lg-8 col-md-8 col-sm-12"><p class="card-text">Description: ' + data[key].description + '</p></div><div class="col-lg-2 col-md-2 col-sm-6"><i class="fa fa-star"></i> ' + data[key].star_count + '</div><div class="col-lg-2 col-md-2 col-sm-6"><button class="btn btn_color pull">Pull</button></div><div class="'+data[key].name+'"></div></div></div></div></div>'
-                        );
-                    }
-                }
-                else {
-                    $('.search_result').html('<p class="heading text-center">No Images Found :(</p>')
-                }
-            });
+            var token = get_global_csrf_token();
+            var term = {'term':$('#Search_images').val()};
+            // $.post(Docker_search_images, {'term': term,'X-CSRFToken': token}, function (data) {
+            //     if (data.length > 0) {
+            //         $('.search_result').text('')
+            //         //control  content size show
+            //         $('.search_result').css({"height": "300px","overflow-y": "auto"})
+            //         for (var key in data) {
+            //             $('.search_result').append(
+            //                     '<div class="col-lg-12 col-md-12"><div class="card" style="background:white; padding:   10px 20px; border-bottom: 1px solid #dadada;"><div class="card-block row"><div class="col-md-12"><h4 class="card-title">' + data[key].name + '</h4></div><div class="col-md-12"><div class="col-lg-8 col-md-8 col-sm-12"><p class="card-text">Description: ' + data[key].description + '</p></div><div class="col-lg-2 col-md-2 col-sm-6"><i class="fa fa-star"></i> ' + data[key].star_count + '</div><div class="col-lg-2 col-md-2 col-sm-6"><button class="btn btn_color pull">Pull</button></div><div class="'+data[key].name+'"></div></div></div></div></div>'
+            //             );
+            //         }
+            //     }
+            //     else {
+            //         $('.search_result').html('<p class="heading text-center">No Images Found :(</p>')
+            //     }
+            // });
+              $.ajax({
+                 type: "post",
+                 headers: {
+                   'X-CSRFToken': token
+                 },
+                 url: Docker_search_images,
+                 data: term,
+                 dataType: "json",
+                 success : function(data){
+                   if (data.length > 0) {
+                       $('.search_result').text('')
+                       //control  content size show
+                       $('.search_result').css({"height": "300px","overflow-y": "auto"})
+                       for (var key in data) {
+                           $('.search_result').append(
+                                   '<div class="col-lg-12 col-md-12"><div class="card" style="background:white; padding:   10px 20px; border-bottom: 1px solid #dadada;"><div class="card-block row"><div class="col-md-12"><h4 class="card-title">' + data[key].name + '</h4></div><div class="col-md-12"><div class="col-lg-8 col-md-8 col-sm-12"><p class="card-text">Description: ' + data[key].description + '</p></div><div class="col-lg-2 col-md-2 col-sm-6"><i class="fa fa-star"></i> ' + data[key].star_count + '</div><div class="col-lg-2 col-md-2 col-sm-6"><button class="btn btn_color pull">Pull</button></div><div class="'+data[key].name+'"></div></div></div></div></div>'
+                           );
+                       }
+                   }
+                   else {
+                       $('.search_result').html('<p class="heading text-center">No Images Found :(</p>')
+                   }
+                 }
+               });
 
       });
       timer2 = false
@@ -546,16 +585,31 @@ $(function () {
           this1 = $(this)
           // $.post(Docker_pull_images, {imageName: imageName},
           uuid_token = guid()
-          $.post( Docker_pull_images  + uuid_token + '/', {imageName: imageName},
-              function (data, status, xhr) {
-                   console.log(data);
-                  if (status == 'success') {
-                      if (data['status'] == 'ok') {
-                          this1.text('Pulled')
-                          count -= 1
-                      }
+          // $.post( Docker_pull_images  + uuid_token + '/', {imageName: imageName},
+          //     function (data, status, xhr) {
+          //          console.log(data);
+          //         if (status == 'success') {
+          //             if (data['status'] == 'ok') {
+          //                 this1.text('Pulled')
+          //                 count -= 1
+          //             }
+          //         }
+          //     });
+          $.ajax({
+             type: "post",
+             headers: {
+               'X-CSRFToken': token
+             },
+             url: Docker_pull_images + uuid_token + '/',
+             data: {imageName: imageName},
+             dataType: "json",
+             success : function(data){
+                  if (data['status'] == 'ok') {
+                      this1.text('Pulled')
+                      count -= 1
                   }
-              });
+             }
+           });
      });
      function S4() {
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);

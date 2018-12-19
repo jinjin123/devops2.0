@@ -69,7 +69,7 @@ $(function() {
     Create_CTN_Service = Rmspace(Create_CTN_Service + image + '/')
     // console.log(Create_CTN_Service)
     postJSON(Create_CTN_Service, datainfo).then(function(data) {
-      // console.log(data)
+      console.log(data)
       content = JSON.parse(data)
       console.log(content)
       if (content.status) {
@@ -197,6 +197,7 @@ function clearNodeContent() {
 }
 //createNode add  Node of li
 function createNode(data) {
+  //shit undefined
   // console.log(typeof(data))
   if (typeof(data) == "string") {
     data = JSON.parse(data)

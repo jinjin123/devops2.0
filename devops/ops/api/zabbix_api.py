@@ -41,7 +41,7 @@ def CpuView(request,hostid):
     for i in List:
         # print i
         arr1.append(int(i[u'clock']) * 1000)
-        #  毫秒时间戳 一天需要  24 * 3600 * 1000
+        # 需要考虑整数   浮点数
         arr1.append(float(i[u'value']))
         arr2.append(arr1)
         arr1=[]

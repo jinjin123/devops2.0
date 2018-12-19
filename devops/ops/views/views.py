@@ -511,7 +511,6 @@ def execute_command(request):
                 cmd = parameter["cmd"]
             except:
                 raise Exception("not servers and cmd args")
-
             parameter["tid"] = id
             SSHThread = SSHThreadAdmin()
             SSHThread.run(parameter)
@@ -869,11 +868,12 @@ def upload_keyfile(request):
 def docker_repo(request):
     info = {"status": True, "content": ""}
     if request.method == "POST":
-        # print request.body
+        print request.body
         try:
+
             parameters = request.POST.get("parameters")
         except Exception,e:
-            print e,
+            print e
         try:
             parameters = json.loads(parameters)
             parameters.update({"time":time.strftime('%Y-%m-%d %H:%M:%S')})
@@ -883,9 +883,9 @@ def docker_repo(request):
             info["status"]  = True
             info["content"] = ''
         except Exception,e:
-             info["status"]  = ''
+             info["status"]  = False
              info["content"] = str(e)
-             print info
+        print info
         return info
 
 ##load  docke repo list
@@ -910,6 +910,8 @@ def docker_repo_list(request):
     except Exception,e:
         info["status"] = False
         info["content"] = str(e)
+
+    print info
     return info
 
 ##del docker repo
@@ -1299,6 +1301,7 @@ def  Create_container_service(request):
      ###TODO  with ssh key   put down into  docker
      info  = {"result": '',"status": True}
      if request.method == "POST":
+        print request.body
         data = json.loads(request.body)
         try:
             container_id = ImageMixin().run_bridge(data['cpu'],data['memory'],data['serviceAddress'],data['servicename'],data['image'])
@@ -1306,9 +1309,9 @@ def  Create_container_service(request):
             r.lpush("Unavailable_Container_IP",data['serviceAddress'])
             pubkey = {"user": str(request.user), "sshpubkey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuLVDCriLoKZeEmThg5zCAq9+QoQJIIyxE4iJ6nSa9OJZMqDr8ZJmh1uRiPTCjmmC4KmP0q99Yfcvu0rc8UCKcJQE6yB9vpxR+kOyEtfAqsQVYMRd0Y+IN98GiG+z8nps7ra2k5etGN+NmBiLoiT86xHrvwvrePbf8i96ZkNeb+TpCPzx6KJqKdQfFZKG+0yt2WhNd3b3YKveQaKax70gbpay9Qy1BjpMvItWErtOymv+SNQPBHddRQs3PEEcVTR2u0QpEUoHyb3nIZNIY7Ykgq3Q8FbykYrFHnhF4eSyw70JGtuDs1JS53TZzv3bP9ia08GOHaVc2z/EpOpNFp93f skey_160973"}
             try:
-                pubkey = json.loads(r.hget("ssh_pub_key",str(request.user)))
-                print pubkey
-                print type(pubkey)
+                # pubkey = json.loads(r.hset("ssh_pub_key",str(request.user)))
+                # print pubkey
+                # print type(pubkey)
                 copy_ssh_pub_key = ContainerMixin().copy_ssh_pub_key(str(request.user),container_id,pubkey['sshpubkey'])
                 passphrase = ContainerMixin().set_passphrase(container_id)
                 print  passphrase
@@ -1320,14 +1323,14 @@ def  Create_container_service(request):
                 info["status"] = True
                 info["result"] = datalist
             except Exception, e:
-                print str(e),'1175'
                 info["status"] = False
                 info["result"] = str(e)
+                print e,'1328'
 
         except Exception ,e :
-            print str(e),'1180'
             info["status"] = False
             info["result"] = str(e)
+            print e,'1332'
      return json.dumps(info)
 
 ### load owner Container service
@@ -2094,3 +2097,7 @@ def zabbix_host_monitor(request):
     # hosts =  zabbix.host_list()
     # print hosts
     return  render(request,'zabbix_host_monitor.html',{"user":request.user,"head":img})
+
+def test(request):
+
+    return JsonResponse({"msg":"","code":"0","data":[{"inner_ip":request.GET.get("IP")}]})
